@@ -8,6 +8,9 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      /home/francis/nixos-configs/common/users
+      /home/francis/nixos-configs/common/base.nix
+      /home/francis/nixos-configs/common/desktop.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -40,12 +43,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    curl wget vim git zsh
+    wget
+    vim
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  programs.mtr.enable = true;
+  # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
@@ -88,13 +92,6 @@
   # nvidia drivers
   nixpkgs.config.allowUnfree = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.francis = {
-    isNormalUser = true;
-    home = "/home/francis";
-    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
