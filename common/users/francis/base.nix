@@ -5,6 +5,13 @@
     ./git.nix
   ];
 
+  home.packages = with pkgs; [
+    qutebrowser
+    youtube-dl
+    rofi
+    rofi-pass
+  ];
+
   programs.home-manager.enable = true;
 
   nixpkgs.config = {
