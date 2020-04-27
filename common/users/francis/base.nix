@@ -6,10 +6,7 @@
   ];
 
   home.packages = with pkgs; [
-    qutebrowser
-    youtube-dl
-    rofi
-    rofi-pass
+    fzf
   ];
 
   programs.home-manager.enable = true;

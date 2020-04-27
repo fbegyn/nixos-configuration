@@ -6,12 +6,14 @@
   ];
 
   environment.systemPackages = with pkgs; [
-    slack
-    mattermost-desktop
-    firefox
-    mpv
+    # Hardware
+    lm_sensors
+    stress
+    neofetch
+    iftop
     htop
-    fzf
+    # Utilities
+    vpnc
     pass
   ];
 
