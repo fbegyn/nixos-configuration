@@ -16,33 +16,65 @@
   boot.initrd.luks.devices."system" = {
     device = "/dev/disk/by-uuid/ec9a985a-ae04-4811-a2e3-34abf177e87b";
     preLVM = false;
+    allowDiscards = true;
+    keyFileSize = 4096;
+    keyFile = "/dev/disk/by-id/usb-Kingston_DataTraveler_2.0_C86000BDB9F2B0503A3161E7-0:0";
   };
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2f9c6cdf-46ef-49ee-a2ec-f7aedf332206";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/2f9c6cdf-46ef-49ee-a2ec-f7aedf332206";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/E123-1947";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/E123-1947";
+    fsType = "vfat";
+  };
 
   boot.initrd.luks.devices."home-francis" = {
-    name = "home-francis";
     device = "/dev/disk/by-uuid/3dec0df7-29d1-429a-a569-93839b606158";
     preLVM = false;
+    allowDiscards = true;
+    keyFileSize = 4096;
+    keyFile = "/dev/disk/by-id/usb-Kingston_DataTraveler_2.0_C86000BDB9F2B0503A3161E7-0:0";
   };
 
-  fileSystems."/home/francis" =
-    { device = "/dev/disk/by-uuid/04a6a316-2adc-4501-b149-3fe62d971f01";
-      fsType = "ext4";
-    };
+  fileSystems."/home/francis" = {
+    device = "/dev/disk/by-uuid/04a6a316-2adc-4501-b149-3fe62d971f01";
+    fsType = "ext4";
+  };
+
+  fileSystems."/home/francis/Videos" = {
+    device = "/dev/disk/by-uuid/290a4576-c416-4ed9-a7a3-99a5666c4827";
+    fsType = "ext4";
+    encrypted.enable = true;
+    encrypted.blkDev = "/dev/disk/by-uuid/41ff6c1e-b326-4e27-9514-d4513d33ecd0";
+    encrypted.keyFile = "/mnt-root/etc/luks/keys/videos.key";
+    encrypted.label = "videos";
+  };
+
+  fileSystems."/home/francis/.config/docker" = {
+    device = "/dev/disk/by-uuid/890efcf8-a455-4757-af9e-a6a9dd019d09";
+    fsType = "ext4";
+    encrypted.enable = true;
+    encrypted.blkDev = "/dev/disk/by-uuid/c8bee312-315f-432a-a5e0-9a39c8d00812";
+    encrypted.keyFile = "/mnt-root/etc/luks/keys/docker.key";
+    encrypted.label = "docker";
+  };
+
+  fileSystems."/home/francis/Documents/Robovision" = {
+    device = "/dev/disk/by-uuid/055bd9ff-3e72-4972-842d-b458fb954b97";
+    fsType = "ext4";
+    encrypted.enable = true;
+    encrypted.blkDev = "/dev/disk/by-uuid/84655d5d-e1b0-4ec8-95f0-feacf9a5c5ed";
+    encrypted.keyFile = "/mnt-root/etc/luks/keys/robovision.key";
+    encrypted.label = "robovision";
+  };
 
   swapDevices = [{ device = "/dev/disk/by-uuid/cf2529ad-a482-4f2c-82a5-ee9831b4ff52"; }];
 
   nix.maxJobs = lib.mkDefault 8;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
   # High-DPI console
   console.font = lib.mkDefault "${pkgs.terminus_font}/share/consolefonts/ter-u28n.psf.gz";
 }
