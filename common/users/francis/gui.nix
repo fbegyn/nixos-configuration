@@ -48,6 +48,8 @@
     '';
   };
 
+  home.file.".config/compton.conf".source = ./compton.conf;
+
   home.packages = with pkgs; [
     # Comms
     slack
@@ -56,6 +58,7 @@
     firefox
     qutebrowser
     # Utilities
+    compton
     nfs-utils
     gnome3.nautilus
     rofi
