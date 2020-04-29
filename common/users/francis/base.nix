@@ -7,6 +7,7 @@
 
   home.packages = with pkgs; [
     fzf
+    unzip
   ];
 
   programs.home-manager.enable = true;

@@ -3,10 +3,10 @@
 {
 
   home.packages = with pkgs; [
-    maim
+    dunst
   ];
 
   home = {
-    file.".config/i3/config".source = ./config;
+    file.".config/dunst/dunstrc".source = ./dunstrc;
   };
 }
