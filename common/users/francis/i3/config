@@ -221,6 +221,7 @@ bindsym XF86AudioMute exec pulsemixer --toggle-mute
 #exec --no-startup-id vivaldi-snapshot
 exec --no-startup-id qutebrowser
 exec --no-startup-id dunst
+exec --no-startup-id picom
 #exec --no-startup-id slack
 #exec --no-startup-id telegram-desktop
 #exec --no-startup-id thunderbird
