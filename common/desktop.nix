@@ -15,7 +15,10 @@
     # Utilities
     vpnc
     pass
+    xclip
   ];
+
+  virtualisation.docker.enable = true;
 
   francis = {
     gui.enable = true;

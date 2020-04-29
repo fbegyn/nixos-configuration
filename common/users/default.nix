@@ -5,6 +5,8 @@
     <home-manager/nixos>
   ];
 
+
+
   programs.zsh.enable = true;
 
   users.groups.francis.gid = 1000;

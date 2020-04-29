@@ -173,6 +173,22 @@ set $locker i3lock -c 000000
 
 bindsym Mod1+l exec --no-startup-id $locker
 
+# Screenshot menu
+set $screen_grab s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
+mode "$screen_grab" {
+    bindsym s exec "maim -s | xclip -selection clipboard -t image/png", mode "default"
+    bindsym Shift+s exec "maim -s ~/Pictures/Screenshots/$(date +%F-%T).png", mode "default"
+    bindsym Mod1+s exec "maim -s | ~/Scripts/imgur.sh", mode "default"
+    bindsym f exec "maim | xclip -selection clipboard -t image/png", mode "default"
+    bindsym Shift+f exec "maim ~/Pictures/Screenshots/$(date +%F-%T).png", mode "default"
+    bindsym Mod1+f exec "maim | ~/Scripts/imgur.sh", mode "default"
+
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+grave mode "$screen_grab"
+
 #System menu
 set $mode_system System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown
 mode "$mode_system" {
