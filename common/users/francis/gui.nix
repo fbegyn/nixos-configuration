@@ -49,6 +49,7 @@
   };
 
   home.file.".config/compton.conf".source = ./compton.conf;
+  home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
 
   home.packages = with pkgs; [
     # Comms
