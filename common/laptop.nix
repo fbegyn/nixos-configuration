@@ -18,8 +18,6 @@
     vpnc
     pass
     xclip
-    # Games
-    steam
   ];
 
   virtualisation.docker.enable = true;
