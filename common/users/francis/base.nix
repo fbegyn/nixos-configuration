@@ -4,7 +4,7 @@
   imports = [
     ./git.nix
     ./python.nix
-    ./vim.nix
+    ./nvim
   ];
 
   home.packages = with pkgs; [
