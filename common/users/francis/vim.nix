@@ -1,7 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  vim_configurable.customize {
-  name = "vim-with-plugins";
-  vimrcConfig.plug.plugins = with pkgs.vimPlugins; [vim-addon-nix youcompleteme];
-};
+  programs.neovim = {
+    enable =  true;
+    viAlias = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    withPython3 = true;
+  };
+}
