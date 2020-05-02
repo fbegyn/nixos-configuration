@@ -63,7 +63,5 @@
     gnome3.nautilus
     rofi
     rofi-pass
-    # Games
-    steam
   ];
 }
