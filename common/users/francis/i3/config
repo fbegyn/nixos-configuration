@@ -51,6 +51,9 @@ bindsym $mod+Return exec $terminal -e tmux new-session -A -s main
 # kill focused window
 bindsym $mod+Shift+q kill
 
+# don;t focus new windows
+focus_on_window_activation urgent
+
 # change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down

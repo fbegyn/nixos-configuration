@@ -3,6 +3,8 @@
 {
   imports = [
     ./git.nix
+    ./python.nix
+    ./vim.nix
   ];
 
   home.packages = with pkgs; [
