@@ -21,13 +21,13 @@ Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-commentary'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-Plug 'liuchengxu/vim-clap', { 'do': function('clap#helper#build_all') }
+" Plug 'liuchengxu/vim-clap', { 'do': function('clap#helper#build_all') }
 
 " Autocompletion engine
 Plug 'ncm2/ncm2'
 Plug 'ncm2/ncm2-bufword'
 Plug 'ncm2/ncm2-path'
-Plug 'ncm2/ncm2-jedi', {'for':['python']}
+Plug 'ncm2/ncm2-jedi', {'for':['python','py']}
 Plug 'ncm2/ncm2-tmux'
 Plug 'ncm2/ncm2-ultisnips'
 Plug 'ncm2/ncm2-pyclang'
@@ -71,9 +71,6 @@ call plug#end()
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let g:mapleader = ','
-
-" Python binaries defining
-let g:python3_host_prog = '/home/francis/.nix-profile/bin/python3'
 
 set history=500
 set showmode
@@ -160,13 +157,6 @@ set novisualbell
 set t_vb=
 set timeoutlen=500
 
-" => Netrw settings
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 12
-
 " Enable syntax highlighting
 syntax on
 " Enable better colors
@@ -181,7 +171,7 @@ nnoremap <leader>dl :diffget LO<cr>
 nnoremap <leader>db :diffget BA<cr>
 
 " => Visual mode related
-" Visual mode pressing * or # searches for the current selection
+" Visual mode pressing # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 
@@ -238,10 +228,6 @@ try
 catch
 endtry
 
-" => Editing mappings
-" Remap VIM 0 to first non-blank character
-map 0 ^
-
 " Move a line of text using ALT+[jk] or Command+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
@@ -259,17 +245,6 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-" Plugins config
-" VIMUX
-" Prompt for a command to run
-map <Leader>vp :VimuxPromptCommand<CR>
-" Run last command executed by VimuxRunCommand
-map <Leader>vl :VimuxRunLastCommand<CR>
-" Inspect runner pane
-map <Leader>vi :VimuxInspectRunner<CR>
-" Zoom the tmux runner pane
-map <Leader>vz :VimuxZoomRunner<CR>
-
 " Terraform language settings
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
@@ -278,19 +253,19 @@ let g:terraform_fmt_on_save=1
 let g:LanguageClient_autoStart = 1
 let g:LanguageClient_hasSnippetSupport = 0
 let g:LanguageClient_hoverPreview = 'Never'
-"let g:LanguageClient_serverCommands = {
-"    \ 'rust': ['/home/francis/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-"    \ 'python': ['/usr/bin/pyls'],
-"    \ 'sh': ['/usr/bin/bash-language-server', 'start'],
-"    \ 'php': ['/usr/bin/php-language-server'],
-"    \ 'html' : ['/usr/lib/node_modules/vscode-html-languageserver-bin/htmlServerMain.js','--stdio'],
-"    \ 'go' : ['/home/francis/Go/bin/gopls','-mode','-stdio'],
-"    \ 'css' : ['/usr/lib/node_modules/vscode-css-languageserver-bin/cssServerMain.js','--stdio'],
-"    \ 'cpp': ['/usr/bin/ccls', '--log-file=/tmp/ccls.log'],
-"    \ 'c': ['/usr/bin/ccls', '--log-file=/tmp/ccls.log'],
-"    \ 'json' : ['/usr/lib/node_modules/vscode-json-languageserver-bin/jsonServerMain.js','--stdio'],
-"    \ 'javascript': ['/usr/bin/javascript-typescript-stdio'],
-"\}
+let g:LanguageClient_serverCommands = {
+    \ 'rust': ['/home/francis/.cargo/bin/rustup', 'run', 'stable', 'rls'],
+    \ 'python': ['/usr/bin/pyls'],
+    \ 'sh': ['/usr/bin/bash-language-server', 'start'],
+    \ 'php': ['/usr/bin/php-language-server'],
+    \ 'html' : ['/usr/lib/node_modules/vscode-html-languageserver-bin/htmlServerMain.js','--stdio'],
+    \ 'go' : ['/home/francis/Go/bin/gopls','-mode','-stdio'],
+    \ 'css' : ['/usr/lib/node_modules/vscode-css-languageserver-bin/cssServerMain.js','--stdio'],
+    \ 'cpp': ['/usr/bin/ccls', '--log-file=/tmp/ccls.log'],
+    \ 'c': ['/usr/bin/ccls', '--log-file=/tmp/ccls.log'],
+    \ 'json' : ['/usr/lib/node_modules/vscode-json-languageserver-bin/jsonServerMain.js','--stdio'],
+    \ 'javascript': ['/usr/bin/javascript-typescript-stdio'],
+\}
 nnoremap <F7> :call LanguageClient_contextMenu()<CR>
 noremap <leader>rn :call LanguageClient#textDocument_rename()<CR>
 call ncm2#override_source('LanguageClient_python', {'enable': 1})
@@ -306,10 +281,6 @@ let g:multi_cursor_prev_key            = '<C-p>'
 let g:multi_cursor_skip_key            = '<C-x>'
 let g:multi_cursor_quit_key            = '<Esc>'
 
-" session manager
-let g:session_autoload = 'no'
-let g:session_autosave = 'yes'
-
 " => goyo
 nnoremap <leader>f :Goyo<cr>
 let g:goyo_width = 100
@@ -321,19 +292,11 @@ augroup Goyo
   autocmd! User GoyoLeave Limelight!
 augroup end
 
-" Deoplete
-"let g:deoplete#enable_at_startup = 1
-"let g:deoplete#auto_complete_delay = 500
-
 let g:AutoPairsMapCR=0
 let g:SuperTabDefaultCompletionType = '<c-n>'
 
-" CtrlP
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*
-
 " ale
 let g:ale_linters_explicit = 1
-" Enable completion where available.
 let g:ale_completion_enabled = 0
 
 " => IndentLine
@@ -405,15 +368,11 @@ set background=dark
 " Colorscheme
 colorscheme srcery
 let g:srcery_transparent_background = 1
-
-" Spelling color
 highlight SpellBad cterm=underline ctermbg=130
-" Diffcolors
 highlight DiffAdd    cterm=bold ctermfg=2 ctermbg=none gui=none guifg=bg guibg=Red
 highlight DiffDelete cterm=bold ctermfg=1 ctermbg=none gui=none guifg=bg guibg=Red
 highlight DiffChange cterm=none ctermfg=4 ctermbg=none gui=none guifg=bg guibg=Red
 highlight DiffText   cterm=none ctermfg=11 ctermbg=none gui=none guifg=bg guibg=Red
-
 
 " reopening a file
 if has("autocmd")
@@ -438,6 +397,23 @@ let g:ctrlp_custom_ignore = {
 nnoremap <silent> <Leader>tb :TagbarToggle<CR>
 let g:tagbar_ctags_bin = "/home/francis/.local/bin/unctags"
 
+" jedi-vim + ncm2-jedi
+" Disable Jedi-vim autocompletion and enable call-signatures options
+let g:jedi#auto_initialization = 1
+let g:jedi#completions_enabled = 0
+let g:jedi#auto_vim_configuration = 0
+let g:jedi#smart_auto_mappings = 0
+let g:jedi#popup_on_dot = 0
+let g:jedi#completions_command = ""
+let g:jedi#show_call_signatures = "1"
+
+set rtp+=./
+
+let g:UltiSnipsExpandTrigger		= "<tab>"
+let g:UltiSnipsJumpForwardTrigger	= "<tab>"
+let g:UltiSnipsJumpBackwardTrigger	= "<s-tab>"
+let g:UltiSnipsRemoveSelectModeMappings = 0
+
 " Vimtex
 let g:tex_flavor='latex'
 let g:vimtex_compiler_progname = 'nvr'
@@ -458,24 +434,6 @@ autocmd Filetype tex setl updatetime=1
 " The parameters are the same as `:help feedkeys()`
 inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
 
-" jedi-vim + ncm2-jedi
-" Disable Jedi-vim autocompletion and enable call-signatures options
-let g:jedi#auto_initialization = 1
-let g:jedi#completions_enabled = 0
-let g:jedi#auto_vim_configuration = 0
-let g:jedi#smart_auto_mappings = 0
-let g:jedi#popup_on_dot = 0
-let g:jedi#completions_command = ""
-let g:jedi#show_call_signatures = "1"
-
-set rtp+=./
-
-" c-j c-k for moving in snippet
-let g:UltiSnipsExpandTrigger		= "<tab>"
-let g:UltiSnipsJumpForwardTrigger	= "<tab>"
-let g:UltiSnipsJumpBackwardTrigger	= "<s-tab>"
-let g:UltiSnipsRemoveSelectModeMappings = 0
-" NCM2 with latex
 au Filetype tex call ncm2#register_source({
         \ 'name' : 'vimtex-cmds',
         \ 'priority': 8,
