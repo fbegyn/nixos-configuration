@@ -191,7 +191,7 @@ c.url.start_pages = 'https://pomoday.app/'
 # Background color for webpages if unset (or empty to use the theme's
 # color).
 # Type: QtColor
-c.colors.webpage.bg = 'grey'
+c.colors.webpage.bg = 'lightgrey'
 
 # Force `prefers-color-scheme: dark` colors for websites.
 # Type: Bool
