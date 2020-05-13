@@ -19,8 +19,10 @@ Plug 'benmills/vimux'
 Plug 'kien/ctrlp.vim'
 Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-commentary'
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+Plug 'junegunn/fzf'
 " Plug 'liuchengxu/vim-clap', { 'do': function('clap#helper#build_all') }
 
 " Autocompletion engine
@@ -310,8 +312,8 @@ let g:go_auto_type_info = 1
 let g:go_template_autocreate = 0
 let g:go_gocode_unimported_packages = 1
 let g:go_gopls_complete_unimported = 1
-let g:go_bin_path= '/home/francis/Go/bin'
-let g:go_def_mode='/home/francis/Go/bin/gopls'
+let g:go_bin_path= '/home/francis/go/bin'
+let g:go_def_mode='/home/francis/go/bin/gopls'
 let g:go_info_mode='gopls'
 
 augroup golang
@@ -381,7 +383,7 @@ if has("autocmd")
 endif
 
 " NERDtree
-" autocmd vimenter * NERDTree
+autocmd vimenter * NERDTree
 map <C-t> :NERDTreeToggle<CR>
 
 " CtrlP
