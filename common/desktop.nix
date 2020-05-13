@@ -19,7 +19,8 @@
     pass
     xclip
     # Games
-    steam
+    # steam
+    direnv
   ];
 
   virtualisation.docker.enable = true;

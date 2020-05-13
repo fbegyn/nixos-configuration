@@ -18,6 +18,7 @@
     vpnc
     pass
     xclip
+    direnv
   ];
 
   virtualisation.docker.enable = true;
