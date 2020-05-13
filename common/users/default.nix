@@ -3,9 +3,8 @@
 {
   imports = [
     <home-manager/nixos>
+    ./francis/variables.nix
   ];
-
-
 
   programs.zsh.enable = true;
 
@@ -15,7 +14,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "docker" "audio" "plugdev" "libvirtd" "adbusers" ];
     group = "francis";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
   };
 
   home-manager.users.francis = (import ./francis/base.nix);
