@@ -4,16 +4,19 @@
   imports = [
     ./git.nix
     ./python.nix
-    ./nvim
     ./tmux
   ];
 
-  home.packages = with pkgs; [
-    fzf
-    unzip
-  ];
+  home.packages = let
+    nvimpackage = import ./nvim/package.nix pkgs;
+  in
+   nvimpackage ++ [
+     pkgs.fzf
+     pkgs.unzip
+   ];
 
   programs.home-manager.enable = true;
+  services.lorri.enable = true;
 
   nixpkgs.config = {
     allowBroken = true;
