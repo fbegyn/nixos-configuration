@@ -5,6 +5,7 @@
     ./base.nix
   ];
 
-  home.packages = with pkgs; [ vim ];
-
+  home.packages = with pkgs; [
+    import (./nvim/customnvim.nix)
+  ];
 }
