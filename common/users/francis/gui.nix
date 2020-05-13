@@ -64,5 +64,6 @@
     gnome3.nautilus
     rofi
     rofi-pass
+    vscode
   ];
 }
