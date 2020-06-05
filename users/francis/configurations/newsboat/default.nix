@@ -1,19 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    ./i3
-    ./dunst
-    ./mpv
-  ];
-
-  services.redshift = {
-    enable = true;
-    latitude = "51.05389";
-    longitude = "3.705";
-  };
-
-  programs.newsboat = {
+  home-manager.users.francis.programs.newsboat = {
     enable = true;
     urls = [
       { url = https://lobste.rs/rss; }
@@ -47,23 +35,4 @@
       bind-key G end
     '';
   };
-
-  home.file.".config/compton.conf".source = ./compton.conf;
-  home.file.".config/qutebrowser/config.py".source = ./qutebrowser/config.py;
-
-  home.packages = with pkgs; [
-    # Comms
-    slack
-    mattermost-desktop
-    # Browser
-    firefox
-    qutebrowser
-    # Utilities
-    compton
-    nfs-utils
-    gnome3.nautilus
-    rofi
-    rofi-pass
-    vscode
-  ];
 }

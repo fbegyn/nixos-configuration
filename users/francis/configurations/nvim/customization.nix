@@ -21,10 +21,10 @@ in
       { name = "nerdtree"; }
       { name = "nerdtree-git-plugin"; }
       { name = "vim-commentary"; }
-      #{ name = "fzf"; }
+      { name = "fzf-source"; }
+      { name = "fzf.vim"; }
       { name = "ctrlp"; }
       { name = "airline"; }
-      #{ name = "srcery-theme"; }
       { name = "tmux-navigator"; }
       { name = "surround"; }
       { name = "vim-better-whitespace"; }
@@ -38,6 +38,9 @@ in
       { name = "ncm2-path"; }
       { name = "ncm2-tmux"; }
       { name = "ncm2-ultisnips"; }
+
+      { name = "vimwiki"; }
+      { name = "vim-zettel"; }
     ];
   };
 }

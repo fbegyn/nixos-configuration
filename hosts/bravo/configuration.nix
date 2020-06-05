@@ -8,9 +8,13 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      /home/francis/nixos-configs/common/users
-      /home/francis/nixos-configs/common/base.nix
-      /home/francis/nixos-configs/common/desktop.nix
+      ../../common/base.nix
+      ../../common/security.nix
+      ../../common/steam.nix
+      ../../common/pulseaudio.nix
+      ../../common/nvidia.nix
+      ../../users
+      ../../users/francis/gui.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -43,10 +47,6 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-    wget
-  ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -72,10 +72,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   services.xserver.layout = "us";
@@ -84,21 +80,12 @@
   # Enable touchpad support.
   # services.xserver.libinput.enable = true;
 
-  # make steam work
-  hardware.opengl.driSupport32Bit = true;
-  hardware.opengl.extraPackages32 = with pkgs.pkgsi686Linux; [ libva  ];
-  hardware.pulseaudio.support32Bit = true;
-
   # Enable the KDE Desktop Environment.
   # services.xserver.displayManager.sddm.enable = true;
   # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.windowManager.i3.enable = true;
-
-  # nvidia drivers
-  nixpkgs.config.allowUnfree = true;
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
