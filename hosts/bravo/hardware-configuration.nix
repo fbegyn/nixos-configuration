@@ -19,6 +19,7 @@
     allowDiscards = true;
     keyFileSize = 4096;
     keyFile = "/dev/disk/by-id/usb-Kingston_DataTraveler_2.0_C86000BDB9F2B0503A3161E7-0:0";
+    fallbackToPassword = true;
   };
 
   fileSystems."/" = {
@@ -37,6 +38,7 @@
     allowDiscards = true;
     keyFileSize = 4096;
     keyFile = "/dev/disk/by-id/usb-Kingston_DataTraveler_2.0_C86000BDB9F2B0503A3161E7-0:0";
+    fallbackToPassword = true;
   };
 
   fileSystems."/home/francis" = {

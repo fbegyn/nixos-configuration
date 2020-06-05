@@ -6,6 +6,7 @@ let
     indentline = builtins.readFile ./plugins/indentline.vim;
     goyo = builtins.readFile ./plugins/goyo.vim;
     multicursor = builtins.readFile ./plugins/multicursor.vim;
+    vimzettel = builtins.readFile ./plugins/vim-zettel.vim;
 in
 
 ''
@@ -18,4 +19,6 @@ in
     ${multicursor}
 
     ${go}
+
+    ${vimzettel}
 ''
