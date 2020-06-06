@@ -7,10 +7,13 @@
     ./configurations/mpv
     ./configurations/newsboat
     ./configurations/redshift
+    ./configurations/direnv
   ];
 
   home-manager.users.francis = {
-    programs.home-manager.enable = true;
+    xsession.initExtra = ''
+      systemctl --user import-environment
+    '';
     services.lorri.enable = true;
     home.file = {
       ".config/qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;

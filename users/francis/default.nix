@@ -9,7 +9,7 @@
     ./configurations/tmux
   ];
 
-  home-manager.users.francis = { pkgs , ... }: {
+  home-manager.users.francis = {
     home.packages = with pkgs; [
       htop
       iftop
@@ -18,9 +18,12 @@
       moreutils
       pass
       ripgrep
+      fd
       tmux
       unzip
     ];
+
+    programs.home-manager.enable = true;
   };
 
   virtualisation.docker.enable = true;
