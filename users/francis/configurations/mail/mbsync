@@ -1,0 +1,88 @@
+IMAPStore francis@begyn.be-remote
+Host imap.fastmail.com
+Port 993
+User francis@begyn.be
+PassCmd "pass mailwizard-francis@begyn.be"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore francis@begyn.be-local
+Subfolders Verbatim
+Path ~/.mail/francis@begyn.be/
+Inbox ~/.mail/francis@begyn.be/INBOX
+
+Channel francis@begyn.be
+Expunge Both
+Master :francis@begyn.be-remote:
+Slave :francis@begyn.be-local:
+Patterns Archive  Drafts  INBOX Sent  Spam  Trash
+Create Both
+SyncState *
+MaxMessages 0
+
+IMAPStore francis.begyn@studentkickoff.be-remote
+Host outlook.office365.com
+Port  993
+User francis.begyn@studentkickoff.be
+PassCmd "pass mailwizard-francis.begyn@studentkickoff.be"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore francis.begyn@studentkickoff.be-local
+Subfolders Verbatim
+Path ~/.mail/francis.begyn@studentkickoff.be/
+Inbox ~/.mail/francis.begyn@studentkickoff.be/INBOX
+
+Channel francis.begyn@studentkickoff.be
+Expunge Both
+Master :francis.begyn@studentkickoff.be-remote:
+Slave :francis.begyn@studentkickoff.be-local:
+Patterns "Verzonden items" "Verwijderde items" INBOX Archief Concepten "Ongewenste e-mail"
+Create Both
+SyncState *
+MaxMessages 0
+
+
+IMAPStore francis.begyn@ugent.be-remote
+Host outlook.office365.com
+Port  993
+User francis.begyn@ugent.be
+PassCmd "pass mailwizard-francis.begyn@ugent.be"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore francis.begyn@ugent.be-local
+Subfolders Verbatim
+Path ~/.mail/francis.begyn@ugent.be/
+Inbox ~/.mail/francis.begyn@ugent.be/INBOX
+
+Channel francis.begyn@ugent.be
+Expunge Both
+Master :francis.begyn@ugent.be-remote:
+Slave :francis.begyn@ugent.be-local:
+Patterns Archive Drafts "Deleted Items" "Sent Items" "Junk Email" INBOX
+Create Both
+SyncState *
+MaxMessages 0
+
+IMAPStore francis.begyn@gmail.com-remote
+Host imap.gmail.com
+Port  993
+User francis.begyn@gmail.com
+PassCmd "pass mailwizard-francis.begyn@gmail.com"
+SSLType IMAPS
+CertificateFile /etc/ssl/certs/ca-certificates.crt
+
+MaildirStore francis.begyn@gmail.com-local
+Subfolders Verbatim
+Path ~/.mail/francis.begyn@gmail.com/
+Inbox ~/.mail/francis.begyn@gmail.com/INBOX
+
+Channel francis.begyn@gmail.com
+Expunge Both
+Master :francis.begyn@gmail.com-remote:
+Slave :francis.begyn@gmail.com-local:
+Patterns INBOX !"_/*" "[Gmail]/*"
+Create Both
+SyncState *
+MaxMessages 0
