@@ -45,7 +45,7 @@ bindsym $mod+Shift+d exec rofi -show run
 bindsym $mod+a exec rofi -show window
 
 # start a terminal
-#bindsym $mod+Shift+Return exec $terminal
+bindsym $mod+Shift+Return exec $terminal
 bindsym $mod+Return exec $terminal -e bash -c 'tmux new-session -A -s main'
 
 # kill focused window
@@ -220,6 +220,11 @@ for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_s
 bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -2
 bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +2
 bindsym XF86AudioMute exec pulsemixer --toggle-mute
+
+# media control
+bindsym XF86AudioPlay --release exec playerctl play-pause
+bindsym XF86AudioNext --release exec playerctl next
+bindsym XF86AudioPrev --release exec playerctl previous
 
 # Autostart programs
 #exec --no-startup-id vivaldi-snapshot

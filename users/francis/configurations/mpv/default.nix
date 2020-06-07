@@ -7,6 +7,6 @@
       youtube-dl
     ];
 
-    home.file.".config/mpv/mpv.conf".source = ./mpv.conf;
+    xdg.configFile."mpv/mpv.conf".source = ./mpv.conf;
   };
 }
