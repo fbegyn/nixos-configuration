@@ -9,11 +9,7 @@ in
   vam = {
     knownPlugins = pkgs.vimPlugins // plugins;
     pluginDictionaries = [
-      { name = "youcompleteme"; }
-      { name = "LanguageClient-neovim"; }
-      { name = "goyo"; }
       { name = "limelight-vim"; }
-      { name = "vim-go"; }
       { name = "fugitive"; }
       { name = "gitgutter"; }
       { name = "supertab"; }
@@ -29,9 +25,7 @@ in
       { name = "surround"; }
       { name = "vim-better-whitespace"; }
       { name = "auto-pairs"; }
-      { name = "rust-vim"; }
-      { name = "vim-jsonnet"; }
-      { name = "vim-toml"; }
+      { name = "goyo"; }
 
       { name = "ncm2"; }
       { name = "ncm2-bufword"; }
@@ -41,6 +35,22 @@ in
 
       { name = "vimwiki"; }
       { name = "vim-zettel"; }
+
+      { name = "youcompleteme"; }
+      { name = "LanguageClient-neovim"; }
+      { name = "vim-go"; }
+
+      { name = "rust-vim"; }
+
+      { name = "alchemist-vim"; }
+      { name = "vim-elixir"; }
+      { name = "vim-mix"; }
+
+      { name = "vim-nix"; }
+
+      { name = "vim-jsonnet"; }
+      { name = "vim-toml"; }
+
     ];
   };
 }

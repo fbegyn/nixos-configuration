@@ -33,4 +33,14 @@ in {
     };
     dependencies = [];
   };
+  "vim-mix" = buildVimPlugin {
+    name = "vim-mix";
+    src = pkgs.fetchFromGitHub {
+      owner = "mattreducs";
+      repo = "vim-mix";
+      rev = "92709183b21eb6881b5fcd077b8ce93a26df430e";
+      sha256 = "0df5kxr08iqkn639bv3ls3saqh804fqvma7ns52h1a9lr6isz9cy";
+    };
+    dependencies = [];
+  };
 }

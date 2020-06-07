@@ -4,6 +4,7 @@
   home-manager.users.francis = {
     home.packages = with pkgs; [
       maim
+      xclip
       picom
       i3
       feh

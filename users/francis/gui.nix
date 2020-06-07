@@ -8,6 +8,7 @@
     ./configurations/newsboat
     ./configurations/redshift
     ./configurations/direnv
+    ./configurations/mail
   ];
 
   home-manager.users.francis = {
@@ -41,11 +42,12 @@
         spotify
         # Utilities
         customnvim
-        compton
         gnome3.nautilus
         rofi
         rofi-pass
         vscode
+        youtube-dl
+        streamlink
       ];
   };
 }
