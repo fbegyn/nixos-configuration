@@ -2,13 +2,13 @@
 
 {
   imports = [
-    ./configurations/i3
-    ./configurations/dunst
     ./configurations/mpv
     ./configurations/newsboat
     ./configurations/redshift
     ./configurations/direnv
     ./configurations/mail
+    ./configurations/zathura
+    ./configurations/udiskie
   ];
 
   home-manager.users.francis = {

@@ -5,17 +5,18 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../common/base.nix
-      ../../common/security.nix
-      ../../common/steam.nix
-      ../../common/pulseaudio.nix
-      ../../common/nvidia.nix
-      ../../users
-      ../../users/francis/gui.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../common/base.nix
+    ../../common/security.nix
+    ../../common/steam.nix
+    ../../common/pulseaudio.nix
+    ../../common/nvidia.nix
+    ../../users
+    ../../users/francis/gui.nix
+    ../../users/francis/configurations/i3
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -71,21 +72,6 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
-  services.xserver.displayManager.lightdm.enable = true;
-  services.xserver.displayManager.defaultSession = "none+i3";
-  services.xserver.windowManager.i3.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
