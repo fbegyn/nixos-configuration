@@ -16,9 +16,10 @@
       systemctl --user import-environment
     '';
     services.lorri.enable = true;
-    home.file = {
-      ".config/qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
-      ".config/compton.conf".source = ./configurations/compton.conf;
+    xdg.configFile = {
+      "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
+      "qutebrowser/css/solarized-dark-all-sites.css".source = ./configurations/qutebrowser/solarized-dark-all-sites.css;
+      "compton.conf".source = ./configurations/compton.conf;
     };
 
     home.packages = let
@@ -40,6 +41,7 @@
         qutebrowser
         # entertainement
         spotify
+        playerctl
         # Utilities
         customnvim
         gnome3.nautilus
@@ -48,6 +50,8 @@
         vscode
         youtube-dl
         streamlink
+        pavucontrol
+        pulsemixer
       ];
   };
 }
