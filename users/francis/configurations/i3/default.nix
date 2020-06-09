@@ -26,11 +26,13 @@
       xclip
       picom
       i3
+      i3status-rust
       feh
     ];
 
     xdg.configFile = {
       "i3/config".source = ./config;
+      "i3status-rs/config.toml".source = ./i3status-config.toml;
     };
   };
 }

@@ -9,6 +9,7 @@
     ./configurations/mail
     ./configurations/zathura
     ./configurations/udiskie
+    ./configurations/alacritty
   ];
 
   home-manager.users.francis = {
@@ -32,6 +33,7 @@
     in
       with pkgs; [
         fzf
+        alacritty
         unzip
         # Comms
         slack

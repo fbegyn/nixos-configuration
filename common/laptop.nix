@@ -14,10 +14,7 @@
     htop
     # Utilities
     tmux
-    alacritty
-    vpnc
     pass
-    xclip
     direnv
   ];
 

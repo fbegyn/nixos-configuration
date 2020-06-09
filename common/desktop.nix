@@ -8,9 +8,7 @@
     htop
     # Utilities
     tmux
-    vpnc
     pass
-    xclip
     direnv
   ];
 
