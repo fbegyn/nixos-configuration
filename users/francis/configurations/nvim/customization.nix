@@ -17,8 +17,8 @@ in
       { name = "nerdtree"; }
       { name = "nerdtree-git-plugin"; }
       { name = "vim-commentary"; }
-      { name = "fzf-source"; }
-      { name = "fzf.vim"; }
+      #{ name = "fzf-source"; }
+      #{ name = "fzf.vim"; }
       { name = "ctrlp"; }
       { name = "airline"; }
       { name = "tmux-navigator"; }
@@ -44,7 +44,7 @@ in
 
       { name = "alchemist-vim"; }
       { name = "vim-elixir"; }
-      { name = "vim-mix"; }
+      #{ name = "vim-mix"; }
 
       { name = "vim-nix"; }
 
