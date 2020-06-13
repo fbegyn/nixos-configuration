@@ -100,7 +100,7 @@
       };
     };
     home.sessionVariables = {
-      NOTMUCH_CONFIG = ~/.config/notmuch/notmuchrc;
+      NOTMUCH_CONFIG = /home/francis/.config/notmuch/notmuchrc;
     };
 
     # afew setup
@@ -109,7 +109,6 @@
       extraConfig = ''
         # This is the default filter chain
         [SpamFilter]
-        # [DKIMValidityFilter]
         [KillThreadsFilter]
         [ListMailsFilter]
         [SentMailsFilter]
