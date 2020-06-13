@@ -54,6 +54,7 @@
         streamlink
         pavucontrol
         pulsemixer
+        libnotify
       ];
   };
 }
