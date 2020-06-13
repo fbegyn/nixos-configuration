@@ -76,6 +76,11 @@ in
   };
 
   home-manager.users.francis = {
+    programs.fish = {
+      loginShellInit = ''
+        startsway
+      '';
+    };
     xdg.configFile = {
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
