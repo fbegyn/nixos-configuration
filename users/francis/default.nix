@@ -7,6 +7,7 @@
     ./python.nix
     ./configurations/git.nix
     ./configurations/tmux
+    ./configurations/fish
   ];
 
   home-manager.users.francis = {
@@ -21,6 +22,7 @@
       fd
       tmux
       unzip
+      inotify-tools
     ];
 
     programs.home-manager.enable = true;
