@@ -12,6 +12,7 @@
     ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
+    ../../common/screen-brightness.nix
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3

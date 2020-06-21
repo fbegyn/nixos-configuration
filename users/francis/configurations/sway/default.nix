@@ -367,10 +367,8 @@ in
         bindsym XF86AudioPrev exec playerctl previous
         
         # Brightness control
-        #bindsym XF86MonBrightnessDown exec /home/francis/Scripts/brightness.sh down
-        bindsym XF86MonBrightnessDown exec --no-startup-id light -U 10
-        #bindsym XF86MonBrightnessUp exec /home/francis/Scripts/brightness.sh up
-        bindsym XF86MonBrightnessUp exec --no-startup-id light -A 10
+        bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -e s 10%-
+        bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -e s +10%
         
         # Bind wifi switching script
         bindsym $mod+w exec /home/francis/Scripts/wpa_switcher.sh
