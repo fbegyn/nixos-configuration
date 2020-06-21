@@ -10,6 +10,7 @@
     ./configurations/zathura
     ./configurations/udiskie
     ./configurations/alacritty
+    ./qalculate.nix
   ];
 
   home-manager.users.francis = {
@@ -45,6 +46,7 @@
         spotify
         playerctl
         # Utilities
+        ltunify
         customnvim
         gnome3.nautilus
         rofi
