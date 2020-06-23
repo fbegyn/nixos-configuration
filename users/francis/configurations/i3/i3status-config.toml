@@ -4,11 +4,6 @@ name = "bad-wolf"
 
 [icons]
 name = "none"
-[icons.overrides]
-bat = " | | "
-bat_full = " |X| "
-bat_charging = " |^| "
-bat_discharging = " |v| "
 
 [[block]]
 block = "music"
@@ -51,11 +46,6 @@ interval = 30
 block = "load"
 interval = 300
 format = "{5m} {15m}"
-
-[[block]]
-block = "battery"
-interval = 30
-format = "{percentage}%"
 
 [[block]]
 block = "time"
