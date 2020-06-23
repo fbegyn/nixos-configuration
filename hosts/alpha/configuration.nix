@@ -9,6 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../../nixos-hardware/dell/xps/13-9360
+    ../../secrets/wireless.nix
     ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
@@ -64,6 +65,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
+  services.hardware.bolt.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
