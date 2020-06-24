@@ -58,14 +58,14 @@
   programs.adb.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    enableSSHSupport = false;
     pinentryFlavor = "gtk2";
   };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh.enable = false;
   services.hardware.bolt.enable = true;
 
   # Open ports in the firewall.
