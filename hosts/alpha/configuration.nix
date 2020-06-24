@@ -14,6 +14,7 @@
     ../../common/security.nix
     ../../common/pulseaudio.nix
     ../../common/screen-brightness.nix
+    ../../common/bluetooth.nix
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
