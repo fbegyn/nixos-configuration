@@ -16,6 +16,7 @@ in
     ./configurations/git.nix
     ./configurations/tmux
     ./configurations/fish
+    ./ssh.nix
   ];
 
   home-manager.users.francis = {
