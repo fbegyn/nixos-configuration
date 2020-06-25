@@ -19,6 +19,7 @@ in
       slurp
       grim
       wl-clipboard
+      wdisplays
     ];
     extraSessionCommands = ''
       export XDG_SESSION_TYPE=wayland
