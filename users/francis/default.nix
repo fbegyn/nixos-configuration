@@ -26,6 +26,7 @@ in
       lm_sensors
       neofetch
       moreutils
+      screen
       pass
       ripgrep
       fd
