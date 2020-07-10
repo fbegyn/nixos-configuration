@@ -17,6 +17,7 @@ in
     ./configurations/tmux
     ./configurations/fish
     ./configurations/josm.nix
+    ./ssh.nix
   ];
 
   home-manager.users.francis = {
@@ -28,6 +29,7 @@ in
       screen
       neofetch
       moreutils
+      screen
       pass
       ripgrep
       fd
