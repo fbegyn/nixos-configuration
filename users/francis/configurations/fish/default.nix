@@ -11,6 +11,9 @@
         "gc" = "git commit";
         "gcmsg" = "git commit -m";
       };
+      loginShellInit = ''
+        set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
+      '';
       plugins = [
         {
           name = "z";
