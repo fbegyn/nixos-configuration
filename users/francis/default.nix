@@ -16,13 +16,16 @@ in
     ./configurations/git.nix
     ./configurations/tmux
     ./configurations/fish
+    ./configurations/josm.nix
   ];
 
   home-manager.users.francis = {
     home.packages = with pkgs; [
       htop
       iftop
+      units
       lm_sensors
+      screen
       neofetch
       moreutils
       pass
