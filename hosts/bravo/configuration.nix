@@ -13,6 +13,7 @@
     ../../common/steam.nix
     ../../common/pulseaudio.nix
     ../../common/nvidia.nix
+    ../../common/rtlsdr.nix
     ../../users
     ../../users/francis/gui.nix
     ../../users/francis/configurations/i3

@@ -58,6 +58,7 @@
         spotify
         playerctl
         # Utilities
+        gimp
         ltunify
         customnvim
         gnome3.nautilus
