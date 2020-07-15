@@ -10,6 +10,7 @@
     ./configurations/zathura
     ./configurations/udiskie
     ./configurations/alacritty
+    ./configurations/ledger
     ./qalculate.nix
   ];
 
@@ -58,6 +59,8 @@
         pavucontrol
         pulsemixer
         libnotify
+        pandoc
+        wkhtmltopdf
       ];
   };
 }
