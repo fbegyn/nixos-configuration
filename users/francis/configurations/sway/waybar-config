@@ -1,7 +1,7 @@
 {
     "layer": "bottom",
     "position": "top",
-    "height": 25,
+    "height": 30,
 
     "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
     "modules-center": ["clock", "pulseaudio", "backlight"],
@@ -67,7 +67,7 @@
     "custom/spotify": {
         "interval": 1,
         "return-type": "json",
-        "exec": "~/.config/waybar/modules/spotify.sh",
+        "exec": "waybar-spotify.sh",
         "exec-if": "pgrep spotify",
         "escape": true,
         "on-click": "playerctl --player=spotify play-pause"
@@ -78,7 +78,7 @@
         "format-alt-click": "click-right",
         "return-type": "json",
         "interval": 60,
-        "exec": "~/.config/waybar/modules/storage.sh"
+        "exec": "waybar-storage.sh"
     },
     "backlight": {
         "format": "{icon}",
