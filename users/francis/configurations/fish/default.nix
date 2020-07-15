@@ -13,6 +13,7 @@
       };
       loginShellInit = ''
         set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
+        set -Ux LEDGER_FILE /home/francis/Documents/Finance/Ledger/2020.journal
       '';
       plugins = [
         {
