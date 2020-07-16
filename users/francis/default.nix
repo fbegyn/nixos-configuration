@@ -37,6 +37,7 @@ in
       unzip
       comma
       inotify-tools
+      gnumake
     ];
 
     programs.home-manager.enable = true;
