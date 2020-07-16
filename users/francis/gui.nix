@@ -72,6 +72,7 @@
         pulsemixer
         libnotify
         pandoc
+        texlive.combined.scheme-medium
         wkhtmltopdf
       ];
   };
