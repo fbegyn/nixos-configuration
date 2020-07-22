@@ -14,6 +14,7 @@
     ../../common/pulseaudio.nix
     ../../common/nvidia.nix
     ../../common/rtlsdr.nix
+    ../../common/fonts.nix
     ../../users
     ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
