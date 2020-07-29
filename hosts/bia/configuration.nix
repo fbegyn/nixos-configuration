@@ -8,17 +8,16 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../../nixos-hardware/dell/xps/13-9360
-    ../../secrets/wireless.nix
     ../../common/base.nix
     ../../common/security.nix
+    ../../common/steam.nix
     ../../common/pulseaudio.nix
-    ../../common/screen-brightness.nix
-    ../../common/bluetooth.nix
+    ../../common/nvidia.nix
+    ../../common/rtlsdr.nix
+    ../../common/fonts.nix
     ../../users
     ../../users/francis/gui.nix
-    #../../users/francis/configurations/i3
-    ../../users/francis/configurations/sway
+    ../../users/francis/configurations/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -26,14 +25,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "alpha"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "bia"; # After the Greek personification of force and raw energy
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.wlp58s0.useDHCP = true;
+  networking.interfaces.enp12s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -58,25 +57,19 @@
   programs.adb.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = false;
     pinentryFlavor = "gtk2";
   };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = false;
-  services.hardware.bolt.enable = true;
+  services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
-
-  networking.wireguard = {
-    enable = true;
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
