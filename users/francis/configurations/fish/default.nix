@@ -27,15 +27,15 @@
             sha256 = "0c5i7sdrsp0q3vbziqzdyqn4fmp235ax4mn4zslrswvn8g3fvdyh";
           };
         }
-        #{
-        #  name = "pure";
-        #  src = pkgs.fetchFromGitHub {
-        #    owner = "rafaelrinaldi";
-        #    repo = "pure";
-        #    rev = "master";
-        #    sha256 = "0klcwlgsn6nr711syshrdqgjy8yd3m9kxakfzv94jvcnayl0h62w";
-        #  };
-        #}
+        {
+          name = "pure";
+          src = pkgs.fetchFromGitHub {
+            owner = "rafaelrinaldi";
+            repo = "pure";
+            rev = "master";
+            sha256 = "0klcwlgsn6nr711syshrdqgjy8yd3m9kxakfzv94jvcnayl0h62w";
+          };
+        }
         {
           name = "done";
           src = pkgs.fetchFromGitHub {
