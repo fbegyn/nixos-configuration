@@ -63,6 +63,8 @@
         texlive.combined.scheme-medium
         wkhtmltopdf
         reflex
+        teams
+        whois
       ];
   };
 }
