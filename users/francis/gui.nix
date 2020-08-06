@@ -64,6 +64,7 @@
         texlive.combined.scheme-medium
         unstable.wkhtmltopdf
         reflex
+        teams
       ];
   };
 }

@@ -39,6 +39,7 @@ in
       comma
       inotify-tools
       gnumake
+      whois
     ];
 
     programs.home-manager.enable = true;
