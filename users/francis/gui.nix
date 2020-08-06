@@ -36,17 +36,15 @@
       with pkgs; [
         niv
         fzf
-        unstable.alacritty
-        unzip
         # Comms
-        unstable.slack
-        unstable.mattermost-desktop
+        slack
+        mattermost-desktop
         # Browser
         unstable.firefox
         unstable.qutebrowser
         # entertainement
         spotify
-        playerctl
+        unstable.playerctl
         # Utilities
         gimp
         ltunify
@@ -55,16 +53,13 @@
         rofi
         rofi-pass
         unstable.vscode
-        unstable.youtube-dl
-        streamlink
         pavucontrol
         pulsemixer
         libnotify
         unstable.pandoc
         texlive.combined.scheme-medium
-        unstable.wkhtmltopdf
+        wkhtmltopdf
         reflex
-        teams
       ];
   };
 }

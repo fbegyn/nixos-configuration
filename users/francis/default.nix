@@ -17,7 +17,7 @@ in
     ./configurations/tmux
     ./configurations/fish
     ./configurations/josm.nix
-    ./configurations/unstable.nix
+    ../../common/unstable.nix
     ./ssh.nix
   ];
 
@@ -27,14 +27,13 @@ in
       iftop
       units
       lm_sensors
-      screen
       neofetch
       moreutils
       screen
       pass
       ripgrep
       fd
-      tmux
+      unstable.tmux
       unzip
       comma
       inotify-tools

@@ -209,10 +209,6 @@ c.fonts.prompts = 'Terminus'
 # Type: Font
 c.fonts.statusbar = 'Terminus'
 
-# Font used in the tab bar.
-# Type: QtFont
-c.fonts.tabs = 'Terminus'
-
 # Font family for standard fonts.
 # Type: FontFamily
 c.fonts.web.family.standard = None
