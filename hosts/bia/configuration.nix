@@ -25,10 +25,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "bravo"; # Define your hostname.
+  networking.hostName = "bia"; # After the Greek personification of force and raw energy
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+  # The global useDHCP flag is deprecated, therefore explicitly set to false here
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
