@@ -34,15 +34,16 @@
       };
     in
       with pkgs; [
+        niv
         fzf
-        alacritty
+        unstable.alacritty
         unzip
         # Comms
-        slack
-        mattermost-desktop
+        unstable.slack
+        unstable.mattermost-desktop
         # Browser
-        firefox
-        qutebrowser
+        unstable.firefox
+        unstable.qutebrowser
         # entertainement
         spotify
         playerctl
@@ -53,15 +54,15 @@
         gnome3.nautilus
         rofi
         rofi-pass
-        vscode
-        youtube-dl
+        unstable.vscode
+        unstable.youtube-dl
         streamlink
         pavucontrol
         pulsemixer
         libnotify
-        pandoc
+        unstable.pandoc
         texlive.combined.scheme-medium
-        wkhtmltopdf
+        unstable.wkhtmltopdf
         reflex
       ];
   };
