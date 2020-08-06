@@ -3,8 +3,9 @@
 {
   home-manager.users.francis = {
     home.packages = with pkgs; [
-      mpv
-      youtube-dl
+      unstable.mpv
+      unstable.youtube-dl
+      unstable.streamlink
     ];
 
     xdg.configFile."mpv/mpv.conf".source = ./mpv.conf;
