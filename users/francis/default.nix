@@ -17,6 +17,7 @@ in
     ./configurations/tmux
     ./configurations/fish
     ./configurations/josm.nix
+    ./configurations/unstable.nix
     ./ssh.nix
   ];
 
