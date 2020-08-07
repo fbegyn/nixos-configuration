@@ -16,6 +16,7 @@
     ../../common/screen-brightness.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
+    ../../common/printer.nix
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
@@ -78,9 +79,6 @@
   networking.wireguard = {
     enable = true;
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
