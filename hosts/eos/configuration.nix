@@ -10,6 +10,7 @@
     ./hardware-configuration.nix
     ../../../nixos-hardware/dell/xps/13-9360
     ../../secrets/wireless.nix
+    #../../secrets/eos-wireguard.nix
     ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
@@ -17,6 +18,7 @@
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
+    ../../common/wireguard.nix
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
