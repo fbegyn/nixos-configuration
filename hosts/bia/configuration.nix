@@ -15,6 +15,7 @@
     ../../common/nvidia.nix
     ../../common/rtlsdr.nix
     ../../common/fonts.nix
+    ../../common/printer.nix
     ../../users
     ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
@@ -70,9 +71,6 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
