@@ -50,6 +50,7 @@ in
 
       { name = "vim-jsonnet"; }
       { name = "vim-toml"; }
+      { name = "indentLine"; }
 
     ];
   };

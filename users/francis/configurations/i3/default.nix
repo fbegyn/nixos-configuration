@@ -24,9 +24,9 @@
     home.packages = with pkgs; [
       maim
       xclip
-      picom
-      i3
-      i3status-rust
+      unstable.picom
+      unstable.i3
+      unstable.i3status-rust
       feh
     ];
 

@@ -49,7 +49,6 @@ set nrformats-=octal
 set shiftround
 set tabstop=2
 set shiftwidth=2
-set expandtab
 
 " timeout for combination of keys before considered sime key strokes
 set ttimeout

@@ -10,6 +10,7 @@
       { url = https://news.ycombinator.com/rss; }
       { url = https://www.vrt.be/vrtnws/nl.rss.headlines.xml; }
       { url = https://www.ugent.be/RSS; }
+      { url = https://francis.begyn.be/blog.rss; }
     ];
     autoReload = true;
     reloadTime = 300;
