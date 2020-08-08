@@ -18,6 +18,10 @@
       ../../users
       #../../users/francis/gui.nix
       #../../users/francis/configurations/sway
+
+      # load in set of services to run
+      ../../services/grafana
+      ../../services/prometheus
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -80,14 +84,8 @@
     '';
   };
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
+  # no local firewall required on the server
+  networking.firewall.enable = false;
 
   # AMD drivers
 
