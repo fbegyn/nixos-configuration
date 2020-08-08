@@ -23,6 +23,7 @@ in
 
   home-manager.users.francis = {
     home.packages = with pkgs; [
+      nixops
       htop
       iftop
       units
