@@ -31,7 +31,10 @@
   boot.supportedFilesystems = [ "ntfs" ];
 
   networking.hostName = "eos"; # After the Greek titan of dawn
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.wireless = {
+    enable = true;
+    interfaces = [ "wlp58s0" ];
+  };
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
