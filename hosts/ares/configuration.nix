@@ -12,12 +12,12 @@
       ../../common/base.nix
       ../../common/security.nix
       ../../common/pulseaudio.nix
-      ../../common/screen-brightness.nix
+      #../../common/screen-brightness.nix
       ../../common/bluetooth.nix
-      ../../common/fonts.nix
+      #../../common/fonts.nix
       ../../users
-      ../../users/francis/gui.nix
-      ../../users/francis/configurations/sway
+      #../../users/francis/gui.nix
+      #../../users/francis/configurations/sway
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -67,7 +67,15 @@
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+    permitRootLogin = "prohibit-password";
+    passwordAuthentication = true;
+    extraConfig = ''
+      Compression no
+      AuthorizedKeysFile .ssh/authorized_keys
+    '';
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
