@@ -26,6 +26,8 @@ in
       nixops
       htop
       iftop
+      clang
+      llvm
       units
       lm_sensors
       neofetch
