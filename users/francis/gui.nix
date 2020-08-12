@@ -41,7 +41,7 @@
         mattermost-desktop
         # Browser
         unstable.firefox
-        unstable.qutebrowser
+        qutebrowser
         # entertainement
         spotify
         unstable.playerctl
