@@ -25,6 +25,8 @@
       "compton.conf".source = ./configurations/compton.conf;
     };
 
+    programs.go.enable = true;
+
     home.packages = let
       customnvim = pkgs.neovim.override {
         # don't alias neovim to vim, yet.
