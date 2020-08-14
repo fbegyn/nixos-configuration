@@ -44,6 +44,7 @@
         # Browser
         unstable.firefox
         qutebrowser
+        tdesktop
         # entertainement
         spotify
         unstable.playerctl
