@@ -18,7 +18,17 @@
     xsession.initExtra = ''
       systemctl --user import-environment
     '';
-    services.lorri.enable = true;
+    services = {
+      lorri.enable = true;
+      udiskie = {
+        enable = true;
+        automount = false;
+      };
+      unclutter = {
+        enable = true;
+        timeout = 5;
+      };
+    };
     xdg.configFile = {
       "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
       "qutebrowser/css/solarized-dark-all-sites.css".source = ./configurations/qutebrowser/solarized-dark-all-sites.css;
@@ -49,6 +59,8 @@
         spotify
         unstable.playerctl
         # Utilities
+        ledger
+        hledger
         gimp
         ltunify
         customnvim
