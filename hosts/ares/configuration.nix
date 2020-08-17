@@ -34,6 +34,10 @@
     interfaces = [ "wlp3s0" ];
   };
 
+  nix.trustedUsers = ["francis"];
+  users.users.francis.extraGroups = ["wheel"];
+  security.sudo.wheelNeedsPassword = false;
+
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
