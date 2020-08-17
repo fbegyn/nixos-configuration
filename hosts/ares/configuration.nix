@@ -22,6 +22,7 @@
       # load in set of services to run
       ../../services/grafana
       ../../services/prometheus
+      ../../services/corerad
     ];
 
   # Use the systemd-boot EFI boot loader.

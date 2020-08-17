@@ -1,0 +1,6 @@
+[[interaface]]
+name = "eno1"
+advertise = true;
+
+	[[interfaces.prefix]]
+	prefix = "2a02:181f:0:6323:3de3:190f:5080:f68b/64"
