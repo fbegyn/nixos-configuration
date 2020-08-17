@@ -3,6 +3,7 @@
 {
   services.corerad = {
     enable = true;
-    configFile = "./config.toml";
-  }
+    configFile = ./config.toml;
+    package = pkgs.unstable.corerad;
+  };
 }

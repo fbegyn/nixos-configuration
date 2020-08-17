@@ -52,6 +52,9 @@ in
       (staticScrape "website" "https" [
         "francis.begyn.be"
       ])
+      (staticScrape "corerad" "http" [
+        "localhost:9430"
+      ])
     ];
   };
 }
