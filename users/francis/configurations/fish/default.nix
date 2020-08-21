@@ -1,4 +1,4 @@
-{pkgs, ...}:
+{ pkgs, ...}:
 
 {
   imports = [
@@ -7,6 +7,7 @@
   home-manager.users.francis = {
     programs.fish = {
       enable = true;
+      package = pkgs.unstable.fish;
       shellAliases = {
         "gst" = "git status";
         "ga" = "git add";

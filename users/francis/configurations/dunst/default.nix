@@ -3,7 +3,7 @@
 {
   home-manager.users.francis = {
     home.packages = with pkgs; [
-      dunst
+      unstable.dunst
     ];
 
     xdg.configFile = {

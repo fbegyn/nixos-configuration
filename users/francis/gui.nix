@@ -52,7 +52,7 @@
         mattermost-desktop
         # Browser
         unstable.firefox
-        qutebrowser
+        unstable.qutebrowser
         tdesktop
         # entertainement
         spotify

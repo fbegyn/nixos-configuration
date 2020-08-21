@@ -3,11 +3,11 @@
 pkgs.writeScriptBin "waybar-spotify.sh" ''
 #! /usr/bin/env sh
 
-class=$(playerctl metadata --player=spotify --format '{{lc(status)}}')
+class=$(${pkgs.playerctl}/bin/playerctl metadata --player=spotify --format '{{lc(status)}}')
 icon="🎘"
 
 if [[ $class == "playing" ]]; then
-  info=$(playerctl metadata --player=spotify --format '{{artist}} - {{title}}')
+  info=$(${pkgs.playerctl}/bin/playerctl metadata --player=spotify --format '{{artist}} - {{title}}')
   if [[ $\{#info} > 40 ]]; then
     info=$(echo $info | cut -c1-40)\"...\"
   fi

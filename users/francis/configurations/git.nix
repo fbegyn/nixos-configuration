@@ -1,4 +1,4 @@
-{ configs, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   home-manager.users.francis = {
