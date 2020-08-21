@@ -27,17 +27,14 @@ in
       { name = "auto-pairs"; }
       { name = "goyo"; }
 
-      { name = "ncm2"; }
-      { name = "ncm2-bufword"; }
-      { name = "ncm2-path"; }
-      { name = "ncm2-tmux"; }
-      { name = "ncm2-ultisnips"; }
+      { name = "LanguageClient-neovim"; }
+      { name = "deoplete"; }
 
       { name = "vimwiki"; }
       { name = "vim-zettel"; }
 
-      { name = "youcompleteme"; }
-      { name = "LanguageClient-neovim"; }
+      { name = "smart-tabs"; }
+
       { name = "vim-go"; }
 
       { name = "rust-vim"; }
