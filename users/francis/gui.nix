@@ -19,7 +19,6 @@
       systemctl --user import-environment
     '';
     services = {
-      lorri.enable = true;
       udiskie = {
         enable = true;
         automount = false;
