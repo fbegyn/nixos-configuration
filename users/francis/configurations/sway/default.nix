@@ -10,11 +10,11 @@ in
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
-      swaylock # lockscreen
-      swayidle
+      unstable.swaylock # lockscreen
+      unstable.swayidle
       xwayland # for legacy apps
-      waybar # status bar
-      mako # notification daemon
+      unstable.waybar # status bar
+      unstable.mako # notification daemon
       kanshi # autorandr
       libappindicator-gtk3
       waybarsh

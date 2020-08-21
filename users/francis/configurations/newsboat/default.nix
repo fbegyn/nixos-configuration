@@ -1,5 +1,3 @@
-{ config, pkgs, ... }:
-
 {
   home-manager.users.francis.programs.newsboat = {
     enable = true;
