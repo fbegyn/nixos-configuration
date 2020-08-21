@@ -3,26 +3,6 @@
 let
   buildVimPlugin = pkgs.vimUtils.buildVimPluginFrom2Nix;
 in {
-  #"fzf.vim" = buildVimPlugin {
-  #  name = "fzf.vim";
-  #  src = pkgs.fetchFromGitHub {
-  #    owner = "junegunn";
-  #    repo = "fzf.vim";
-  #    rev = "a74605b81d0dc2b28d35d9a1ab414dbdcbe3f45b";
-  #    sha256 = "1i0lnkbymrjs12ryggqd9fafh0919n7k21afjmb5qb6c7cm15vsf";
-  #  };
-  #  dependencies = [];
-  #};
-  #"fzf-source" = buildVimPlugin {
-  #  name = "fzf-source";
-  #  src = pkgs.fetchFromGitHub {
-  #    owner = "junegunn";
-  #    repo = "fzf";
-  #    rev = "97a725fbd0e54cbc07e4d72661ea2bd2bb7c01c1";
-  #    sha256 = "1i0lnkbymrjs12ryggqd9fafh0919n7k21afjmb5qb6c7cm15vsf";
-  #  };
-  #  dependencies = [];
-  #};
   "vim-zettel" = buildVimPlugin {
     name = "vim-zettel";
     src = pkgs.fetchFromGitHub {
@@ -33,14 +13,26 @@ in {
     };
     dependencies = [];
   };
-  #"vim-mix" = buildVimPlugin {
-  #  name = "vim-mix";
-  #  src = pkgs.fetchFromGitHub {
-  #    owner = "mattreducs";
-  #    repo = "vim-mix";
-  #    rev = "92709183b21eb6881b5fcd077b8ce93a26df430e";
-  #    sha256 = "0df5kxr08iqkn639bv3ls3saqh804fqvma7ns52h1a9lr6isz9cy";
-  #  };
-  #  dependencies = [];
-  #};
+
+  "smart-tabs" = buildVimPlugin {
+    name = "smart-tabs";
+    src = pkgs.fetchFromGitHub {
+      owner = "dpc";
+      repo = "vim-smarttabs";
+      rev = "3ca9c53770f52a8807b923cc939e6f076ea71b6c";
+      sha256 = "1ig7g06z0jg42lk6pcpdmfqar12xb2lhy8l59844kla4d5fid7xv";
+    };
+    dependencies = [];
+  };
+
+  "deoplete" = buildVimPlugin {
+    name = "deoplete";
+    src = pkgs.fetchFromGitHub {
+      owner = "shougo";
+      repo = "deoplete.nvim";
+      rev = "e897e0142759eb7ffbded565389243cab6a09a91";
+      sha256 = "00qvpp7r7wnccfzfxq9xa4cyxzr25zy32mpxscnbixc7cv5y981x";
+    };
+    dependencies = [];
+  };
 }

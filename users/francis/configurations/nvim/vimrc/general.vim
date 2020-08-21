@@ -46,9 +46,12 @@ filetype indent on
 set nrformats-=octal
 
 " Rounds to indent to multiples of shiftwidth
-set shiftround
-set tabstop=2
-set shiftwidth=2
+set noexpandtab
+set copyindent
+set preserveindent
+set softtabstop=0
+set tabstop=4
+set shiftwidth=4
 
 " timeout for combination of keys before considered sime key strokes
 set ttimeout
