@@ -18,6 +18,9 @@
         set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
         set -Ux BROWSER qutebrowser
         set -Ux EDITOR nvim
+        set -Ua fish_user_paths ~/.local/bin
+        set -Ua fish_user_paths ~/.cargo/bin
+        set -Ua fish_user_paths ~/go/bin
       '';
       plugins = [
         {
