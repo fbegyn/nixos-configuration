@@ -23,6 +23,7 @@
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
     ../../users/francis/configurations/sway
+    ./redshift.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
