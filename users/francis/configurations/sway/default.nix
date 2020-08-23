@@ -7,6 +7,10 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
+  home-manager.users.francis.services.redshift = {
+    package = pkgs.unstable.redshift-wlr;
+  };
+
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
