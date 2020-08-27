@@ -11,6 +11,7 @@
     ./configurations/udiskie
     ./configurations/alacritty
     ./configurations/ledger
+    ./configurations/teamspeak.nix
     ./qalculate.nix
   ];
 
