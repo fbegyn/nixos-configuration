@@ -16,6 +16,7 @@ in
     extraPackages = with pkgs; [
       unstable.swaylock # lockscreen
       unstable.swayidle
+      wf-recorder
       xwayland # for legacy apps
       unstable.waybar # status bar
       unstable.mako # notification daemon
@@ -25,9 +26,9 @@ in
       waybar-spotify
       waybar-storage
       startsway
-      slurp
-      grim
-      wl-clipboard
+      unstable.slurp
+      unstable.grim
+      unstable.wl-clipboard
       wdisplays
     ];
     extraSessionCommands = ''
@@ -292,12 +293,12 @@ in
         # Screenshot menu
         set $screen_grab s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
         mode "$screen_grab" {
-            bindsym s exec 'grim -g "$(slurp -d)" - | wl-copy -t image/png', mode "default"
-            bindsym Shift+s exec 'grim -g "$(slurp -d)" ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
-            bindsym Mod1+s exec 'grim -g "$(slurp -d)" - | ~/Scripts/imgur.sh', mode "default"
-            bindsym f exec 'grim - | wl-copy -t image/png', mode "default"
-            bindsym Shift+f exec 'grim ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
-            bindsym Mod1+f exec 'grim - | ~/Scripts/imgur.sh', mode "default"
+            bindsym s exec 'grim -t png -g "$(slurp -d)" - | wl-copy -t image/png', mode "default"
+            bindsym Shift+s exec 'grim -g -t png "$(slurp -d)" ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
+            bindsym Mod1+s exec 'grim -t png -g "$(slurp -d)" - | ~/Scripts/imgur.sh', mode "default"
+            bindsym f exec 'grim -t png - | wl-copy -t image/png', mode "default"
+            bindsym Shift+f exec 'grim -t png ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
+            bindsym Mod1+f exec 'grim -t png - | ~/Scripts/imgur.sh', mode "default"
             bindsym m exec 'wf-recorder -g $(slurp -d) -f ~/Videos/Captures/$(date +%Y-%m-%d-%H:%M:%S).mp4', mode "default"
             # back to normal: Enter or Escape
             bindsym Return mode "default"
