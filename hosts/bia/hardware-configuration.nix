@@ -64,15 +64,6 @@
     encrypted.label = "docker";
   };
 
-  fileSystems."/home/francis/Documents/Robovision" = {
-    device = "/dev/disk/by-uuid/055bd9ff-3e72-4972-842d-b458fb954b97";
-    fsType = "ext4";
-    encrypted.enable = true;
-    encrypted.blkDev = "/dev/disk/by-uuid/84655d5d-e1b0-4ec8-95f0-feacf9a5c5ed";
-    encrypted.keyFile = "/mnt-root/etc/luks/keys/robovision.key";
-    encrypted.label = "robovision";
-  };
-
   swapDevices = [{ device = "/dev/disk/by-uuid/cf2529ad-a482-4f2c-82a5-ee9831b4ff52"; }];
 
   nix.maxJobs = lib.mkDefault 8;
