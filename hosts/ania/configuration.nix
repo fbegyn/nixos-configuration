@@ -37,6 +37,9 @@
     enable = true;
     interfaces = [ "wlp0s20f3" ];
   };
+  networking.extraHosts = ''
+    192.10.233.100  hhtperf minio1.hhtperf minio2.hhtperf devpi.hhtperf dashboard.hhtperf files.hhtperf ray.hhtperf
+  '';
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
   hardware.enableRedistributableFirmware = true;
