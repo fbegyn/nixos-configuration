@@ -24,7 +24,7 @@ in
   home-manager.users.francis = {
     home.packages = with pkgs; [
       nixops
-      htop
+      unstable.htop
       iftop
       clang
       llvm
@@ -34,14 +34,18 @@ in
       moreutils
       screen
       pass
-      ripgrep
-      fd
-      unstable.tmux
-      unzip
-      comma
       inotify-tools
       gnumake
       whois
+      # tools rewritten in rust
+      unstable.ripgrep
+      unstable.fd
+      unstable.tmux
+      unstable.hyperfine
+      unstable.bandwhich
+      unzip
+      # run nix programs once without installing
+      comma
     ];
 
     programs.home-manager.enable = true;
