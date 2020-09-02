@@ -5,9 +5,15 @@
     ../../secrets/fish.nix
   ];
   home-manager.users.francis = {
+    home.packages = [
+      pkgs.unstable.starship
+    ];
     programs.fish = {
       enable = true;
       package = pkgs.unstable.fish;
+      promptInit = ''
+        starship init fish | source
+      '';
       shellAliases = {
         "gst" = "git status";
         "ga" = "git add";
@@ -34,15 +40,6 @@
           };
         }
         {
-          name = "pure";
-          src = pkgs.fetchFromGitHub {
-            owner = "rafaelrinaldi";
-            repo = "pure";
-            rev = "master";
-            sha256 = "0klcwlgsn6nr711syshrdqgjy8yd3m9kxakfzv94jvcnayl0h62w";
-          };
-        }
-        {
           name = "done";
           src = pkgs.fetchFromGitHub {
             owner = "franciscolourenco";
@@ -60,15 +57,6 @@
             sha256 = "0kz057nr07ybh0y06ww3p424rgk8pi84pnch9jzb040qqn9a8823";
           };
         }
-        #{
-        #  name = "tide";
-        #  src = pkgs.fetchFromGitHub {
-        #    owner = "IlanCosman";
-        #    repo = "tide";
-        #    rev = "13f618fecdfb5eb23347b270523ca2d19dba80a5";
-        #    sha256 = "17wvkavasy1jzqawpakanms37462anjjb9i52cwm6has7brm0ris";
-        #  };
-        #}
       ];
     };
   };
