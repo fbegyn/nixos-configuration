@@ -37,6 +37,8 @@ in
       inotify-tools
       gnumake
       whois
+      # cachix
+      cachix
       # tools rewritten in rust
       unstable.ripgrep
       unstable.fd
