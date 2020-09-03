@@ -171,7 +171,7 @@ c.tabs.width = '6%'
 # Page to open if :open -t/-b/-w is used without URL. Use `about:blank`
 # for a blank page.
 # Type: FuzzyUrl
-c.url.default_page = 'https://pomoday.app/'
+c.url.default_page = 'http://localhost:15860'
 
 # Search engines which can be used via the address bar. Maps a search
 # engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
