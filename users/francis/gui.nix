@@ -12,6 +12,7 @@
     ./configurations/alacritty
     ./configurations/ledger
     ./configurations/teamspeak.nix
+    ./configurations/neuron.nix
     ./qalculate.nix
   ];
 
@@ -74,7 +75,7 @@
         unstable.pandoc
         texlive.combined.scheme-medium
         wkhtmltopdf
-        reflex
+        unstable.reflex
       ];
   };
 }
