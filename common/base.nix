@@ -15,4 +15,10 @@
     vim
     wget
   ];
+
+  boot = {
+    extraModprobeConfig = ''
+      options hid_apple iso_layout=0
+    '';
+  };
 }
