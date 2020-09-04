@@ -31,8 +31,9 @@ in
           "LanguageClient-neovim"
           "deoplete"
 
-          "vimwiki"
-          "vim-zettel"
+          #"vimwiki"
+          #"vim-zettel"
+          "neuron.vim"
 
           "smart-tabs"
 
