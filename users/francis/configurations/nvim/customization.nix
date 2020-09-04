@@ -31,7 +31,7 @@ in
           "LanguageClient-neovim"
           "deoplete"
 
-          "vimwiki"
+          #"vimwiki"
           "vim-zettel"
           "neuron.vim"
 
