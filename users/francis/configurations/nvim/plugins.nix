@@ -36,14 +36,14 @@ in {
     dependencies = [];
   };
 
-  "neuron" = buildVimPlugin {
-    name = "neuron";
+  "neuron.vim" = buildVimPlugin {
+    name = "neuron.vim";
     src = pkgs.fetchFromGitHub {
       owner = "ihsanturk";
       repo = "neuron.vim";
       rev = "97cd8a2b521c56c6eec0889582ddfff590346db1";
       sha256 = "0mli0msvx2j28qq2h2abil4qwzyvxa5ikw7gyqyb3inmq31c70zi";
     };
-    dependencies = [ pkgs.fzf pkgs.unstable.ripgrep ];
+    dependencies = [ ];
   };
 }

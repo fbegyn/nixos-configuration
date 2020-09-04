@@ -49,6 +49,7 @@
       with pkgs; [
         niv
         fzf
+        unstable.jq
         # Comms
         slack
         mattermost-desktop
