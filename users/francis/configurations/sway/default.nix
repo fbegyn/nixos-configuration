@@ -7,10 +7,6 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
-  home-manager.users.francis.services.redshift = {
-    package = pkgs.unstable.redshift-wlr;
-  };
-
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
@@ -93,12 +89,19 @@ in
   home-manager.users.francis = {
     home.packages = with pkgs; [
     ];
+    services.redshift = {
+      package = pkgs.unstable.redshift-wlr;
+    };
     programs.fish = {
       loginShellInit = ''
         startsway
       '';
     };
     xdg.configFile = {
+      "mako/config".text = ''
+        anchor=top-center
+        default-timeout=2000
+      '';
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
 
