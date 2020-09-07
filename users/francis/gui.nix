@@ -12,6 +12,7 @@
     ./configurations/alacritty
     ./configurations/ledger
     ./configurations/teamspeak.nix
+    ./configurations/neuron.nix
     ./qalculate.nix
   ];
 
@@ -48,6 +49,7 @@
       with pkgs; [
         niv
         fzf
+        unstable.jq
         # Comms
         slack
         mattermost-desktop
@@ -74,7 +76,7 @@
         unstable.pandoc
         texlive.combined.scheme-medium
         wkhtmltopdf
-        reflex
+        unstable.reflex
       ];
   };
 }
