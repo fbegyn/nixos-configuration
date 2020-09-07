@@ -9,46 +9,48 @@ in
   vam = {
     knownPlugins = pkgs.vimPlugins // plugins;
     pluginDictionaries = [
-      { name = "limelight-vim"; }
-      { name = "fugitive"; }
-      { name = "gitgutter"; }
-      { name = "supertab"; }
-      { name = "multiple-cursors"; }
-      { name = "nerdtree"; }
-      { name = "nerdtree-git-plugin"; }
-      { name = "vim-commentary"; }
-      #{ name = "fzf-source"; }
-      #{ name = "fzf.vim"; }
-      { name = "ctrlp"; }
-      { name = "airline"; }
-      { name = "tmux-navigator"; }
-      { name = "surround"; }
-      { name = "vim-better-whitespace"; }
-      { name = "auto-pairs"; }
-      { name = "goyo"; }
+      {
+        names = [
+          "limelight-vim"
+          "fugitive"
+          "gitgutter"
+          "supertab"
+          "multiple-cursors"
+          "nerdtree"
+          "nerdtree-git-plugin"
+          "vim-commentary"
+          "fzf-vim"
+          "ctrlp"
+          "airline"
+          "tmux-navigator"
+          "surround"
+          "vim-better-whitespace"
+          "auto-pairs"
+          "goyo"
 
-      { name = "LanguageClient-neovim"; }
-      { name = "deoplete"; }
+          "LanguageClient-neovim"
+          "deoplete"
 
-      { name = "vimwiki"; }
-      { name = "vim-zettel"; }
+          #"vimwiki"
+          "vim-zettel"
+          "neuron.vim"
 
-      { name = "smart-tabs"; }
+          "smart-tabs"
 
-      { name = "vim-go"; }
+          "vim-go"
 
-      { name = "rust-vim"; }
+          "rust-vim"
 
-      { name = "alchemist-vim"; }
-      { name = "vim-elixir"; }
-      #{ name = "vim-mix"; }
+          "alchemist-vim"
+          "vim-elixir"
 
-      { name = "vim-nix"; }
+          "vim-nix"
 
-      { name = "vim-jsonnet"; }
-      { name = "vim-toml"; }
-      { name = "indentLine"; }
-
+          "vim-jsonnet"
+          "vim-toml"
+          "indentLine"
+        ];
+      }
     ];
   };
 }
