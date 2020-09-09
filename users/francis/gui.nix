@@ -47,6 +47,7 @@
       };
     in
       with pkgs; [
+        nodejs
         niv
         fzf
         unstable.jq
