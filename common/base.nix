@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./cachix.nix
+  ];
+
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
