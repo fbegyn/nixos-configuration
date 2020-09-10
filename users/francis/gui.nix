@@ -32,7 +32,8 @@
     };
     xdg.configFile = {
       "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
-      "qutebrowser/css/solarized-dark-all-sites.css".source = ./configurations/qutebrowser/solarized-dark-all-sites.css;
+      "qutebrowser/css/solarized-dark-all-sites.css".source =
+        ./configurations/qutebrowser/solarized-dark-all-sites.css;
       "compton.conf".source = ./configurations/compton.conf;
     };
 
@@ -43,40 +44,40 @@
         # don't alias neovim to vim, yet.
         vimAlias = true;
 
-        configure = (import ./configurations/nvim/customization.nix { pkgs = pkgs; });
+        configure =
+          (import ./configurations/nvim/customization.nix { pkgs = pkgs; });
       };
-    in
-      with pkgs; [
-        niv
-        fzf
-        unstable.jq
-        # Comms
-        slack
-        mattermost-desktop
-        # Browser
-        unstable.firefox
-        unstable.qutebrowser
-        tdesktop
-        # entertainement
-        spotify
-        unstable.playerctl
-        # Utilities
-        ledger
-        hledger
-        gimp
-        ltunify
-        customnvim
-        gnome3.nautilus
-        rofi
-        rofi-pass
-        unstable.vscode
-        pavucontrol
-        pulsemixer
-        libnotify
-        unstable.pandoc
-        texlive.combined.scheme-medium
-        wkhtmltopdf
-        unstable.reflex
-      ];
+    in with pkgs; [
+      niv
+      fzf
+      unstable.jq
+      # Comms
+      slack
+      mattermost-desktop
+      # Browser
+      unstable.firefox
+      unstable.qutebrowser
+      tdesktop
+      # entertainement
+      spotify
+      unstable.playerctl
+      # Utilities
+      ledger
+      hledger
+      gimp
+      ltunify
+      customnvim
+      gnome3.nautilus
+      rofi
+      rofi-pass
+      unstable.vscode
+      pavucontrol
+      pulsemixer
+      libnotify
+      unstable.pandoc
+      texlive.combined.scheme-medium
+      wkhtmltopdf
+      unstable.reflex
+    ];
   };
 }
