@@ -38,6 +38,8 @@ set whichwrap+=<,>,h,l
 " Default ignore files
 set wildignore+=.*,.git,*.swp,*pyc,*pyo,*.png,*.jpg,*.gif,*.ai,*.jpeg,*.psd,*.jar,*.zip,*.gem,log/**,tmp/**,coverage/**,rdoc/**,output_*,*.xpi,doc/**
 
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+
 " Enable filetype plugins
 filetype plugin on
 filetype indent on
