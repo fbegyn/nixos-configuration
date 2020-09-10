@@ -26,7 +26,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "bia"; # After the Greek personification of force and raw energy
+  networking.hostName =
+    "bia"; # After the Greek personification of force and raw energy
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here
