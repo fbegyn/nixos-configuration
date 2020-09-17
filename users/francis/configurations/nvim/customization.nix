@@ -31,12 +31,7 @@ in
           #"LanguageClient-neovim"
           #"deoplete"
 
-          "coc-go"
-          "coc-json"
           "coc-nvim"
-          "coc-rls"
-          "coc-yaml"
-          "coc-vimtex"
 
           #"vimwiki"
           "vim-zettel"
