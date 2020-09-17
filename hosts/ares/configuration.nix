@@ -23,6 +23,8 @@
       ../../services/grafana
       ../../services/prometheus
       ../../services/corerad
+      ../../services/coredns
+      ../../services/unifi
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -48,8 +50,18 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.eno1.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
+  networking.interfaces = {
+    eno1.ipv4.addresses = [{
+      address = "10.3.10.10";
+      prefixLength = 16;
+    }];
+    wlp3s0.useDHCP = true;
+  };
+
+  networking = {
+    defaultGateway = "10.3.1.1";
+    nameservers = ["10.3.2.2" "10.3.1.1" "1.1.1.1"];
+  };
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
