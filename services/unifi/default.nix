@@ -3,6 +3,6 @@
 {
   services.unifi = {
     enable = true;
-    unifiPackage = pkgs.unifi;
+    unifiPackage = pkgs.unstable.unifi;
   };
 }
