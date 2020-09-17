@@ -1,0 +1,130 @@
+(forward-cf) {
+    forward . tls://1.1.1.1 tls://1.0.0.1 {
+        tls_servername cloudflare-dns.com
+        health_check 5s
+    }
+    prometheus
+    log
+    errors
+    cache
+}
+
+(forward-opennic) {
+    forward . 185.121.177.177 169.239.202.202
+    prometheus
+    log
+    errors
+    cache
+}
+
+. {
+    auto begyn.lan {
+        directory /etc/coredns/zones
+    }
+
+    hosts /etc/coredns/hosts/ads-fakenews {
+        fallthrough
+    }
+
+    import forward-cf
+}
+
+bbs {
+    import forward-opennic
+}
+
+chan {
+    import forward-opennic
+}
+
+cyb {
+    import forward-opennic
+}
+
+dyn {
+    import forward-opennic
+}
+
+epic {
+    import forward-opennic
+}
+
+geek {
+    import forward-opennic
+}
+
+gopher {
+    import forward-opennic
+}
+
+indy {
+    import forward-opennic
+}
+
+libre {
+    import forward-opennic
+}
+
+neo {
+    import forward-opennic
+}
+
+null {
+    import forward-opennic
+}
+
+o {
+    import forward-opennic
+}
+
+oss {
+    import forward-opennic
+}
+
+oz {
+    import forward-opennic
+}
+
+parody {
+    import forward-opennic
+}
+
+pirate {
+    import forward-opennic
+}
+
+bazar {
+    import forward-opennic
+}
+
+coin {
+    import forward-opennic
+}
+
+emc {
+    import forward-opennic
+}
+
+lib {
+    import forward-opennic
+}
+
+ku {
+    import forward-opennic
+}
+
+te {
+    import forward-opennic
+}
+
+ti {
+    import forward-opennic
+}
+
+uu {
+    import forward-opennic
+}
+
+opennic.glue {
+    import forward-opennic
+}

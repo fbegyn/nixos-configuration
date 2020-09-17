@@ -1,0 +1,12 @@
+@	3600	SOA	ns1.begyn.lan. francis.begyn.be (
+			1
+			3600
+			600
+			604800
+			1800				)
+	86400	NS	ns1.begyn.lan
+
+rpi 		IN	A	10.3.2.10
+ares		IN 	A	10.3.10.10
+router		IN	A	10.3.1.1
+wifi		IN	A	10.3.10.10
