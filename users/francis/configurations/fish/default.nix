@@ -8,6 +8,13 @@
     home.packages = [
       pkgs.unstable.starship
     ];
+    xdg = {
+      configFile = {
+        "fish/functions/humanize_duration.fish" = {
+          text = (builtins.fetchurl "https://raw.githubusercontent.com/fishpkg/fish-humanize-duration/master/humanize_duration.fish");
+        };
+      };
+    };
     programs.fish = {
       enable = true;
       package = pkgs.unstable.fish;
@@ -39,15 +46,15 @@
             sha256 = "0c5i7sdrsp0q3vbziqzdyqn4fmp235ax4mn4zslrswvn8g3fvdyh";
           };
         }
-        {
-          name = "done";
-          src = pkgs.fetchFromGitHub {
-            owner = "franciscolourenco";
-            repo = "done";
-            rev = "cad91110ed69b3ba6a85771f1f91df5af5c9ddd6";
-            sha256 = "162pzvp40ij9hyp197w7fshq94rlxd1jpi8wnhmzqv6i91g2p9k3";
-          };
-        }
+        #{
+        #  name = "done";
+        #  src = pkgs.fetchFromGitHub {
+        #    owner = "franciscolourenco";
+        #    repo = "done";
+        #    rev = "cad91110ed69b3ba6a85771f1f91df5af5c9ddd6";
+        #    sha256 = "162pzvp40ij9hyp197w7fshq94rlxd1jpi8wnhmzqv6i91g2p9k3";
+        #  };
+        #}
         {
           name = "fzf";
           src = pkgs.fetchFromGitHub {

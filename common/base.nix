@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  imports = [
+    ./cachix.nix
+  ];
+
   nixpkgs.config = {
     allowUnfree = true;
     packageOverrides = pkgs: {
@@ -15,4 +19,10 @@
     vim
     wget
   ];
+
+  boot = {
+    extraModprobeConfig = ''
+      options hid_apple iso_layout=0
+    '';
+  };
 }

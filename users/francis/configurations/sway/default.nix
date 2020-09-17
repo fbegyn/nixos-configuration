@@ -7,10 +7,6 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
-  home-manager.users.francis.services.redshift = {
-    package = pkgs.unstable.redshift-wlr;
-  };
-
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
@@ -93,12 +89,19 @@ in
   home-manager.users.francis = {
     home.packages = with pkgs; [
     ];
+    services.redshift = {
+      package = pkgs.unstable.redshift-wlr;
+    };
     programs.fish = {
       loginShellInit = ''
         startsway
       '';
     };
     xdg.configFile = {
+      "mako/config".text = ''
+        anchor=top-center
+        default-timeout=2000
+      '';
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
 
@@ -294,7 +297,7 @@ in
         set $screen_grab s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
         mode "$screen_grab" {
             bindsym s exec 'grim -t png -g "$(slurp -d)" - | wl-copy -t image/png', mode "default"
-            bindsym Shift+s exec 'grim -g -t png "$(slurp -d)" ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
+            bindsym Shift+s exec 'grim -t png -g "$(slurp -d)" ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
             bindsym Mod1+s exec 'grim -t png -g "$(slurp -d)" - | ~/Scripts/imgur.sh', mode "default"
             bindsym f exec 'grim -t png - | wl-copy -t image/png', mode "default"
             bindsym Shift+f exec 'grim -t png ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"

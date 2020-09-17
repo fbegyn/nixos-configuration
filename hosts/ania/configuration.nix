@@ -51,6 +51,7 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.wlp0s20f3.useDHCP = true;
+  #networking.interfaces.enp4s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
