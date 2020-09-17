@@ -1,0 +1,7 @@
+{ ... }:
+
+{
+  services.coredns = {
+    enable = true;
+  };
+}
