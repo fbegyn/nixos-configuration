@@ -16,6 +16,7 @@
     ../../common/rtlsdr.nix
     ../../common/fonts.nix
     ../../common/printer.nix
+    ../../users/francis/configurations/mail
     ../../users
     ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
