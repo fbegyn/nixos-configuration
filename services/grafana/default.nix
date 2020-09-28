@@ -1,4 +1,4 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   services.grafana = {
@@ -8,5 +8,6 @@
     domain = "begyn.lan";
     protocol = "http";
     dataDir = "/var/lib/grafana";
+    package = pkgs.grafana;
   };
 }
