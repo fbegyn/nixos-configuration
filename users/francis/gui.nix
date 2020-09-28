@@ -6,7 +6,6 @@
     ./configurations/newsboat
     ./configurations/redshift
     ./configurations/direnv
-    ./configurations/mail
     ./configurations/zathura
     ./configurations/udiskie
     ./configurations/alacritty
