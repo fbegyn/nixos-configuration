@@ -48,6 +48,7 @@
           (import ./configurations/nvim/customization.nix { pkgs = pkgs; });
       };
     in with pkgs; [
+      unstable.elixir
       nodejs
       niv
       fzf
