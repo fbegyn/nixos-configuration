@@ -22,6 +22,7 @@ in
     ${deoplete}
 
     ${go}
+    ${goyo}
 
     ${vimzettel}
 ''
