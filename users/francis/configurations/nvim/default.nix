@@ -8,7 +8,6 @@ let
 
   go     = builtins.readFile ./vimrc/languages/go.vim;
 
-  languageserver = builtins.readFile ./vimrc/plugins/languageserver.vim;
   ctrlp = builtins.readFile ./vimrc/plugins/ctrlp.vim;
   nerdtree = builtins.readFile ./vimrc/plugins/nerdtree.vim;
   goPlugin = builtins.readFile ./vimrc/plugins/go.vim;
@@ -16,7 +15,6 @@ let
   goyo = builtins.readFile ./vimrc/plugins/goyo.vim;
   multicursor = builtins.readFile ./vimrc/plugins/multicursor.vim;
   vimzettel = builtins.readFile ./vimrc/plugins/vim-zettel.vim;
-  deoplete = builtins.readFile ./vimrc/plugins/deoplete.vim;
 
   customPlugins = {
     vim-zettel = pkgs.vimUtils.buildVimPlugin {
@@ -59,7 +57,6 @@ in
       	limelight-vim
         fugitive
         gitgutter
-        supertab
         multiple-cursors
         fzf-vim
         airline
@@ -69,10 +66,11 @@ in
         indentLine
         tmux-navigator
         goyo-vim
-        deoplete-nvim
+        #deoplete-nvim
         The_NERD_tree
         nerdtree-git-plugin
-        LanguageClient-neovim
+        #LanguageClient-neovim
+        coc-nvim
         vim-neuron
         vim-zettel
         vim-ledger
@@ -87,12 +85,12 @@ in
 
         ${go}
 
-        ${languageserver}
+        let g:SuperTabDefaultCompletionType = "<c-n>"
+
         ${nerdtree}
         ${ctrlp}
         ${indentline}
         ${multicursor}
-        ${deoplete}
         ${go}
         ${goyo}
         ${vimzettel}
