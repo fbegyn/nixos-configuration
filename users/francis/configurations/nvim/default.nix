@@ -51,8 +51,13 @@ in
 {
   home-manager.users.francis = { pkgs, ... }: {
     home.sessionVariables = { EDITOR = "nvim"; };
+    home.packages = with pkgs; [
+      rnix-lsp
+    ];
     programs.neovim = {
       enable = true;
+      vimAlias = true;
+      vimdiffAlias = true;
       plugins = with pkgs.vimPlugins // customPlugins; [
       	limelight-vim
         fugitive
