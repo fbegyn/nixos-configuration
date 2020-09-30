@@ -7,10 +7,10 @@ let
   srcry = builtins.readFile ./vimrc/srcery.vim;
 
   go     = builtins.readFile ./vimrc/languages/go.vim;
+  rust     = builtins.readFile ./vimrc/languages/rust.vim;
 
   ctrlp = builtins.readFile ./vimrc/plugins/ctrlp.vim;
   nerdtree = builtins.readFile ./vimrc/plugins/nerdtree.vim;
-  goPlugin = builtins.readFile ./vimrc/plugins/go.vim;
   indentline = builtins.readFile ./vimrc/plugins/indentline.vim;
   goyo = builtins.readFile ./vimrc/plugins/goyo.vim;
   multicursor = builtins.readFile ./vimrc/plugins/multicursor.vim;
@@ -26,17 +26,6 @@ let
         sha256 = "0df5kxr08iqkn639bv3ls3saqh804fqvma7ns52h1a9lr6isz9cy";
       };
     };
-
-    vim-smarttabs = pkgs.vimUtils.buildVimPlugin {
-      name = "smart-tabs";
-      src = pkgs.fetchFromGitHub {
-        owner = "dpc";
-        repo = "vim-smarttabs";
-        rev = "3ca9c53770f52a8807b923cc939e6f076ea71b6c";
-        sha256 = "1ig7g06z0jg42lk6pcpdmfqar12xb2lhy8l59844kla4d5fid7xv";
-      };
-    };
-
     vim-neuron = pkgs.vimUtils.buildVimPlugin {
       name = "neuron.vim";
       src = pkgs.fetchFromGitHub {
@@ -89,14 +78,13 @@ in
         ${tabsbufs}
 
         ${go}
+        ${rust}
 
-        let g:SuperTabDefaultCompletionType = "<c-n>"
 
         ${nerdtree}
         ${ctrlp}
         ${indentline}
         ${multicursor}
-        ${go}
         ${goyo}
         ${vimzettel}
       '';
