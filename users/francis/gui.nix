@@ -6,13 +6,13 @@
     ./configurations/newsboat
     ./configurations/redshift
     ./configurations/direnv
-    ./configurations/mail
     ./configurations/zathura
     ./configurations/udiskie
     ./configurations/alacritty
     ./configurations/ledger
     ./configurations/teamspeak.nix
     ./configurations/neuron.nix
+    ./configurations/nvim/default.nix
     ./qalculate.nix
   ];
 
@@ -39,15 +39,7 @@
 
     programs.go.enable = true;
 
-    home.packages = let
-      customnvim = pkgs.neovim.override {
-        # don't alias neovim to vim, yet.
-        vimAlias = true;
-
-        configure =
-          (import ./configurations/nvim/customization.nix { pkgs = pkgs; });
-      };
-    in with pkgs; [
+    home.packages = with pkgs; [
       nodejs
       niv
       fzf
@@ -67,7 +59,6 @@
       hledger
       gimp
       ltunify
-      customnvim
       gnome3.nautilus
       rofi
       rofi-pass
