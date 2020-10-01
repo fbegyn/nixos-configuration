@@ -3,6 +3,7 @@ noremap <Up> <NOP>
 noremap <Down> <NOP>
 noremap <Left> <NOP>
 noremap <Right> <NOP>
+
 " Smart way to move between windows
 map <C-j>     <C-W>j
 map <C-k>     <C-W>k
