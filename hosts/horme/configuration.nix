@@ -38,6 +38,8 @@
   ];
 
   # Use the systemd-boot EFI boot loader.
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
@@ -61,6 +63,9 @@
       "nl_BE.UTF-8/UTF-8"
       "en_US.UTF-8/UTF-8"
     ];
+    extraLocaleSettings = {
+      LC_MESSAGES = "en_US.UTF-8";
+    };
   };
 
   console = {
