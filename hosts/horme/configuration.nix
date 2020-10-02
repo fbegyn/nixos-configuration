@@ -8,8 +8,18 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    # laptop hardware
+    ../../../nixos-hardware/common/pc/laptop
+    ../../../nixos-hardware/common/pc/ssd
+    # specific to thinkpad
     ../../../nixos-hardware/lenovo/thinkpad
+    ../../../nixos-hardware/lenovo/thinkpad/x1
+    ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
+    # wireless settings
     ../../secrets/wireless.nix
+    # common settings
+    ../../common/cachix.nix
+    ../../common/gpg.nix
     ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
@@ -18,8 +28,9 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
+    # fingerprint
+    ../../common/fingerprint.nix
     ../../users/francis/configurations/mail
-    ../../common/cachix.nix
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
@@ -38,13 +49,24 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.wlp0s20f3.useDHCP = true;
+  networking.interfaces.enp0s31f6.useDHCP = true;
+
+  # set trackpoint sensitivity
+  hardware.trackpoint.sensitivity = 64;
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
+  i18n = {
+    defaultLocale = "nl_BE.UTF-8";
+    supportedLocales = [
+      "nl_BE.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+    ];
+  };
+
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
@@ -59,11 +81,6 @@
   # started in user sessions.
   # programs.mtr.enable = true;
   programs.adb.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-    pinentryFlavor = "gtk2";
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -19,7 +19,7 @@
             enable = true;
             create = "both";
             expunge = "both";
-            patterns = ["Archive" "Drafts" "INBOX" "Sent" "Spam" "Trash"];
+            patterns = ["Archive" "Drafts" "Inbox" "Sent" "Spam" "Trash"];
           };
         };
         "francis.begyn@gmail.com" = {
@@ -35,7 +35,7 @@
             enable = true;
             create = "both";
             expunge = "both";
-            patterns = ["INBOX" "!\"_/*\"" "[Gmail]/*"];
+            patterns = ["Inbox" "!\"_/*\"" "[Gmail]/*"];
           };
         };
         "francis.begyn@studentkickoff.be" = {
@@ -50,7 +50,7 @@
             enable = true;
             create = "both";
             expunge = "both";
-            patterns = ["Verzonden items" "Verwijderde items" "INBOX" "Archief" "Concepten" "Ongewenste e-mail"];
+            patterns = ["Verzonden items" "Verwijderde items" "Inbox" "Archief" "Concepten" "Ongewenste e-mail"];
           };
           folders = {
             drafts = "Concepten";
@@ -70,7 +70,7 @@
             enable = true;
             create = "both";
             expunge = "both";
-            patterns = ["Archive" "Drafts" "Deleted Items" "Sent Items" "Junk Email" "INBOX"];
+            patterns = ["Archive" "Drafts" "Deleted Items" "Sent Items" "Junk Email" "Inbox"];
           };
           folders = {
             trash = "Deleted Items";
@@ -83,6 +83,7 @@
     # mbsync setup: still needs some work to be fully functional
     home.packages = [
       pkgs.isync
+      pkgs.w3m
     ];
     programs.mbsync = {
       enable = true;
@@ -119,32 +120,40 @@
         tags = +unread
         [MailMover]
         rename = True
-        folders = francis@begyn.be/INBOX francis@begyn.be/Archive francis@begyn.be/Sent
-          francis.begyn@ugent.be/INBOX francis.begyn@ugent.be/Archive "francis.begyn@ugent.be/Sent Items"
-          "francis.begyn@gmail.com/[Gmail]/Sent Mail" "francis.begyn@gmail.com/[Gmail]/All Mail" francis.begyn@gmail.com/INBOX
-          francis.begyn@studentkickoff.be/INBOX francis.begyn@studentkickoff.be/Archief "francis.begyn@studentkickoff.be/Sent Items"
+        folders = francis@begyn.be/Inbox
+          francis@begyn.be/Archive
+          francis@begyn.be/Sent
+          francis.begyn@ugent.be/Inbox
+          francis.begyn@ugent.be/Archive
+          "francis.begyn@ugent.be/Sent Items"
+          "francis.begyn@gmail.com/[Gmail]/Sent Mail"
+          "francis.begyn@gmail.com/[Gmail]/All Mail"
+          francis.begyn@gmail.com/Inbox
+          francis.begyn@studentkickoff.be/Inbox
+          francis.begyn@studentkickoff.be/Archief
+          "francis.begyn@studentkickoff.be/Sent Items"
         # fastmail
-        francis@begyn.be/INBOX = 'NOT tag:inbox':francis@begyn.be/Archive
+        francis@begyn.be/Inbox = 'NOT tag:inbox':francis@begyn.be/Archive
         francis@begyn.be/Archive = 'tag:trash':francis@begyn.be/Trash
-          'tag:inbox':francis@begyn.be/INBOX
+          'tag:inbox':francis@begyn.be/Inbox
           'tag:spam':francis@begyn.be/Spam
         francis@begyn.be/Sent = 'tag:trash':francis@begyn.be/Trash
         # personal mail
-        francis.begyn@gmail.com/INBOX = 'NOT tag:inbox':"francis.begyn@gmail.com/[Gmail]/All Mail"
+        francis.begyn@gmail.com/Inbox = 'NOT tag:inbox':"francis.begyn@gmail.com/[Gmail]/All Mail"
         francis.begyn@gmail.com/[Gmail]/All Mail = 'tag:trash':francis.begyn@gmail.com/[Gmail]/Trash
-          'tag:inbox':francis.begyn@gmail.com/INBOX
+          'tag:inbox':francis.begyn@gmail.com/Inbox
           'tag:spam':francis.begyn@gmail.com/[Gmail]/Spam
         francis.begyn@gmail.com/[Gmail]/Sent Mail = 'tag:trash':francis.begyn@gmail.com/[Gmail]/Trash
         # ugent
-        francis.begyn@ugent.be/INBOX = 'NOT tag:inbox':francis.begyn@ugent.be/Archive
+        francis.begyn@ugent.be/Inbox = 'NOT tag:inbox':francis.begyn@ugent.be/Archive
         francis.begyn@ugent.be/Archive = 'tag:trash':"francis.begyn@ugent.be/Deleted Items"
-          'tag:inbox':francis.begyn@ugent.be/INBOX
+          'tag:inbox':francis.begyn@ugent.be/Inbox
           'tag:spam':"francis.begyn@ugent.be/Junk Email"
         francis.begyn@ugent.be/Sent Items = 'tag:trash':"francis.begyn@ugent.be/Deleted Items"
         #sko
-        francis.begyn@studentkickoff.be/INBOX = 'NOT tag:inbox':francis.begyn@studentkickoff.be/Archief
+        francis.begyn@studentkickoff.be/Inbox = 'NOT tag:inbox':francis.begyn@studentkickoff.be/Archief
         francis.begyn@studentkickoff.be/Archief = 'tag:trash':"francis.begyn@studentkickoff.be/Verwijderde items"
-          'tag:inbox':francis.begyn@studentkickoff.be/INBOX
+          'tag:inbox':francis.begyn@studentkickoff.be/Inbox
           'tag:spam':"francis.begyn@studentkickoff.be/Ongewenste e-mail"
         francis.begyn@studentkickoff.be/Sent Items = 'tag:trash':'francis.begyn@studentkickoff.be/Verwijderde Items'
       '';

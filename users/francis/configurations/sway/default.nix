@@ -113,11 +113,11 @@ in
         set $laptop_display eDP-1
         output $laptop_display pos 0 1080 res 1920x1080
         # configure inputs
-        #input 1:1:AT_Translated_Set_2_keyboard {
-        #    xkb_layout us
-        #    xkb_variant altgr-intl
-        #    xkb_numlock disabled
-        #  }
+        input 1:1:AT_Translated_Set_2_keyboard {
+          xkb_layout us
+          xkb_variant altgr-intl
+          xkb_numlock disabled
+        }
         #
         #input 1452:570:Toetsenbord_van_Tekenkamer {
         #    xkb_layout us
