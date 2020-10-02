@@ -30,7 +30,6 @@
     ../../common/wireguard.nix
     # fingerprint
     ../../common/fingerprint.nix
-    ../../users/francis/configurations/mail
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
