@@ -4,7 +4,7 @@
   home-manager.users.francis = {
     home.packages = [ pkgs.git-crypt ];
     programs.git = {
-      package = pkgs.gitAndTools.gitFull;
+      package = pkgs.unstable.gitAndTools.gitFull;
       enable = true;
       aliases = {
         identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; git config user.signingkey \"$(git config user.$1.signingkey)\"; :";
