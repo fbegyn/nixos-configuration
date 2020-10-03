@@ -108,7 +108,7 @@ in
       "sway/config".text = ''
         xwayland enable
         # set wallpaper
-        # output "*" background ~/Pictures/Wallpapers/amid-clouds.jpg fill
+        output "*" background ~/Pictures/wallpapers/background.jpg fill
         # monitor config
         set $laptop_display eDP-1
         output $laptop_display pos 0 1080 res 1920x1080
