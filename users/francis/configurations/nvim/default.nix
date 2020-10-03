@@ -60,6 +60,7 @@ in
         indentLine
         tmux-navigator
         goyo-vim
+        vimtex
         #deoplete-nvim
         The_NERD_tree
         nerdtree-git-plugin
