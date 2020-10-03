@@ -18,6 +18,7 @@
         user.fom.name = "Francis Begyn - Thecy";
         user.fom.email = "theci@fom.be";
         user.fom.signingkey = "";
+        init.defaultBranch = "main";
       };
     };
   };
