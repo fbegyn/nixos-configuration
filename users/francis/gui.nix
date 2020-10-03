@@ -55,8 +55,6 @@
       spotify
       unstable.playerctl
       # Utilities
-      ledger
-      hledger
       gimp
       ltunify
       gnome3.nautilus
