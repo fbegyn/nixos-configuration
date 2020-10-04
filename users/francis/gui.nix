@@ -25,6 +25,7 @@
       "qutebrowser/css/solarized-dark-all-sites.css".source =
         ./configurations/qutebrowser/solarized-dark-all-sites.css;
       "compton.conf".source = ./configurations/compton.conf;
+      "mimeapps.list".source = ./configurations/mimeapps.list;
     };
     services = {
       unclutter = {
@@ -63,6 +64,7 @@
       texlive.combined.scheme-medium
       wkhtmltopdf
       unstable.reflex
+      unstable.thunderbird
     ];
   };
 }
