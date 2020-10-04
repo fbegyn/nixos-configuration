@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../secrets/fish.nix
+    ../secrets/fish.nix
   ];
   home-manager.users.francis = {
     home.packages = [
@@ -28,6 +28,15 @@
         set -Ua fish_user_paths ~/.local/bin
         set -Ua fish_user_paths ~/.cargo/bin
         set -Ua fish_user_paths ~/go/bin
+        # wayland variables
+        set -Ua XDG_SESSION_TYPE wayland
+        set -Ua QT_WAYLAND_DISABLE_WINDOWDECORATION 1
+        set -Ua QT_AUTO_SCREEN_SCALE_FACTOR 0
+        set -Ua QT_SCALE_FACTOR 1
+        set -Ua GDK_SCALE 1
+        set -Ua GDK_DPI_SCALE 1
+        set -Ua MOZ_ENABLE_WAYLAND 1
+        set -Ua _JAVA_AWT_WM_NONREPARENTING 1
       '';
       plugins = [
         {
