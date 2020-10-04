@@ -3,6 +3,6 @@
 {
   programs.ssh = {
     startAgent = true;
-    agentTimeout = "2h";
+    agentTimeout = "4h";
   };
 }
