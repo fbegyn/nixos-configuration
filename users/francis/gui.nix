@@ -64,7 +64,7 @@
       texlive.combined.scheme-medium
       wkhtmltopdf
       unstable.reflex
-      unstable.thunderbird
+      unstable.thunderbird-78
     ];
   };
 }
