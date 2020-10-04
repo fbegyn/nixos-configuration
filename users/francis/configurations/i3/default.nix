@@ -9,7 +9,7 @@
   services.xserver= {
     enable = true;
     layout = "us";
-    xkbVariant = "altgr-intl"
+    xkbVariant = "altgr-intl";
     xkbOptions = "eurosign:5";
   };
 
