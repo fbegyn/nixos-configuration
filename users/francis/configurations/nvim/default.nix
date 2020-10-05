@@ -15,6 +15,7 @@ let
   goyo = builtins.readFile ./vimrc/plugins/goyo.vim;
   multicursor = builtins.readFile ./vimrc/plugins/multicursor.vim;
   vimzettel = builtins.readFile ./vimrc/plugins/vim-zettel.vim;
+  goPlugin = builtins.readFile ./vimrc/plugins/go.vim;
 
   customPlugins = {
     vim-zettel = pkgs.vimUtils.buildVimPlugin {
@@ -61,6 +62,7 @@ in
         tmux-navigator
         goyo-vim
         vimtex
+        vim-go
         #deoplete-nvim
         The_NERD_tree
         nerdtree-git-plugin
@@ -88,6 +90,7 @@ in
         ${multicursor}
         ${goyo}
         ${vimzettel}
+        ${goPlugin}
       '';
     };
   };
