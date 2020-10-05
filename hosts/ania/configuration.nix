@@ -31,6 +31,16 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.extraModulePackages = [
+    (pkgs.callPackage ../../common/hid-apple-patched.nix {
+      kernel = pkgs.linuxPackages_latest.kernel;
+    })
+  ];
+  boot.extraModprobeConfig = ''
+    options hid_apple fnmode=2
+    options hid_apple swap_fn_leftctrl=1
+    options hid_apple swap_opt_cmd=1
+  '';
 
   networking.hostName = "ania"; # After the Greek titan of dawn
   networking.wireless = {
