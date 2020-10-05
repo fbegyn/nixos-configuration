@@ -57,6 +57,7 @@
       rofi
       rofi-pass
       unstable.vscode
+      unstable.evince
       pavucontrol
       pulsemixer
       libnotify
