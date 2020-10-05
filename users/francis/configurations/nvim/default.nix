@@ -9,6 +9,8 @@ let
   go     = builtins.readFile ./vimrc/languages/go.vim;
   rust     = builtins.readFile ./vimrc/languages/rust.vim;
 
+  goplugin = builtins.readFile ./vimrc/plugins/go.vim;
+
   ctrlp = builtins.readFile ./vimrc/plugins/ctrlp.vim;
   nerdtree = builtins.readFile ./vimrc/plugins/nerdtree.vim;
   indentline = builtins.readFile ./vimrc/plugins/indentline.vim;
@@ -60,6 +62,7 @@ in
         indentLine
         tmux-navigator
         goyo-vim
+        vim-go
         #deoplete-nvim
         The_NERD_tree
         nerdtree-git-plugin
@@ -87,6 +90,8 @@ in
         ${multicursor}
         ${goyo}
         ${vimzettel}
+
+        ${goplugin}
       '';
     };
   };
