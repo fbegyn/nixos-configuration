@@ -3,6 +3,7 @@
 {
   environment.variables = {
     PAGER = "less";
+    BROWSER = "qutebrowser";
   };
 }
 
