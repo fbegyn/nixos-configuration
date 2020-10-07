@@ -6,30 +6,28 @@
   ];
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
+  services.xserver= {
+    enable = true;
+    layout = "us";
+    xkbVariant = "altgr-intl";
+    xkbOptions = "eurosign:5";
+  };
 
-  # Enable touchpad support.
-  # services.xserver.libinput.enable = true;
-
-  # Enable the KDE Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.defaultSession = "none+i3";
-  services.xserver.windowManager.i3.enable = true;
-
-  home-manager.users.francis = {
-    home.packages = with pkgs; [
+  services.xserver.windowManager.i3 = {
+    enable = true;
+    package = pkgs.unstable.i3;
+    extraPackages = with pkgs; [
       maim
       xclip
       unstable.picom
-      unstable.i3
       unstable.i3status-rust
       feh
     ];
+  };
 
+  home-manager.users.francis = {
     xdg.configFile = {
       "i3/config".source = ./config;
       "i3status-rs/config.toml".source = ./i3status-config.toml;

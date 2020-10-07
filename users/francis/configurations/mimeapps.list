@@ -1,0 +1,34 @@
+[Default Applications]
+x-scheme-handler/tg=telegramdesktop.desktop
+text/html=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/http=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/https=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/mailto=thunderbird.desktop
+message/rfc822=mailspring.desktop
+application/pdf=org.gnome.Evince.desktop
+x-scheme-handler/mailspring=thunderbird.desktop
+x-scheme-handler/ftp=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/chrome=org.qutebrowser.qutebrowser.desktop
+application/x-extension-htm=org.qutebrowser.qutebrowser.desktop
+application/x-extension-html=org.qutebrowser.qutebrowser.desktop
+application/x-extension-shtml=org.qutebrowser.qutebrowser.desktop
+application/xhtml+xml=org.qutebrowser.qutebrowser.desktop
+application/x-extension-xhtml=org.qutebrowser.qutebrowser.desktop
+application/x-extension-xht=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/about=org.qutebrowser.qutebrowser.desktop
+x-scheme-handler/unknown=org.qutebrowser.qutebrowser.desktop
+
+[Added Associations]
+application/x-shellscript=gnome-disk-image-mounter.desktop;
+x-scheme-handler/mailto=thunderbird.desktop;
+message/rfc822=thunderbird.desktop;
+application/pdf=org.gnome.Evince.desktop;
+text/x-go=visual-studio-code.desktop;vim.desktop;
+x-scheme-handler/http=org.qutebrowser.qutebrowser.desktop;
+x-scheme-handler/https=org.qutebrowser.qutebrowser.desktop;
+text/html=org.qutebrowser.qutebrowser.desktop;
+application/x-partial-download=mpv.desktop;
+image/jpeg=feh.desktop;
+text/plain=visual-studio-code.desktop;vim.desktop;
+application/xml=visual-studio-code.desktop;
+application/x-php=org.qutebrowser.qutebrowser.desktop;
