@@ -10,7 +10,15 @@
   users.groups.francis.gid = 1000;
   users.users.francis = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "docker" "audio" "plugdev" "libvirtd" "adbusers" ];
+    extraGroups = [
+      "wheel"
+      "docker"
+      "audio"
+      "plugdev"
+      "libvirtd"
+      "adbusers"
+      "input"
+    ];
     group = "francis";
     shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
