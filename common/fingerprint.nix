@@ -3,6 +3,6 @@
 {
   services.fprintd = {
     enable = true;
-    package = pkgs.unstable.fprintd-thinkpad;
+    package = pkgs.fprintd-thinkpad;
   };
 }
