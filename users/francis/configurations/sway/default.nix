@@ -118,6 +118,10 @@ in
           xkb_variant altgr-intl
           xkb_numlock disabled
         }
+
+        input 2:10:TPPS/2_Elan_TrackPoint {
+          pointer_accel -0.17
+        }
         #
         #input 1452:570:Toetsenbord_van_Tekenkamer {
         #    xkb_layout us
