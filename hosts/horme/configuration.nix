@@ -29,7 +29,6 @@
     ../../common/printer.nix
     ../../common/wireguard.nix
     # fingerprint
-    ../../common/fingerprint.nix
     ../../users
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
