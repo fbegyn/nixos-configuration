@@ -14,7 +14,8 @@ in {
     ./python.nix
     ./configurations/git.nix
     ./configurations/tmux
-    ./configurations/fish
+    ./configurations/fish.nix
+    ./configurations/fzf.nix
     ./configurations/josm.nix
     ../../common/unstable.nix
     ./ssh.nix
