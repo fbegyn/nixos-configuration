@@ -51,10 +51,16 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces = {
-    eno1.ipv4.addresses = [{
-      address = "10.3.10.10";
-      prefixLength = 16;
-    }];
+    eno1.ipv4.addresses = [
+      {
+        address = "10.3.10.10";
+        prefixLength = 16;
+      }
+      {
+        address = "10.3.2.2";
+        prefixLength = 16;
+      }
+    ];
     wlp3s0.useDHCP = true;
   };
 
