@@ -15,6 +15,7 @@ in {
     ./configurations/git.nix
     ./configurations/tmux
     ./configurations/fish.nix
+    ./configurations/starship.nix
     ./configurations/fzf.nix
     ./configurations/josm.nix
     ../../common/unstable.nix

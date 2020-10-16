@@ -1,0 +1,26 @@
+{ pkgs, config, ...  }:
+
+{
+  home-manager.users.francis = {
+    services.spotifyd = {
+      enable = true;
+      settings = {
+        global = {
+          username = "francis.begyn@gmail.com";
+          password_cmd = "pass entertainement/spotify";
+          device_name = "spotifyd";
+          device_type = "computer";
+          cache_path = "/home/francis/.cache/spotify/Storage";
+          no_audio_cache = "false";
+          bitrate = "320";
+          volume_normalisation = "true";
+          normalisation_pregain = "-10";
+          backend = "pulseaudio";
+          mixer = "PCM";
+          volume_controller = "softvol";
+          zeroconf_port = "1234";
+        };
+      };
+    };
+  };
+}
