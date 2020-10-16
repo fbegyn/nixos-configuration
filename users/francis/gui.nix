@@ -13,6 +13,7 @@
     ./configurations/teamspeak.nix
     ./configurations/neuron.nix
     ./configurations/nvim/default.nix
+    ./configurations/spotifyd.nix
     ./qalculate.nix
   ];
 

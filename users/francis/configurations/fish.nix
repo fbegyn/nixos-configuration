@@ -5,15 +5,9 @@
     ../secrets/fish.nix
   ];
   home-manager.users.francis = {
-    home.packages = [
-      pkgs.unstable.starship
-    ];
     programs.fish = {
       enable = true;
       package = pkgs.unstable.fish;
-      promptInit = ''
-        starship init fish | source
-      '';
       shellAliases = {
         "gst" = "git status";
         "ga" = "git add";
