@@ -2,12 +2,15 @@
 
 {
   home-manager.users.francis = {
+    home.packages = [
+      pkgs.unstable.spotify-tui
+    ];
     services.spotifyd = {
       enable = true;
       settings = {
         global = {
           username = "francis.begyn@gmail.com";
-          password_cmd = "pass entertainement/spotify";
+          password_cmd = "/home/francis/.nix-profile/bin/pass entertainment/spotify";
           device_name = "spotifyd";
           device_type = "computer";
           cache_path = "/home/francis/.cache/spotify/Storage";
