@@ -11,7 +11,7 @@
           address = "francis@begyn.be";
           userName = "francis@begyn.be";
           realName = "Francis Begyn";
-          passwordCommand = "pass mailwizard-francis@begyn.be";
+          passwordCommand = "${pkgs.pass}/bin/pass mailwizard-francis@begyn.be";
           imap.host = "imap.fastmail.com";
           smtp.host = "smtp.fastmail.com";
           notmuch.enable = true;
@@ -27,7 +27,7 @@
           address = "francis.begyn@gmail.com";
           userName = "francis.begyn@gmail.com";
           realName = "Francis Begyn";
-          passwordCommand = "pass mailwizard-francis.begyn@gmail.com";
+          passwordCommand = "${pkgs.pass}/bin/pass mailwizard-francis.begyn@gmail.com";
           imap.host = "imap.gmail.com";
           smtp.host = "smtp.gmail.com";
           notmuch.enable = true;
@@ -42,7 +42,7 @@
           address = "francis.begyn@studentkickoff.be";
           userName = "francis.begyn@studentkickoff.be";
           realName = "Francis Begyn";
-          passwordCommand = "pass mailwizard-francis.begyn@studentkickoff.be";
+          passwordCommand = "${pkgs.pass}/bin/pass mailwizard-francis.begyn@studentkickoff.be";
           imap.host = "outlook.office365.com";
           smtp.host = "smtp.office365.com";
           notmuch.enable = true;
@@ -62,7 +62,7 @@
           address = "francis.begyn@ugent.be";
           userName = "francis.begyn@ugent.be";
           realName = "Francis Begyn";
-          passwordCommand = "pass mailwizard-francis.begyn@ugent.be";
+          passwordCommand = "${pkgs.pass}/bin/pass mailwizard-francis.begyn@ugent.be";
           imap.host = "outlook.office365.com";
           smtp.host = "smtp.office365.com";
           notmuch.enable = true;
@@ -70,7 +70,9 @@
             enable = true;
             create = "both";
             expunge = "both";
-            patterns = ["Archive" "Drafts" "Deleted Items" "Sent Items" "Junk Email" "Inbox"];
+            patterns = [
+              "*"
+            ];
           };
           folders = {
             trash = "Deleted Items";
