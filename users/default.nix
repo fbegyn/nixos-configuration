@@ -18,6 +18,8 @@
       "libvirtd"
       "adbusers"
       "input"
+      "lp"
+      "scanner"
     ];
     group = "francis";
     shell = pkgs.fish;
