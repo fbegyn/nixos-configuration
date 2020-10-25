@@ -14,7 +14,6 @@
     ./configurations/neuron.nix
     ./configurations/nvim/default.nix
     ./configurations/spotifyd.nix
-    ./configurations/mail
     ./qalculate.nix
   ];
 
