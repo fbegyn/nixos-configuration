@@ -1,12 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  comma = import (pkgs.fetchFromGitHub {
-    owner = "Shopify";
-    repo = "comma";
-    rev = "4a62ec17e20ce0e738a8e5126b4298a73903b468";
-    sha256 = "0n5a3rnv9qnnsrl76kpi6dmaxmwj1mpdd2g0b4n1wfimqfaz6gi1";
-  }) { };
+  comma = import (builtins.fetchTarball "https://github.com/Shopify/comma/archive/60a4cf8ec5c93104d3cfb9fc5a5bac8fb18cc8e4.tar.gz") { inherit pkgs; };
 in {
   imports = [
     <home-manager/nixos>
