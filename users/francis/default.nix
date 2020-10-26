@@ -18,6 +18,7 @@ in {
     ./configurations/starship.nix
     ./configurations/fzf.nix
     ./configurations/josm.nix
+    ./configurations/network-tools.nix
     ../../common/unstable.nix
     ./ssh.nix
   ];
