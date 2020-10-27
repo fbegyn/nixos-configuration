@@ -3,7 +3,7 @@
 {
   imports = [ ./emacs-init.nix ];
 
-  home.file."bin/e" = {
+  home.file.".local/bin/e" = {
     text = ''
       #!/bin/sh
       emacsclient -a "" -nc $@
