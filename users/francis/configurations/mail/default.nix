@@ -2,7 +2,6 @@
 
 {
   home-manager.users.francis = {
-
     accounts.email = {
       maildirBasePath = ".mail";
       accounts = {

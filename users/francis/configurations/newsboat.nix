@@ -1,5 +1,5 @@
 {
-  home-manager.users.francis.programs.newsboat = {
+  programs.newsboat = {
     enable = true;
     urls = [
       { url = https://lobste.rs/rss; }

@@ -41,58 +41,56 @@ let
   };
 in
 {
-  home-manager.users.francis = { pkgs, ... }: {
-    home.sessionVariables = { EDITOR = "nvim"; };
-    home.packages = with pkgs; [
-      rnix-lsp
+  home.sessionVariables = { EDITOR = "nvim"; };
+  home.packages = with pkgs; [
+    rnix-lsp
+  ];
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    plugins = with pkgs.vimPlugins // customPlugins; [
+    	limelight-vim
+      fugitive
+      gitgutter
+      multiple-cursors
+      fzf-vim
+      airline
+      surround
+      vim-better-whitespace
+      auto-pairs
+      indentLine
+      tmux-navigator
+      goyo-vim
+      vimtex
+      vim-go
+      The_NERD_tree
+      #nerdtree-git-plugin
+      coc-nvim
+      vim-neuron
+      vim-zettel
+      vim-ledger
+      vim-nix
     ];
-    programs.neovim = {
-      enable = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      plugins = with pkgs.vimPlugins // customPlugins; [
-      	limelight-vim
-        fugitive
-        gitgutter
-        multiple-cursors
-        fzf-vim
-        airline
-        surround
-        vim-better-whitespace
-        auto-pairs
-        indentLine
-        tmux-navigator
-        goyo-vim
-        vimtex
-        vim-go
-        The_NERD_tree
-        #nerdtree-git-plugin
-        coc-nvim
-        vim-neuron
-        vim-zettel
-        vim-ledger
-        vim-nix
-      ];
-      extraConfig = ''
-        ${general}
-        ${srcry}
-        ${colors}
-        ${movements}
-        ${tabsbufs}
+    extraConfig = ''
+      ${general}
+      ${srcry}
+      ${colors}
+      ${movements}
+      ${tabsbufs}
 
-        ${go}
-        ${rust}
+      ${go}
+      ${rust}
 
 
-        ${nerdtree}
-        ${ctrlp}
-        ${indentline}
-        ${multicursor}
-        ${goyo}
-        ${vimzettel}
+      ${nerdtree}
+      ${ctrlp}
+      ${indentline}
+      ${multicursor}
+      ${goyo}
+      ${vimzettel}
 
-        ${goplugin}
-      '';
-    };
+      ${goplugin}
+    '';
   };
 }
