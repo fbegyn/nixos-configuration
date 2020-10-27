@@ -3,12 +3,21 @@
 {
   imports = [ ./emacs-init.nix ];
 
-  home.file.".local/bin/e" = {
-    text = ''
-      #!/bin/sh
-      emacsclient -a "" -nc $@
-    '';
-    executable = true;
+  home.file = {
+    ".local/bin/e" = {
+      text = ''
+        #!/bin/sh
+        emacsclient -t -a "" $@
+      '';
+      executable = true;
+    };
+    ".local/bin/ew" = {
+      text = ''
+        #!/bin/sh
+        emacsclient -a "" -nc $@
+      '';
+      executable = true;
+    };
   };
 
   services.emacs.enable = true;
@@ -389,6 +398,10 @@
         web-mode = {
           enable = true;
           mode = [ ''"\\.html\\'"'' ''"\\.tmpl\\'"'' ];
+        };
+
+        ledger-mode = {
+          enable = true;
         };
 
         ob.enable = true;
