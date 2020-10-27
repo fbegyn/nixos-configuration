@@ -1,10 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    <home-manager/nixos>
-    ./francis
-  ];
+  imports = [<home-manager/nixos>];
 
   # user francis
   users.groups.francis.gid = 1000;
@@ -26,5 +23,9 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL+xR6Eik2A8Ofzdbl6uosvr9k0w6gO54n3AQa+bpaz5 francis@francis-xps13"
     ];
+  };
+
+  home-manager.users = {
+    francis = (import ./francis/core.nix);
   };
 }

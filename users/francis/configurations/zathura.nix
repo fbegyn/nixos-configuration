@@ -1,9 +1,7 @@
 { ... }:
 
 {
-  home-manager.users.francis = {
-    programs.zathura = {
-      enable = true;
-    };
+  programs.zathura = {
+    enable = true;
   };
 }

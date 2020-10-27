@@ -18,7 +18,7 @@
     ../../common/printer.nix
     ../../common/scanner.nix
     ../../users
-    ../../users/francis/gui.nix
+    ../../users/francis
     ../../users/francis/configurations/i3
     ../../users/francis/configurations/mail
   ];

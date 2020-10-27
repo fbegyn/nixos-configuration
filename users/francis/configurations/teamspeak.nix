@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home-manager.users.francis.home.packages = [
+  home.packages = [
     pkgs.unstable.teamspeak_client
   ];
 }
