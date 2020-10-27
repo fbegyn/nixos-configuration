@@ -65,10 +65,8 @@ in
         goyo-vim
         vimtex
         vim-go
-        #deoplete-nvim
         The_NERD_tree
-        nerdtree-git-plugin
-        #LanguageClient-neovim
+        #nerdtree-git-plugin
         coc-nvim
         vim-neuron
         vim-zettel
