@@ -402,6 +402,11 @@
 
         ledger-mode = {
           enable = true;
+          mode = [''"\\.journal\\'"''];
+        };
+
+        puppet-mode = {
+          enable = true;
         };
 
         ob.enable = true;
