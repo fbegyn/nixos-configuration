@@ -339,9 +339,7 @@
 
         swiper = {
           enable = true;
-
           bindStar = { "C-s" = "swiper"; };
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -388,26 +386,6 @@
           mode = [ ''"\\.toml\\'"'' ];
         };
 
-        zig-mode = {
-          enable = true;
-          mode = [ ''"\\.zig\\'"'' ];
-        };
-
-        nov = {
-          enable = true;
-          mode = [ ''"\\.epub\\'"'' ];
-        };
-
-        nim-mode = {
-          enable = true;
-          mode = [ ''"\\.nim\\'"'' ];
-
-          config = ''
-            (add-hook 'nim-mode-hook 'nimsuggest-mode)
-            (add-hook 'nimsuggest-mode-hook 'company-mode)
-          '';
-        };
-
         web-mode = {
           enable = true;
           mode = [ ''"\\.html\\'"'' ''"\\.tmpl\\'"'' ];
@@ -425,7 +403,6 @@
 
         highlight-indent-guides = {
           enable = true;
-
           config = ''
             (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
           '';
