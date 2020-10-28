@@ -408,6 +408,15 @@
           enable = true;
         };
 
+        elxir-mode = {
+          enable = true;
+          mode = [''"\\.ex'"''];
+        };
+
+        alchemist = {
+          enable = true;
+        };
+
         ob.enable = true;
         org-download.enable = true;
         org.enable = true;
