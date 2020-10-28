@@ -417,6 +417,15 @@
           enable = true;
         };
 
+        elpy = {
+          enable = true;
+          mode = [''"\\.py'"''];
+        };
+
+        virtualenvwrapper = {
+          enable = true;
+        };
+
         ob.enable = true;
         org-download.enable = true;
         org.enable = true;
