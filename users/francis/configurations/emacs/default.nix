@@ -380,11 +380,6 @@
           mode = [ ''"\\.dhall\\'"'' ];
         };
 
-        moonscript = {
-          enable = true;
-          mode = [ ''"\\.moon\\'"'' ];
-        };
-
         rust-mode = {
           enable = true;
           mode = [ ''"\\.rs\\'"'' ];
