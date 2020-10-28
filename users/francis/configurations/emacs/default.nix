@@ -405,6 +405,10 @@
           mode = [''"\\.journal\\'"''];
         };
 
+        neuron-mode = {
+          enable = true;
+        };
+
         puppet-mode = {
           enable = true;
         };
