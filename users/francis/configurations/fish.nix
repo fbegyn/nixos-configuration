@@ -17,19 +17,19 @@
     loginShellInit = ''
       set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
       set -Ux BROWSER qutebrowser
-      set -Ux EDITOR nvim
-      set -Ua fish_user_paths ~/.local/bin
-      set -Ua fish_user_paths ~/.cargo/bin
-      set -Ua fish_user_paths ~/go/bin
+      set -Uxa PATH $HOME/.local/bin
+      set -Uxa PATH $HOME/go/bin
+      set -Uxa PATH $HOME/.cargo/bin
+      set -Ux GOPATH $HOME/go
       # wayland variables
-      set -Ua XDG_SESSION_TYPE wayland
-      set -Ua QT_WAYLAND_DISABLE_WINDOWDECORATION 1
-      set -Ua QT_AUTO_SCREEN_SCALE_FACTOR 0
-      set -Ua QT_SCALE_FACTOR 1
-      set -Ua GDK_SCALE 1
-      set -Ua GDK_DPI_SCALE 1
-      set -Ua MOZ_ENABLE_WAYLAND 1
-      set -Ua _JAVA_AWT_WM_NONREPARENTING 1
+      set -Uxa XDG_SESSION_TYPE wayland
+      set -Uxa QT_WAYLAND_DISABLE_WINDOWDECORATION 1
+      set -Uxa QT_AUTO_SCREEN_SCALE_FACTOR 0
+      set -Uxa QT_SCALE_FACTOR 1
+      set -Uxa GDK_SCALE 1
+      set -Uxa GDK_DPI_SCALE 1
+      set -Uxa MOZ_ENABLE_WAYLAND 1
+      set -Uxa _JAVA_AWT_WM_NONREPARENTING 1
     '';
     plugins = [
       {

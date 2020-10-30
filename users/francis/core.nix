@@ -62,6 +62,7 @@ in {
     spotify
     unstable.playerctl
     # Utilities
+    go-tools
     gimp
     ltunify
     gnome3.nautilus
