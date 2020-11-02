@@ -54,6 +54,7 @@ in {
     # Comms
     slack
     mattermost-desktop
+    discord
     # Browser
     unstable.firefox
     unstable.qutebrowser
