@@ -159,8 +159,8 @@ in
         # Set terminal
         set $terminal alacritty
         # start a terminal
-        bindsym $mod+Shift+Return exec $terminal
-        bindsym $mod+Return exec $terminal -e tmux new-session -A -s main
+        bindsym $mod+Return exec $terminal
+        bindsym $mod+Shift+Return exec $terminal -e tmux new-session -A -s main
         # kill focused window
         bindsym $mod+Shift+q kill
         # start dmenu (a program launcher)

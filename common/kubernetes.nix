@@ -6,5 +6,6 @@
     unstable.kubectx
     unstable.stern
     unstable.kubernetes-helm
+    unstable.k9s
   ];
 }
