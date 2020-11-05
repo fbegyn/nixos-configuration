@@ -80,7 +80,7 @@ in {
     unstable.reflex
     unstable.thunderbird-78
     libqalculate
-    nixops
+    unstable.nixops
     unstable.htop
     iftop
     clang
