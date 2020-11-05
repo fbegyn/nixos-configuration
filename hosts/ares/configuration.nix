@@ -22,9 +22,11 @@
       # load in set of services to run
       ../../services/grafana
       ../../services/prometheus
-      ../../services/corerad
+      #../../services/corerad
       ../../services/coredns
       ../../services/unifi
+      ../../services/traefik
+      ../../services/consul
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -37,6 +39,7 @@
     interfaces = [ "wlp3s0" ];
   };
 
+  # nixops 2 - non-root running
   nix.trustedUsers = ["francis"];
   users.users.francis.extraGroups = ["wheel"];
   security.sudo.wheelNeedsPassword = false;
@@ -130,7 +133,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.03"; # Did you read the comment?
+  system.stateVersion = "20.09"; # Did you read the comment?
 
 }
 

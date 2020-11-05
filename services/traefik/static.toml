@@ -1,0 +1,29 @@
+[providers.consul]
+    endpoints = ["10.3.10.10:8500"]
+
+[entryPoints]
+    [entryPoints.web]
+    address = ":80"
+            [entryPoints.web.http.redirections]
+                [entryPoints.web.http.redirections.entryPoint]
+                    to = "web-secure"
+                    scheme = "https"
+    [entryPoints.web-secure]
+    address = ":443"
+            [entryPoints.web-secure.transport]
+                [entryPoints.web-secure.transport.respondingTimeouts]
+                    readTimeout = 43
+                    writeTimeout = 43
+
+[certificateResolvers.personal.acme]
+    email = "francis.begyn@gmail.com"
+    storage = "acme.json"
+    [certificateResolvers.personal.acme.httpChallenge]
+        entryPoint = "web"
+
+[metrics]
+    [metrics.prometheus]
+        manualRouting = true
+
+[api]
+    dashboard = true
