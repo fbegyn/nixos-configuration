@@ -8,6 +8,16 @@ let
     inherit scheme;
     static_configs = [{ inherit targets; }];
   });
+  consulScrape = (job_name: scheme: services: {
+    inherit job_name;
+    inherit scheme;
+    consul_sd_configs = [
+      {
+        inherit services;
+        server = "10.3.10.10:8500";
+      }
+    ];
+  });
 in
 {
   nixpkgs.overlays = [
@@ -49,11 +59,11 @@ in
     };
 
     scrapeConfigs = [
-      (staticScrape "website" "https" [
-        "francis.begyn.be"
+      (consulScrape "coredns" "http" [
+        "coredns"
       ])
-      (staticScrape "corerad" "http" [
-        "localhost:9430"
+      (consulScrape "website" "https" [
+        "website"
       ])
     ];
   };
