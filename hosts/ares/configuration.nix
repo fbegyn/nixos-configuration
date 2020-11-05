@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../secrets/wireless.nix
+      #../../secrets/wireless.nix
       ../../common/base.nix
       ../../common/security.nix
       ../../common/pulseaudio.nix
@@ -33,7 +33,7 @@
 
   networking.hostName = "ares"; # Define your hostname.
   networking.wireless = {
-    enable = true;
+    enable = false;
     interfaces = [ "wlp3s0" ];
   };
 
