@@ -344,6 +344,10 @@
           '';
         };
 
+        column-enfore-mode = {
+          enable = true;
+        };
+
         protobuf-mode = { enable = true; };
 
         swiper = {
