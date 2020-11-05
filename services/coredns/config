@@ -3,7 +3,6 @@
         tls_servername cloudflare-dns.com
         health_check 5s
     }
-    prometheus
     log
     errors
     cache
@@ -11,13 +10,14 @@
 
 (forward-opennic) {
     forward . 185.121.177.177 169.239.202.202
-    prometheus
     log
     errors
     cache
 }
 
 . {
+    prometheus 10.3.2.2:9153
+
     auto begyn.lan {
         directory /etc/coredns/zones
     }
