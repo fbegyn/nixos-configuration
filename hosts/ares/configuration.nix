@@ -27,6 +27,9 @@
       ../../services/unifi
       ../../services/traefik
       ../../services/consul
+      ../../services/node-exporter
+      ../../services/blackbox-exporter
+      ../../services/snmp-exporter
     ];
 
   # Use the systemd-boot EFI boot loader.
