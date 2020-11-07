@@ -19,7 +19,6 @@
       executable = true;
     };
   };
-
   services.emacs.enable = true;
   programs.emacs = {
     enable = true;
@@ -37,6 +36,11 @@
         '';
       in emacsFont + ''
         (require 'bind-key)
+
+        (require 'whitespace)
+        (setq whitespace-line-column 81)
+        (setq whitespace-style '(face empty tabs lines-tail trailing))
+        (global-whitespace-mode t)
 
         (setq inhibit-startup-screen t)
 
@@ -71,7 +75,7 @@
         (setq coding-system-for-read 'utf-8 )	; use utf-8 by default
         (setq coding-system-for-write 'utf-8 )
         (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-        (setq default-fill-column 80)		; toggle wrapping text at the 80th character
+        (setq-default fill-column 80)		; toggle wrapping text at the 80th character
         (setq initial-scratch-message "coi") ; print a default message in the empty scratch buffer opened at startup
 
         (defun chomp (str)
