@@ -37,11 +37,6 @@
       in emacsFont + ''
         (require 'bind-key)
 
-        (require 'whitespace)
-        (setq whitespace-line-column 81)
-        (setq whitespace-style '(face empty tabs lines-tail trailing))
-        (global-whitespace-mode t)
-
         (setq inhibit-startup-screen t)
 
         (menu-bar-mode -1)
