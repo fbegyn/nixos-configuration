@@ -70,6 +70,7 @@ in
         scheme = "http";
         metrics_path = "/probe";
         scrape_interval = "30m";
+        scrape_timeout = "5m";
         consul_sd_configs = [
           {
             server = "10.3.10.10:8500";
