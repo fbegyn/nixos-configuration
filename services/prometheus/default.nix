@@ -65,21 +65,13 @@ in
       (consulScrape "website" "https" [
         "website"
       ])
-      {
-        job_name = "speedtest";
-        scheme = "http";
+      ((consulScrape "speedtest" "http" [
+        "speedtest-exporter"
+      ]) // {
         metrics_path = "/probe";
         scrape_interval = "30m";
         scrape_timeout = "5m";
-        consul_sd_configs = [
-          {
-            server = "10.3.10.10:8500";
-            services = [
-                "speedtest-exporter"
-            ];
-          }
-        ];
-      }
+      })
     ];
   };
 }
