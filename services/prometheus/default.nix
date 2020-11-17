@@ -65,6 +65,13 @@ in
       (consulScrape "website" "https" [
         "website"
       ])
+      ((consulScrape "speedtest" "http" [
+        "speedtest-exporter"
+      ]) // {
+        metrics_path = "/probe";
+        scrape_interval = "30m";
+        scrape_timeout = "5m";
+      })
     ];
   };
 }
