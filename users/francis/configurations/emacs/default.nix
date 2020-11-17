@@ -303,6 +303,14 @@
           ];
         };
 
+        yaml-mode = {
+          enable = true;
+          mode = [
+            ''"\\.yml\\'"''
+            ''"\\.yaml\\'"''
+          ];
+        };
+
         nix = { enable = true; };
 
         nix-mode = {
