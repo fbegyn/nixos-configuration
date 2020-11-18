@@ -1,7 +1,7 @@
 { pkgs }:
 
 pkgs.writeScriptBin "startsway" ''
-  #!${pkgs.bash}/bin/bash
+  #!${pkgs.fish}/bin/fish
   systemctl --user import-environment
-  systemctl --user start sway
+  exec systemctl --user start sway
 ''
