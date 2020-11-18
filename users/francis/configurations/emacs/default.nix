@@ -29,7 +29,7 @@
       recommendedGcSettings = true;
 
       prelude = let
-        fontSize = if pkgs.stdenv.isDarwin then "15" else "14";
+        fontSize = "15";
         emacsFont = ''
           (when window-system
             (set-frame-font "Hack ${fontSize}"))
@@ -70,7 +70,7 @@
         (setq coding-system-for-read 'utf-8 )	; use utf-8 by default
         (setq coding-system-for-write 'utf-8 )
         (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-        (setq-default fill-column 80)		; toggle wrapping text at the 80th character
+        (setq-default fill-column 81)		; toggle wrapping text at the 81th character
         (setq initial-scratch-message "coi") ; print a default message in the empty scratch buffer opened at startup
 
         (defun chomp (str)
