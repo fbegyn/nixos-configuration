@@ -16,6 +16,7 @@ in
       waybarsh
       waybar-spotify
       waybar-storage
+      startsway
 
       # sway tooling
       unstable.swaylock # lockscreen
@@ -25,16 +26,14 @@ in
       unstable.grim
       unstable.wl-clipboard
       unstable.wofi
+      unstable.autotiling
+      unstable.gammastep
       wf-recorder
       xwayland # for legacy apps
       kanshi # autorandr
       libappindicator-gtk3
       wdisplays
     ];
-
-    services.redshift = {
-      package = pkgs.unstable.redshift-wlr;
-    };
 
     xdg.configFile = {
       "mako/config".text = ''
@@ -47,9 +46,7 @@ in
 
     programs.fish = {
       loginShellInit = ''
-        sleep 1
         systemctl --user import-environment
-        exec sway
       '';
     };
 
@@ -57,7 +54,6 @@ in
       enable = true;
       systemdIntegration = true;
       extraSessionCommands = ''
-        systemctl --user import-environment
         export XDG_SESSION_TYPE=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         export QT_AUTO_SCREEN_SCALE_FACTOR=0
@@ -212,7 +208,7 @@ in
         output $laptop_display pos 0 1080 res 1920x1080
 
         # hide cursor after time
-        # seat seat0 hide_cursor 2500
+        seat seat0 hide_cursor 2500
 
         # set global modifier to windows key
         set $mod Mod4

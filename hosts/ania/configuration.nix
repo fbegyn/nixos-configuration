@@ -23,7 +23,8 @@
     ../../common/openvpn.nix
     ../../users
     ../../users/francis
-    ../../users/francis/configurations/i3
+    #../../users/francis/configurations/i3
+    ../../users/francis/configurations/sway
   ];
 
   # Use the systemd-boot EFI boot loader.

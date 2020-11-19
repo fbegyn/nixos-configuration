@@ -7,7 +7,6 @@ in {
     ./python.nix
     ./configurations/mpv
     ./configurations/newsboat.nix
-    ./configurations/redshift.nix
     ./configurations/direnv.nix
     ./configurations/zathura.nix
     ./configurations/udiskie.nix
@@ -39,19 +38,18 @@ in {
     "mimeapps.list".source = ./configurations/mimeapps.list;
   };
 
-  services = {
-    unclutter = {
-      enable = true;
-      timeout = 5;
-    };
-  };
-
   programs.go = {
     enable = true;
     goPath = "go";
   };
 
   programs.home-manager.enable = true;
+
+  home.sessionPath = [
+    "~/go/bin"
+    "~/.local/bin"
+    "~/.cargo/bin"
+  ];
 
   home.packages = with pkgs; [
     nodejs
