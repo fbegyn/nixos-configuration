@@ -7,29 +7,29 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
-  programs.waybar.enable = true;
-
   hardware.opengl.enable = true;
 
   home-manager.users.francis = {
     home.packages = with pkgs; [
-      unstable.swaylock # lockscreen
-      unstable.swayidle
-      wf-recorder
-      xwayland # for legacy apps
+      # waybar + scripts
       unstable.waybar # status bar
-      unstable.mako # notification daemon
-      kanshi # autorandr
-      libappindicator-gtk3
       waybarsh
       waybar-spotify
       waybar-storage
-      startsway
+
+      # sway tooling
+      unstable.swaylock # lockscreen
+      unstable.swayidle
+      unstable.mako # notification daemon
       unstable.slurp
       unstable.grim
       unstable.wl-clipboard
-      wdisplays
       unstable.wofi
+      wf-recorder
+      xwayland # for legacy apps
+      kanshi # autorandr
+      libappindicator-gtk3
+      wdisplays
     ];
 
     services.redshift = {
@@ -43,6 +43,14 @@ in
       '';
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
+    };
+
+    programs.fish = {
+      loginShellInit = ''
+        sleep 1
+        systemctl --user import-environment
+        exec sway
+      '';
     };
 
     wayland.windowManager.sway = {
@@ -90,7 +98,7 @@ in
           newWindow = "smart";
         };
         menu = "rofi -show drun";
-        fonts = [ "DejaVu Sans Mono 10" ];
+        fonts = [ "Hack 10" ];
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us";
@@ -108,9 +116,35 @@ in
             terminal = wm.config.terminal;
             menu = wm.config.menu;
           in
-            {
-              "${mod}+Return" = "exec ${terminal}";
+            lib.mkOptionDefault {
               "${mod}+Shift+Return" = "exec ${terminal} -e tmux new-session -A main";
+              "${mod}+a" = "exec rofi -show window";
+
+              "${mod}+1" = "workspace 1:web";
+              "${mod}+2" = "workspace 2:comms";
+              "${mod}+3" = "workspace 3:mail";
+              "${mod}+4" = "workspace 4:music";
+              "${mod}+5" = "workspace 5:video";
+              "${mod}+6" = "workspace 6:ide";
+              "${mod}+7" = "workspace 7:files";
+              "${mod}+8" = "workspace 8:workplace";
+              "${mod}+9" = "workspace 9:terminal";
+              "${mod}+Shift+1" = "move container to workspace 1:web";
+              "${mod}+Shift+2" = "move container to workspace 2:comms";
+              "${mod}+Shift+3" = "move container to workspace 3:mail";
+              "${mod}+Shift+4" = "move container to workspace 4:music";
+              "${mod}+Shift+5" = "move container to workspace 5:video";
+              "${mod}+Shift+6" = "move container to workspace 6:ide";
+              "${mod}+Shift+7" = "move container to workspace 7:files";
+              "${mod}+Shift+8" = "move container to workspace 8:workplace";
+              "${mod}+Shift+9" = "move container to workspace 9:terminal";
+
+              "${mod}+w" = "exec /home/francis/Scripts/wpa_switcher.sh";
+
+              "Mod1+Shift+h" = "move workspace to output right";
+              "Mod1+Shift+j" = "move workspace to output down";
+              "Mod1+Shift+k" = "move workspace to output up";
+              "Mod1+Shift+l" = "move workspace to output left";
         };
         keycodebindings = { };
         modes = {
@@ -121,6 +155,15 @@ in
             j = "resize grow height 10 px";
             k = "resize shrink height 10 px";
             l = "resize grow width 10 px";
+          };
+          "System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown" = {
+            Return = "mode default";
+            Escape = "mode default";
+            l = "exec --no-startup-id swaylock -c0000000, mode default";
+            e = "exec --no-startup-id i3-msg exit, mode default";
+            s = "exec --no-startup-id systemctl suspend, mode default";
+            r = "exec --no-startup-id systemctl reboot, mode default";
+            "Shift+s" = "exec --no-startup-id systemctl poweroff -i, mode default";
           };
         };
         modifier = "Mod4";
@@ -161,60 +204,39 @@ in
         workspaceLayout = "default";
       };
       extraConfig = ''
-        xwayland enable
         # set wallpaper
         output "*" background ~/Pictures/wallpapers/background.jpg fill
+
         # monitor config
         set $laptop_display eDP-1
         output $laptop_display pos 0 1080 res 1920x1080
+
         # hide cursor after time
         # seat seat0 hide_cursor 2500
+
         # set global modifier to windows key
         set $mod Mod4
+
         # Hide border if only 1 window
         hide_edge_borders smart
+
         # color scheme
         client.focused              #d75f00	#1c1b19	#ffffff	#2e9ef4	#ff8700
         client.focused_inactive	    #333333	#5f676a	#ffffff	#484e50	#5f676a
         client.unfocused	          #333333	#1c1b19	#888888	#292d2e	#222222
         client.urgent	              #f75341	#ef2f27	#1c1b19	#900000	#f75341
         client.placeholder	        #000000	#0c0c0c	#ffffff	#000000	#0c0c0c
+
         # Use Mouse+$mod to drag floating windows to their wanted position
         floating_modifier $mod
+
         # Set terminal
         set $terminal alacritty
-        # start a terminal
-        # kill focused window
-        bindsym $mod+Shift+q kill
-        bindsym $mod+a exec rofi -show window
-        # change focus
-        bindsym $mod+h focus left
-        bindsym $mod+j focus down
-        bindsym $mod+k focus up
-        bindsym $mod+l focus right
-        # alternatively, you can use the cursor keys:
-        bindsym $mod+Left focus left
-        bindsym $mod+Down focus down
-        bindsym $mod+Up focus up
-        bindsym $mod+Right focus right
-        # move focused window
-        bindsym $mod+Shift+h move left
-        bindsym $mod+Shift+j move down
-        bindsym $mod+Shift+k move up
-        bindsym $mod+Shift+l move right
+
         # split the window
-        bindsym $mod+b splith
-        bindsym $mod+v splitv
         # change container layout (stacked, tabbed, toggle split)
-        bindsym $mod+e layout toggle split
-        bindsym $mod+s layout stacking
         bindsym $mod+z layout tabbed
-        # set window to fullscreen
-        bindsym $mod+f fullscreen
-        # toggle tiling / floating
-        bindsym $mod+Shift+space floating toggle
-        # change focus between tiling / floating windows
-        bindsym $mod+space focus mode_toggle
+
         # Workspace bindings
         set $workspace1 1:web
         set $workspace2 2:comms
@@ -223,55 +245,17 @@ in
         set $workspace5 5:video
         set $workspace6 6:ide
         set $workspace7 7:files
-        set $workspace8 8
+        set $workspace8 8:workplace
         set $workspace9 9:terminal
-        set $workspace10 0
-        # switch to workspace
-        bindsym $mod+1 workspace $workspace1
-        bindsym $mod+2 workspace $workspace2
-        bindsym $mod+3 workspace $workspace3
-        bindsym $mod+4 workspace $workspace4
-        bindsym $mod+5 workspace $workspace5
-        bindsym $mod+6 workspace $workspace6
-        bindsym $mod+7 workspace $workspace7
-        bindsym $mod+8 workspace $workspace8
-        bindsym $mod+9 workspace $workspace9
-        bindsym $mod+0 workspace $workspace10
-        # move focused container to workspace
-        bindsym $mod+Shift+1 move container to workspace $workspace1
-        bindsym $mod+Shift+2 move container to workspace $workspace2
-        bindsym $mod+Shift+3 move container to workspace $workspace3
-        bindsym $mod+Shift+4 move container to workspace $workspace4
-        bindsym $mod+Shift+5 move container to workspace $workspace5
-        bindsym $mod+Shift+6 move container to workspace $workspace6
-        bindsym $mod+Shift+7 move container to workspace $workspace7
-        bindsym $mod+Shift+8 move container to workspace $workspace8
-        bindsym $mod+Shift+9 move container to workspace $workspace9
-        bindsym $mod+Shift+0 move container to workspace $workspace10
-        # move workspace across monitors
-        bindsym Mod1+Shift+h move workspace to output right
-        bindsym Mod1+Shift+j move workspace to output down
-        bindsym Mod1+Shift+k move workspace to output up
-        bindsym Mod1+Shift+l move workspace to output left
+
         # reload the configuration file
         bindsym $mod+Shift+r reload
-        # exit i3 (logs you out of your X session)
-        bindsym $mod+Shift+e exec "swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your sway session.' -b 'Yes, exit sway' 'swaymsg exit'"
-        set $locker swaylock -c 000000
+
         #System menu
         set $mode_system System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown
-        mode "$mode_system" {
-            bindsym l exec --no-startup-id $locker, mode "default"
-            bindsym e exec --no-startup-id i3-msg exit, mode "default"
-            bindsym s exec --no-startup-id systemctl suspend, mode "default"
-            bindsym r exec --no-startup-id systemctl reboot, mode "default"
-            bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
-            # back to normal: Enter or Escape
-            bindsym Return mode "default"
-            bindsym Escape mode "default"
-        }
         bindsym $mod+Pause mode "$mode_system"
         #bindswitch lid:on exec systemctl suspend
+
         # idle config
         # Idle configuration
         exec swayidle -w \
@@ -282,10 +266,12 @@ in
                 resume 'swaymsg "output dpms * on"' \
         before-sleep 'exec $locker -f' \
         after-resume 'swaymsg "output dpms * on"'
+
         # disable laptop output on lid close
         # enabling this, then I should disabl the logind handlers
         bindswitch --reload lid:on output $laptop_display disable
         bindswitch --reload lid:off output $laptop_display enable
+
         # Screenshot menu
         set $screen_grab s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
         mode "$screen_grab" {
@@ -301,21 +287,28 @@ in
             bindsym Escape mode "default"
         }
         bindsym $mod+grave mode "$screen_grab"
+
         # Make the current window stick acroos workspaces
         bindsym $mod+Shift+s sticky toggle
+
         # Tiny sticky window
         bindsym $mod+y floating toggle; resize set 424 212; sticky toggle; move window to position 1490 5;
         for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
+
         # Immediately play youtube from rofi output
         bindsym $mod+p exec rofi-pass
+
         # Reload monitor config
         bindsym $mod+Shift+m exec --no-startup-id /home/francis/Scripts/monitor-hotplug.sh
+
         # Screen lock
         bindsym Mod1+l exec $locker
+
         # Volume control
         bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -2
         bindsym XF86AudioRaiseVolume exec pulsemixer --change-volume +2
         bindsym XF86AudioMute exec pulsemixer --toggle-mute
+
         # Media control
         bindsym Shift+XF86AudioPlay exec mpc toggle # Mopidy bindings
         bindsym Shift+XF86AudioNext exec mpc next
@@ -323,11 +316,10 @@ in
         bindsym XF86AudioPlay exec playerctl play-pause # Spotify bindings
         bindsym XF86AudioNext exec playerctl next
         bindsym XF86AudioPrev exec playerctl previous
+
         # Brightness control
         bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -e s 10%-
         bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -e s +10%
-        # Bind wifi switching script
-        bindsym $mod+w exec /home/francis/Scripts/wpa_switcher.sh
       '';
     };
   };
