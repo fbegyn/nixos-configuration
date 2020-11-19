@@ -64,6 +64,20 @@ in
         export _JAVA_AWT_WM_NONREPARENTING=1
       '';
       config = {
+        fonts = [ "Hack 10" ];
+        terminal = "alacritty";
+        menu = "rofi -show drun";
+        modifier = "Mod4";
+        input = {
+          "1:1:AT_Translated_Set_2_keyboard" = {
+            xkb_layout = "us";
+            xkb_variant = "altgr-intl";
+            xkb_numlock = "disabled";
+          };
+          "2:10:TPPS/2_Elan_TrackPoint" = {
+            pointer_accel = "-0.17";
+          };
+        };
         assigns = {
           "1:web" = [{ class = "^qutebrowser$"; }];
           "2:comms" = [
@@ -93,24 +107,17 @@ in
           mouseWarping = true;
           newWindow = "smart";
         };
-        menu = "rofi -show drun";
-        fonts = [ "Hack 10" ];
-        input = {
-          "1:1:AT_Translated_Set_2_keyboard" = {
-            xkb_layout = "us";
-            xkb_variant = "altgr-intl";
-            xkb_numlock = "disabled";
-          };   
-          "2:10:TPPS/2_Elan_TrackPoint" = {
-            pointer_accel = "-0.17";
-          };
-        };
+        up = "k";
+        down = "j";
+        right = "l";
+        left = "h";
         keybindings =
           let
             wm = config.home-manager.users.francis.wayland.windowManager.sway;
             mod = wm.config.modifier;
             terminal = wm.config.terminal;
             menu = wm.config.menu;
+            locker = "swaylock -c 000000";
           in
             lib.mkOptionDefault {
               "${mod}+Shift+Return" = "exec ${terminal} -e tmux new-session -A main";
@@ -141,6 +148,8 @@ in
               "Mod1+Shift+j" = "move workspace to output down";
               "Mod1+Shift+k" = "move workspace to output up";
               "Mod1+Shift+l" = "move workspace to output left";
+
+              "Mod1+l" = "exec ${locker}";
         };
         keycodebindings = { };
         modes = {
@@ -162,7 +171,6 @@ in
             "Shift+s" = "exec --no-startup-id systemctl poweroff -i, mode default";
           };
         };
-        modifier = "Mod4";
         startup = [
           {
             command = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=2";
@@ -171,12 +179,13 @@ in
             command = "sway-statusbar.sh";
             always = true;
           }
+          {
+            command = "gammastep -l 51.038292:3.712173";
+          }
+          {
+            command = "autotiling";
+          }
         ];
-        terminal = "alacritty";
-        up = "k";
-        down = "j";
-        right = "l";
-        left = "h";
         window = {
           border = 2;
           commands = [
@@ -194,7 +203,7 @@ in
             }
           ];
           hideEdgeBorders = "none";
-          titlebar = true;
+          titlebar = false;
         };
         workspaceAutoBackAndForth = true;
         workspaceLayout = "default";
@@ -212,6 +221,8 @@ in
 
         # set global modifier to windows key
         set $mod Mod4
+
+        set $locker swaylock -c 000000
 
         # Hide border if only 1 window
         hide_edge_borders smart
@@ -296,9 +307,6 @@ in
 
         # Reload monitor config
         bindsym $mod+Shift+m exec --no-startup-id /home/francis/Scripts/monitor-hotplug.sh
-
-        # Screen lock
-        bindsym Mod1+l exec $locker
 
         # Volume control
         bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -2
