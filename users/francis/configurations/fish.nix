@@ -17,10 +17,6 @@
     loginShellInit = ''
       set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
       set -Ux BROWSER qutebrowser
-      set -Uxa PATH $HOME/.local/bin
-      set -Uxa PATH $HOME/go/bin
-      set -Uxa PATH $HOME/.cargo/bin
-      set -Ux GOPATH $HOME/go
       # wayland variables
       set -Uxa XDG_SESSION_TYPE wayland
       set -Uxa QT_WAYLAND_DISABLE_WINDOWDECORATION 1
