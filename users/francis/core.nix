@@ -30,6 +30,7 @@ in {
   xsession.initExtra = ''
     systemctl --user import-environment
   '';
+
   xdg.configFile = {
     "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
     "qutebrowser/css/solarized-dark-all-sites.css".source =
@@ -37,6 +38,7 @@ in {
     "compton.conf".source = ./configurations/compton.conf;
     "mimeapps.list".source = ./configurations/mimeapps.list;
   };
+
   services = {
     unclutter = {
       enable = true;
@@ -44,7 +46,11 @@ in {
     };
   };
 
-  programs.go.enable = true;
+  programs.go = {
+    enable = true;
+    goPath = "go";
+  };
+
   programs.home-manager.enable = true;
 
   home.packages = with pkgs; [
