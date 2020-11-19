@@ -7,7 +7,7 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
-  hardware.opengl.enable = true;
+  programs.sway.enable = true;
 
   home-manager.users.francis = {
     home.packages = with pkgs; [
