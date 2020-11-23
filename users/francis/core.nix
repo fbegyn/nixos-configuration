@@ -46,9 +46,9 @@ in {
   programs.home-manager.enable = true;
 
   home.sessionPath = [
-    "~/go/bin"
-    "~/.local/bin"
-    "~/.cargo/bin"
+    "$HOME/go/bin"
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
   ];
 
   home.packages = with pkgs; [
