@@ -36,6 +36,7 @@ in {
       ./configurations/qutebrowser/solarized-dark-all-sites.css;
     "compton.conf".source = ./configurations/compton.conf;
     "mimeapps.list".source = ./configurations/mimeapps.list;
+    "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
   };
 
   programs.go = {
