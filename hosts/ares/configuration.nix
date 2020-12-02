@@ -31,6 +31,7 @@
       ../../services/blackbox-exporter
       ../../services/snmp-exporter
       ../../services/speedtest-exporter
+      ../../services/loki
     ];
 
   # Use the systemd-boot EFI boot loader.
