@@ -9,20 +9,18 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../../nixos-hardware/dell/xps/13-9360
-    ../../secrets/wireless.nix
-    #../../secrets/eos-wireguard.nix
+
     ../../common/base.nix
     ../../common/security.nix
-    ../../common/pulseaudio.nix
-    ../../common/screen-brightness.nix
-    ../../common/bluetooth.nix
     ../../common/fonts.nix
-    ../../common/printer.nix
     ../../common/wireguard.nix
     ../../users
-    ../../users/francis/gui.nix
-    #../../users/francis/configurations/i3
-    ../../users/francis/configurations/sway
+
+    # services
+    ../../services/unifi
+    ../../services/coredns
+    ../../services/grafana
+    ../../services/prometheus
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -30,16 +28,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.extraModulePackages = [
-    (pkgs.callPackage ../../common/hid-apple-patched.nix {
-      kernel = pkgs.linuxPackages_latest.kernel;
-    })
-  ];
-  boot.extraModprobeConfig = ''
-    options hid_apple fnmode=2
-    options hid_apple swap_fn_leftctrl=1
-    options hid_apple swap_opt_cmd=1
-  '';
 
   networking.hostName = "eos"; # After the Greek titan of dawn
   networking.wireless = {
@@ -72,8 +60,6 @@
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
-  programs.adb.enable = true;
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = false;
