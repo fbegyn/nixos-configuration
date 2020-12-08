@@ -7,6 +7,10 @@
     ./ssh.nix
   ];
 
-  virtualisation.docker.enable = true;
+  services.emacs = {
+    enable = false;
+    install = true;
+  };
+
   virtualisation.podman.enable = true;
 }
