@@ -5,6 +5,9 @@ let
 in {
   imports = [
     ./python.nix
+    ../../common/unstable.nix
+    ../../common/nur.nix
+    ../../common/master.nix
     ./configurations/mpv
     ./configurations/newsboat.nix
     ./configurations/direnv.nix
