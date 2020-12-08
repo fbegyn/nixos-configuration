@@ -19,7 +19,7 @@
       executable = true;
     };
   };
-  services.emacs.enable = true;
+  services.emacs.enable = false;
   programs.emacs = {
     enable = true;
 
