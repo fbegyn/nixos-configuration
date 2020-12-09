@@ -28,7 +28,6 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    # fingerprint
     ../../users
     ../../users/francis
     #../../users/francis/configurations/i3
@@ -84,6 +83,7 @@
   # started in user sessions.
   # programs.mtr.enable = true;
   programs.adb.enable = true;
+  services.hardware.bolt.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

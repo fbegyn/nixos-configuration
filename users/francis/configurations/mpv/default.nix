@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     unstable.mpv
-    unstable.youtube-dl
+    master.youtube-dl
     unstable.streamlink
   ];
 

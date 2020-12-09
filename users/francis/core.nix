@@ -5,9 +5,11 @@ let
 in {
   imports = [
     ./python.nix
+    ../../common/unstable.nix
+    ../../common/nur.nix
+    ../../common/master.nix
     ./configurations/mpv
     ./configurations/newsboat.nix
-    ./configurations/redshift.nix
     ./configurations/direnv.nix
     ./configurations/zathura.nix
     ./configurations/udiskie.nix
@@ -30,22 +32,28 @@ in {
   xsession.initExtra = ''
     systemctl --user import-environment
   '';
+
   xdg.configFile = {
     "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
     "qutebrowser/css/solarized-dark-all-sites.css".source =
       ./configurations/qutebrowser/solarized-dark-all-sites.css;
     "compton.conf".source = ./configurations/compton.conf;
     "mimeapps.list".source = ./configurations/mimeapps.list;
-  };
-  services = {
-    unclutter = {
-      enable = true;
-      timeout = 5;
-    };
+    "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
   };
 
-  programs.go.enable = true;
+  programs.go = {
+    enable = true;
+    goPath = "go";
+  };
+
   programs.home-manager.enable = true;
+
+  home.sessionPath = [
+    "$HOME/go/bin"
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
+  ];
 
   home.packages = with pkgs; [
     nodejs
@@ -110,16 +118,5 @@ in {
   nixpkgs.config = {
     allowBroken = true;
     allowUnfree = true;
-
-    packageOverrides = pkgs: {
-      nur = import (builtins.fetchTarball
-        "https://github.com/nix-community/NUR/archive/master.tar.gz") {
-          inherit pkgs;
-        };
-      unstable = import (builtins.fetchTarball
-        "https://github.com/NixOS/nixpkgs-channels/archive/nixos-unstable.tar.gz") {
-          config = config.nixpkgs.config;
-        };
-    };
   };
 }
