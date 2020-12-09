@@ -11,6 +11,7 @@
       "wheel"
       "docker"
       "audio"
+      "video"
       "plugdev"
       "libvirtd"
       "adbusers"

@@ -28,6 +28,13 @@
   };
 
   home-manager.users.francis = {
+    services = {
+        unclutter = {
+        enable = true;
+        timeout = 5;
+        };
+    };
+
     xdg.configFile = {
       "i3/config".source = ./config;
       "i3status-rs/config.toml".source = ./i3status-config.toml;

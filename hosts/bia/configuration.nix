@@ -9,6 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../common/base.nix
+    ../../common/master.nix
     ../../common/security.nix
     ../../common/steam.nix
     ../../common/pulseaudio.nix
@@ -27,6 +28,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName =
     "bia"; # After the Greek personification of force and raw energy

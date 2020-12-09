@@ -58,23 +58,23 @@ draw_bold_text_with_bright_colors: true
 # * https://wiki.archlinux.org/index.php/font_configuration#Fontconfig_configuration
 # * file:///usr/share/doc/fontconfig/fontconfig-user.html
 font:
-# # The normal (roman) font face to use.
-# normal:
-#   family: hack # should be "Menlo" or something on macOS.
-#   # Style can be specified to pick a specific face.
-#   style: Regular
+  # # The normal (roman) font face to use.
+  normal:
+    family: DejaVu Sans Mono # should be "Menlo" or something on macOS.
+    # Style can be specified to pick a specific face.
+    style: Regular
 
-# # The bold font face
-# bold:
-#   family: hack # should be "Menlo" or something on macOS.
-#   # Style can be specified to pick a specific face.
-#   style: Bold
+  # # The bold font face
+  # bold:
+  #   family: dejavu # should be "Menlo" or something on macOS.
+  #   # Style can be specified to pick a specific face.
+  #   style: Bold
 
-# # The italic font face
-# italic:
-#   family: hack # should be "Menlo" or something on macOS.
-#   # Style can be specified to pick a specific face.
-#   style: Italic
+  # # The italic font face
+  # italic:
+  #   family: dejavu # should be "Menlo" or something on macOS.
+  #   # Style can be specified to pick a specific face.
+  #   style: Italic
 
   # Point size of the font
   size: 11
