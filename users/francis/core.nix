@@ -61,8 +61,8 @@ in {
     unstable.jq
     # Comms
     slack
-    mattermost-desktop
-    discord
+    master.mattermost-desktop
+    master.discord
     # Browser
     unstable.firefox
     unstable.qutebrowser
@@ -101,6 +101,7 @@ in {
     pass
     inotify-tools
     gnumake
+    linuxPackages.bcc
     whois
     # cachix
     cachix
