@@ -63,39 +63,31 @@ in {
     slack
     master.mattermost-desktop
     master.discord
+    tdesktop
     # Browser
     unstable.firefox
     unstable.qutebrowser
-    tdesktop
     # entertainement
     spotify
     unstable.playerctl
     # Utilities
     go-tools
-    gimp
-    ltunify
     gnome3.nautilus
     rofi
     rofi-pass
     unstable.vscode
     unstable.evince
-    pavucontrol
     pulsemixer
     libnotify
     unstable.pandoc
     texlive.combined.scheme-medium
-    wkhtmltopdf
     unstable.reflex
     unstable.thunderbird-78
     libqalculate
     unstable.nixops
     unstable.htop
-    iftop
-    clang
     llvm
-    units
     lm_sensors
-    neofetch
     moreutils
     screen
     pass

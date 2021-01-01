@@ -13,7 +13,6 @@
       fira-code-symbols
       dina-font
       symbola
-      nerdfonts
     ];
     fontconfig = {
       enable = true;
