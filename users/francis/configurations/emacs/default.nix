@@ -37,15 +37,15 @@
       in emacsFont + ''
         (require 'bind-key)
 
-        (setq inhibit-startup-screen t)
+        (setq inhibit-startup-screen t) ; don't show starup screen
 
-        (menu-bar-mode -1)
+        (menu-bar-mode -1) ; we don't need a menu bar
 
-        (electric-pair-mode)
+        (electric-pair-mode) ; insert matching delimiters
 
-        (recentf-mode 1)
-        (setq recentf-max-menu-items 25)
-        (setq recentf-max-saved-items 25)
+        (recentf-mode 1) ; builds list of recently opened files
+        (setq recentf-max-menu-items 25) ; max 25 items in menu
+        (setq recentf-max-saved-items 25) ; max size of recent files list
         (global-set-key "\C-x\ \C-r" 'recentf-open-files)
 
         (when window-system
@@ -57,29 +57,35 @@
               blink-cursor-mode))
             (funcall mode 0)))
 
-        (add-hook 'text-mode-hook 'auto-fill-mode)
+        (add-hook 'text-mode-hook 'auto-fill-mode) ; automatically reflow text (M-q)
 
-        (setq delete-old-versions -1 )		; delete excess backup versions silently
-        (setq version-control t )		; use version control
-        (setq vc-make-backup-files t )		; make backups file even when in version controlled dir
+        (setq delete-old-versions -1 )		  ; delete excess backup versions silently
+        (setq version-control t )	     	  ; use version control
+        (setq vc-make-backup-files t )		  ; make backups file even when in version controlled dir
         (setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
-        (setq vc-follow-symlinks t )				       ; don't ask for confirmation when opening symlinked file
-        (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ;transform backups file name
-        (setq inhibit-startup-screen t )	; inhibit useless and old-school startup screen
-        (setq ring-bell-function 'ignore )	; silent bell when you make a mistake
-        (setq coding-system-for-read 'utf-8 )	; use utf-8 by default
-        (setq coding-system-for-write 'utf-8 )
-        (setq sentence-end-double-space nil)	; sentence SHOULD end with only a point.
-        (setq-default fill-column 81)		; toggle wrapping text at the 81th character
-        (setq initial-scratch-message "coi") ; print a default message in the empty scratch buffer opened at startup
+        (setq vc-follow-symlinks t )	      ; don't ask for confirmation when opening symlinked file
+        (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ; transform backups file name
+        (setq inhibit-startup-screen t )      ; inhibit useless and old-school startup screen
+        (setq ring-bell-function 'ignore )	  ; silent bell when you make a mistake
+        (setq coding-system-for-read 'utf-8 ) ; use utf-8 by default
+        (setq coding-system-for-write 'utf-8 ); use utf-8 by default
+        (setq sentence-end-double-space nil)  ; sentence SHOULD end with only a point.
+        (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
+        (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
+        ; tweak some parameters
+        (setq gofmt-command "goimports")
+        (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
+        (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+
+        ; extra functions for emacs
         (defun chomp (str)
           "Chomp leading and tailing whitespace from STR."
           (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
                               str)
             (setq str (replace-match "" t t str)))
           str)
-        (setq gofmt-command "goimports")
+
         (defun eshell/e (arg)
           "opens a given file in emacs from eshell"
           (find-file arg))
@@ -95,14 +101,12 @@
           (split-window-horizontally)
           (other-window 1)
           (find-file arg))
-
-        (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
-        (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
       '';
 
       usePackageVerbose = true;
 
       usePackage = {
+        # Company text completion mode - complete anything
         company = {
           enable = true;
           diminish = [ "company-mode" ];
@@ -111,11 +115,9 @@
           '';
         };
 
-        dockerfile-mode = { enable = true; };
-
+        # improved common emacs commands
         counsel = {
           enable = true;
-
           bindStar = {
             "M-x" = "counsel-M-x";
             "C-x C-f" = "counsel-find-file";
@@ -126,7 +128,6 @@
             "C-c l" = "counsel-locate";
             "M-y" = "counsel-yank-pop";
           };
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -137,8 +138,7 @@
           '';
         };
 
-        cython-mode = { enable = true; };
-
+        # direnv intergration for emacs
         direnv = {
           enable = true;
           config = ''
@@ -148,6 +148,7 @@
 
         better-defaults.enable = true;
 
+        # Vi bindings for emacs
         evil = {
           enable = true;
           init = ''
@@ -157,24 +158,25 @@
             (evil-mode 1)
           '';
         };
-
+        # easily surround text with characters (surround from Vim)
         evil-surround = {
           enable = true;
           config = ''
             (global-evil-surround-mode 1)
           '';
         };
-
+        # handles vi bindings for parts the evil does noet
         evil-collection = {
           enable = true;
           after = [ "evil" ];
         };
-
+        # vi bindings in magit
         evil-magit = {
           enable = true;
           after = [ "magit" ];
         };
 
+        # syntax checking for emacs
         flycheck = {
           enable = true;
           diminish = [ "flycheck-mode" ];
@@ -197,13 +199,11 @@
             (setq lsp-rust-server 'rust-analyzer)
           '';
         };
-
         lsp-ui = {
           enable = true;
           after = [ "lsp" ];
           command = [ "lsp-ui-mode" ];
         };
-
         lsp-ivy = {
           enable = true;
           after = [ "lsp" "ivy" ];
@@ -283,7 +283,6 @@
 
         magit = {
           enable = true;
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -311,20 +310,17 @@
         };
 
         nix = { enable = true; };
-
         nix-mode = {
           enable = true;
           mode = [ ''"\\.nix\\'"'' ];
           bindLocal = { nix-mode-map = { "C-i" = "nix-indent-line"; }; };
         };
-
         nix-prettify-mode = {
           enable = true;
           config = ''
             (nix-prettify-global-mode)
           '';
         };
-
         nix-drv-mode = {
           enable = true;
           mode = [ ''"\\.drv\\'"'' ];
@@ -409,6 +405,9 @@
         ledger-mode = {
           enable = true;
           mode = [''"\\.journal\\'"''];
+          config = ''
+            (setq ledger-reconcile-default-commodity "EUR")
+          '';
         };
 
         neuron-mode = {
@@ -436,6 +435,9 @@
         virtualenvwrapper = {
           enable = true;
         };
+
+        dockerfile-mode = { enable = true; };
+        cython-mode = { enable = true; };
 
         ob.enable = true;
         org-download.enable = true;
