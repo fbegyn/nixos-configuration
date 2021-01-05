@@ -1,5 +1,21 @@
 { stdenv, perlPackages, fetchurl, pkgs }:
 
+let
+  ProcDaemon = perlPackages.buildPerlPackage {
+    pname = "Proc-Daemon";
+    version = "0.23";
+    src = fetchurl {
+      url = "mirror://cpan/authors/id/A/AK/AKREAL/Proc-Daemon-0.23.tar.gz";
+      sha256 = "34c0b85b7948b431cbabc97cee580835e515ccf43badbd8339eb109474089b69";
+    };
+    buildInputs = [ perlPackages.ProcProcessTable ];
+    meta = {
+      homepage = https://github.com/akreal/Proc-Daemon;
+      description = "Run Perl program(s) as a daemon process";
+      license = with stdenv.lib.licenses; [ artistic1 gpl1Plus ];
+    };
+  };
+in
 perlPackages.buildPerlPackage rec {
   pname = "ocsinventory-agent";
   version = "2.8.1";
@@ -11,6 +27,7 @@ perlPackages.buildPerlPackage rec {
   buildInputs = [
     pkgs.dmidecode
     pkgs.pciutils
+    ProcDaemon
     perlPackages.perl
     perlPackages.NetIP
     perlPackages.NetSNMP
@@ -19,6 +36,12 @@ perlPackages.buildPerlPackage rec {
     perlPackages.LWP
     perlPackages.LWPProtocolhttps
     perlPackages.CryptSSLeay
-    perlPackages.HTTPDaemon
+    perlPackages.ProcProcessTable
   ];
+
+  meta = {
+    homepage = https://github.com/OCSInventory-NG/UnixAgent;
+    description = "OCS unified agent for Unix operating systems";
+    license = with stdenv.lib.licenses; [ gpl2 ];
+  };
 }
