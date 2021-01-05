@@ -232,6 +232,7 @@ exec --no-startup-id qutebrowser
 exec --no-startup-id dunst
 exec --no-startup-id ~/.fehbg
 exec --no-startup-id picom
+exec --no-startup-id nm-applet
 #exec --no-startup-id slack
 #exec --no-startup-id telegram-desktop
 #exec --no-startup-id thunderbird
