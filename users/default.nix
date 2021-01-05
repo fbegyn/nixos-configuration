@@ -18,6 +18,7 @@
       "input"
       "lp"
       "scanner"
+      "networkmanager"
     ];
     group = "francis";
     shell = pkgs.fish;
