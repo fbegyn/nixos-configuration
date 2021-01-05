@@ -8,13 +8,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    # laptop hardware
-    ../../../nixos-hardware/common/pc/laptop
-    ../../../nixos-hardware/common/pc/ssd
-    # specific to thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad/t14
-    ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
+    ../../../nixos-hardware/dell/xps/13-9380
+    ../../secrets/wireless.nix
+    #../../secrets/eos-wireguard.nix
     ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
@@ -33,72 +29,83 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
-  networking.hostName = "laptop-francis"; # Define your hostname.
-  networking.networkmanager = {
-    enable = true;
-  };
-  environment.systemPackages = [
-    pkgs.gnome3.networkmanagerapplet
-    (pkgs.callPackage ../../pkgs/ocsinventory-agent/default.nix {})
+  boot.supportedFilesystems = [ "ntfs" ];
+  boot.extraModulePackages = [
+    (pkgs.callPackage ../../common/hid-apple-patched.nix {
+      kernel = pkgs.linuxPackages_latest.kernel;
+    })
   ];
-  services.gvfs.enable = true;
+  boot.extraModprobeConfig = ''
+    options hid_apple fnmode=2
+    options hid_apple swap_fn_leftctrl=0
+    options hid_apple swap_opt_cmd=1
+  '';
 
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "ania"; # After the Greek titan of dawn
+  networking.wireless = {
+    enable = true;
+    interfaces = [ "wlp0s20f3" ];
+  };
+  networking.extraHosts = ''
+    172.22.21.16  hhtperf minio1.hhtperf minio2.hhtperf devpi.hhtperf dashboard.hhtperf files.hhtperf ray.hhtperf prometheus.hhtperf grafana.hhtperf
+  '';
 
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  hardware.enableRedistributableFirmware = true;
+  hardware.enableAllFirmware = true;
+  hardware.firmware = [ pkgs.wireless-regdb ];
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
+  #networking.interfaces.enp4s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   # console = {
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   # };
 
-  # Configure keymap in X11
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
+  # Set your time zone.
+  time.timeZone = "Europe/Brussels";
 
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
+  programs.adb.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = false;
+    pinentryFlavor = "gtk2";
+  };
 
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
+  services.openssh.enable = false;
+  services.hardware.bolt.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = false;
+
+  networking.wireguard = {
+    enable = true;
+  };
+
+  virtualisation.docker.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -107,6 +114,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.09"; # Did you read the comment?
-
 }
 
