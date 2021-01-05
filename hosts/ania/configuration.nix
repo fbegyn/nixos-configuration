@@ -39,6 +39,8 @@
     enable = true;
   };
   environment.systemPackages = [
+    pkgs.dmidecode
+    pkgs.pciutils
     pkgs.gnome3.networkmanagerapplet
     (pkgs.callPackage ../../pkgs/ocsinventory-agent/default.nix {})
   ];
