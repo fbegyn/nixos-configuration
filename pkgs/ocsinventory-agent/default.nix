@@ -39,6 +39,11 @@ perlPackages.buildPerlPackage rec {
     perlPackages.ProcProcessTable
   ];
 
+  propagatedBuildInputs = [
+    pkgs.dmidecode
+    pkgs.pciutils
+  ];
+
   meta = {
     homepage = https://github.com/OCSInventory-NG/UnixAgent;
     description = "OCS unified agent for Unix operating systems";
