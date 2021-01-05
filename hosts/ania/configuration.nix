@@ -39,12 +39,12 @@
     enable = true;
   };
   environment.systemPackages = [
-    pkgs.dmidecode
-    pkgs.pciutils
     (pkgs.callPackage ../../pkgs/ocsinventory-agent/default.nix {})
 
     pkgs.gnome3.networkmanagerapplet
     pkgs.lxqt.lxqt-policykit
+
+    pkgs.chromium
   ];
   services.gvfs.enable = true;
 
