@@ -16,6 +16,8 @@
     ../../../nixos-hardware/lenovo/thinkpad/t14
     ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
     ../../common/base.nix
+    ../../common/gpg.nix
+    ../../common/mac-keyboards.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
     ../../common/screen-brightness.nix
@@ -45,6 +47,8 @@
     pkgs.lxqt.lxqt-policykit
 
     pkgs.chromium
+
+    pkgs.libreoffice-fresh
   ];
   services.gvfs.enable = true;
 
