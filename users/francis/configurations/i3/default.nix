@@ -24,6 +24,7 @@
       unstable.picom
       unstable.i3status-rust
       feh
+      i3lock
     ];
   };
 
