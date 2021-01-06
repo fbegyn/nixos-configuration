@@ -1,6 +1,8 @@
 { stdenv, perlPackages, fetchurl, pkgs }:
 
 let
+  # The perl packages for Proc:Daemon and Proc:File:PID are no available in the
+  # nixpkgs. We build them ourselves here
   ProcDaemon = perlPackages.buildPerlPackage {
     pname = "Proc-Daemon";
     version = "0.23";
@@ -39,6 +41,7 @@ perlPackages.buildPerlPackage rec {
     perlPackages.ProcProcessTable
   ];
 
+  # dmidecode and pciutils provide runtime dependencies
   propagatedBuildInputs = [
     pkgs.dmidecode
     pkgs.pciutils
