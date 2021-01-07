@@ -13,4 +13,10 @@
     wantedBy = [ "default.target" ];
     after = [ "network.target" ];
   };
+
+  networking.firewall = {
+    allowedTCPPorts = [
+      3114
+    ];
+  };
 }
