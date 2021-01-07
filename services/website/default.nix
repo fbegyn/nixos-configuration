@@ -14,9 +14,21 @@
     after = [ "network.target" ];
   };
 
+  services.nginx.enable = true;
+  services.nginx.virtualHosts."francis.begyn.be" = {
+    forceSSL = true;
+    enableACME = true;
+    root = "/var/www/francis.begyn.be";
+    locations."/" = {
+      proxyPass = "http://localhost:3114";
+    }; 
+  };
+  security.acme.certs."francis.begyn.be".email = "francis.begyn+website@gmail.com";
+
   networking.firewall = {
     allowedTCPPorts = [
-      3114
+      80
+      443
     ];
   };
 }
