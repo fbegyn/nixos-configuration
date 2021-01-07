@@ -28,8 +28,12 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
+    ../../common/master.nix
+    ../../common/nur.nix
+    ../../common/unstable.nix
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
     ../../users/francis/configurations/sway
   ];
