@@ -21,6 +21,7 @@
     extraPackages = with pkgs; [
       maim
       xclip
+      arandr
       unstable.picom
       unstable.i3status-rust
       feh
