@@ -27,6 +27,7 @@ in {
     ./configurations/fzf.nix
     ./configurations/josm.nix
     ./configurations/network-tools.nix
+    ./secrets/fish.nix
   ];
 
   xsession.initExtra = ''
