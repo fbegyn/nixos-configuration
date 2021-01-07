@@ -15,6 +15,7 @@
       ./configurations/spotifyd.nix
       ./configurations/tmux
       ./configurations/josm.nix
+      ./secrets/fish.nix
     ];
 
     xdg.configFile = {
