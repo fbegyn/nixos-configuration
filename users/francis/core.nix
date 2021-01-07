@@ -16,7 +16,6 @@ in {
     ./configurations/starship.nix
     ./configurations/fzf.nix
     ./configurations/network-tools.nix
-    ./secrets/fish.nix
   ];
 
   xsession.initExtra = ''
