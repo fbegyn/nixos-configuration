@@ -75,6 +75,7 @@ in {
     gnome3.nautilus
     rofi
     rofi-pass
+    unstable.ltunify
     unstable.vscode
     unstable.evince
     pulsemixer
