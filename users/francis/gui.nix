@@ -15,6 +15,7 @@
       ./configurations/spotifyd.nix
       ./configurations/tmux
       ./configurations/josm.nix
+      ./configurations/emacs/default.nix
       ./secrets/fish.nix
     ];
 
