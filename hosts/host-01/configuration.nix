@@ -18,7 +18,6 @@
     ../../users/francis
 
     ../../common/acme.nix
-    ../../services/website
   ];
 
   # Use the GRUB 2 boot loader.
