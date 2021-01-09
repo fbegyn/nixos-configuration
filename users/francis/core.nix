@@ -10,7 +10,6 @@ in {
     ../../common/master.nix
     ./configurations/udiskie.nix
     ./configurations/nvim/default.nix
-    ./configurations/emacs/default.nix
     ./configurations/git.nix
     ./configurations/fish.nix
     ./configurations/starship.nix
