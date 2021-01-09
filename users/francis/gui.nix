@@ -48,6 +48,7 @@
       unstable.evince
       pulsemixer
       unstable.pandoc
+      wkhtmltopdf
       texlive.combined.scheme-medium
       unstable.reflex
       unstable.thunderbird-78
