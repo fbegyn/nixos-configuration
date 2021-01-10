@@ -20,6 +20,7 @@
     ../../common/scanner.nix
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
   ];
 
