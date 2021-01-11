@@ -96,5 +96,18 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.09"; # Did you read the comment?
+
+  services.restic.backups = {
+    gdrive = {
+      user = "francis";
+      paths = [ "/home/francis/Documents" ];
+      passwordFile = "/etc/nixos/secrets/key01";
+      repository = "rclone:personal-gdrive:/Documents/Backups/Restic";
+      timerConfig = {
+        onCalendar = "saturday 23:15";
+        RandomizedDelaySec = "2h";
+      };
+    };
+  };
 }
 
