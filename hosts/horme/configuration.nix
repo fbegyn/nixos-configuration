@@ -28,8 +28,12 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
+    ../../common/master.nix
+    ../../common/nur.nix
+    ../../common/unstable.nix
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
     ../../users/francis/configurations/sway
   ];
@@ -93,5 +97,17 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "20.09"; # Did you read the comment?
 
+  services.restic.backups = {
+    gdrive = {
+      user = "francis";
+      paths = [ "/home/francis/Documents" ];
+      passwordFile = "/etc/nixos/secrets/key01";
+      repository = "rclone:personal-gdrive:/Documents/Backups/Restic";
+      timerConfig = {
+        onCalendar = "saturday 23:15";
+        RandomizedDelaySec = "2h";
+      };
+    };
+  };
 }
 
