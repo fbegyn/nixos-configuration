@@ -1,9 +1,6 @@
 { pkgs, ...}:
 
 {
-  imports = [
-    ../secrets/fish.nix
-  ];
   programs.fish = {
     enable = true;
     package = pkgs.unstable.fish;
