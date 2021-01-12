@@ -30,9 +30,9 @@
       nodejs
       # Comms
       slack
-      master.mattermost-desktop
-      master.discord
-      tdesktop
+      unstable.mattermost-desktop
+      unstable.discord
+      unstable.tdesktop
       # Browser
       unstable.firefox
       unstable.qutebrowser
