@@ -1,25 +1,63 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
-with lib;
+{
+  home-manager.users.francis = {
+    imports = [
+      ./configurations/mpv
+      ./configurations/newsboat.nix
+      ./configurations/direnv.nix
+      ./configurations/zathura.nix
+      ./configurations/udiskie.nix
+      ./configurations/alacritty
+      ./configurations/hledger.nix
+      ./configurations/teamspeak.nix
+      ./configurations/neuron.nix
+      ./configurations/spotifyd.nix
+      ./configurations/tmux
+      ./configurations/josm.nix
+      ./configurations/emacs/default.nix
+      ./secrets/fish.nix
+    ];
 
-let
-  cfg = options.francis.gui;
-in {
-  options.francis.gui = {
-    enable =
-      mkEnableOption "Enable the gui applications of Francis home-manager";
-    comms = mkOption {
-      default = false;
-      type = types.bool;
-      description = "Whether to enable comm programs";
-      example = true;
+    xdg.configFile = {
+      "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
+      "qutebrowser/css/solarized-dark-all-sites.css".source =
+        ./configurations/qutebrowser/solarized-dark-all-sites.css;
+      "compton.conf".source = ./configurations/compton.conf;
+      "mimeapps.list".source = ./configurations/mimeapps.list;
     };
-  };
 
-  config = mkIf cfg.enable {
-    home-manager.users.francis = {
-      home.packages = with pkgs; [
-      ] ++ comm;
-    };
+    home.packages = with pkgs; [
+      nodejs
+      # Comms
+      slack
+      master.mattermost-desktop
+      master.discord
+      tdesktop
+      # Browser
+      unstable.firefox
+      unstable.qutebrowser
+      # entertainement
+      spotify
+      unstable.playerctl
+      # Utilities
+      gnome3.nautilus
+      rofi
+      rofi-pass
+      unstable.ltunify
+      unstable.vscode
+      unstable.evince
+      pulsemixer
+      unstable.pandoc
+      wkhtmltopdf
+      texlive.combined.scheme-medium
+      unstable.reflex
+      unstable.thunderbird-78
+      pass
+      # tools rewritten in rust
+      unstable.tmux
+      unstable.hyperfine
+      unstable.bandwhich
+    ];
   };
 }
