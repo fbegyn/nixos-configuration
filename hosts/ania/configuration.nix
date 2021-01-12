@@ -8,16 +8,17 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../common/mac-keyboards.nix
     # laptop hardware
     ../../../nixos-hardware/common/pc/laptop
     ../../../nixos-hardware/common/pc/ssd
     # specific to thinkpad
     ../../../nixos-hardware/lenovo/thinkpad
     ../../../nixos-hardware/lenovo/thinkpad/t14
-    ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
-    ../../common/base.nix
+    # common settings
+    ../../common/cachix.nix
     ../../common/gpg.nix
-    ../../common/mac-keyboards.nix
+    ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
     ../../common/screen-brightness.nix
@@ -25,10 +26,13 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/kubernetes.nix
+    ../../common/master.nix
+    ../../common/nur.nix
+    ../../common/unstable.nix
     ../../common/openvpn.nix
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
   ];
 
