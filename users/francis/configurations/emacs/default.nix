@@ -49,7 +49,7 @@ in
         fontSize = "15";
         emacsFont = ''
           (when window-system
-            (set-frame-font "Hack ${fontSize}"))
+            (set-frame-font "DejaVu Sans Mono ${fontSize}"))
         '';
       in emacsFont + ''
         (require 'bind-key)
@@ -183,6 +183,15 @@ in
           '';
           config = ''
             (evil-mode 1)
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
           '';
         };
         # easily surround text with characters (surround from Vim)
@@ -214,9 +223,6 @@ in
 
         go-mode = {
           enable = true;
-          config = ''
-            (yas-minor-mode-on)
-          '';
         };
 
         neotree = {
@@ -234,9 +240,10 @@ in
           ];
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
-            (setq lsp-python-ms-executable (executable-find "python-language-server")))
+            (setq lsp-python-ms-executable (executable-find "python-language-server"))
           '';
         };
+
         lsp-ui = {
           enable = true;
           after = [ "lsp" ];
@@ -385,10 +392,6 @@ in
           '';
         };
 
-        column-enfore-mode = {
-          enable = true;
-        };
-
         protobuf-mode = { enable = true; };
 
         swiper = {
@@ -474,7 +477,7 @@ in
                          (lsp)))"
           ];
           config = ''
-            (setq lsp-python-ms-executable (executable-find "python-language-server")))
+            (setq lsp-python-ms-executable (executable-find "python-language-server"))
           '';
         };
 
@@ -494,7 +497,6 @@ in
         org-download.enable = true;
         org.enable = true;
         org-mime.enable = true;
-        org-plus-contrib.enable = true;
         org-pomodoro.enable = true;
         org-projectile.enable = true;
 
