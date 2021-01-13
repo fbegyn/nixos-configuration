@@ -1,7 +1,24 @@
 { pkgs, ... }:
 
+let e = pkgs.writeTextFile {
+      name = "francis-emacs.desktop";
+      destination = "/share/applications/francis-emacs.desktop";
+      text = ''
+[Desktop Entry]
+Exec=emacsclient -nc
+Icon=emacs
+Name[en_US]=Emacs Client
+Name=Emacs Client
+StartupNotify=true
+Terminal=false
+Type=Application
+      '';
+    };
+in
 {
   imports = [ ./emacs-init.nix ];
+
+  home.packages = [ e ];
 
   home.file = {
     ".local/bin/e" = {
@@ -212,10 +229,12 @@
           hook = [
             "(go-mode . lsp)"
             "(rust-mode . lsp)"
+            "(python-mode . lsp)"
             "(lsp-mode . lsp-enable-which-key-integration)"
           ];
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
+            (setq lsp-python-ms-executable (executable-find "python-language-server")))
           '';
         };
         lsp-ui = {
@@ -460,7 +479,7 @@
         };
 
         python-mode = {
-          enable = false;
+          enable = true;
           mode = [''"\\.py'"''];
         };
 
