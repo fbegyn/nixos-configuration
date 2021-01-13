@@ -19,6 +19,9 @@
       executable = true;
     };
   };
+  home.packages = with pkgs; [
+    unstable.python-language-server
+  ];
   services.emacs.enable = false;
   programs.emacs = {
     enable = true;
@@ -193,6 +196,7 @@
           hook = [
             "(go-mode . lsp)"
             "(rust-mode . lsp)"
+            "(python-mode . lsp)"
             "(lsp-mode . lsp-enable-which-key-integration)"
           ];
           config = ''
@@ -427,10 +431,22 @@
           enable = true;
         };
 
-        elpy = {
-          enable = true;
-          mode = [''"\\.py'"''];
+        lsp-jedi = {
+          config = ''
+            (with-eval-after-load "lsp-mode"
+              (add-to-list 'lsp-disabled-clients 'pyls)
+              (add-to-list 'lsp-enabled-clients 'jedi))
+          '';
         };
+
+        #elpy = {
+        #  enable = true;
+        #  mode = [''"\\.py'"''];
+        #  config = ''
+        #    (elpy-enable)
+        #  '';
+        #  after = [ "company" ];
+        #};
 
         virtualenvwrapper = {
           enable = true;
