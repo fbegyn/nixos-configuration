@@ -19,9 +19,6 @@
       executable = true;
     };
   };
-  home.packages = with pkgs; [
-    unstable.python-language-server
-  ];
   services.emacs.enable = false;
   programs.emacs = {
     enable = true;
@@ -77,9 +74,19 @@
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
         ; tweak some parameters
-        (setq gofmt-command "goimports")
         (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
         (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+
+        ;; go
+        (setenv "GOPATH" (concat (getenv "HOME") "/go"))
+        (setq gofmt-command "goimports")
+        (setq frame-resize-pixelwise t)
+        (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+        (setq default-tab-width 2)
+        (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+        ;; rust
+        (setq rust-format-on-save t)
 
         ; extra functions for emacs
         (defun chomp (str)
@@ -188,7 +195,16 @@
           '';
         };
 
-        go-mode = { enable = true; };
+        go-mode = {
+          enable = true;
+          config = ''
+            (yas-minor-mode-on)
+          '';
+        };
+
+        neotree = {
+          enable = true;
+        };
 
         lsp-mode = {
           enable = true;
@@ -196,7 +212,6 @@
           hook = [
             "(go-mode . lsp)"
             "(rust-mode . lsp)"
-            "(python-mode . lsp)"
             "(lsp-mode . lsp-enable-which-key-integration)"
           ];
           config = ''
@@ -214,15 +229,15 @@
           command = [ "lsp-ivy-workspace-symbol" ];
         };
 
-        nlinum-relative = {
-          enable = true;
-          after = [ "evil" ];
-          config = ''
-            (nlinum-relative-setup-evil)
-            (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-            (add-hook 'org-mode-hook 'nlinum-relative-mode)
-          '';
-        };
+        #nlinum-relative = {
+        #  enable = true;
+        #  after = [ "evil" ];
+        #  config = ''
+        #    (nlinum-relative-setup-evil)
+        #    (add-hook 'prog-mode-hook 'nlinum-relative-mode)
+        #    (add-hook 'org-mode-hook 'nlinum-relative-mode)
+        #  '';
+        #};
 
         general = {
           enable = true;
@@ -431,22 +446,23 @@
           enable = true;
         };
 
-        lsp-jedi = {
+        lsp-python-ms = {
+          enable = true;
+          mode = [''"\\.py'"''];
+          hook = [
+            "(python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp)))"
+          ];
           config = ''
-            (with-eval-after-load "lsp-mode"
-              (add-to-list 'lsp-disabled-clients 'pyls)
-              (add-to-list 'lsp-enabled-clients 'jedi))
+            (setq lsp-python-ms-executable (executable-find "python-language-server")))
           '';
         };
 
-        #elpy = {
-        #  enable = true;
-        #  mode = [''"\\.py'"''];
-        #  config = ''
-        #    (elpy-enable)
-        #  '';
-        #  after = [ "company" ];
-        #};
+        python-mode = {
+          enable = false;
+          mode = [''"\\.py'"''];
+        };
 
         virtualenvwrapper = {
           enable = true;
