@@ -15,7 +15,9 @@
       ./configurations/spotifyd.nix
       ./configurations/tmux
       ./configurations/josm.nix
-      ./configurations/emacs/default.nix
+      ./configurations/emacs
+      #./configurations/spacemacs
+      ./secrets/fish.nix
     ];
 
     xdg.configFile = {
