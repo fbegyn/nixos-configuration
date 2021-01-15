@@ -18,6 +18,8 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/scanner.nix
+    ../../common/eid.nix
+    ../../common/liveview-webcam.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
