@@ -1,7 +1,24 @@
 { pkgs, ... }:
 
+let e = pkgs.writeTextFile {
+      name = "francis-emacs.desktop";
+      destination = "/share/applications/francis-emacs.desktop";
+      text = ''
+[Desktop Entry]
+Exec=emacsclient -nc
+Icon=emacs
+Name[en_US]=Emacs Client
+Name=Emacs Client
+StartupNotify=true
+Terminal=false
+Type=Application
+      '';
+    };
+in
 {
   imports = [ ./emacs-init.nix ];
+
+  home.packages = [ e ];
 
   home.file = {
     ".local/bin/e" = {
@@ -32,7 +49,7 @@
         fontSize = "15";
         emacsFont = ''
           (when window-system
-            (set-frame-font "Hack ${fontSize}"))
+            (set-frame-font "DejaVu Sans Mono ${fontSize}"))
         '';
       in emacsFont + ''
         (require 'bind-key)
@@ -74,9 +91,19 @@
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
         ; tweak some parameters
-        (setq gofmt-command "goimports")
         (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
         (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+
+        ;; go
+        (setenv "GOPATH" (concat (getenv "HOME") "/go"))
+        (setq gofmt-command "goimports")
+        (setq frame-resize-pixelwise t)
+        (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+        (setq default-tab-width 2)
+        (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+        ;; rust
+        (setq rust-format-on-save t)
 
         ; extra functions for emacs
         (defun chomp (str)
@@ -156,6 +183,15 @@
           '';
           config = ''
             (evil-mode 1)
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
           '';
         };
         # easily surround text with characters (surround from Vim)
@@ -185,7 +221,13 @@
           '';
         };
 
-        go-mode = { enable = true; };
+        go-mode = {
+          enable = true;
+        };
+
+        neotree = {
+          enable = true;
+        };
 
         lsp-mode = {
           enable = true;
@@ -193,12 +235,15 @@
           hook = [
             "(go-mode . lsp)"
             "(rust-mode . lsp)"
+            "(python-mode . lsp)"
             "(lsp-mode . lsp-enable-which-key-integration)"
           ];
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
+            (setq lsp-python-ms-executable (executable-find "python-language-server"))
           '';
         };
+
         lsp-ui = {
           enable = true;
           after = [ "lsp" ];
@@ -210,15 +255,15 @@
           command = [ "lsp-ivy-workspace-symbol" ];
         };
 
-        nlinum-relative = {
-          enable = true;
-          after = [ "evil" ];
-          config = ''
-            (nlinum-relative-setup-evil)
-            (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-            (add-hook 'org-mode-hook 'nlinum-relative-mode)
-          '';
-        };
+        #nlinum-relative = {
+        #  enable = true;
+        #  after = [ "evil" ];
+        #  config = ''
+        #    (nlinum-relative-setup-evil)
+        #    (add-hook 'prog-mode-hook 'nlinum-relative-mode)
+        #    (add-hook 'org-mode-hook 'nlinum-relative-mode)
+        #  '';
+        #};
 
         general = {
           enable = true;
@@ -347,10 +392,6 @@
           '';
         };
 
-        column-enfore-mode = {
-          enable = true;
-        };
-
         protobuf-mode = { enable = true; };
 
         swiper = {
@@ -427,7 +468,20 @@
           enable = true;
         };
 
-        elpy = {
+        lsp-python-ms = {
+          enable = true;
+          mode = [''"\\.py'"''];
+          hook = [
+            "(python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp)))"
+          ];
+          config = ''
+            (setq lsp-python-ms-executable (executable-find "python-language-server"))
+          '';
+        };
+
+        python-mode = {
           enable = true;
           mode = [''"\\.py'"''];
         };
@@ -443,7 +497,6 @@
         org-download.enable = true;
         org.enable = true;
         org-mime.enable = true;
-        org-plus-contrib.enable = true;
         org-pomodoro.enable = true;
         org-projectile.enable = true;
 

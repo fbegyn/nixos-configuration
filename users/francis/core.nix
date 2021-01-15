@@ -48,6 +48,8 @@ in {
     libqalculate
     unstable.nixops
     unstable.htop
+    unstable.rclone
+    unstable.restic
     llvm
     lm_sensors
     moreutils

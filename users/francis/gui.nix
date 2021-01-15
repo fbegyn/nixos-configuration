@@ -15,7 +15,8 @@
       ./configurations/spotifyd.nix
       ./configurations/tmux
       ./configurations/josm.nix
-      ./configurations/emacs/default.nix
+      ./configurations/emacs
+      #./configurations/spacemacs
       ./secrets/fish.nix
     ];
 
@@ -31,9 +32,9 @@
       nodejs
       # Comms
       slack
-      master.mattermost-desktop
-      master.discord
-      tdesktop
+      unstable.mattermost-desktop
+      unstable.discord
+      unstable.tdesktop
       # Browser
       firefox
       unstable.qutebrowser
