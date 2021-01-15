@@ -8,16 +8,17 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../common/mac-keyboards.nix
     # laptop hardware
     ../../../nixos-hardware/common/pc/laptop
     ../../../nixos-hardware/common/pc/ssd
     # specific to thinkpad
     ../../../nixos-hardware/lenovo/thinkpad
     ../../../nixos-hardware/lenovo/thinkpad/t14
-    ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
-    ../../common/base.nix
+    # common settings
+    ../../common/cachix.nix
     ../../common/gpg.nix
-    ../../common/mac-keyboards.nix
+    ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
     ../../common/screen-brightness.nix
@@ -25,16 +26,21 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/kubernetes.nix
+    ../../common/master.nix
+    ../../common/nur.nix
+    ../../common/unstable.nix
     ../../common/openvpn.nix
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  virtualisation.docker.enable = true;
 
   networking.hostName = "laptop-francis"; # Define your hostname.
   networking.networkmanager = {
@@ -64,6 +70,8 @@
   networking.interfaces.enp0s31f6.useDHCP = true;
   networking.interfaces.wlp0s20f3.useDHCP = true;
 
+
+  services.hardware.bolt.enable = true;
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";

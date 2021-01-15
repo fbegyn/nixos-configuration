@@ -77,6 +77,16 @@ in
           "2:10:TPPS/2_Elan_TrackPoint" = {
             pointer_accel = "-0.17";
           };
+          "1133:49971:Logitech_Gaming_Keyboard_G610" = {
+            xkb_layout = "us";
+            xkb_variant = "altgr-intl";
+            xkb_numlock = "enabled";
+          };
+          "1133:49971:Logitech_Gaming_Keyboard_G610_Keyboard" = {
+            xkb_layout = "us";
+            xkb_variant = "altgr-intl";
+            xkb_numlock = "enabled";
+          };
         };
         assigns = {
           "1:web" = [{ class = "^qutebrowser$"; }];
