@@ -32,6 +32,7 @@
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix
     ../../common/amdgpu.nix
+    ../../common/vectera.nix
 
     ../../users
     ../../users/francis
