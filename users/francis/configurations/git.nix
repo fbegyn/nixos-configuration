@@ -19,8 +19,7 @@
       user.fom.email = "theci@fom.be";
       user.fom.signingkey = "";
       init.defaultBranch = "main";
-      pull.rebase = false;
+      pull.rebase = true;
     };
   };
-  
 }
