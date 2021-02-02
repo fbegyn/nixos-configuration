@@ -17,7 +17,7 @@
       ./configurations/josm.nix
       ./configurations/emacs
       #./configurations/spacemacs
-      ./secrets/fish.nix
+      #./secrets/fish.nix
     ];
 
     xdg.configFile = {

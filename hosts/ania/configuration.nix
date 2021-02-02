@@ -31,22 +31,52 @@
     ../../common/eid.nix
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix
+    ../../common/amdgpu.nix
 
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
-    ../../users/francis/configurations/sway
+    ../../users/francis/configurations/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "eos"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  services.xserver = {
+    enable = true;
+  };
+
+  networking.hostName = "ania"; # Define your hostname.
+  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
+
+  # Select internationalisation properties.
+  i18n = {
+    defaultLocale = "nl_BE.UTF-8";
+    supportedLocales = [
+      "nl_BE.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+    ];
+    extraLocaleSettings = {
+      LC_MESSAGES = "en_US.UTF-8";
+    };
+  };
+
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  programs.adb.enable = true;
+  services.hardware.bolt.enable = true;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -55,35 +85,6 @@
   networking.interfaces.enp2s0f0.useDHCP = true;
   networking.interfaces.enp5s0.useDHCP = true;
   networking.interfaces.wlp3s0.useDHCP = true;
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
