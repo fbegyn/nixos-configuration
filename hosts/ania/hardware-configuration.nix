@@ -8,32 +8,27 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
-  boot.kernelModules = [ "kvm-intel" ];
+  boot.initrd.availableKernelModules = [ "nvme" "ehci_pci" "xhci_pci" "usb_storage" "sd_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  boot.initrd.luks.devices."cryptstore" = {
-    device = "/dev/disk/by-uuid/ca5ea935-f674-4ba6-a5b0-32147b2b2447";
-    preLVM = true;
-  };
- 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/c7b06689-0e28-4c16-a129-68230796364a";
+    { device = "/dev/disk/by-uuid/e782058e-fb9c-4382-a1a0-004477287a9d";
       fsType = "ext4";
     };
 
-  fileSystems."/home" =
-    { device = "/dev/disk/by-uuid/88b77a22-d436-4a56-a5fc-f520caffdd30";
-      fsType = "ext4";
-    };
+  boot.initrd.luks.devices."system".device = "/dev/disk/by-uuid/40d9ec79-d296-4772-8eb2-3cb57e3c1cb5";
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/E29D-5455";
+    { device = "/dev/disk/by-uuid/191C-FBFD";
       fsType = "vfat";
     };
 
-  swapDevices = [ ];
-
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  swapDevices = [
+    {
+      device = "/swapfile";
+      size = 8192;
+    }
+  ];
 }

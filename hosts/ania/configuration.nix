@@ -8,20 +8,18 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../common/mac-keyboards.nix
     # laptop hardware
-    ../../../nixos-hardware/common/pc/laptop
-    ../../../nixos-hardware/common/pc/ssd
+    <nixos-hardware/common/pc/laptop>
+    <nixos-hardware/common/pc/ssd>
     # specific to thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad/t14
+    <nixos-hardware/lenovo/thinkpad>
+    <nixos-hardware/lenovo/thinkpad/t14>
     # common settings
     ../../common/cachix.nix
     ../../common/gpg.nix
     ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
-    ../../common/screen-brightness.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
@@ -30,35 +28,22 @@
     ../../common/nur.nix
     ../../common/unstable.nix
     ../../common/openvpn.nix
+    ../../common/eid.nix
+    ../../common/liveview-webcam.nix
+    ../../common/video-accel.nix
+
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
-    ../../users/francis/configurations/i3
+    ../../users/francis/configurations/sway
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  virtualisation.docker.enable = true;
-
-  networking.hostName = "laptop-francis"; # Define your hostname.
-  networking.networkmanager = {
-    enable = true;
-  };
-  environment.systemPackages = [
-    (pkgs.callPackage ../../pkgs/ocsinventory-agent/default.nix {})
-
-    pkgs.gnome3.networkmanagerapplet
-    pkgs.lxqt.lxqt-policykit
-
-    pkgs.chromium
-
-    pkgs.libreoffice-fresh
-  ];
-  services.gvfs.enable = true;
-
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "eos"; # Define your hostname.
+  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
@@ -67,25 +52,9 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp0s20f3.useDHCP = true;
-
-
-  services.hardware.bolt.enable = true;
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
-
-  # Configure keymap in X11
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
+  networking.interfaces.enp2s0f0.useDHCP = true;
+  networking.interfaces.enp5s0.useDHCP = true;
+  networking.interfaces.wlp3s0.useDHCP = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
