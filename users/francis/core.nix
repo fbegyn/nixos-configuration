@@ -38,6 +38,8 @@ in {
     "$HOME/.cargo/bin"
   ];
 
+  home.sessionVariables = { EDITOR = "e"; };
+
   home.packages = with pkgs; [
     niv
     unstable.jq
