@@ -41,7 +41,6 @@ let
   };
 in
 {
-  home.sessionVariables = { EDITOR = "nvim"; };
   home.packages = with pkgs; [
     rnix-lsp
   ];

@@ -47,6 +47,7 @@ in
       startsway
 
       # sway tooling
+      unstable.xdg_utils
       unstable.swaylock # lockscreen
       unstable.swayidle
       unstable.mako # notification daemon
