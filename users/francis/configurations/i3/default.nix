@@ -5,19 +5,22 @@
     ../dunst
   ];
 
+  environment.pathsToLink = [ "/libexec" ];
+
   # Enable the X11 windowing system.
   services.xserver= {
     enable = true;
     layout = "us";
     xkbVariant = "altgr-intl";
     xkbOptions = "eurosign:5";
+    libinput.enable =true;
   };
 
   services.xserver.displayManager.lightdm.enable = true;
   services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.windowManager.i3 = {
     enable = true;
-    package = pkgs.unstable.i3;
+    package = pkgs.i3;
     extraPackages = with pkgs; [
       maim
       xclip
