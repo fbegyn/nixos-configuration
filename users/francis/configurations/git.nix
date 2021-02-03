@@ -10,7 +10,7 @@
       wip = "for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads";
     };
     extraConfig = {
-      core.editor = "vim";
+      core.editor = "e";
       user.useConfigOnly = true;
       user.personal.name = "Francis Begyn";
       user.personal.email = "francis@begyn.be";
