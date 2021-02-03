@@ -90,6 +90,10 @@ in
         (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
+        ; line numbers
+        (when (version<= "26.0.50" emacs-version )
+            (global-display-line-numbers-mode))
+
         ; tweak some parameters
         (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
         (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
@@ -254,16 +258,6 @@ in
           after = [ "lsp" "ivy" ];
           command = [ "lsp-ivy-workspace-symbol" ];
         };
-
-        #nlinum-relative = {
-        #  enable = true;
-        #  after = [ "evil" ];
-        #  config = ''
-        #    (nlinum-relative-setup-evil)
-        #    (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-        #    (add-hook 'org-mode-hook 'nlinum-relative-mode)
-        #  '';
-        #};
 
         general = {
           enable = true;
