@@ -484,7 +484,10 @@ in
           enable = true;
         };
 
+        docker = { enable = true; };
+        docker-tramp = { enable = true; };
         dockerfile-mode = { enable = true; };
+
         cython-mode = { enable = true; };
 
         ob.enable = true;
