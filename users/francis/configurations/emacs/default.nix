@@ -169,6 +169,13 @@ in
           '';
         };
 
+        counsel-tramp = {
+          enable = true;
+          bindStar = {
+            "C-c t" = "counsel-tramp";
+          };
+        };
+
         # direnv intergration for emacs
         direnv = {
           enable = true;
@@ -183,20 +190,10 @@ in
         evil = {
           enable = true;
           init = ''
-            (setq evil-want-keybinding nil)
             (setq evil-want-C-i-jump nil)
           '';
           config = ''
             (evil-mode 1)
-            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
           '';
         };
         # easily surround text with characters (surround from Vim)
@@ -232,6 +229,25 @@ in
 
         neotree = {
           enable = true;
+          config = ''
+            (global-set-key [f8] 'neotree-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+          '';
+        };
+
+        all-the-icons = {
+          enable = true;
+          config = ''
+            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+          '';
         };
 
         lsp-mode = {
@@ -284,6 +300,7 @@ in
               "f"  '(:ignore t :which-key "file")
               "ff" '(find-file :which-key "find")
               "fs" '(save-buffer :which-key "save")
+              "ft" '(neotree-toggle :which-key "neotree")
 
               "m"  '(:ignore t :which-key "mode")
 
