@@ -44,6 +44,7 @@ in {
     niv
     unstable.jq
     # Utilities
+    gcc
     go-tools
     pulsemixer
     libnotify
