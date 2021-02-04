@@ -52,6 +52,10 @@
 
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager = {
+    enable = true;
+    insertNameservers = [ "10.5.1.10" ];
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
@@ -83,9 +87,9 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp2s0f0.useDHCP = true;
-  networking.interfaces.enp5s0.useDHCP = true;
-  networking.interfaces.wlp3s0.useDHCP = true;
+  # networking.interfaces.enp2s0f0.useDHCP = true;
+  # networking.interfaces.enp5s0.useDHCP = true;
+  # networking.interfaces.wlp3s0.useDHCP = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
