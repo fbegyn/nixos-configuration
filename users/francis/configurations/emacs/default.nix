@@ -183,6 +183,7 @@ in
         evil = {
           enable = true;
           init = ''
+            (setq evil-want-keybinding nil)
             (setq evil-want-C-i-jump nil)
           '';
           config = ''
