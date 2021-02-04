@@ -90,11 +90,11 @@ in
         (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
-        ; line numbers
+        ;; line numbers
         (when (version<= "26.0.50" emacs-version )
             (global-display-line-numbers-mode))
 
-        ; tweak some parameters
+        ;; tweak some parameters
         (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
         (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
 
@@ -109,7 +109,21 @@ in
         ;; rust
         (setq rust-format-on-save t)
 
-        ; extra functions for emacs
+        ;; refresh file with f5
+         (global-set-key
+           (kbd "<f5>")
+           (lambda (&optional force-reverting)
+             "Interactive call to revert-buffer. Ignoring the auto-save
+          file and not requesting for confirmation. When the current buffer
+          is modified, the command refuses to revert it, unless you specify
+          the optional argument: force-reverting to true."
+             (interactive "P")
+             ;;(message "force-reverting value is %s" force-reverting)
+             (if (or force-reverting (not (buffer-modified-p)))
+                 (revert-buffer :ignore-auto :noconfirm)
+               (error "The buffer has been modified"))))
+
+        ;; extra functions for emacs
         (defun chomp (str)
           "Chomp leading and tailing whitespace from STR."
           (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
@@ -132,6 +146,31 @@ in
           (split-window-horizontally)
           (other-window 1)
           (find-file arg))
+
+         ;; update all buffers after a git chance
+         (defun revert-all-buffers ()
+           "Iterate through the list of buffers and revert them, e.g. after a
+            new branch has been checked out."
+            (interactive)
+            (when (yes-or-no-p "Are you sure - any changes in open buffers will be lost! ")
+              (let ((frm1 (selected-frame)))
+                (make-frame)
+                (let ((frm2 (next-frame frm1)))
+                  (select-frame frm2)
+                  (make-frame-invisible)
+                  (dolist (x (buffer-list))
+                    (let ((test-buffer (buffer-name x)))
+                      (when (not (string-match "\*" test-buffer))
+                        (when (not (file-exists-p (buffer-file-name x)))
+                          (select-frame frm1)
+                          (when (yes-or-no-p (concat "File no longer exists (" (buffer-name x) "). Close buffer? "))
+                            (kill-buffer (buffer-name x)))
+                          (select-frame frm2))
+                        (when (file-exists-p (buffer-file-name x))
+                          (switch-to-buffer (buffer-name x))
+                          (revert-buffer t t t)))))
+                  (select-frame frm1)
+                  (delete-frame frm2)))))
       '';
 
       usePackageVerbose = true;
@@ -261,7 +300,11 @@ in
           ];
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
-            (setq lsp-python-ms-executable (executable-find "python-language-server"))
+            (lsp-register-client
+                (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
+                                 :major-modes '(python-mode)
+                                 :remote? t
+                                 :server-id 'pyls-remote))
           '';
         };
 
@@ -483,6 +526,9 @@ in
         lsp-python-ms = {
           enable = true;
           mode = [''"\\.py'"''];
+          init = ''
+            (setq lsp-python-ms-auto-install-server t)
+          '';
           hook = [
             "(python-mode . (lambda ()
                          (require 'lsp-python-ms)
