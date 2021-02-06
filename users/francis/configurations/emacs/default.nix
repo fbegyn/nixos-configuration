@@ -18,7 +18,10 @@ in
 {
   imports = [ ./emacs-init.nix ];
 
-  home.packages = [ e ];
+  home.packages = [
+    pkgs.ispell
+    e
+  ];
 
   home.file = {
     ".local/bin/e" = {
@@ -75,6 +78,14 @@ in
             (funcall mode 0)))
 
         (add-hook 'text-mode-hook 'auto-fill-mode) ; automatically reflow text (M-q)
+
+        ;; enable flyspell in text
+        (setq flyspell-issue-message-flag nil)
+        (dolist (hook '(text-mode-hook))
+          (add-hook hook (lambda () (flyspell-mode 1))))
+        ;; disable for derived modes from text mode
+        (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
+          (add-hook hook (lambda () (flyspell-mode -1))))
 
         (setq delete-old-versions -1 )		  ; delete excess backup versions silently
         (setq version-control t )	     	  ; use version control
