@@ -50278,7 +50278,7 @@ ff02::3 ip6-allhosts
 # [itsptp.com]
 
 # [iubenda.com]
-0.0.0.0 cdn.iubenda.com
+# 0.0.0.0 cdn.iubenda.com
 
 # [ivitrack.com]
 0.0.0.0 dmp.ivitrack.com
