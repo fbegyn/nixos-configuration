@@ -36,6 +36,7 @@
     ../../users/francis/gui.nix
     #../../users/francis/configurations/i3
     ../../users/francis/configurations/sway
+    ../../services/tailscale.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
