@@ -9,104 +9,87 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     # laptop hardware
-    ../../../nixos-hardware/common/pc/laptop
-    ../../../nixos-hardware/common/pc/ssd
+    <nixos-hardware/common/pc/laptop>
+    <nixos-hardware/common/pc/ssd>
     # specific to thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad/t14
-    ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
-    ../../common/base.nix
+    <nixos-hardware/lenovo/thinkpad>
+    <nixos-hardware/lenovo/thinkpad/t14>
+    # common settings
+    ../../common/cachix.nix
     ../../common/gpg.nix
-    ../../common/mac-keyboards.nix
+    ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
-    ../../common/screen-brightness.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/kubernetes.nix
+    ../../common/master.nix
+    ../../common/nur.nix
+    ../../common/unstable.nix
     ../../common/openvpn.nix
+    ../../common/eid.nix
+    ../../common/liveview-webcam.nix
+    ../../common/video-accel.nix
+    ../../common/amdgpu.nix
+    ../../common/vectera.nix
+
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.supportedFilesystems = [ "ntfs" ];
 
-  networking.hostName = "laptop-francis"; # Define your hostname.
-  networking.networkmanager = {
+  services.xserver = {
     enable = true;
   };
-  environment.systemPackages = [
-    (pkgs.callPackage ../../pkgs/ocsinventory-agent/default.nix {})
 
-    pkgs.gnome3.networkmanagerapplet
-    pkgs.lxqt.lxqt-policykit
-
-    pkgs.chromium
-
-    pkgs.libreoffice-fresh
-  ];
-  services.gvfs.enable = true;
-
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostName = "ania"; # Define your hostname.
+  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager = {
+    enable = true;
+    insertNameservers = [ "10.5.1.10" ];
+  };
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
+
+  # Select internationalisation properties.
+  i18n = {
+    defaultLocale = "nl_BE.UTF-8";
+    supportedLocales = [
+      "nl_BE.UTF-8/UTF-8"
+      "en_US.UTF-8/UTF-8"
+    ];
+    extraLocaleSettings = {
+      LC_MESSAGES = "en_US.UTF-8";
+    };
+  };
+
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
+
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  programs.adb.enable = true;
+  services.hardware.bolt.enable = true;
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp0s31f6.useDHCP = true;
-  networking.interfaces.wlp0s20f3.useDHCP = true;
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Select internationalisation properties.
-  # i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
-
-  # Configure keymap in X11
-  services.xserver.layout = "us";
-  services.xserver.xkbOptions = "eurosign:e";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  # networking.interfaces.enp2s0f0.useDHCP = true;
+  # networking.interfaces.enp5s0.useDHCP = true;
+  # networking.interfaces.wlp3s0.useDHCP = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

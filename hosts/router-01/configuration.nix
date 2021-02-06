@@ -5,20 +5,11 @@
 { config, pkgs, ... }:
 
 {
-  imports = [
-    # Include the results of the hardware scan.
-    ./hardware-configuration.nix
-
-    ../../common/base.nix
-    ../../common/master.nix
-    ../../common/nur.nix
-    ../../common/unstable.nix
-    ../../common/security.nix
-    ../../users
-    ../../users/francis
-
-    ../../common/acme.nix
-  ];
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+      ../../../nixos-hardware/pcengines/apu
+    ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -29,7 +20,8 @@
   # Define on which hard drive you want to install Grub.
   boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
 
-  networking.hostName = "host-01"; # Define your hostname.
+  networking.hostName = "router-01"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
@@ -39,7 +31,8 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.enp1s0.useDHCP = true;
-  networking.interfaces.enp7s0.useDHCP = true;
+  networking.interfaces.enp2s0.useDHCP = true;
+  networking.interfaces.enp3s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -51,6 +44,8 @@
   #   font = "Lat2-Terminus16";
   #   keyMap = "us";
   # };
+
+  
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
@@ -66,9 +61,21 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+  users.users.francis = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+  };
+
+  # List packages installed in system profile. To search, run:
+  # $ nix search wget
+  environment.systemPackages = with pkgs; [
+    vim
+  ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
-  # programs.mtr.enable = true;
+  programs.mtr.enable = true;
   # programs.gnupg.agent = {
   #   enable = true;
   #   enableSSHSupport = true;

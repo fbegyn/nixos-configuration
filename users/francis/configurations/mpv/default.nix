@@ -4,7 +4,7 @@
   home.packages = with pkgs; [
     unstable.mpv
     master.youtube-dl
-    master.streamlink
+    unstable.streamlink
   ];
 
   xdg.configFile."mpv/mpv.conf".source = ./mpv.conf;

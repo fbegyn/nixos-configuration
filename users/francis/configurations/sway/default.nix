@@ -9,6 +9,34 @@ in
 {
   programs.sway.enable = true;
 
+  nixpkgs.overlays = [
+    (self: super: {
+      wl-clipboard-x11 = super.stdenv.mkDerivation rec {
+      pname = "wl-clipboard-x11";
+      version = "5";
+    
+      src = super.fetchFromGitHub {
+        owner = "brunelli";
+        repo = "wl-clipboard-x11";
+        rev = "v${version}";
+        sha256 = "1y7jv7rps0sdzmm859wn2l8q4pg2x35smcrm7mbfxn5vrga0bslb";
+      };
+    
+      dontBuild = true;
+      dontConfigure = true;
+      propagatedBuildInputs = [ super.wl-clipboard ];
+      makeFlags = [ "PREFIX=$(out)" ];
+      };
+    
+      xsel = self.wl-clipboard-x11;
+      xclip = self.wl-clipboard-x11;
+    })
+  ];
+  
+  environment.systemPackages = with pkgs; [
+    wl-clipboard
+  ];
+
   home-manager.users.francis = {
     home.packages = with pkgs; [
       # waybar + scripts
@@ -19,12 +47,14 @@ in
       startsway
 
       # sway tooling
+      unstable.xdg_utils
       unstable.swaylock # lockscreen
       unstable.swayidle
       unstable.mako # notification daemon
       unstable.slurp
       unstable.grim
       unstable.wl-clipboard
+      unstable.ydotool
       unstable.wofi
       unstable.autotiling
       unstable.gammastep
@@ -76,6 +106,16 @@ in
           };
           "2:10:TPPS/2_Elan_TrackPoint" = {
             pointer_accel = "-0.17";
+          };
+          "1133:49971:Logitech_Gaming_Keyboard_G610" = {
+            xkb_layout = "us";
+            xkb_variant = "altgr-intl";
+            xkb_numlock = "enabled";
+          };
+          "1133:49971:Logitech_Gaming_Keyboard_G610_Keyboard" = {
+            xkb_layout = "us";
+            xkb_variant = "altgr-intl";
+            xkb_numlock = "enabled";
           };
         };
         assigns = {

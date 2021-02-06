@@ -1,7 +1,24 @@
 { pkgs, ... }:
 
+let e = pkgs.writeTextFile {
+      name = "francis-emacs.desktop";
+      destination = "/share/applications/francis-emacs.desktop";
+      text = ''
+[Desktop Entry]
+Exec=emacsclient -nc
+Icon=emacs
+Name[en_US]=Emacs Client
+Name=Emacs Client
+StartupNotify=true
+Terminal=false
+Type=Application
+      '';
+    };
+in
 {
   imports = [ ./emacs-init.nix ];
+
+  home.packages = [ e ];
 
   home.file = {
     ".local/bin/e" = {
@@ -32,7 +49,7 @@
         fontSize = "15";
         emacsFont = ''
           (when window-system
-            (set-frame-font "Hack ${fontSize}"))
+            (set-frame-font "DejaVu Sans Mono ${fontSize}"))
         '';
       in emacsFont + ''
         (require 'bind-key)
@@ -73,12 +90,40 @@
         (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
-        ; tweak some parameters
-        (setq gofmt-command "goimports")
+        ;; line numbers
+        (when (version<= "26.0.50" emacs-version )
+            (global-display-line-numbers-mode))
+
+        ;; tweak some parameters
         (set-frame-parameter (selected-frame) 'alpha '(85 . 85))
         (add-to-list 'default-frame-alist '(alpha . (85 . 85)))
 
-        ; extra functions for emacs
+        ;; go
+        (setenv "GOPATH" (concat (getenv "HOME") "/go"))
+        (setq gofmt-command "goimports")
+        (setq frame-resize-pixelwise t)
+        (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+        (setq default-tab-width 2)
+        (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+        ;; rust
+        (setq rust-format-on-save t)
+
+        ;; refresh file with f5
+         (global-set-key
+           (kbd "<f5>")
+           (lambda (&optional force-reverting)
+             "Interactive call to revert-buffer. Ignoring the auto-save
+          file and not requesting for confirmation. When the current buffer
+          is modified, the command refuses to revert it, unless you specify
+          the optional argument: force-reverting to true."
+             (interactive "P")
+             ;;(message "force-reverting value is %s" force-reverting)
+             (if (or force-reverting (not (buffer-modified-p)))
+                 (revert-buffer :ignore-auto :noconfirm)
+               (error "The buffer has been modified"))))
+
+        ;; extra functions for emacs
         (defun chomp (str)
           "Chomp leading and tailing whitespace from STR."
           (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
@@ -101,6 +146,31 @@
           (split-window-horizontally)
           (other-window 1)
           (find-file arg))
+
+         ;; update all buffers after a git chance
+         (defun revert-all-buffers ()
+           "Iterate through the list of buffers and revert them, e.g. after a
+            new branch has been checked out."
+            (interactive)
+            (when (yes-or-no-p "Are you sure - any changes in open buffers will be lost! ")
+              (let ((frm1 (selected-frame)))
+                (make-frame)
+                (let ((frm2 (next-frame frm1)))
+                  (select-frame frm2)
+                  (make-frame-invisible)
+                  (dolist (x (buffer-list))
+                    (let ((test-buffer (buffer-name x)))
+                      (when (not (string-match "\*" test-buffer))
+                        (when (not (file-exists-p (buffer-file-name x)))
+                          (select-frame frm1)
+                          (when (yes-or-no-p (concat "File no longer exists (" (buffer-name x) "). Close buffer? "))
+                            (kill-buffer (buffer-name x)))
+                          (select-frame frm2))
+                        (when (file-exists-p (buffer-file-name x))
+                          (switch-to-buffer (buffer-name x))
+                          (revert-buffer t t t)))))
+                  (select-frame frm1)
+                  (delete-frame frm2)))))
       '';
 
       usePackageVerbose = true;
@@ -136,6 +206,13 @@
               "s"   '(:ignore t :which-key "search")
               "sc"  '(counsel-unicode-char :which-key "find character"))
           '';
+        };
+
+        counsel-tramp = {
+          enable = true;
+          bindStar = {
+            "C-c t" = "counsel-tramp";
+          };
         };
 
         # direnv intergration for emacs
@@ -185,7 +262,32 @@
           '';
         };
 
-        go-mode = { enable = true; };
+        go-mode = {
+          enable = true;
+        };
+
+        neotree = {
+          enable = true;
+          config = ''
+            (global-set-key [f8] 'neotree-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+          '';
+        };
+
+        all-the-icons = {
+          enable = true;
+          config = ''
+            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+          '';
+        };
 
         lsp-mode = {
           enable = true;
@@ -193,12 +295,19 @@
           hook = [
             "(go-mode . lsp)"
             "(rust-mode . lsp)"
+            "(python-mode . lsp)"
             "(lsp-mode . lsp-enable-which-key-integration)"
           ];
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
+            (lsp-register-client
+                (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
+                                 :major-modes '(python-mode)
+                                 :remote? t
+                                 :server-id 'pyls-remote))
           '';
         };
+
         lsp-ui = {
           enable = true;
           after = [ "lsp" ];
@@ -208,16 +317,6 @@
           enable = true;
           after = [ "lsp" "ivy" ];
           command = [ "lsp-ivy-workspace-symbol" ];
-        };
-
-        nlinum-relative = {
-          enable = true;
-          after = [ "evil" ];
-          config = ''
-            (nlinum-relative-setup-evil)
-            (add-hook 'prog-mode-hook 'nlinum-relative-mode)
-            (add-hook 'org-mode-hook 'nlinum-relative-mode)
-          '';
         };
 
         general = {
@@ -244,6 +343,7 @@
               "f"  '(:ignore t :which-key "file")
               "ff" '(find-file :which-key "find")
               "fs" '(save-buffer :which-key "save")
+              "ft" '(neotree-toggle :which-key "neotree")
 
               "m"  '(:ignore t :which-key "mode")
 
@@ -347,10 +447,6 @@
           '';
         };
 
-        column-enfore-mode = {
-          enable = true;
-        };
-
         protobuf-mode = { enable = true; };
 
         swiper = {
@@ -427,7 +523,23 @@
           enable = true;
         };
 
-        elpy = {
+        lsp-python-ms = {
+          enable = true;
+          mode = [''"\\.py'"''];
+          init = ''
+            (setq lsp-python-ms-auto-install-server t)
+          '';
+          hook = [
+            "(python-mode . (lambda ()
+                         (require 'lsp-python-ms)
+                         (lsp)))"
+          ];
+          config = ''
+            (setq lsp-python-ms-executable (executable-find "python-language-server"))
+          '';
+        };
+
+        python-mode = {
           enable = true;
           mode = [''"\\.py'"''];
         };
@@ -436,14 +548,16 @@
           enable = true;
         };
 
+        docker = { enable = true; };
+        docker-tramp = { enable = true; };
         dockerfile-mode = { enable = true; };
+
         cython-mode = { enable = true; };
 
         ob.enable = true;
         org-download.enable = true;
         org.enable = true;
         org-mime.enable = true;
-        org-plus-contrib.enable = true;
         org-pomodoro.enable = true;
         org-projectile.enable = true;
 
