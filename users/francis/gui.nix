@@ -15,7 +15,9 @@
       ./configurations/spotifyd.nix
       ./configurations/tmux
       ./configurations/josm.nix
-      ./secrets/fish.nix
+      ./configurations/emacs
+      #./configurations/spacemacs
+      #./secrets/fish.nix
     ];
 
     xdg.configFile = {
@@ -30,11 +32,11 @@
       nodejs
       # Comms
       slack
-      master.mattermost-desktop
-      master.discord
-      tdesktop
+      unstable.mattermost-desktop
+      unstable.discord
+      unstable.tdesktop
       # Browser
-      unstable.firefox
+      firefox
       unstable.qutebrowser
       # entertainement
       spotify
@@ -48,6 +50,7 @@
       unstable.evince
       pulsemixer
       unstable.pandoc
+      wkhtmltopdf
       texlive.combined.scheme-medium
       unstable.reflex
       unstable.thunderbird-78

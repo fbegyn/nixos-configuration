@@ -18,8 +18,12 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/scanner.nix
+    ../../common/eid.nix
+    ../../common/liveview-webcam.nix
+    ../../common/video-accel.nix
     ../../users
     ../../users/francis
+    ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
   ];
 
@@ -29,8 +33,8 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  networking.hostName =
-    "bia"; # After the Greek personification of force and raw energy
+  networking.hostName = "bia";
+  # After the Greek personification of force and raw energy
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here

@@ -10,7 +10,6 @@ in {
     ../../common/master.nix
     ./configurations/udiskie.nix
     ./configurations/nvim/default.nix
-    ./configurations/emacs/default.nix
     ./configurations/git.nix
     ./configurations/fish.nix
     ./configurations/starship.nix
@@ -39,16 +38,21 @@ in {
     "$HOME/.cargo/bin"
   ];
 
+  home.sessionVariables = { EDITOR = "e"; };
+
   home.packages = with pkgs; [
     niv
     unstable.jq
     # Utilities
+    gcc
     go-tools
     pulsemixer
     libnotify
     libqalculate
     unstable.nixops
     unstable.htop
+    unstable.rclone
+    unstable.restic
     llvm
     lm_sensors
     moreutils
