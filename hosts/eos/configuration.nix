@@ -118,7 +118,6 @@
     zone = "begyn.be";
     domains = [
       "dcf.begyn.be"
-      "eos.dcf.begyn.be"
     ];
   };
 
