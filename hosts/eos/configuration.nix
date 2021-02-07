@@ -21,6 +21,7 @@
     ../../services/unifi
     ../../services/coredns
     ../../services/tailscale.nix
+    ../../services/ddclient
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -111,6 +112,14 @@
       # otherwise authenticate with tailscale
       ${tailscale}/bin/tailscale up -authkey ${hosts.eos.tailscale.oneoffkey}
     '';
+  };
+
+  services.ddclient = {
+    zone = "begyn.be";
+    domains = [
+      "dcf.begyn.be"
+      "eos.dcf.begyn.be"
+    ];
   };
 
   # This value determines the NixOS release from which the default
