@@ -21,6 +21,10 @@
     ../../services/unifi
     ../../services/coredns
     ../../services/tailscale.nix
+    ../../services/ddclient
+    ../../services/prometheus
+    ../../services/grafana
+    ../../services/node-exporter
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -111,6 +115,37 @@
       # otherwise authenticate with tailscale
       ${tailscale}/bin/tailscale up -authkey ${hosts.eos.tailscale.oneoffkey}
     '';
+  };
+
+  services.ddclient = {
+    zone = "begyn.be";
+    domains = [
+      "dcf.begyn.be"
+    ];
+  };
+
+  services.prometheus= {
+    scrapeConfigs = [
+      {
+        job_name = "node-exporter";
+        scheme = "http";
+        static_configs = [{
+            targets = [
+              "10.5.1.1:9100"
+              "10.5.1.10:9100"
+            ];
+        }];
+      }
+      {
+        job_name = "unifi";
+        scheme = "http";
+        static_configs = [{
+            targets = [
+              "10.5.1.10:9130"
+            ];
+        }];
+      }
+    ];
   };
 
   # This value determines the NixOS release from which the default
