@@ -310,6 +310,9 @@ in
             "(lsp-mode . lsp-enable-which-key-integration)"
           ];
           config = ''
+            (setq lsp-ui-doc-enable nil)
+            (setq lsp-ui-doc-show-with-cursor nil)
+            (setq lsp-ui-doc-show-with-mouse nil)
             (setq lsp-rust-server 'rust-analyzer)
             (lsp-register-client
                 (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
