@@ -20,6 +20,7 @@
     # services
     ../../services/unifi
     ../../services/coredns
+    ../../services/consul
     ../../services/tailscale.nix
     ../../services/ddclient
     ../../services/prometheus
