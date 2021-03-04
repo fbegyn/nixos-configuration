@@ -54,8 +54,8 @@ in
       }];
     }];
     globalConfig = {
-      scrape_interval = "30s";
-      scrape_timeout = "15s";
+      scrape_interval = "10s";
+      scrape_timeout = "8s";
     };
   };
 }
