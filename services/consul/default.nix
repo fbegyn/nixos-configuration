@@ -6,14 +6,14 @@
     enable = true;
     webUi = true;
     interface = {
-      bind = "eno1";
+      bind = "enp12s0";
     };
     extraConfig = {
       server = true;
       bootstrap_expect = 1;
-      datacenter = "ouders-home-01";
-      bind_addr = "10.3.10.10";
-      client_addr = "10.3.10.10";
+      datacenter = "app-01";
+      bind_addr = "10.5.1.10";
+      client_addr = "10.5.1.10";
       enable_script_checks = true;
     };
   };
