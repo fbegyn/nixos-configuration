@@ -49,24 +49,19 @@ in {
     pulsemixer
     libnotify
     libqalculate
-    unstable.nixops
     unstable.htop
     unstable.rclone
-    unstable.restic
-    llvm
     lm_sensors
     moreutils
     screen
+    unstable.tmux
     inotify-tools
     gnumake
-    linuxPackages.bcc
-    whois
     # cachix
     cachix
     # tools rewritten in rust
     unstable.ripgrep
     unstable.fd
-    unstable.tmux
     unstable.hyperfine
     unstable.bandwhich
     unzip
