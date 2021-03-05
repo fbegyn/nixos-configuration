@@ -51,8 +51,7 @@
       pulsemixer
       unstable.pandoc
       wkhtmltopdf
-      texlive.combined.scheme-medium
-      unstable.reflex
+      texlive.combined.scheme-small
       unstable.thunderbird-78
       pass
       # tools rewritten in rust
