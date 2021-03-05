@@ -6,7 +6,7 @@
     enable = true;
     webUi = true;
     interface = {
-      bind = "enp12s0";
+      bind = "enp57s0u1";
     };
     extraConfig = {
       server = true;
