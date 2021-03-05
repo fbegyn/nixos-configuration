@@ -44,6 +44,8 @@ in
 
         ${cname "unifi" "eos"}
         ${cname "consul" "eos"}
+        ${cname "grafana" "eos"}
+        ${cname "prometheus" "eos"}
       '';
     };
     coredns-ads-fakenews = {

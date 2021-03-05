@@ -21,6 +21,7 @@
     ../../services/unifi
     ../../services/coredns
     ../../services/consul
+    ../../services/vault
     ../../services/tailscale.nix
     ../../services/ddclient
     ../../services/prometheus
@@ -147,6 +148,57 @@
         }];
       }
     ];
+  };
+
+  security.acme = {
+    acceptTerms = true;
+    email = "francis.begyn+certs@gmail.com";
+  };
+
+  services.nginx = {
+    enable = true;
+    recommendedProxySettings = true;
+    virtualHosts.consul =  {
+      serverName = "consul.begyn.lan";
+      serverAliases = [ "consul" ];
+      locations."/" = {
+        proxyPass = "http://10.5.1.10:8500";
+        extraConfig =
+          "proxy_pass_header Authorization;"
+          ;
+      };
+    };
+    virtualHosts.grafana =  {
+      serverName = "grafana.begyn.lan";
+      serverAliases = [ "grafana" ];
+      locations."/" = {
+        proxyPass = "http://10.5.1.10:3000";
+        extraConfig =
+          "proxy_pass_header Authorization;"
+          ;
+      };
+    };
+    virtualHosts.prometheus =  {
+      serverName = "prometheus.begyn.lan";
+      serverAliases = [ "prometheus" ];
+      locations."/" = {
+        proxyPass = "http://10.5.1.10:9090";
+        extraConfig =
+          "proxy_pass_header Authorization;"
+          ;
+      };
+    };
+    virtualHosts.unifi =  {
+      serverName = "unifi.begyn.lan";
+      serverAliases = [ "unifi" ];
+      locations."/" = {
+        proxyPass = "https://10.5.1.10:8443";
+        extraConfig =
+          "proxy_ssl_server_name on;" +
+          "proxy_pass_header Authorization;"
+          ;
+      };
+    };
   };
 
   # This value determines the NixOS release from which the default
