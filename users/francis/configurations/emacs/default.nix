@@ -300,6 +300,10 @@ in
           '';
         };
 
+        mu4e = {
+          enable = true;
+        };
+
         lsp-mode = {
           enable = true;
           command = [ "lsp" ];
