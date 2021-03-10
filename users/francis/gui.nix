@@ -33,7 +33,7 @@
       # Comms
       slack
       unstable.mattermost-desktop
-      unstable.discord
+      master.discord
       unstable.tdesktop
       # Browser
       firefox
