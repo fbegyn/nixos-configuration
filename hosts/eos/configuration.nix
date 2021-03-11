@@ -8,7 +8,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #../../../nixos-hardware/dell/xps/13-9360
+    #<nixos-hardware/dell/xps/13-9360>
 
     ../../common/base.nix
     ../../common/security.nix
