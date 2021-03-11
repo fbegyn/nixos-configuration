@@ -5,11 +5,11 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../../nixos-hardware/pcengines/apu
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    <nixos-hardware/pcengines/apu>
+  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
