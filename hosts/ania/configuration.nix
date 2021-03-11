@@ -25,7 +25,6 @@
     ../../common/printer.nix
     ../../common/wireguard.nix
     ../../common/master.nix
-    ../../common/nur.nix
     ../../common/unstable.nix
     ../../common/openvpn.nix
     ../../common/eid.nix
