@@ -6,7 +6,6 @@ in {
   imports = [
     ./python.nix
     ../../common/unstable.nix
-    ../../common/nur.nix
     ../../common/master.nix
     ./configurations/udiskie.nix
     ./configurations/nvim/default.nix

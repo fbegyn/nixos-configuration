@@ -29,7 +29,6 @@
     ../../common/printer.nix
     ../../common/wireguard.nix
     ../../common/master.nix
-    ../../common/nur.nix
     ../../common/unstable.nix
     ../../users
     ../../users/francis
