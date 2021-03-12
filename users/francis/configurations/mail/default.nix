@@ -85,6 +85,7 @@
     home.packages = [
       pkgs.isync
       pkgs.w3m
+      pkgs.mu
     ];
     programs.mbsync = {
       enable = true;
