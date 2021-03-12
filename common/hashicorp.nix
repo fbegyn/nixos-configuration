@@ -2,9 +2,9 @@
 
 {
   home-manager.users.francis.home.packages = with pkgs; [
-    master.nomad
-    master.terraform
-    master.vagrant
-    master.packer
+    unstable.nomad
+    unstable.terraform
+    unstable.vagrant
+    unstable.packer
   ];
 }
