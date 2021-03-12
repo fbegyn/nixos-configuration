@@ -10,7 +10,6 @@
       ./configurations/udiskie.nix
       ./configurations/alacritty
       ./configurations/hledger.nix
-      ./configurations/teamspeak.nix
       ./configurations/neuron.nix
       ./configurations/spotifyd.nix
       ./configurations/tmux
@@ -33,7 +32,7 @@
       # Comms
       slack
       unstable.mattermost-desktop
-      master.discord
+      unstable.discord
       unstable.tdesktop
       # Browser
       firefox

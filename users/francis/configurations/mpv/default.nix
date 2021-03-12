@@ -2,8 +2,8 @@
 
 {
   home.packages = with pkgs; [
-    master.mpv
-    master.youtube-dl
+    unstable.mpv
+    unstable.youtube-dl
     unstable.streamlink
   ];
 
