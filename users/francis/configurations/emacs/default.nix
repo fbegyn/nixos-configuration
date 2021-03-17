@@ -524,15 +524,16 @@ in
           '';
         };
 
-        neuron-mode = {
-          enable = true;
-        };
-
         puppet-mode = {
           enable = true;
         };
 
-        elxir-mode = {
+        neuron-mode = {
+          enable = true;
+          package = epkgs: pkgs.unstable.emacsPackages.neuron-mode;
+        };
+
+        elixir-mode = {
           enable = true;
           mode = [''"\\.ex'"''];
         };
