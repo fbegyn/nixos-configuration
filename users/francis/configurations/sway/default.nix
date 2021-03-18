@@ -58,6 +58,7 @@ in
       unstable.wofi
       unstable.autotiling
       unstable.gammastep
+      pkg-config
       wf-recorder
       xwayland # for legacy apps
       kanshi # autorandr
