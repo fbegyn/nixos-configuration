@@ -30,6 +30,7 @@
     ../../common/wireguard.nix
     ../../common/master.nix
     ../../common/unstable.nix
+    ../../common/eid.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
