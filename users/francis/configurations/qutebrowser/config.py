@@ -153,7 +153,8 @@ c.colors.webpage.bg = ''
 
 # Force `prefers-color-scheme: dark` colors for websites.
 # Type: Bool
-c.colors.webpage.prefers_color_scheme_dark = True
+# c.colors.webpage.prefers_color_scheme_dark = True
+c.colors.webpage.preferred_color_scheme = "auto"
 
 # Font used for the hints.
 # Type: Font
