@@ -2,9 +2,8 @@
 
 let
   notesDir = "/home/francis/zettelkasten";
-  neuron = (
-    let neuronSrc = builtins.fetchTarball "https://github.com/srid/neuron/archive/master.tar.gz";
-    in import neuronSrc {});
+  neuron = ( builtins.fetchTarball "https://github.com/srid/neuron/archive/master.tar.gz"
+  );
 in
 {
   home.packages = with pkgs; [
