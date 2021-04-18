@@ -32,7 +32,7 @@
       # Comms
       slack
       unstable.mattermost-desktop
-      unstable.discord
+      master.discord
       unstable.tdesktop
       # Browser
       firefox
@@ -45,7 +45,7 @@
       rofi
       rofi-pass
       unstable.ltunify
-      unstable.vscode
+      # unstable.vscode
       unstable.evince
       pulsemixer
       unstable.pandoc

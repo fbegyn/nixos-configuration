@@ -17,6 +17,7 @@
       "vboxusers"
       "adbusers"
       "input"
+      "fuse"
       "lp"
       "scanner"
       "networkmanager"
