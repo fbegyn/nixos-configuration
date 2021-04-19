@@ -35,7 +35,6 @@
     ../../common/vectera.nix
     ../../common/hashicorp.nix
     ../../common/libvirt.nix
-    ../../common/virtualbox.nix
 
     ../../users
     ../../users/francis
