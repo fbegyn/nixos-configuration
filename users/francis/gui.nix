@@ -38,7 +38,7 @@
       firefox
       unstable.qutebrowser
       # entertainement
-      spotify
+      unstable.spotify
       unstable.playerctl
       # Utilities
       gnome3.nautilus
