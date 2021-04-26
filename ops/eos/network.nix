@@ -8,7 +8,7 @@
       ../../hosts/eos/configuration.nix
     ];
 
-    deployment.targetUser = "root";
+    deployment.targetUser = "francis";
     deployment.targetHost = "10.5.1.10";
   };
 }
