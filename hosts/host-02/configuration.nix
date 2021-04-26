@@ -11,7 +11,6 @@
 
       ../../common/base.nix
       ../../common/master.nix
-      ../../common/nur.nix
       ../../common/unstable.nix
       ../../common/security.nix
 
