@@ -34,6 +34,13 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.cleanTmpDir = true;
+
+  nix.autoOptimiseStore = true;
+  services.journald.extraConfig = ''
+    SystemMaxUse=100M
+    MaxFileSec=7day
+  '';
 
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";
