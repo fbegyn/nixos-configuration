@@ -23,8 +23,10 @@
     package = pkgs.i3;
     extraPackages = with pkgs; [
       maim
+      pkg-config
       xclip
       arandr
+      autorandr
       unstable.picom
       unstable.i3status-rust
       feh

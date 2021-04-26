@@ -9,12 +9,12 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     # laptop hardware
-    ../../../nixos-hardware/common/pc/laptop
-    ../../../nixos-hardware/common/pc/ssd
+    <nixos-hardware/common/pc/laptop>
+    <nixos-hardware/common/pc/ssd>
     # specific to thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad
-    ../../../nixos-hardware/lenovo/thinkpad/x1
-    ../../../nixos-hardware/common/pc/laptop/acpi_call.nix
+    <nixos-hardware/lenovo/thinkpad>
+    <nixos-hardware/lenovo/thinkpad/x1>
+    <nixos-hardware/common/pc/laptop/acpi_call.nix>
     # wireless settings
     ../../secrets/wireless.nix
     # common settings
@@ -29,8 +29,8 @@
     ../../common/printer.nix
     ../../common/wireguard.nix
     ../../common/master.nix
-    ../../common/nur.nix
     ../../common/unstable.nix
+    ../../common/eid.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix

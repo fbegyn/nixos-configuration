@@ -10,7 +10,6 @@
       ./configurations/udiskie.nix
       ./configurations/alacritty
       ./configurations/hledger.nix
-      ./configurations/teamspeak.nix
       ./configurations/neuron.nix
       ./configurations/spotifyd.nix
       ./configurations/tmux
@@ -33,20 +32,20 @@
       # Comms
       slack
       unstable.mattermost-desktop
-      unstable.discord
+      master.discord
       unstable.tdesktop
       # Browser
       firefox
       unstable.qutebrowser
       # entertainement
-      spotify
+      unstable.spotify
       unstable.playerctl
       # Utilities
       gnome3.nautilus
       rofi
       rofi-pass
       unstable.ltunify
-      unstable.vscode
+      # unstable.vscode
       unstable.evince
       pulsemixer
       unstable.pandoc

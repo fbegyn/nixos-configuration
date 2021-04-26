@@ -25,7 +25,6 @@
 with lib;
 
 let
-
   cfg = config.programs.emacs.init;
 
   packageFunctionType = mkOptionType {
@@ -306,13 +305,9 @@ let
   hasGeneral = any (p: p.general != "") (attrValues cfg.usePackage);
 
   usePackageSetup = ''
+    (setq package-enable-at-startup nil)
+
     (eval-when-compile
-      (require 'package)
-
-      (setq package-archives nil
-            package-enable-at-startup nil
-            package--init-file-ensured t)
-
       (require 'use-package)
 
       ;; To help fixing issues during startup.
@@ -337,9 +332,7 @@ let
   '';
 
   initFile = ''
-    ;;; hm-init.el --- Emacs configuration à la Home Manager.
-    ;;
-    ;; -*- lexical-binding: t; -*-
+    ;;; hm-init.el --- Emacs configuration à la Home Manager -*- lexical-binding: t; -*-
     ;;
     ;;; Commentary:
     ;;

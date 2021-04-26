@@ -9,6 +9,7 @@ in
 {
   programs.sway.enable = true;
 
+  # fix clipboard for wayland
   nixpkgs.overlays = [
     (self: super: {
       wl-clipboard-x11 = super.stdenv.mkDerivation rec {
@@ -32,11 +33,16 @@ in
       xclip = self.wl-clipboard-x11;
     })
   ];
-  
   environment.systemPackages = with pkgs; [
     wl-clipboard
+    # polkit for the sway environment
+    polkit_gnome
   ];
 
+  # polkit for the sway environment
+  environment.pathsToLink = [ "/libexec" ];
+
+  # sway install and dependencies through home-manager
   home-manager.users.francis = {
     home.packages = with pkgs; [
       # waybar + scripts
@@ -58,6 +64,7 @@ in
       unstable.wofi
       unstable.autotiling
       unstable.gammastep
+      pkg-config
       wf-recorder
       xwayland # for legacy apps
       kanshi # autorandr
@@ -83,6 +90,7 @@ in
     wayland.windowManager.sway = {
       enable = true;
       systemdIntegration = true;
+      wrapperFeatures.gtk = true;
       extraSessionCommands = ''
         export XDG_SESSION_TYPE=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
@@ -306,13 +314,13 @@ in
         # idle config
         # Idle configuration
         exec swayidle -w \
-        timeout 60 'exec $locker -f' \
-        timeout 360 'swaymsg "output dpms * off"' \
-                resume 'swaymsg "output dpms * on"' \
-        timeout 1800 'systemctl suspend' \
-                resume 'swaymsg "output dpms * on"' \
-        before-sleep 'exec $locker -f' \
-        after-resume 'swaymsg "output dpms * on"'
+            timeout 20 'if pgrep swaylock; then swaymsg "output * dpms off"' \
+            timeout 60 'exec $locker -f' \
+            timeout 360 'swaymsg "output dpms * off"' \
+            timeout 1800 'systemctl suspend' \
+            resume 'swaymsg "output * dpms on"' \
+            before-sleep 'exec $locker -f' \
+            after-resume 'swaymsg "output * dpms on"'
 
         # disable laptop output on lid close
         # enabling this, then I should disabl the logind handlers
