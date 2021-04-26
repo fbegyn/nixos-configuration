@@ -1,6 +1,5 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, pkgs, ... }:
 
@@ -27,6 +26,7 @@
     ../../services/prometheus
     ../../services/grafana
     ../../services/node-exporter
+    ../../services/plex.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -144,6 +144,15 @@
         static_configs = [{
             targets = [
               "10.5.1.10:9130"
+            ];
+        }];
+      }
+      {
+        job_name = "tc-exporter";
+        scheme = "http";
+        static_configs = [{
+            targets = [
+              "10.5.1.1:9704"
             ];
         }];
       }
