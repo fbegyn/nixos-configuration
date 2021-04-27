@@ -44,6 +44,13 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.cleanTmpDir = true;
+
+  nix.autoOptimiseStore = true;
+  services.journald.extraConfig = ''
+    SystemMaxUse=100M
+    MaxFileSec=7day
+  '';
 
   networking.hostName = "horme"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
