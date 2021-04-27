@@ -18,6 +18,7 @@
     ../../common/cachix.nix
     ../../common/gpg.nix
     ../../common/base.nix
+    ../../common/screen-brightness.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
     ../../common/bluetooth.nix
