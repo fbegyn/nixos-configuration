@@ -84,12 +84,6 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
-  services.plex = {
-    enable = true;
-    openFirewall = true;
-    user = "francis";
-  };
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
   ];
