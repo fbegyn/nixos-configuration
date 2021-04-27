@@ -228,6 +228,9 @@ bindsym XF86AudioPlay --release exec playerctl play-pause
 bindsym XF86AudioNext --release exec playerctl next
 bindsym XF86AudioPrev --release exec playerctl previous
 
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -e s 10%-
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -e s +10%
+
 # Autostart programs
 #exec --no-startup-id vivaldi-snapshot
 exec --no-startup-id qutebrowser
