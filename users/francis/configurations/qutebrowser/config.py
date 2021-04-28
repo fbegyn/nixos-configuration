@@ -27,19 +27,21 @@ c.auto_save.session = True
 # Type: Bool
 c.content.autoplay = False
 
-# User agent to send.  The following placeholders are defined:  *
-# `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
-# The underlying WebKit version (set to a fixed value   with
-# QtWebEngine). * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for
-# QtWebEngine. * `{qt_version}`: The underlying Qt version. *
-# `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
-# QtWebEngine. * `{upstream_browser_version}`: The corresponding
-# Safari/Chrome version. * `{qutebrowser_version}`: The currently
-# running qutebrowser version.  The default value is equal to the
-# unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
-# read from JavaScript is always the global value.
+# User agent to send.  The following placeholders are defined:
+# * `{os_info}`: Something like "X11; Linux x86_64".
+# * `{webkit_version}`: The underlying WebKit version (set to a fixed
+#   value with QtWebEngine).
+# * `{qt_key}`: "Qt" for QtWebKit, "QtWebEngine" for QtWebEngine.
+# * `{qt_version}`: The underlying Qt version.
+# * `{upstream_browser_key}`: "Version" for QtWebKit, "Chrome" for
+#   QtWebEngine.
+# * `{upstream_browser_version}`: The corresponding Safari/Chrome version.
+# * `{qutebrowser_version}`: The currently running qutebrowser version.
+#   The default value is equal to the unchanged user agent of
+#   QtWebKit/QtWebEngine.  Note that the value read from JavaScript is always
+#   the global value.
 # Type: FormatString
-c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) Gecko/20100101 Firefox/88.0'
+c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} Chromium/{upstream_browser_version} Chrome/{upstream_browser_version}'
 
 # Load images automatically in web pages.
 # Type: Bool
