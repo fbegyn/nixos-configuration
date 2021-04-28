@@ -6,10 +6,17 @@
 # Uncomment this to still load settings cured via autoc.yml
 config.load_autoconfig()
 
+# `c` is some python magic for `config.set()`
+
 # Aliases for commands. The keys of the given dictionary are the
 # aliases, while the values are the commands they map to.
 # Type: Dict
-c.aliases = {'w': 'session-save', 'q': 'quit', 'wq': 'quit --save', 'private': 'open -p'}
+c.aliases = {
+        'w': 'session-save',
+        'q': 'quit',
+        'wq': 'quit --save',
+        'private': 'open -p',
+    }
 
 # Always restore open sites when qutebrowser is reopened.
 # Type: Bool
@@ -32,7 +39,7 @@ c.content.autoplay = False
 # unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
 # read from JavaScript is always the global value.
 # Type: FormatString
-# c.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://docs.google.com/*')
+c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0'
 
 # Load images automatically in web pages.
 # Type: Bool
@@ -66,6 +73,12 @@ c.content.autoplay = False
 # Type: List of File, or File
 c.content.user_stylesheets = []
 
+# have TLS certificate errors handled like other browsers
+c.content.tls.certificate_errors = 'ask-block-thirdparty'
+
+# spellcheck
+# c.spellcheck.languages = [ 'nl-NL', 'en-GB', 'en-US' ]
+
 # Directory to save downloads to. If unset, a sensible OS-specific
 # default is used.
 # Type: Directory
@@ -94,6 +107,11 @@ c.tabs.background = True
 #   - first: At the beginning.
 #   - last: At the end.
 c.tabs.new_position.related = 'next'
+
+# Stack related tabs on top of each other when opened consecutively.
+# Only applies for next and prev values of tabs.new_position.related
+# and tabs.new_position.unrelated.
+c.tabs.new_position.stacking = True
 
 # Position of the tab bar.
 # Type: Position
@@ -140,11 +158,23 @@ c.url.default_page = 'http://localhost:15860/impulse.html'
 # used by prepending the search engine name to the search term, e.g.
 # `:open google qutebrowser`.
 # Type: Dict
-c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}', 'aw': 'https://wiki.archlinux.org/?search={}', 'gscholar': 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}', 'g': 'https://google.com/search?q={}', 'gif': 'https://giphy.com/search/{}', 'gmaps': 'https://www.google.be/maps/search/{}+', 'maps': 'https://www.openstreetmap.org/search?query={}', 'mov': 'https://www.imdb.com/find?q={}&s=all', 'r': 'https://www.reddit.com/search?q={}', 'word': 'https://www.wordnik.com/words/{}', 'woord': 'https://woordenlijst.org/#/?q={}'}
+c.url.searchengines = {
+        'DEFAULT': 'https://duckduckgo.com/?q={}',
+        'aw': 'https://wiki.archlinux.org/?search={}',
+        'gscholar': 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C5&q={}',
+        'g': 'https://google.com/search?q={}',
+        'gif': 'https://giphy.com/search/{}',
+        'gmaps': 'https://www.google.be/maps/search/{}+'
+        , 'maps': 'https://www.openstreetmap.org/search?query={}',
+        'mov': 'https://www.imdb.com/find?q={}&s=all',
+        'r': 'https://www.reddit.com/search?q={}',
+        'word': 'https://www.wordnik.com/words/{}',
+        'woord': 'https://woordenlijst.org/#/?q={}',
+        }
 
 # Page(s) to open at the start.
 # Type: List of FuzzyUrl, or FuzzyUrl
-c.url.start_pages = 'https://pomoday.app/'
+c.url.start_pages = 'http://localhost:15860/impulse.html'
 
 # Background color for webpages if unset (or empty to use the theme's
 # color).

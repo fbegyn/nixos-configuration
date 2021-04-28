@@ -542,6 +542,10 @@ in
           enable = true;
         };
 
+        realgud = {
+          enable = true;
+        };
+
         lsp-python-ms = {
           enable = true;
           mode = [''"\\.py'"''];
