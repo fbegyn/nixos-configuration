@@ -37,7 +37,7 @@ in {
     "$HOME/.cargo/bin"
   ];
 
-  home.sessionVariables = { EDITOR = "e"; };
+  home.sessionVariables = { EDITOR = "vim"; };
 
   home.packages = with pkgs; [
     niv
