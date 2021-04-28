@@ -39,7 +39,7 @@ c.content.autoplay = False
 # unchanged user agent of QtWebKit/QtWebEngine.  Note that the value
 # read from JavaScript is always the global value.
 # Type: FormatString
-c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0'
+c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) Gecko/20100101 Firefox/88.0'
 
 # Load images automatically in web pages.
 # Type: Bool
