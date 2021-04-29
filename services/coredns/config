@@ -1,22 +1,9 @@
-(forward-cf) {
-    forward . tls://1.1.1.1 tls://1.0.0.1 {
-        tls_servername cloudflare-dns.com
-        health_check 5s
-    }
-    log
-    errors
-    cache
-}
-
-(forward-opennic) {
-    forward . 185.121.177.177 169.239.202.202
-    log
-    errors
-    cache
-}
-
 . {
     prometheus 10.3.2.2:9153
+
+    log
+    errors
+    cache
 
     auto begyn.lan {
         directory /etc/coredns/zones
@@ -26,7 +13,28 @@
         fallthrough
     }
 
-    import forward-cf
+	forward . 127.0.0.1:5301 127.0.0.1:5302
+}
+
+.:5301 {
+	forward . tls://1.1.1.1 tls://1.0.0.1 {
+		tls_servername cloudflare-dns.com
+		health_check 5s
+		except nixos.org
+	}
+}
+
+.:5302 {
+	forward . tls://8.8.8.8 tls://8.8.4.4 {
+		tls_servername dns.google
+	}
+}
+
+(forward-opennic) {
+    forward . 185.121.177.177 169.239.202.202
+    log
+    errors
+    cache
 }
 
 bbs {
