@@ -23,7 +23,6 @@
       "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
       "qutebrowser/css/solarized-dark-all-sites.css".source =
         ./configurations/qutebrowser/solarized-dark-all-sites.css;
-      "compton.conf".source = ./configurations/compton.conf;
       "mimeapps.list".source = ./configurations/mimeapps.list;
     };
 
@@ -45,7 +44,7 @@
       rofi
       rofi-pass
       unstable.ltunify
-      # unstable.vscode
+      unstable.vscode
       unstable.evince
       pulsemixer
       unstable.pandoc
