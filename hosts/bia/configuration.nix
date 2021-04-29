@@ -18,6 +18,8 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/scanner.nix
+    ../../common/system.nix
+    ../../common/resolved.nix
     ../../common/eid.nix
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix
