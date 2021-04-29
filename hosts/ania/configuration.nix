@@ -66,7 +66,11 @@
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager = {
     enable = true;
-    insertNameservers = [ "10.5.1.10" ];
+    dns = "systemd-resolved";
+    packages = with pkgs; [
+      gnome3.networkmanagerapplet
+      libnma
+    ];
   };
 
   # Set your time zone.
