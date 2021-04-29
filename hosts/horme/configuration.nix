@@ -31,6 +31,8 @@
     ../../common/master.nix
     ../../common/unstable.nix
     ../../common/eid.nix
+    ../../common/system.nix
+    ../../common/resolved.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
