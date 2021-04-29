@@ -9,6 +9,6 @@
     ];
 
     deployment.targetUser = "francis";
-    deployment.targetHost = "135.181.105.123";
+    deployment.targetHost = "100.93.146.4";
   };
 }
