@@ -45,6 +45,7 @@
     xdg.configFile = {
       "i3/config".source = ./config;
       "i3status-rs/config.toml".source = ./i3status-config.toml;
+      "picom.conf".source = ./picom.conf;
     };
   };
 }
