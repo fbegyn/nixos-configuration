@@ -56,7 +56,7 @@
     serviceConfig.Type = "oneshot";
 
     # have the job run this shell script
-    script = with pkgs; ''
+    script = with pkgs.unstable; ''
       # wait for tailscaled to settle
       sleep 2
 
