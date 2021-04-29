@@ -13,7 +13,6 @@
     ../../common/security.nix
     ../../common/fonts.nix
     ../../common/system.nix
-    ../../common/resolved.nix
     ../../common/wireguard.nix
     ../../users
     ../../users/francis
@@ -113,7 +112,7 @@
     serviceConfig.Type = "oneshot";
 
     # have the job run this shell script
-    script = with pkgs; ''
+    script = with pkgs.unstable; ''
       # wait for tailscaled to settle
       sleep 2
 
