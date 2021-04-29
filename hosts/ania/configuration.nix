@@ -18,6 +18,8 @@
     ../../common/cachix.nix
     ../../common/gpg.nix
     ../../common/base.nix
+    ../../common/system.nix
+    ../../common/resolved.nix
     ../../common/screen-brightness.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix

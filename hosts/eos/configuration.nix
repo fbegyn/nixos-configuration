@@ -12,6 +12,8 @@
     ../../common/base.nix
     ../../common/security.nix
     ../../common/fonts.nix
+    ../../common/system.nix
+    ../../common/resolved.nix
     ../../common/wireguard.nix
     ../../users
     ../../users/francis
