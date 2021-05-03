@@ -54,6 +54,7 @@ in {
     moreutils
     screen
     unstable.tmux
+    unstable.morph
     inotify-tools
     gnumake
     # cachix
