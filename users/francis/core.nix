@@ -54,6 +54,7 @@ in {
     moreutils
     screen
     unstable.tmux
+    unstable.tailscale
     inotify-tools
     gnumake
     # cachix
