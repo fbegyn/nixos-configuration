@@ -5,7 +5,6 @@
     enable = true;
     dnssec = "false";
     fallbackDns = [
-      "100.100.100.100"
       "10.5.1.10"
       "1.1.1.1"
       "8.8.8.8"
