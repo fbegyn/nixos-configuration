@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 let
-  unstable = import (fetchTarball http://nixos.org/channels/nixos-unstable-small/nixexprs.tar.xz) {};
+  unstable = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz) {};
 in
 {
   nixpkgs.overlays = [
