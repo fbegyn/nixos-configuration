@@ -41,7 +41,7 @@ c.content.autoplay = False
 #   QtWebKit/QtWebEngine.  Note that the value read from JavaScript is always
 #   the global value.
 # Type: FormatString
-c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} Chromium/{upstream_browser_version} Chrome/{upstream_browser_version}'
+c.content.headers.user_agent = 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {qt_key}/{qt_version} {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}'
 
 # Load images automatically in web pages.
 # Type: Bool
