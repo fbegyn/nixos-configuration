@@ -50,7 +50,7 @@
       unstable.pandoc
       wkhtmltopdf
       texlive.combined.scheme-small
-      unstable.thunderbird-78
+      unstable.thunderbird
       pass
       # tools rewritten in rust
       unstable.tmux
