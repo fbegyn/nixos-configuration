@@ -10,12 +10,9 @@
       ./configurations/udiskie.nix
       ./configurations/alacritty
       ./configurations/hledger.nix
-      ./configurations/neuron.nix
-      ./configurations/spotifyd.nix
       ./configurations/tmux
       ./configurations/josm.nix
       ./configurations/emacs
-      #./configurations/spacemacs
       #./secrets/fish.nix
     ];
 
