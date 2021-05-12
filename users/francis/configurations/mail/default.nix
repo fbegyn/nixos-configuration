@@ -10,9 +10,9 @@
           address = "francis@begyn.be";
           userName = "francis@begyn.be";
           realName = "Francis Begyn";
-          passwordCommand = "${pkgs.pass}/bin/pass mailwizard-francis@begyn.be";
-          imap.host = "imap.fastmail.com";
-          smtp.host = "smtp.fastmail.com";
+          passwordCommand = "${pkgs.pass}/bin/pass mail/mail.begyn.be";
+          imap.host = "mail.begyn.be";
+          smtp.host = "mail.begyn.be";
           notmuch.enable = true;
           mbsync = {
             enable = true;
