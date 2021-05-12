@@ -1,8 +1,8 @@
 IMAPStore francis@begyn.be-remote
-Host imap.fastmail.com
+Host mail.begyn.be
 Port 993
 User francis@begyn.be
-PassCmd "pass mailwizard-francis@begyn.be"
+PassCmd "pass mail/mail.begyn.be"
 SSLType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
