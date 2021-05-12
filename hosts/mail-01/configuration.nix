@@ -134,6 +134,23 @@ in {
     };
   };
 
+  # mailserver backups
+  # borgbase
+  services.borgbackup.jobs."borgbase" = {
+    paths = [
+      "/var/vmail"
+      "/var/dkim"
+    ];
+    repo = vars.mailserver.backups.borgbase.repo;
+    encryption = {
+      mode = "repokey-blake2";
+      passCommand = vars.mailserver.backups.borgbase.key;
+    };
+    environment.BORG_RSH = vars.mailserver.backups.borgbase.ssh;
+    compression = "auto,lzma";
+    startAt = "hourly";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
