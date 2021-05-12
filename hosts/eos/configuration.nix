@@ -218,6 +218,17 @@
     };
   };
 
+  # serve as repo for mailserver
+  users.groups.virtualmail.gid = 2000;
+  users.users.virtualmail = {
+    createHome = true;
+    isSystemUser = true;
+    packages = [ pkgs.borgbackup ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICy0YyOZjqBDZeFjnfFnVUoUH5j4SZpPKGQEw3VjtrxS Borg Backup"
+    ];
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
