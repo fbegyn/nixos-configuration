@@ -160,7 +160,7 @@ in {
     };
     environment.BORG_RSH = vars.mailserver.backups.borgbase.ssh;
     compression = "auto,lzma";
-    startAt = "hourly";
+    startAt = "*:0/20";
   };
 
   # This value determines the NixOS release from which the default
