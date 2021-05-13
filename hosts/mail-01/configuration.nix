@@ -58,6 +58,18 @@ in {
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.interfaces.ens3.useDHCP = true;
+  networking.defaultGateway6 = {
+    address = "fe80::1";
+    interface = "ens3";
+  };
+  networking.interfaces.ens3.ipv6 = {
+    addresses = [
+      {
+        address = "2a01:4f8:1c1c:af60::1";
+        prefixLength = 64;
+      }
+    ];
+  };
 
   # tailscale machine specific
   # create a oneshot job to authenticate to Tailscale
