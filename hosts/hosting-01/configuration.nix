@@ -52,6 +52,19 @@
     ];
   };
 
+  systemd.services.weechat = {
+    environment.WEECHAT_HOME = "/var/lib/weechat";
+    serviceConfig = {
+      User = "francis";
+      Group = "francis";
+      RemainAfterExit = "yes";
+    };
+    script = "exec ${config.security.wrapperDir}/screen -Dm -S weechat ${pkgs.unstable.weechat}/bin/weechat";
+    wantedBy = [ "multi-user.target" ];
+    wants = [ "network.target" ];
+  };
+  security.wrappers.screen.source = "${pkgs.unstable.screen}/bin/screen";
+
   # tailscale machine specific
   # create a oneshot job to authenticate to Tailscale
   systemd.services.tailscale-autoconnect = let
