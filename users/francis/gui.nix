@@ -48,7 +48,8 @@
       wkhtmltopdf
       texlive.combined.scheme-small
       unstable.thunderbird
-      pass
+      # pass # no longer needed since handled by pass-otp
+      pass-otp
       # tools rewritten in rust
       unstable.tmux
       unstable.hyperfine
