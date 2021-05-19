@@ -205,19 +205,28 @@ c.fonts.statusbar = 'Terminus'
 c.fonts.web.family.standard = None
 
 # Bindings for normal mode
-config.bind(',n', 'c-cycle content.user_stylesheets ~/.c/qutebrowser/css/solarized-dark-all-sites.css ""')
-config.bind('<Alt+Shift+y>', 'spawn --detach /home/francis/Scripts/youtubeplayer.sh queue "{url}"')
+## style bindings
+config.bind(',n', 'config-cycle content.user_stylesheets ~/.config/qutebrowser/css/solarized-dark-all-sites.css ""')
+
+## reading/refernce bingings
 config.bind('<Ctrl+Shift+b>', 'spawn --userscript getbib')
-config.bind('<Ctrl+Shift+c>', 'hint links spawn --detach /home/francis/Scripts/youtubecaster.sh queue "{hint-url}"')
 config.bind('<Ctrl+Shift+r>', 'spawn --userscript readability')
-config.bind('<Ctrl+Shift+y>', 'hint links spawn --detach /home/francis/Scripts/youtubeplayer.sh queue "{hint-url}"')
-config.bind('C', 'hint links spawn --detach /home/francis/Scripts/youtubecaster.sh single "{hint-url}"')
+
+## mpv youtube player
 config.bind('Y', 'hint links spawn --detach /home/francis/Scripts/youtubeplayer.sh window "{hint-url}"')
+config.bind('<Alt+Shift+y>', 'spawn --detach /home/francis/Scripts/youtubeplayer.sh queue "{url}"')
+config.bind('<Ctrl+Shift+y>', 'hint links spawn --detach /home/francis/Scripts/youtubeplayer.sh queue "{hint-url}"')
+
+## cast youtube videos
+config.bind('C', 'hint links spawn --detach /home/francis/Scripts/youtubecaster.sh single "{hint-url}"')
+config.bind('<Ctrl+Shift+c>', 'hint links spawn --detach /home/francis/Scripts/youtubecaster.sh queue "{hint-url}"')
+
+## password binding
 config.bind('zl', 'spawn --userscript qute-pass --password-only')
 config.bind('zol', 'spawn --userscript qute-pass --otp-only')
 config.bind('zpl', 'spawn --userscript qute-pass --password-only')
 config.bind('zul', 'spawn --userscript qute-pass --username-only')
 
-# Bindings for command mode
+## Bindings for command mode
 config.bind('<Ctrl+j>', 'completion-item-focus next', mode='command')
 config.bind('<Ctrl+k>', 'completion-item-focus prev', mode='command')
