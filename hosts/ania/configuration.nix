@@ -15,6 +15,7 @@
     <nixos-hardware/lenovo/thinkpad>
     <nixos-hardware/lenovo/thinkpad/t14>
     # common settings
+    ../../common
     ../../common/gpg.nix
     ../../common/screen-brightness.nix
     ../../common/security.nix
