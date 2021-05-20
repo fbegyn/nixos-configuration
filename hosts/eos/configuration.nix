@@ -7,12 +7,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #<nixos-hardware/dell/xps/13-9360>
 
     ../../common
     ../../common/security.nix
-    ../../common/fonts.nix
-    ../../common/wireguard.nix
 
     ../../users
     ../../users/francis
@@ -20,28 +17,19 @@
     # services
     ../../services/unifi
     ../../services/coredns
-    ../../services/consul
-    ../../services/vault
-    ../../services/tailscale.nix
     ../../services/ddclient
     ../../services/prometheus
     ../../services/grafana
     ../../services/node-exporter
+    ../../services/tailscale.nix
     ../../services/plex.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.cleanTmpDir = true;
-
-  nix.autoOptimiseStore = true;
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    MaxFileSec=7day
-  '';
 
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";
@@ -71,10 +59,6 @@
     firewall.enable = false;
   };
 
-  networking.wireguard = {
-    enable = true;
-  };
-
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
   # console = {
@@ -85,18 +69,11 @@
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
 
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = false;
-    pinentryFlavor = "gtk2";
-  };
-
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
   };
-  services.hardware.bolt.enable = true;
 
   # tailscale machine specific
   thecy.services.tailscale = let
@@ -146,68 +123,6 @@
             ];
         }];
       }
-    ];
-  };
-
-  security.acme = {
-    acceptTerms = true;
-    email = "francis.begyn+certs@gmail.com";
-  };
-
-  services.nginx = {
-    enable = true;
-    recommendedProxySettings = true;
-    virtualHosts.consul =  {
-      serverName = "consul.begyn.lan";
-      serverAliases = [ "consul" ];
-      locations."/" = {
-        proxyPass = "http://10.5.1.10:8500";
-        extraConfig =
-          "proxy_pass_header Authorization;"
-          ;
-      };
-    };
-    virtualHosts.grafana =  {
-      serverName = "grafana.begyn.lan";
-      serverAliases = [ "grafana" ];
-      locations."/" = {
-        proxyPass = "http://10.5.1.10:3000";
-        extraConfig =
-          "proxy_pass_header Authorization;"
-          ;
-      };
-    };
-    virtualHosts.prometheus =  {
-      serverName = "prometheus.begyn.lan";
-      serverAliases = [ "prometheus" ];
-      locations."/" = {
-        proxyPass = "http://10.5.1.10:9090";
-        extraConfig =
-          "proxy_pass_header Authorization;"
-          ;
-      };
-    };
-    virtualHosts.unifi =  {
-      serverName = "unifi.begyn.lan";
-      serverAliases = [ "unifi" ];
-      locations."/" = {
-        proxyPass = "https://10.5.1.10:8443";
-        extraConfig =
-          "proxy_ssl_server_name on;" +
-          "proxy_pass_header Authorization;"
-          ;
-      };
-    };
-  };
-
-  # serve as repo for mailserver
-  users.groups.virtualmail.gid = 2000;
-  users.users.virtualmail = {
-    createHome = true;
-    isSystemUser = true;
-    packages = [ pkgs.borgbackup ];
-    openssh.authorizedKeys.keys = [
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICy0YyOZjqBDZeFjnfFnVUoUH5j4SZpPKGQEw3VjtrxS Borg Backup"
     ];
   };
 
