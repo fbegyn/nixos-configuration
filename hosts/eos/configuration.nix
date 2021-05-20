@@ -47,6 +47,9 @@
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
   services.logind.lidSwitchExternalPower = "ignore";
+  services.resolved.extraConfig = ''
+    DNSStubListener=no
+  '';
 
   networking = {
     hostName = "eos"; # After the Greek titan of dawn
