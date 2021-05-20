@@ -41,6 +41,7 @@ with lib; {
     systemd.packages = [ cfg.package ];
 
     systemd.services.tailscale = {
+      enable = true;
       description = "Tailscale client daemon";
       path = [ pkgs.openresolv ];
 
@@ -66,9 +67,7 @@ with lib; {
         CacheDirectoryMode = 750;
 
         Restart = "on-failure";
-      } // (mkIf cfg.notifySupport {
-        Type = "notify";
-      });
+      };
     };
 
     systemd.services.tailscale-autoprovision = mkIf cfg.autoprovision.enable {
@@ -90,6 +89,10 @@ with lib; {
       };
 
       script = ''
+        # wait for tailscaled to settle
+        sleep 2
+
+        # authenticate to tailscale
         ${cfg.package}/bin/tailscale up --authkey=${cfg.autoprovision.key}
       '';
     };
