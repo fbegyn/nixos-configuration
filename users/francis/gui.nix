@@ -32,6 +32,8 @@
       slack
       unstable.mattermost-desktop
       unstable.tdesktop
+      unstable.thunderbird
+      unstable.weechat
       # Browser
       unstable.firefox
       unstable.chromium
@@ -48,7 +50,6 @@
       unstable.pandoc
       wkhtmltopdf
       texlive.combined.scheme-small
-      unstable.thunderbird
       # pass # no longer needed since handled by pass-otp
       pass-otp
       # tools rewritten in rust

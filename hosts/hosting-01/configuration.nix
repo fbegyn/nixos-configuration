@@ -50,7 +50,7 @@
   };
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 6697 ];
+      allowedTCPPorts = [ 22 56697 ];
     };
   };
   networking.firewall = {
@@ -63,38 +63,14 @@
 
   services.nginx.enable = true;
 
-  # weechat daemon
-  systemd.services.weechat = let
-    weechat = (self: super: {
-      weechat = super.weechat.override {
-        configure = { availablePlugins, ... }: {
-          scripts = with super.weechatScripts; [
-            weechat-matrix
-            weechat-otr
-          ];
-        };
-      };
-    });
-    master = import <nixpkgs> { overlays = [ weechat ]; };
-  in {
-    environment.WEECHAT_HOME = "/var/lib/weechat";
-    serviceConfig = {
-      User = "francis";
-      Group = "francis";
-      RemainAfterExit = "yes";
-    };
-    script = "exec ${config.security.wrapperDir}/screen -Dm -S weechat ${master.weechat}/bin/weechat";
-    wantedBy = [ "multi-user.target" ];
-    wants = [ "network.target" ];
-  };
-  security.wrappers.screen.source = "${pkgs.unstable.screen}/bin/screen";
-
+  # IRC bouncer
   services.znc = {
     enable = true;
     openFirewall = false;
     useLegacyConfig = false;
     config = {
       LoadModule = [ "adminlog" "webadmin" ];
+      Listener.listener0.Port = 56697;
       User.fbegyn = {
         Admin = true;
         Nick = "fbegyn";
