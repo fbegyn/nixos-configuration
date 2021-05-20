@@ -14,8 +14,6 @@ with lib; {
       description = "pkg to use for tailscale";
     };
 
-    notifySupport = mkEnableOption "Enables systemd-notify support";
-
     autoprovision = {
       enable = mkEnableOption "enable auto provisioning";
       key = mkOption {
@@ -31,6 +29,7 @@ with lib; {
 
     systemd.services.tailscale = {
       description = "Tailscale client daemon";
+      path = [ pkgs.openresolv ];
 
       after = [ "network-pre.target" ];
       wants = [ "network-pre.target" ];
@@ -54,21 +53,7 @@ with lib; {
         CacheDirectoryMode = 750;
 
         Restart = "on-failure";
-      } // (mkIf cfg.notifySupport {
-        ExecStart = "${cfg.package}/bin/tailscaled --port ${toString cfg.port}";
-
-        RuntimeDirectory = "tailscale";
-        RuntimeDirectoryMode = 755;
-
-        StateDirectory = "tailscale";
-        StateDirectoryMode = 750;
-
-        CacheDirectory = "tailscale";
-        CacheDirectoryMode = 750;
-
-        Restart = "on-failure";
-        Type = "notify";
-      });
+      };
     };
 
     systemd.services.tailscale-autoprovision = mkIf cfg.autoprovision.enable {
