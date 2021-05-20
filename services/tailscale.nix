@@ -14,6 +14,19 @@ with lib; {
       description = "pkg to use for tailscale";
     };
 
+    port = mkOption {
+      type = types.port;
+      default = 41641;
+      description = "The port to listen on for tunnel traffic (0=autoselect).";
+    };
+
+    notifySupport = mkOption {
+      type = types.bool;
+      default = false;
+      example = "true";
+      description = "Enable notifyd support";
+    };
+
     autoprovision = {
       enable = mkEnableOption "enable auto provisioning";
       key = mkOption {
@@ -53,7 +66,9 @@ with lib; {
         CacheDirectoryMode = 750;
 
         Restart = "on-failure";
-      };
+      } // (mkIf cfg.NotifySupport {
+        Type = "notify";
+      });
     };
 
     systemd.services.tailscale-autoprovision = mkIf cfg.autoprovision.enable {
