@@ -66,7 +66,7 @@ with lib; {
         CacheDirectoryMode = 750;
 
         Restart = "on-failure";
-      } // (mkIf cfg.NotifySupport {
+      } // (mkIf cfg.notifySupport {
         Type = "notify";
       });
     };
