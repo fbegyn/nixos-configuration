@@ -14,11 +14,6 @@ in {
     ./configurations/network-tools.nix
   ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = import ../../pkgs;
-  };
-
   xsession.initExtra = ''
     systemctl --user import-environment
   '';
