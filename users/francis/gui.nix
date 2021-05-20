@@ -31,7 +31,8 @@
       master.discord
       unstable.tdesktop
       # Browser
-      firefox
+      unstable.firefox
+      unstable.chromium
       unstable.qutebrowser
       # entertainement
       unstable.spotify

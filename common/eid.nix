@@ -1,16 +1,14 @@
 { pkgs, ...}:
 
-{
+let
+  browser-eid-overlay = import ../overlays/browser-eid.nix;
+in {
   nixpkgs.overlays = [
-    (self: super: {
-      firefox = super.firefox.override { pkcs11Modules = [ self.eid-mw ];};
-      firefox-bin = self.firefox;
-    })
+    browser-eid-overlay
   ];
 
   home-manager.users.francis.home.packages = [
     pkgs.unstable.eid-mw
-    pkgs.firefox
   ];
 
   services.pcscd = {
