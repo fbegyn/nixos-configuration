@@ -75,7 +75,7 @@
         };
       };
     });
-    master = import <master> { overlays = [ weechat ]; };
+    master = import <nixpkgs> { overlays = [ weechat ]; };
   in {
     environment.WEECHAT_HOME = "/var/lib/weechat";
     serviceConfig = {
