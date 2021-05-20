@@ -50,7 +50,7 @@
   };
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 6697 ];
     };
   };
   networking.firewall = {
@@ -88,6 +88,21 @@
     wants = [ "network.target" ];
   };
   security.wrappers.screen.source = "${pkgs.unstable.screen}/bin/screen";
+
+  services.znc = {
+    enable = true;
+    openFirewall = false;
+    useLegacyConfig = false;
+    config = {
+      LoadModule = [ "adminlog" "webadmin" ];
+      User.fbegyn = {
+        Admin = true;
+        Nick = "fbegyn";
+        AltNick = "thecy";
+        LoadModule = [ "chansaver" "controlpanel" ];
+      };
+    };
+  };
 
   # tailscale machine specific
   thecy.services.tailscale = let
