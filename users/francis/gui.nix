@@ -1,6 +1,9 @@
 { config, pkgs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [
+  ];
+
   home-manager.users.francis = {
     imports = [
       ./configurations/mpv
@@ -28,21 +31,18 @@
       # Comms
       slack
       unstable.mattermost-desktop
-      master.discord
       unstable.tdesktop
       # Browser
       unstable.firefox
       unstable.chromium
       unstable.qutebrowser
       # entertainement
-      unstable.spotify
       unstable.playerctl
       # Utilities
       gnome3.nautilus
       rofi
       rofi-pass
       unstable.ltunify
-      unstable.vscode
       unstable.evince
       pulsemixer
       unstable.pandoc
@@ -55,6 +55,10 @@
       unstable.tmux
       unstable.hyperfine
       unstable.bandwhich
+      # unfree packages
+      unstable.spotify
+      unstable.vscode
+      master.discord
     ];
   };
 }

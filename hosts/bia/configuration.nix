@@ -8,8 +8,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../common/base.nix
-    ../../common/master.nix
+    ../../common
     ../../common/security.nix
     ../../common/steam.nix
     ../../common/pulseaudio.nix
@@ -18,16 +17,14 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/scanner.nix
-    ../../common/system.nix
-    ../../common/resolved.nix
     ../../common/eid.nix
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix
+
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
     ../../users/francis/configurations/i3
-    ../../users/francis/configurations/mail
 
     ../../services/tailscale.nix
   ];

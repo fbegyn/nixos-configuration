@@ -5,8 +5,6 @@ let
 in {
   imports = [
     ./python.nix
-    ../../common/unstable.nix
-    ../../common/master.nix
     ./configurations/udiskie.nix
     ./configurations/nvim/default.nix
     ./configurations/git.nix
@@ -15,6 +13,11 @@ in {
     ./configurations/fzf.nix
     ./configurations/network-tools.nix
   ];
+
+  nixpkgs.config = {
+    allowUnfree = true;
+    packageOverrides = import ../../pkgs;
+  };
 
   xsession.initExtra = ''
     systemctl --user import-environment
@@ -68,9 +71,4 @@ in {
     # run nix programs once without installing
     comma
   ];
-
-  nixpkgs.config = {
-    allowBroken = true;
-    allowUnfree = true;
-  };
 }

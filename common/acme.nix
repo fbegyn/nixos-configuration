@@ -1,5 +1,0 @@
-{
-  security.acme = {
-    acceptTerms = true;
-  };
-} 

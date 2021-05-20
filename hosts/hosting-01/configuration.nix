@@ -5,24 +5,21 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      ../../common/base.nix
-      ../../common/master.nix
-      ../../common/unstable.nix
-      ../../common/security.nix
-      ../../common/system.nix
-      ../../common/resolved.nix
+    ../../common
+    ../../common/security.nix
 
-      ../../users
-      ../../users/francis
+    ../../users
+    ../../users/francis
 
-      ../../common/acme.nix
-      ../../services/website
-      ../../services/tailscale.nix
-    ];
+    ../../services/website
+    ../../services/tailscale.nix
+
+    ./acme.nix
+  ];
 
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
@@ -51,15 +48,42 @@
       }
     ];
   };
+  networking.firewall.interfaces = {
+    "tailscale0" = {
+      allowedTCPPorts = [ 22 ];
+    };
+  };
+  networking.firewall = {
+    allowedTCPPorts = [ 80 443 ];
+  };
 
-  systemd.services.weechat = {
+  thecy.services.website = {
+    enable = true;
+  };
+
+  services.nginx.enable = true;
+
+  # weechat daemon
+  systemd.services.weechat = let
+    weechat = (self: super: {
+      weechat = super.weechat.override {
+        configure = { availablePlugins, ... }: {
+          scripts = with super.weechatScripts; [
+            weechat-matrix
+            weechat-otr
+          ];
+        };
+      };
+    });
+    master = import <master> { overlays = [ weechat ]; };
+  in {
     environment.WEECHAT_HOME = "/var/lib/weechat";
     serviceConfig = {
       User = "francis";
       Group = "francis";
       RemainAfterExit = "yes";
     };
-    script = "exec ${config.security.wrapperDir}/screen -Dm -S weechat ${pkgs.unstable.weechat}/bin/weechat";
+    script = "exec ${config.security.wrapperDir}/screen -Dm -S weechat ${master.weechat}/bin/weechat";
     wantedBy = [ "multi-user.target" ];
     wants = [ "network.target" ];
   };
@@ -100,12 +124,6 @@
   services.openssh = {
     enable = true;
     openFirewall = false;
-  };
-
-  networking.firewall.interfaces = {
-    "tailscale0" = {
-      allowedTCPPorts = [ 22 ];
-    };
   };
 
   # Open ports in the firewall.
