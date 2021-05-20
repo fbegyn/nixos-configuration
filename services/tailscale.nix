@@ -76,22 +76,9 @@ with lib; {
       wants = [ "network-pre.target" "tailscale.service" ];
       wantedBy = [ "multi-user.target" ];
 
-      serviceConfig = {
-        Type = "oneshot";
-        RuntimeDirectory = "tailscale";
-        RuntimeDirectoryMode = 755;
-
-        StateDirectory = "tailscale";
-        StateDirectoryMode = 750;
-
-        CacheDirectory = "tailscale";
-        CacheDirectoryMode = 750;
-      };
+      serviceConfig.Type = "oneshot";
 
       script = ''
-        # wait for tailscaled to settle
-        sleep 2
-
         # authenticate to tailscale
         ${cfg.package}/bin/tailscale up --authkey=${cfg.autoprovision.key}
       '';

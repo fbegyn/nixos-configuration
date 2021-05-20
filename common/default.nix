@@ -70,6 +70,9 @@ with lib; {
         "2606:4700:4700::1001"
         "2001:4860:4860::8844"
       ];
+      extraConfig = ''
+        DNSStubListener=no
+      '';
     };
   };
 }
