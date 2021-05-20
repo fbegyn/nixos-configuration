@@ -8,6 +8,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
     # laptop hardware
     <nixos-hardware/common/pc/laptop>
     <nixos-hardware/common/pc/ssd>
@@ -15,12 +16,12 @@
     <nixos-hardware/lenovo/thinkpad>
     <nixos-hardware/lenovo/thinkpad/x1>
     <nixos-hardware/common/pc/laptop/acpi_call.nix>
+
     # wireless settings
     ../../secrets/wireless.nix
     # common settings
-    ../../common/cachix.nix
+    ../../common
     ../../common/gpg.nix
-    ../../common/base.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
     ../../common/screen-brightness.nix
@@ -28,11 +29,7 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/master.nix
-    ../../common/unstable.nix
     ../../common/eid.nix
-    ../../common/system.nix
-    ../../common/resolved.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
@@ -41,18 +38,13 @@
     ../../services/tailscale.nix
   ];
 
+  nixpkgs.config.alluwUnfree = true;
+
   # Use the systemd-boot EFI boot loader.
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.cleanTmpDir = true;
-
-  nix.autoOptimiseStore = true;
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    MaxFileSec=7day
-  '';
 
   networking.hostName = "horme"; # Define your hostname.
   networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

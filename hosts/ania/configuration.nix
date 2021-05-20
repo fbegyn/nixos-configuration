@@ -15,11 +15,7 @@
     <nixos-hardware/lenovo/thinkpad>
     <nixos-hardware/lenovo/thinkpad/t14>
     # common settings
-    ../../common/cachix.nix
     ../../common/gpg.nix
-    ../../common/base.nix
-    ../../common/system.nix
-    ../../common/resolved.nix
     ../../common/screen-brightness.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
@@ -27,9 +23,6 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/master.nix
-    ../../common/unstable.nix
-    ../../common/openvpn.nix
     ../../common/eid.nix
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix

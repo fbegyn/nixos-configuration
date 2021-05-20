@@ -9,11 +9,11 @@
     ./hardware-configuration.nix
     #<nixos-hardware/dell/xps/13-9360>
 
-    ../../common/base.nix
+    ../../common
     ../../common/security.nix
     ../../common/fonts.nix
-    ../../common/system.nix
     ../../common/wireguard.nix
+
     ../../users
     ../../users/francis
 
@@ -94,7 +94,6 @@
     enable = true;
   };
   services.hardware.bolt.enable = true;
-  nixpkgs.config.allowUnfree = true;
 
   # tailscale machine specific
   # create a oneshot job to authenticate to Tailscale

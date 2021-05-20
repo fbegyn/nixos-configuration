@@ -12,17 +12,13 @@ in {
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
 
-    ../../common/base.nix
-    ../../common/master.nix
-    ../../common/unstable.nix
+    ../../common
     ../../common/security.nix
-    ../../common/system.nix
-    ../../common/resolved.nix
 
     ../../users
     ../../users/francis
 
-    ../../common/acme.nix
+    ./acme.nix
     ../../services/tailscale.nix
 
     # simple mail server
@@ -132,7 +128,6 @@ in {
     };
   };
 
-  security.acme.email = vars.acme.email;
   mailserver = {
     enable = true;
     fqdn = vars.mailserver.fqdn;

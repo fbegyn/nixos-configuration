@@ -8,21 +8,17 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      #../../secrets/wireless.nix
-      ../../common/base.nix
+
+      ../../common
       ../../common/security.nix
       ../../common/pulseaudio.nix
-      #../../common/screen-brightness.nix
       ../../common/bluetooth.nix
-      #../../common/fonts.nix
+
       ../../users
-      #../../users/francis/gui.nix
-      #../../users/francis/configurations/sway
 
       # load in set of services to run
       ../../services/grafana
       ../../services/prometheus
-      #../../services/corerad
       ../../services/coredns
       ../../services/unifi
       ../../services/traefik
