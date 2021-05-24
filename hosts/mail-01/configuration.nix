@@ -112,7 +112,7 @@ in {
     domains = vars.mailserver.domains;
     loginAccounts = vars.mailserver.accounts;
     certificateScheme = 3;
-    virusScanning = true;
+    virusScanning = false;
     monitoring = {
       enable = false;
       alertAddress = vars.mailserver.alertAddress;
