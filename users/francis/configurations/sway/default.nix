@@ -50,23 +50,21 @@ in
       waybarsh
       waybar-spotify
       waybar-storage
-      startsway
 
       # sway tooling
-      unstable.xdg_utils
+      xdg_utils
       unstable.swaylock # lockscreen
       unstable.swayidle
-      unstable.mako # notification daemon
-      unstable.slurp
-      unstable.grim
+      mako # notification daemon
+      slurp
+      grim
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
-      unstable.autotiling
+      autotiling
       unstable.gammastep
       pkg-config
       wf-recorder
-      xwayland # for legacy apps
       kanshi # autorandr
       libappindicator-gtk3
       wdisplays
@@ -89,6 +87,7 @@ in
 
     wayland.windowManager.sway = {
       enable = true;
+      xwayland = true;
       systemdIntegration = true;
       wrapperFeatures.gtk = true;
       extraSessionCommands = ''
@@ -104,7 +103,7 @@ in
       config = {
         fonts = [ "Hack 10" ];
         terminal = "alacritty";
-        menu = "rofi -show drun";
+        menu = "wofi --show drun";
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {

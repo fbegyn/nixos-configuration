@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-  ];
-
   home-manager.users.francis = {
     imports = [
       ./configurations/mpv
@@ -35,7 +32,7 @@
       unstable.thunderbird
       unstable.weechat
       # Browser
-      unstable.firefox
+      firefox
       unstable.chromium
       unstable.qutebrowser
       # entertainement
