@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home.packages = with pkgs;
+  home.packages = with pkgs.unstable;
     [
       (python38.withPackages
       (ps: with ps; [

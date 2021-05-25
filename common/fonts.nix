@@ -2,8 +2,8 @@
 { config, pkgs, ... }:
 
 {
+  fonts.fontDir.enable = true;
   fonts = {
-    enableFontDir = true;
     fonts = with pkgs; [
       noto-fonts
       noto-fonts-cjk
