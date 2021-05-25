@@ -24,7 +24,7 @@
     };
 
     home.packages = with pkgs; [
-      nodejs
+      unstable.nodejs
       # Comms
       slack
       unstable.mattermost-desktop
