@@ -80,6 +80,9 @@
     };
   };
 
+  # weechat
+  
+
   # tailscale machine specific
   thecy.services.tailscale = let
     hosts = import ../../secrets/hosts.nix;

@@ -9,6 +9,7 @@ in {
     ./configurations/nvim/default.nix
     ./configurations/git.nix
     ./configurations/fish.nix
+    ./configurations/bash.nix
     ./configurations/starship.nix
     ./configurations/fzf.nix
     ./configurations/network-tools.nix
