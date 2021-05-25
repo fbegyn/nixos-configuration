@@ -50,7 +50,7 @@
   };
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 56697 ];
+      allowedTCPPorts = [ 22 56697 8000 9000 ];
     };
   };
   networking.firewall = {
@@ -61,7 +61,13 @@
     enable = true;
   };
 
-  services.nginx.enable = true;
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+  };
 
   # IRC bouncer
   services.znc = {
@@ -81,7 +87,39 @@
   };
 
   # weechat
-  
+  environment.systemPackages = [ pkgs.unstable.weechat ];
+  home-manager.users.francis.systemd.user.services.weechat = {
+    Unit = {
+      Description = "weechat headless";
+    };
+    Service = {
+      ExecStart = "${pkgs.unstable.weechat}/bin/weechat-headless --stdout";
+    };
+    Install = {
+      WantedBy = [ "default.target" ];
+    };
+  };
+  services.nginx.virtualHosts = {
+    "irc.francis.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "francis.begyn.be";
+      locations."^~ /weechat" = {
+        proxyPass = "http://127.0.0.1:9000";
+        proxyWebsockets = true;
+      };
+    };   
+  };
+  # services.oauth2.proxy = {
+  #   enable = true;
+  #   email.addresses = ''
+  #     francis@begyn.be
+  #   '';
+  #   nginx.virtualhosts = [
+  #     "irc.francis.begyn.be"
+  #   ];
+  #   clientID = "";
+  #   keyFile = "";
+  # };
 
   # tailscale machine specific
   thecy.services.tailscale = let
