@@ -32,7 +32,7 @@
       unstable.thunderbird
       unstable.weechat
       # Browser
-      firefox
+      unstable.firefox
       unstable.chromium
       unstable.qutebrowser
       # entertainement
