@@ -7,12 +7,12 @@ in {
     browser-eid-overlay
   ];
 
-  home-manager.users.francis.home.packages = [
+  environment.systemPackages = [
     pkgs.unstable.eid-mw
   ];
 
   services.pcscd = {
     enable = true;
-    plugins = [ pkgs.ccid ];
+    plugins = [ pkgs.unstable.ccid ];
   };
 }
