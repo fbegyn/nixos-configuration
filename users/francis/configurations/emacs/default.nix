@@ -296,7 +296,7 @@ in
         all-the-icons = {
           enable = true;
           config = ''
-            (setq neo-theme 'icons 'arrow)
+            (setq neo-theme 'icons)
           '';
         };
 
