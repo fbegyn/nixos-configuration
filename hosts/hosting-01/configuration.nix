@@ -50,7 +50,7 @@
   };
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 56697 8000 9000 ];
+      allowedTCPPorts = [ 22 8000 9000 ];
     };
   };
   networking.firewall = {
@@ -67,23 +67,6 @@
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
-  };
-
-  # IRC bouncer
-  services.znc = {
-    enable = true;
-    openFirewall = false;
-    useLegacyConfig = false;
-    config = {
-      LoadModule = [ "adminlog" "webadmin" ];
-      Listener.listener0.Port = 56697;
-      User.fbegyn = {
-        Admin = true;
-        Nick = "fbegyn";
-        AltNick = "thecy";
-        LoadModule = [ "chansaver" "controlpanel" ];
-      };
-    };
   };
 
   # weechat
