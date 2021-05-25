@@ -17,7 +17,7 @@ in {
     email = "francis+hosting@begyn.be"; 
     dnsProvider = "cloudflare";
     credentialsFile = "${creds}";
-    extraDomainNames = [];
+    extraDomainNames = [ "*.francis.begyn.be" ];
     inherit extraLegoFlags;
   };
 }

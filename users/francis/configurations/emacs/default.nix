@@ -39,10 +39,10 @@ in
       executable = true;
     };
   };
-  services.emacs.enable = false;
+  services.emacs.enable = true;
   programs.emacs = {
     enable = true;
-
+    package = pkgs.unstable.emacs;
     init = {
       enable = true;
 
@@ -543,6 +543,10 @@ in
         };
 
         realgud = {
+          enable = true;
+        };
+
+        weechat = {
           enable = true;
         };
 
