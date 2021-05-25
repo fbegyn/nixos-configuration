@@ -88,10 +88,14 @@
 
   # weechat
   environment.systemPackages = [ pkgs.unstable.weechat ];
-  home-manager.users.francis.systemd.user.services.weechat = {
-    Unit.Description = "weechat headless";
-    Service.ExecStart = [ "${pkgs.unstable.weechat}/bin/weechat-headless --stdout" ];
-    Install.WantedBy = [ "default.target" ];
+  systemd.services.weechat = {
+    description = "weechat headless";
+    serviceConfig = {
+      User = "francis";
+      Group = "francis";
+      ExecStart = [ "${pkgs.unstable.weechat}/bin/weechat-headless --stdout" ];
+    };
+    wantedBy = [ "default.target" ];
   };
   services.nginx.virtualHosts = {
     "irc.francis.begyn.be" = {
