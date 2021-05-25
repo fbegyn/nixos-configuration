@@ -296,12 +296,8 @@ in
         all-the-icons = {
           enable = true;
           config = ''
-            (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
+            (setq neo-theme 'icons 'arrow)
           '';
-        };
-
-        mu4e = {
-          enable = true;
         };
 
         lsp-mode = {
