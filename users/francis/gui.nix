@@ -56,7 +56,7 @@
       # unfree packages
       unstable.spotify
       unstable.vscode
-      master.discord
+      unstable.discord
     ];
   };
 }
