@@ -40,6 +40,7 @@ in
     };
   };
   services.emacs.enable = true;
+
   programs.emacs = {
     enable = true;
     package = pkgs.unstable.emacs;
@@ -226,9 +227,11 @@ in
           };
         };
 
-        tramp.enable = true;
+        "elpaPackages.tramp" = {
+          enable = true;
+        };
 
-        # direnv intergration for emacs
+        # Direnv intergration for emacs
         direnv = {
           enable = true;
           config = ''
