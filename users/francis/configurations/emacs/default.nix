@@ -590,7 +590,35 @@ in
         };
 
         realgud.enable = true;
-        weechat.enable = true;
+        weechat = {
+          enable = true;
+          init = ''
+            (defvar weechat-formatting-regex
+              (rx-let ((attr (in "*!/_|"))   ;NOTE:  is not documented
+                     (std  (= 2 digit))
+                     (astd (seq attr (= 2 digit)))
+                     (ext  (seq "@" (= 5 digit)))
+                     (aext (seq "@" attr (= 5 digit))))
+                (rx
+                 (or (seq ""
+                           (or std
+                               ext
+                               (seq "F" (or std astd ext aext))
+                               (seq "B" (or std ext))
+                               (seq "*" (or std
+                                            astd
+                                            ext
+                                            aext
+                                            (seq (or std astd ext aext)
+                                                 ","
+                                                 (or std astd ext aext))))
+                               (seq "b" (in "-FDB#_il"))
+                               ""))
+                      (seq "" attr)
+                      (seq "" attr)
+                      ""))))
+          '';
+        };
         virtualenvwrapper.enable = true;
         better-defaults.enable = true;
 
@@ -609,6 +637,12 @@ in
         org-projectile.enable = true;
 
         systemd.enable = true;
+        gnutls = {
+          enable = true;
+          config = ''
+           (add-to-list 'gnutls-trustfiles (expand-file-name "~/.emacs.d/ssl/weechat-relay.cert"))
+          '';
+        };
 
         highlight-indent-guides = {
           enable = true;
