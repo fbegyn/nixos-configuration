@@ -593,6 +593,13 @@ in
 
         weechat = {
           enable = true;
+          config = ''
+            (setq weechat-mode-default "plain") ;
+            (setq weechat-host-default "100.93.146.4") ;
+            (setq weechat-port-default 9000) ;
+            (setq weechat-inital-lines 250) ;
+            (setq weechat-more-lines-amount 30) ;
+          '';
           init = ''
             (defvar weechat-formatting-regex
               (rx-let ((attr (in "*!/_|"))   ;NOTE:  is not documented
