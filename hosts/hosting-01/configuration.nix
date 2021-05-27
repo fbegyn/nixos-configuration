@@ -88,12 +88,6 @@
         proxyPass = "http://127.0.0.1:9000";
         proxyWebsockets = true;
       };
-      locations."/" = {
-        basicAuth = let
-            hosts = import ../../secrets/hosts.nix;
-        in { "${hosts.hosting-01.weechat.user}" = "${hosts.hosting-01.weechat.pass}"; };
-        root = pkgs.unstable.glowing-bear;
-      };
     };   
   };
 

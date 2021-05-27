@@ -14,7 +14,9 @@ in {
       config = { ... }:
         let
           unstable =
-            import <nixos-unstable-small> { config.allowUnfree = true; };
+            import (fetchTarball https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz) {
+              config.allowUnfree = true;
+            };
         in {
           services.plex = {
             enable = true;
