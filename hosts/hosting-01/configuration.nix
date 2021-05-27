@@ -82,9 +82,6 @@
   };
   services.nginx.virtualHosts = {
     "irc.francis.begyn.be" = {
-      basicAuth = let
-        hosts = import ../../secrets/hosts.nix;
-      in { "${hosts.hosting-01.weechat.user}" = "${hosts.hosting-01.weechat.pass}"; };
       forceSSL = true;
       useACMEHost = "francis.begyn.be";
       locations."^~ /weechat" = {
@@ -92,6 +89,9 @@
         proxyWebsockets = true;
       };
       locations."/" = {
+        basicAuth = let
+            hosts = import ../../secrets/hosts.nix;
+        in { "${hosts.hosting-01.weechat.user}" = "${hosts.hosting-01.weechat.pass}"; };
         root = pkgs.unstable.glowing-bear;
       };
     };   
