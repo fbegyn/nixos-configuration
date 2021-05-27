@@ -183,6 +183,8 @@ in
                           (revert-buffer t t t)))))
                   (select-frame frm1)
                   (delete-frame frm2)))))
+
+        (require 'gnutls)
       '';
 
       usePackageVerbose = true;
@@ -227,7 +229,7 @@ in
           };
         };
 
-        "elpaPackages.tramp" = {
+        tramp = {
           enable = true;
         };
 
@@ -589,7 +591,6 @@ in
           ];
         };
 
-        realgud.enable = true;
         weechat = {
           enable = true;
           init = ''
@@ -619,14 +620,13 @@ in
                       ""))))
           '';
         };
+
         virtualenvwrapper.enable = true;
         better-defaults.enable = true;
 
         docker.enable = true;
         docker-tramp.enable = true;
         dockerfile-mode.enable = true;
-
-        cython-mode.enable = true;
 
         ob.enable = true;
 
@@ -637,12 +637,6 @@ in
         org-projectile.enable = true;
 
         systemd.enable = true;
-        gnutls = {
-          enable = true;
-          config = ''
-           (add-to-list 'gnutls-trustfiles (expand-file-name "~/.emacs.d/ssl/weechat-relay.cert"))
-          '';
-        };
 
         highlight-indent-guides = {
           enable = true;
