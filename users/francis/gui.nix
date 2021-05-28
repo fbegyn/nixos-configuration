@@ -30,7 +30,6 @@
       unstable.mattermost-desktop
       unstable.tdesktop
       unstable.thunderbird
-      unstable.weechat
       # Browser
       unstable.firefox
       unstable.chromium
@@ -39,8 +38,7 @@
       unstable.playerctl
       # Utilities
       gnome3.nautilus
-      rofi
-      rofi-pass
+      unstable.dmenu
       unstable.ltunify
       unstable.evince
       pulsemixer

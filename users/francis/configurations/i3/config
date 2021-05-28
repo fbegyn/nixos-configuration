@@ -37,12 +37,11 @@ floating_modifier $mod
 set $terminal alacritty
 
 # start dmenu (a program launcher)
-#bindsym $mod+d exec rofi -show drun
-#bindsym $mod+d exec $terminal --class 'launcher' -t launcher -e ~/Scripts/fzf-launcher.sh
-#for_window [title="launcher"] floating enable
-bindsym $mod+d exec rofi -show drun
-bindsym $mod+Shift+d exec rofi -show run
-bindsym $mod+a exec rofi -show window
+# bindsym $mod+d exec rofi -show drun
+# bindsym $mod+Shift+d exec rofi -show run
+# bindsym $mod+a exec rofi -show window
+bindsym $mod+d exec $terminal --class 'launcher' -t launcher -e ~/Scripts/fzf-launcher.sh
+for_window [title="launcher"] floating enable
 
 # start a terminal
 bindsym $mod+Return exec $terminal

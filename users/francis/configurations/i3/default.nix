@@ -27,6 +27,8 @@
       xclip
       arandr
       autorandr
+      unstable.rofi
+      unstable.rofi-pass
       unstable.picom
       unstable.i3status-rust
       feh
