@@ -3,14 +3,13 @@
 {
   home.packages = with pkgs.unstable;
     [
-      (python38.withPackages
+      (python39.withPackages
       (ps: with ps; [
         neovim
         yarp
         setuptools
         virtualenv
         jedi
-        python-language-server
       ]))
     ];
 }

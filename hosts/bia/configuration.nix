@@ -9,7 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../common
-    ../../common/wally.nix
+    ../../common/moonlander.nix
     ../../common/security.nix
     ../../common/steam.nix
     ../../common/pulseaudio.nix

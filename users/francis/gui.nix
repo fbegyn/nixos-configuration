@@ -30,10 +30,11 @@
       unstable.mattermost-desktop
       unstable.tdesktop
       unstable.thunderbird
+      unstable.weechat
       # Browser
       unstable.firefox
       unstable.chromium
-      unstable.qutebrowser
+      qutebrowser
       # entertainement
       unstable.playerctl
       # Utilities

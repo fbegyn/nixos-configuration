@@ -21,6 +21,7 @@
     ../../secrets/wireless.nix
     # common settings
     ../../common
+    ../../common/moonlander.nix
     ../../common/gpg.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
