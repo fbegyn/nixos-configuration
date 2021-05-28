@@ -61,6 +61,7 @@ in
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
+      unstable.rofi-pass
       autotiling
       unstable.gammastep
       pkg-config
