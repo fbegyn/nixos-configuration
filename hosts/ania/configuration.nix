@@ -16,6 +16,7 @@
     <nixos-hardware/lenovo/thinkpad/t14>
     # common settings
     ../../common
+    ../../common/moonlander.nix
     ../../common/gpg.nix
     ../../common/screen-brightness.nix
     ../../common/security.nix
