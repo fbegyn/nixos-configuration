@@ -46,19 +46,4 @@ table inet filter {
                 # Allow all ICMP and IGMP traffic, but enforce a rate limit
                 # iifname "ens3" jump mailserver-wan
 	}
-
-        chain mailserver-wan {
-		type filter hook input priority filter; policy drop;
-                tcp dport 80 accept comment "Let's encrypt cert port"
-                tcp dport 25 accept
-                tcp dport 143 accept
-                tcp dport 465 accept
-                tcp dport 587 accept
-                tcp dport 993 accept
-        }
-
-        chain vpn-input {
-		type filter hook input priority filter; policy drop;
-                tcp dport 22 accept
-        }
 }

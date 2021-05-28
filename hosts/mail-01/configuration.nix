@@ -66,17 +66,17 @@ in {
     address = "fe80::1";
     interface = "ens3";
   };
-  # networking.firewall.interfaces = {
-  #   "tailscale0" = {
-  #     allowedTCPPorts = [ 22 ];
-  #   };
-  # };
-
-  networking.firewall.enable = false;
-  networking.nftables = {
-    enable = true;
-    rulesetFile = ./nftables.rules;
+  networking.firewall.interfaces = {
+    "tailscale0" = {
+      allowedTCPPorts = [ 22 ];
+    };
   };
+
+  # networking.firewall.enable = false;
+  # networking.nftables = {
+  #   enable = true;
+  #   rulesetFile = ./nftables.rules;
+  # };
 
   # tailscale machine specific
   thecy.services.tailscale = {
@@ -114,7 +114,6 @@ in {
 
   mailserver = {
     enable = true;
-    openFirewall = false;
     fqdn = vars.mailserver.fqdn;
     domains = vars.mailserver.domains;
     loginAccounts = vars.mailserver.accounts;
