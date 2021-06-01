@@ -99,6 +99,7 @@ in {
     enable = true;
     package = pkgs.unstable.fail2ban;
     packageFirewall = pkgs.unstable.iptables-nftables-compat;
+    ignoreIP = [ "213.119.124.156" "100.88.113.9" ];
     jails = {
       dovecot = ''
         enabled  = true
@@ -108,9 +109,17 @@ in {
       '';
       postfix = ''
         enabled  = true
-        port     = smtp, ssmtp
+        port     = smtp,465,587
         filter   = postfix
-        maxretry = 5
+        maxretry = 4
+      '';
+      postfix-strict = ''
+        enabled  = true
+        port     = smtp,465,587
+        filter   = postfix
+        bantime  = -1
+        maxretry = 10
+        findtime = 86400
       '';
     };
   };
