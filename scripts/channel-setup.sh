@@ -7,14 +7,14 @@ if [ $# -gt 1 ]; then
 		nix-channel --add https://github.com/NixOS/nixpkgs/archive/nixos-unstable.tar.gz nixos
 		nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 	elif [ $1 == "server" ]; then
-		nix-channel --add https://github.com/NixOS/nixpkgs/archive/release-21.05.tar.gz nixos
+		nix-channel --add https://github.com/NixOS/nixpkgs/archive/nixos-21.05.tar.gz nixos
 		nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
 	else
-		nix-channel --add https://github.com/NixOS/nixpkgs/archive/release-21.05.tar.gz nixos
+		nix-channel --add https://github.com/NixOS/nixpkgs/archive/nixos-21.05.tar.gz nixos
 		nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
 	fi
 else
-	nix-channel --add https://github.com/NixOS/nixpkgs/archive/release-21.05.tar.gz nixos
+	nix-channel --add https://github.com/NixOS/nixpkgs/archive/nixos-21.05.tar.gz nixos
 	nix-channel --add https://github.com/nix-community/home-manager/archive/release-21.05.tar.gz home-manager
 fi
 
