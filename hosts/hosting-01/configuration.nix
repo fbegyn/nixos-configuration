@@ -48,6 +48,7 @@
       }
     ];
   };
+  networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
       allowedTCPPorts = [ 22 8000 9000 ];

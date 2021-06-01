@@ -71,6 +71,7 @@ in {
       allowedTCPPorts = [ 22 ];
     };
   };
+  networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
 
   # networking.firewall.enable = false;
   # networking.nftables = {
@@ -96,6 +97,8 @@ in {
   # Fail2ban
   services.fail2ban = {
     enable = true;
+    package = pkgs.unstable.fail2ban;
+    packageFirewall = pkgs.unstable.iptables-nftables-compat;
     jails = {
       dovecot = ''
         enabled  = true
