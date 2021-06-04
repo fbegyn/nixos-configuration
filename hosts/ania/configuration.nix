@@ -31,8 +31,6 @@
     ../../common/amdgpu.nix
 
     ../../common/vectera.nix
-    ../../common/hashicorp.nix
-    ../../common/libvirt.nix
 
     ../../users
     ../../users/francis
