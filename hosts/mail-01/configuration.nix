@@ -116,9 +116,9 @@ in {
       postfix-strict = ''
         enabled  = true
         port     = smtp,465,587
-        filter   = postfix
+        filter   = postfix-strict-custom
         bantime  = -1
-        maxretry = 10
+        maxretry = 1
         findtime = 86400
       '';
     };

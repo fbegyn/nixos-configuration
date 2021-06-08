@@ -2,3 +2,4 @@ secrets/** filter=git-crypt diff=git-crypt
 vars/** filter=git-crypt diff=git-crypt
 users/francis/secrets/** filter=git-crypt diff=git-crypt
 common/vectera.nix filter=git-crypt diff=git-crypt
+acme.nix filter=git-crypt diff=git-crypt
