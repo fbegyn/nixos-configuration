@@ -39,11 +39,9 @@ in
       executable = true;
     };
   };
-  services.emacs.enable = true;
 
   programs.emacs = {
     enable = true;
-    package = pkgs.unstable.emacs;
     init = {
       enable = true;
 
@@ -80,14 +78,6 @@ in
 
         (add-hook 'text-mode-hook 'auto-fill-mode) ; automatically reflow text (M-q)
 
-        ;; enable flyspell in text
-        (setq flyspell-issue-message-flag nil)
-        (dolist (hook '(text-mode-hook))
-          (add-hook hook (lambda () (flyspell-mode 1))))
-        ;; disable for derived modes from text mode
-        (dolist (hook '(change-log-mode-hook log-edit-mode-hook))
-          (add-hook hook (lambda () (flyspell-mode -1))))
-
         (setq delete-old-versions -1 )		  ; delete excess backup versions silently
         (setq version-control t )	     	  ; use version control
         (setq vc-make-backup-files t )		  ; make backups file even when in version controlled dir
@@ -100,6 +90,7 @@ in
         (setq coding-system-for-write 'utf-8 ); use utf-8 by default
         (setq sentence-end-double-space nil)  ; sentence SHOULD end with only a point.
         (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
+
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
         ;; line numbers
@@ -110,13 +101,11 @@ in
         (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
         (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
 
-        ;; go
-        (setenv "GOPATH" (concat (getenv "HOME") "/go"))
-        (setq gofmt-command "goimports")
-        (setq frame-resize-pixelwise t)
+        ;; some general behavior settings
         (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-        (setq default-tab-width 2)
         (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+        (setq default-tab-width 2)
+        (setq frame-resize-pixelwise t)
 
         ;; rust
         (setq rust-format-on-save t)
@@ -183,12 +172,9 @@ in
                           (revert-buffer t t t)))))
                   (select-frame frm1)
                   (delete-frame frm2)))))
-
-        (require 'gnutls)
       '';
 
       usePackageVerbose = true;
-
       usePackage = {
         # Company text completion mode - complete anything
         company = {
@@ -196,6 +182,31 @@ in
           diminish = [ "company-mode" ];
           config = ''
             (company-mode)
+            (setq company-idle-delay 0)
+            (setq company-minium-prefix-lenght 1)
+          '';
+        };
+
+        # sidebar file explorer
+        neotree = {
+          enable = true;
+          config = ''
+            (global-set-key [f8] 'neotree-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
+            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
+            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
+            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
+            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
+            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
+          '';
+        };
+        all-the-icons = {
+          enable = true;
+          config = ''
+            (setq neo-theme 'icons)
           '';
         };
 
@@ -222,16 +233,7 @@ in
           '';
         };
 
-        counsel-tramp = {
-          enable = true;
-          bindStar = {
-            "C-c t" = "counsel-tramp";
-          };
-        };
-
-        tramp = {
-          enable = true;
-        };
+        cython-mode = { enable = true; };
 
         # Direnv intergration for emacs
         direnv = {
@@ -240,6 +242,8 @@ in
             (direnv-mode)
           '';
         };
+
+        better-defaults = { enable = true; };
 
         # Vi bindings for emacs
         evil = {
@@ -251,23 +255,22 @@ in
             (evil-mode 1)
           '';
         };
-        # easily surround text with characters (surround from Vim)
         evil-surround = {
           enable = true;
           config = ''
             (global-evil-surround-mode 1)
           '';
         };
-        # handles vi bindings for parts the evil does noet
         evil-collection = {
           enable = true;
           after = [ "evil" ];
         };
-        # vi bindings in magit
         evil-magit = {
           enable = true;
           after = [ "magit" ];
         };
+
+        yasnippet = { enable = true; };
 
         # syntax checking for emacs
         flycheck = {
@@ -278,29 +281,45 @@ in
           '';
         };
 
-        neotree = {
+        go-mode = {
           enable = true;
           config = ''
-            (global-set-key [f8] 'neotree-toggle)
-            (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
-            (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-            (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-            (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-            (evil-define-key 'normal neotree-mode-map (kbd "n") 'neotree-next-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "p") 'neotree-previous-line)
-            (evil-define-key 'normal neotree-mode-map (kbd "A") 'neotree-stretch-toggle)
-            (evil-define-key 'normal neotree-mode-map (kbd "H") 'neotree-hidden-file-toggle)
-          '';
+            (setenv "GOPATH" (concat (getenv "HOME") "/go"))
+            (setenv "PATH" (concat
+                (getenv "PATH")
+                ":"
+                (getenv "GOPATH") "/bin"
+            ))
+            (setq gofmt-command "goimports")
+            (add-hook 'go-mode-hook #'lsp-deferred)
+            (add-hook 'go-mode-hook #'yas-minor-mode)
+         '';
         };
 
-        all-the-icons = {
+        lsp-mode = {
           enable = true;
+          command = [ "lsp" ];
+          hook = [
+            "(go-mode . lsp)"
+            "(rust-mode . lsp)"
+            "(lsp-mode . lsp-enable-which-key-integration)"
+          ];
           config = ''
-            (setq neo-theme 'icons)
+            (setq lsp-rust-server 'rust-analyzer)
           '';
         };
+        lsp-ui = {
+          enable = true;
+          after = [ "lsp" ];
+          command = [ "lsp-ui-mode" ];
+        };
+        lsp-ivy = {
+          enable = true;
+          after = [ "lsp" "ivy" ];
+          command = [ "lsp-ivy-workspace-symbol" ];
+        };
 
+        # some general settings
         general = {
           enable = true;
           after = [ "evil" "which-key" ];
@@ -373,6 +392,23 @@ in
           '';
         };
 
+        nix = { enable = true; };
+        nix-mode = {
+          enable = true;
+          mode = [ ''"\\.nix\\'"'' ];
+          bindLocal = { nix-mode-map = { "C-i" = "nix-indent-line"; }; };
+        };
+        nix-prettify-mode = {
+          enable = true;
+          config = ''
+            (nix-prettify-global-mode)
+          '';
+        };
+        nix-drv-mode = {
+          enable = true;
+          mode = [ ''"\\.drv\\'"'' ];
+        };
+
         projectile = {
           enable = true;
           after = [ "ivy" ];
@@ -404,6 +440,7 @@ in
           '';
         };
 
+        # hints for shortcuts and bindings
         which-key = {
           enable = true;
           diminish = [ "which-key-mode" ];
@@ -419,88 +456,8 @@ in
         gruvbox-theme = {
           enable = true;
           config = ''
-            (load-theme 'gruvbox-dark-hard t)
-          '';
-        };
-
-        lsp-mode = {
-          enable = true;
-          command = [ "lsp" ];
-          hook = [
-            "(go-mode . lsp)"
-            "(rust-mode . lsp)"
-            "(python-mode . lsp)"
-            "(lsp-mode . lsp-enable-which-key-integration)"
-          ];
-          config = ''
-            (setq lsp-ui-doc-enable nil)
-            (setq lsp-ui-doc-show-with-cursor nil)
-            (setq lsp-ui-doc-show-with-mouse nil)
-            (setq lsp-rust-server 'rust-analyzer)
-          '';
-        };
-        lsp-ui = {
-          enable = true;
-          after = [ "lsp" ];
-          command = [ "lsp-ui-mode" ];
-        };
-        lsp-ivy = {
-          enable = true;
-          after = [ "lsp" "ivy" ];
-          command = [ "lsp-ivy-workspace-symbol" ];
-        };
-        lsp-pyright = {
-          enable = true;
-          hook = [ ''
-            (python-mode . (lambda ()
-                (require 'lsp-pyright)
-                (lsp)))
-          '' ];
-          config = ''
-            (setq lsp-log-io t)
-            (setq lsp-pyright-use-library-code-for-types t)
-            (setq lsp-pyright-diagnostic-mode "workspace")
-            (lsp-register-client
-              (make-lsp-client
-                :new-connection (lsp-tramp-connection (lambda ()
-             			       (cons "pyright-langserver"
-             				     lsp-pyright-langserver-command-args)))
-                :major-modes '(python-mode)
-                :remote? t
-                :server-id 'pyright-remote
-                :multi-root nil
-                :priority 3
-                :initialization-options (lambda () (ht-merge (lsp-configuration-section "pyright")
-                                                             (lsp-configuration-section "python")))
-                :initialized-fn (lambda (workspace)
-                                     (with-lsp-workspace workspace
-                                       (lsp--set-configuration
-                                       (ht-merge (lsp-configuration-section "pyright")
-                                                 (lsp-configuration-section "python")))))
-                :download-server-fn (lambda (_client callback error-callback _update?)
-            			     (lsp-package-ensure 'pyright callback error-callback))
-                :notification-handlers (lsp-ht ("pyright/beginProgress" 'lsp-pyright--begin-progress-callback)
-            				     ("pyright/reportProgress" 'lsp-pyright--report-progress-callback)
-            				     ("pyright/endProgress" 'lsp-pyright--end-progress-callback))))
-          '';
-        };
-        lsp-python-ms = {
-          enable = false;
-          init = ''
-            (setq lsp-python-ms-auto-install-server t)
-          '';
-          hook = [
-            "(python-mode . (lambda ()
-                         (require 'lsp-python-ms)
-                         (lsp)))"
-          ];
-          config = ''
-            (setq lsp-python-ms-executable (executable-find "python-language-server"))
-            (lsp-register-client
-                (make-lsp-client :new-connection (lsp-tramp-connection "pyls")
-                                 :major-modes '(python-mode)
-                                 :remote? t
-                                 :server-id 'pyls-remote))
+            (setq custom-safe-themes t)
+            (add-hook 'after-init-hook (lambda () (load-theme 'gruvbox t)))
           '';
         };
 
@@ -514,8 +471,6 @@ in
           mode = [''"\\.ex'"''];
         };
         alchemist.enable = true;
-
-        go-mode.enable = true;
 
         ledger-mode = {
           enable = true;
@@ -533,28 +488,6 @@ in
             ''("\\.md\\'" . markdown-mode)''
             ''("\\.markdown\\'" . markdown-mode)''
           ];
-        };
-
-        neuron-mode = {
-          enable = true;
-          package = epkgs: pkgs.unstable.emacsPackages.neuron-mode;
-        };
-
-        nix = { enable = true; };
-        nix-mode = {
-          enable = true;
-          mode = [ ''"\\.nix\\'"'' ];
-          bindLocal = { nix-mode-map = { "C-i" = "nix-indent-line"; }; };
-        };
-        nix-prettify-mode = {
-          enable = true;
-          config = ''
-            (nix-prettify-global-mode)
-          '';
-        };
-        nix-drv-mode = {
-          enable = true;
-          mode = [ ''"\\.drv\\'"'' ];
         };
 
         python-mode = {
@@ -629,7 +562,6 @@ in
         };
 
         virtualenvwrapper.enable = true;
-        better-defaults.enable = true;
 
         docker.enable = true;
         docker-tramp.enable = true;
