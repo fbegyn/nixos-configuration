@@ -1,4 +1,9 @@
 pkgs: rec {
+  overlays = [
+    (import (builtins.fetchTarball {
+        url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+    }))
+  ];
   nur = import (builtins.fetchTarball
     "https://github.com/nix-community/NUR/archive/master.tar.gz") {
       inherit pkgs;
@@ -10,6 +15,9 @@ pkgs: rec {
       overlays = [
         (import ../overlays/weechat.nix)
         (import ../overlays/browser-eid.nix)
+        (import (builtins.fetchTarball {
+            url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+        }))
       ];
     };
   fbegyn = {

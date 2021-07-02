@@ -109,6 +109,57 @@
     openFirewall = false;
   };
 
+  # roundcube webmail
+  services.roundcube = {
+    enable = true;
+    package = pkgs.unstable.roundcube;
+    dicts = with pkgs.unstable.aspellDicts; [en nl fr de];
+    hostName = "webmail.begyn.be";
+    extraConfig = ''
+      $config['des_key'] = 'TOEADOJDzA1CikSrPIOBVodn25fsYElV';
+
+      $config['default_host'] = 'tls://mail.begyn.be';
+      $config['smtp_server'] = 'tls://mail.begyn.be';
+      $config['smtp_port'] = 587;
+
+      // For STARTTLS IMAP
+      $config['imap_conn_options'] = array(
+          'ssl' => array(
+            'verify_peer'       => true,
+            // certificate is not self-signed if cafile provided
+            'allow_self_signed' => false,
+            // For Letsencrypt use the following two lines and remove the 'cafile' option above.
+            //'ssl_cert' => '/etc/letsencrypt/live/mail.my_domain.org/fullchain.pem',
+            //'ssl_key'  => '/etc/letsencrypt/live/mail.my_domain.org/privkey.pem',
+            // probably optional parameters
+            'ciphers' => 'TLSv1+HIGH:!aNull:@STRENGTH',
+            'peer_name'         => 'mail.begyn.be',
+          ),
+      );
+      // For STARTTLS SMTP
+      $config['smtp_conn_options'] = array(
+          'ssl' => array(
+            'verify_peer'       => true,
+            // certificate is not self-signed if cafile provided
+            'allow_self_signed' => false,
+            // For Letsencrypt use the following two lines and remove the 'cafile' option above.
+            //'ssl_cert' => '/etc/letsencrypt/live/mail.my_domain.org/fullchain.pem',
+            //'ssl_key'  => '/etc/letsencrypt/live/mail.my_domain.org/privkey.pem',
+            // probably optional parameters
+            'ciphers' => 'TLSv1+HIGH:!aNull:@STRENGTH',
+            'peer_name'         => 'mail.begyn.be',
+          ),
+      );
+    '';
+  };
+  services.nginx.virtualHosts = {
+    "webmail.begyn.be" = {
+      enableACME = false;
+      forceSSL = true;
+      useACMEHost = "begyn.be";
+    };
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
