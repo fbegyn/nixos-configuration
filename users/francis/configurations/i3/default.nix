@@ -27,8 +27,8 @@
       xclip
       arandr
       autorandr
-      unstable.rofi
-      unstable.rofi-pass
+      rofi
+      rofi-pass
       unstable.picom
       unstable.i3status-rust
       feh
@@ -48,6 +48,7 @@
       "i3/config".source = ./config;
       "i3status-rs/config.toml".source = ./i3status-config.toml;
       "picom.conf".source = ./picom.conf;
+      "rofi/config.rasi".source = ./config.rasi;
     };
   };
 }
