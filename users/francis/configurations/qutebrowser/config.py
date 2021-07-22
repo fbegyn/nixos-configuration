@@ -27,6 +27,9 @@ c.auto_save.session = True
 # Type: Bool
 c.content.autoplay = False
 
+# setting to request websites to reduce non-essential motion/animations.
+c.content.prefers_reduced_motion = True
+
 # User agent to send.  The following placeholders are defined:
 # * `{os_info}`: Something like "X11; Linux x86_64".
 # * `{webkit_version}`: The underlying WebKit version (set to a fixed
