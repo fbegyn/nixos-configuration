@@ -100,7 +100,10 @@ in
         export _JAVA_AWT_WM_NONREPARENTING=1
       '';
       config = {
-        fonts = [ "Hack 10" ];
+        fonts = {
+          names = [ "Hack" "DejaVu Sans Mono" "FontAwesome" ];
+          size = 10.0;
+        };
         terminal = "alacritty";
         menu = "wofi --show drun";
         modifier = "Mod4";
