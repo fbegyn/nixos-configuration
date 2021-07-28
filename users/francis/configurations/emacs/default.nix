@@ -40,7 +40,9 @@ in
     };
   };
 
+  services.emacs.package = pkgs.unstable.emacsUnstable;
   programs.emacs = {
+    package = pkgs.unstable.emacsUnstable;
     enable = true;
     init = {
       enable = true;
@@ -90,6 +92,7 @@ in
         (setq coding-system-for-write 'utf-8 ); use utf-8 by default
         (setq sentence-end-double-space nil)  ; sentence SHOULD end with only a point.
         (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
+        (setq read-process-output-max (* 1024 1024)) ;; 1mb
 
         (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
 
@@ -176,16 +179,18 @@ in
 
       usePackageVerbose = true;
       usePackage = {
-        # Company text completion mode - complete anything
         company = {
-          enable = true;
-          diminish = [ "company-mode" ];
-          config = ''
-            (company-mode)
-            (setq company-idle-delay 0)
-            (setq company-minium-prefix-lenght 1)
-          '';
+            enable = true;
+            diminish = [ "company-mode" ];
+            config = ''
+              (company-mode)
+              (setq company-minimum-prefix-length 1
+                ompany-idle-delay 0.0) ;; default is 0.2
+            '';
         };
+
+        dockerfile-mode = { enable = true; };
+        docker-tramp = { enable = true; };
 
         # sidebar file explorer
         neotree = {
@@ -210,9 +215,16 @@ in
           '';
         };
 
-        # improved common emacs commands
+        highlight-indent-guides = {
+          enable = true;
+          config = ''
+            (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+          '';
+        };
+
         counsel = {
           enable = true;
+
           bindStar = {
             "M-x" = "counsel-M-x";
             "C-x C-f" = "counsel-find-file";
@@ -223,6 +235,7 @@ in
             "C-c l" = "counsel-locate";
             "M-y" = "counsel-yank-pop";
           };
+
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -235,7 +248,6 @@ in
 
         cython-mode = { enable = true; };
 
-        # Direnv intergration for emacs
         direnv = {
           enable = true;
           config = ''
@@ -243,9 +255,8 @@ in
           '';
         };
 
-        better-defaults = { enable = true; };
+        better-defaults.enable = true;
 
-        # Vi bindings for emacs
         evil = {
           enable = true;
           init = ''
@@ -255,24 +266,24 @@ in
             (evil-mode 1)
           '';
         };
+
         evil-surround = {
           enable = true;
           config = ''
             (global-evil-surround-mode 1)
           '';
         };
+
         evil-collection = {
           enable = true;
           after = [ "evil" ];
         };
+
         evil-magit = {
           enable = true;
           after = [ "magit" ];
         };
 
-        yasnippet = { enable = true; };
-
-        # syntax checking for emacs
         flycheck = {
           enable = true;
           diminish = [ "flycheck-mode" ];
@@ -281,20 +292,7 @@ in
           '';
         };
 
-        go-mode = {
-          enable = true;
-          config = ''
-            (setenv "GOPATH" (concat (getenv "HOME") "/go"))
-            (setenv "PATH" (concat
-                (getenv "PATH")
-                ":"
-                (getenv "GOPATH") "/bin"
-            ))
-            (setq gofmt-command "goimports")
-            (add-hook 'go-mode-hook #'lsp-deferred)
-            (add-hook 'go-mode-hook #'yas-minor-mode)
-         '';
-        };
+        go-mode = { enable = true; };
 
         lsp-mode = {
           enable = true;
@@ -306,48 +304,43 @@ in
           ];
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
+            (setq lsp-idle-delay 0.500)
+            (setq lsp-modeline-workspace-status-enable false)
           '';
         };
+
         lsp-ui = {
           enable = true;
           after = [ "lsp" ];
           command = [ "lsp-ui-mode" ];
         };
+
         lsp-ivy = {
           enable = true;
           after = [ "lsp" "ivy" ];
           command = [ "lsp-ivy-workspace-symbol" ];
         };
 
-        # some general settings
         general = {
           enable = true;
           after = [ "evil" "which-key" ];
           config = ''
             (general-evil-setup)
-
             (general-mmap
               ":" 'evil-ex
               ";" 'evil-repeat-find-char)
-
             (general-create-definer my-leader-def
               :prefix "SPC")
-
             (general-create-definer my-local-leader-def
               :prefix "SPC m")
-
             (general-nmap
               :prefix "SPC"
               "b"  '(:ignore t :which-key "buffer")
               "bd" '(kill-this-buffer :which-key "kill buffer")
-
               "f"  '(:ignore t :which-key "file")
               "ff" '(find-file :which-key "find")
               "fs" '(save-buffer :which-key "save")
-              "ft" '(neotree-toggle :which-key "neotree")
-
               "m"  '(:ignore t :which-key "mode")
-
               "t"  '(:ignore t :which-key "toggle")
               "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
               "wv" '(split-window-horizontally :which-key "split vertical")
@@ -357,7 +350,6 @@ in
               "wh" '(evil-window-left :which-key "left")
               "wl" '(evil-window-right :which-key "right")
               "wd" '(delete-window :which-key "delete")
-
               "q"  '(:ignore t :which-key "quit")
               "qq" '(save-buffers-kill-emacs :which-key "quit"))
           '';
@@ -384,6 +376,7 @@ in
 
         magit = {
           enable = true;
+
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -392,18 +385,56 @@ in
           '';
         };
 
+        elixir-mode = {
+          enable = true;
+          mode = [''"\\.ex'"''];
+        };
+        alchemist.enable = true;
+
+        ledger-mode = {
+          enable = true;
+          mode = [ ''"\\.journal\\'"'' ];
+          config = ''
+            (setq ledger-reconcile-default-commodity "EUR")
+          '';
+        };
+
+        python-mode = {
+          enable = true;
+          mode = [ ''"\\.py'"'' ];
+        };
+        virtualenvwrapper.enable = true;
+
+        yaml-mode = {
+          enable = true;
+          mode = [ ''"\\.yaml'"'' ''"\\.yml'"'' ];
+        };
+
+        markdown-mode = {
+          enable = true;
+          command = [ "markdown-mode" "gfm-mode" ];
+          mode = [
+            ''("README\\.md\\'" . gfm-mode)''
+            ''("\\.md\\'" . markdown-mode)''
+            ''("\\.markdown\\'" . markdown-mode)''
+          ];
+        };
+
         nix = { enable = true; };
+
         nix-mode = {
           enable = true;
           mode = [ ''"\\.nix\\'"'' ];
           bindLocal = { nix-mode-map = { "C-i" = "nix-indent-line"; }; };
         };
+
         nix-prettify-mode = {
           enable = true;
           config = ''
             (nix-prettify-global-mode)
           '';
         };
+
         nix-drv-mode = {
           enable = true;
           mode = [ ''"\\.drv\\'"'' ];
@@ -430,9 +461,13 @@ in
           '';
         };
 
+        protobuf-mode = { enable = true; };
+
         swiper = {
           enable = true;
+
           bindStar = { "C-s" = "swiper"; };
+
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -440,7 +475,6 @@ in
           '';
         };
 
-        # hints for shortcuts and bindings
         which-key = {
           enable = true;
           diminish = [ "which-key-mode" ];
@@ -466,41 +500,6 @@ in
           mode = [ ''"\\.dhall\\'"'' ];
         };
 
-        elixir-mode = {
-          enable = true;
-          mode = [''"\\.ex'"''];
-        };
-        alchemist.enable = true;
-
-        ledger-mode = {
-          enable = true;
-          mode = [''"\\.journal\\'"''];
-          config = ''
-            (setq ledger-reconcile-default-commodity "EUR")
-          '';
-        };
-
-        markdown-mode = {
-          enable = true;
-          command = [ "markdown-mode" "gfm-mode" ];
-          mode = [
-            ''("README\\.md\\'" . gfm-mode)''
-            ''("\\.md\\'" . markdown-mode)''
-            ''("\\.markdown\\'" . markdown-mode)''
-          ];
-        };
-
-        python-mode = {
-          enable = true;
-          mode = [''"\\.py'"''];
-        };
-
-        protobuf-mode = { enable = true; };
-
-        puppet-mode = {
-          enable = true;
-        };
-
         rust-mode = {
           enable = true;
           mode = [ ''"\\.rs\\'"'' ];
@@ -511,78 +510,25 @@ in
           mode = [ ''"\\.toml\\'"'' ];
         };
 
+        nov = {
+          enable = true;
+          mode = [ ''"\\.epub\\'"'' ];
+        };
+
         web-mode = {
           enable = true;
           mode = [ ''"\\.html\\'"'' ''"\\.tmpl\\'"'' ];
         };
 
-        yaml-mode = {
-          enable = true;
-          mode = [
-            ''"\\.yml\\'"''
-            ''"\\.yaml\\'"''
-          ];
-        };
-
-        weechat = {
-          enable = true;
-          config = ''
-            (setq weechat-mode-default "plain") ;
-            (setq weechat-host-default "100.93.146.4") ;
-            (setq weechat-port-default 9000) ;
-            (setq weechat-inital-lines 250) ;
-            (setq weechat-more-lines-amount 30) ;
-          '';
-          init = ''
-            (defvar weechat-formatting-regex
-              (rx-let ((attr (in "*!/_|"))   ;NOTE:  is not documented
-                     (std  (= 2 digit))
-                     (astd (seq attr (= 2 digit)))
-                     (ext  (seq "@" (= 5 digit)))
-                     (aext (seq "@" attr (= 5 digit))))
-                (rx
-                 (or (seq ""
-                           (or std
-                               ext
-                               (seq "F" (or std astd ext aext))
-                               (seq "B" (or std ext))
-                               (seq "*" (or std
-                                            astd
-                                            ext
-                                            aext
-                                            (seq (or std astd ext aext)
-                                                 ","
-                                                 (or std astd ext aext))))
-                               (seq "b" (in "-FDB#_il"))
-                               ""))
-                      (seq "" attr)
-                      (seq "" attr)
-                      ""))))
-          '';
-        };
-
-        virtualenvwrapper.enable = true;
-
-        docker.enable = true;
-        docker-tramp.enable = true;
-        dockerfile-mode.enable = true;
-
         ob.enable = true;
-
         org-download.enable = true;
         org.enable = true;
         org-mime.enable = true;
         org-pomodoro.enable = true;
         org-projectile.enable = true;
-
         systemd.enable = true;
-
-        highlight-indent-guides = {
-          enable = true;
-          config = ''
-            (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-          '';
-        };
+        terraform-mode.enable = true;
+        yasnippet.enable = true;
       };
     };
   };

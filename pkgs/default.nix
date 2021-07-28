@@ -1,9 +1,4 @@
 pkgs: rec {
-  overlays = [
-    (import (builtins.fetchTarball {
-        url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
-    }))
-  ];
   nur = import (builtins.fetchTarball
     "https://github.com/nix-community/NUR/archive/master.tar.gz") {
       inherit pkgs;
