@@ -294,31 +294,35 @@ in
 
         go-mode = { enable = true; };
 
-        lsp-mode = {
+        #lsp-mode = {
+        #  enable = true;
+        #  command = [ "lsp" ];
+        #  hook = [
+        #    "(go-mode . lsp)"
+        #    "(rust-mode . lsp)"
+        #    "(lsp-mode . lsp-enable-which-key-integration)"
+        #  ];
+        #  config = ''
+        #    (setq lsp-rust-server 'rust-analyzer)
+        #    (setq lsp-idle-delay 0.500)
+        #    (setq lsp-modeline-workspace-status-enable false)
+        #  '';
+        #};
+        #lsp-ui = {
+        #  enable = true;
+        #  after = [ "lsp" ];
+        #  command = [ "lsp-ui-mode" ];
+        #};
+        #lsp-ivy = {
+        #  enable = true;
+        #  after = [ "lsp" "ivy" ];
+        #  command = [ "lsp-ivy-workspace-symbol" ];
+        #};
+        eglot = {
           enable = true;
-          command = [ "lsp" ];
-          hook = [
-            "(go-mode . lsp)"
-            "(rust-mode . lsp)"
-            "(lsp-mode . lsp-enable-which-key-integration)"
-          ];
           config = ''
-            (setq lsp-rust-server 'rust-analyzer)
-            (setq lsp-idle-delay 0.500)
-            (setq lsp-modeline-workspace-status-enable false)
+            (add-hook 'go-mode-hook 'eglot-ensure)
           '';
-        };
-
-        lsp-ui = {
-          enable = true;
-          after = [ "lsp" ];
-          command = [ "lsp-ui-mode" ];
-        };
-
-        lsp-ivy = {
-          enable = true;
-          after = [ "lsp" "ivy" ];
-          command = [ "lsp-ivy-workspace-symbol" ];
         };
 
         general = {
