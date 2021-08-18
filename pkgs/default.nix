@@ -15,6 +15,10 @@ pkgs: rec {
         }))
       ];
     };
+  master = import (builtins.fetchTarball
+    "https://github.com/NixOS/nixpkgs/archive/master.tar.gz") {
+      inherit pkgs;
+    };
   fbegyn = {
     website = pkgs.callPackage ./fbegyn/website.nix {};
   };

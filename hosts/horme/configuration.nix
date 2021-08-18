@@ -22,6 +22,7 @@
     # common settings
     ../../common
     ../../common/moonlander.nix
+    ../../common/laptop.nix
     ../../common/gpg.nix
     ../../common/security.nix
     ../../common/pulseaudio.nix
@@ -86,6 +87,10 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
+
+  environment.systemPackages = [
+    pkgs.master.linphone
+  ];
 
   thecy.services.tailscale.enable = true;
 

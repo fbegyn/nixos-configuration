@@ -17,6 +17,7 @@
     # common settings
     ../../common
     ../../common/moonlander.nix
+    ../../common/laptop.nix
     ../../common/gpg.nix
     ../../common/screen-brightness.nix
     ../../common/security.nix

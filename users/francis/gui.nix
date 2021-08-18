@@ -29,12 +29,12 @@
       slack
       unstable.mattermost-desktop
       unstable.tdesktop
-      unstable.thunderbird
+      master.thunderbird
       unstable.weechat
       # Browser
       unstable.firefox
       unstable.chromium
-      qutebrowser
+      unstable.qutebrowser
       # entertainement
       unstable.playerctl
       # Utilities

@@ -310,23 +310,20 @@ in
         #System menu
         set $mode_system System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown
         bindsym $mod+Pause mode "$mode_system"
-        #bindswitch lid:on exec systemctl suspend
 
         # idle config
         # Idle configuration
         exec swayidle -w \
-            timeout 20 'if pgrep swaylock; then swaymsg "output * dpms off"' \
             timeout 60 'exec $locker -f' \
-            timeout 360 'swaymsg "output dpms * off"' \
-            timeout 1800 'systemctl suspend' \
-            resume 'swaymsg "output * dpms on"' \
+            timeout 120 'swaymsg "output dpms * off"' \
+              resume 'swaymsg "output * dpms on"' \
             before-sleep 'exec $locker -f' \
             after-resume 'swaymsg "output * dpms on"'
 
         # disable laptop output on lid close
         # enabling this, then I should disabl the logind handlers
-        bindswitch --reload lid:on output $laptop_display disable
-        bindswitch --reload lid:off output $laptop_display enable
+        # bindswitch --reload lid:on output $laptop_display disable
+        # bindswitch --reload lid:off output $laptop_display enable
 
         # Screenshot menu
         set $screen_grab s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
