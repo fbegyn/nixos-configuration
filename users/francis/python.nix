@@ -10,6 +10,7 @@
         setuptools
         virtualenv
         jedi
+        requests
       ]))
     ];
 }
