@@ -9,14 +9,14 @@ with lib; {
       enable = mkEnableOption "Enable automatic system updates";
       dates = mkOption {
         type = types.str;
-        default = "23.10";
+        default = "23:10";
       };
     };
     gc = {
       enable = mkEnableOption "Enable automatic GC"; 
       dates = mkOption {
         type = types.str;
-        default = "12.00";
+        default = "12:00";
       };
     };
   };
