@@ -1,11 +1,16 @@
 { config, lib, pkgs, ... }:
 
 with lib; {
+  imports = [
+    ./auto-system.nix
+  ];
+
   options.francis = {
     gui.enable = mkEnableOption "Enable GUI programs";
   };
 
   config = {
+
     boot.cleanTmpDir = true;
 
     nix = {

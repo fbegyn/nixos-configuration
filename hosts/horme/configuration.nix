@@ -100,6 +100,11 @@
   programs.adb.enable = true;
   services.hardware.bolt.enable = true;
 
+  francis = {
+    gc.enable = true;
+    upgrade.enable = true;
+  };
+
   # system backups
   services.restic.backups = {
     gdrive = {

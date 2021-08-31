@@ -160,6 +160,14 @@
     };
   };
 
+  francis = {
+    upgrade.enable = true;
+    gc = {
+      enable = true;
+      dates = "weekly";
+    };
+  };
+
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
