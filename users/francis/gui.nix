@@ -20,7 +20,6 @@
       "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
       "qutebrowser/css/solarized-dark-all-sites.css".source =
         ./configurations/qutebrowser/solarized-dark-all-sites.css;
-      "mimeapps.list".source = ./configurations/mimeapps.list;
     };
 
     home.packages = with pkgs; [
