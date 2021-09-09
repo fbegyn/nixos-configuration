@@ -93,6 +93,83 @@
     ];
   };
 
+  services.promtail = {
+    enable = true;
+    configuration = {
+      server = {
+        http_listen_port = 9080;
+        grpc_listen_port = 0;
+      };
+      client.url = "http://localhost:3100/loki/api/v1/push";
+      scrape_configs = [{
+        job_name = "var-logs";
+        static_configs = [
+          {
+            targets = [ "localhost" ];
+            labels = {
+              job = "varlogs";
+              host = "eos";
+              __path__ = "/var/log/*.log";
+            };
+          }
+        ];
+      }
+      {
+        job_name = "journald";
+        journal = {
+          max_age = "12h";
+          labels = {
+            job = "journald";
+            host = "eos";
+          };
+        };
+        relabel_configs = [{
+          source_labels = [ "__journal__systemd_unit" ];
+          target_label = "unit";
+        }];
+      }];
+    };
+  };
+
+  services.loki = {
+    enable = true;
+    configuration = {
+      auth_enabled = false;
+      server.http_listen_port = 3100;
+      ingester = {
+        lifecycler = {
+          address = "127.0.0.1";
+          ring = {
+            kvstore.store = "inmemory";
+            replication_factor = 1;
+          };
+          final_sleep = "0s";
+        };
+        chunk_idle_period = "5m";
+        chunk_retain_period = "30s";
+      };
+      schema_config.configs = [{
+        from = "2020-05-15";
+        store = "boltdb";
+        object_store = "filesystem";
+        schema = "v11";
+        index = {
+          prefix = "index_";
+          period = "168h";
+        };
+      }];
+      storage_config = {
+        boltdb.directory = "/tmp/loki/index";
+        filesystem.directory = "/tmp/loki/chunks";
+      };
+      limits_config = {
+        enforce_metric_name = false;
+        reject_old_samples = true;
+        reject_old_samples_max_age = "168h";
+      };
+    };
+  };
+
   services.prometheus= {
     scrapeConfigs = [
       {
@@ -111,6 +188,15 @@
         static_configs = [{
             targets = [
               "10.5.1.10:9130"
+            ];
+        }];
+      }
+      {
+        job_name = "coredns";
+        scheme = "http";
+        static_configs = [{
+            targets = [
+              "10.5.1.10:9153"
             ];
         }];
       }
