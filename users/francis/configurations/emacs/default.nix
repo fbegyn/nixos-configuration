@@ -504,6 +504,11 @@ in
           mode = [ ''"\\.dhall\\'"'' ];
         };
 
+        jsonnet-mode = {
+          enable = true;
+          mode = [ ''"\\.jsonnet\\'"'' ''"\\.libsonnet\\'"'' ];
+        };
+
         rust-mode = {
           enable = true;
           mode = [ ''"\\.rs\\'"'' ];

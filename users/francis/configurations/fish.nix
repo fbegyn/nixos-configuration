@@ -10,6 +10,8 @@
       "glg" = "git log";
       "gc" = "git commit";
       "gcmsg" = "git commit -m";
+      "gch" = "git checkout";
+      "k" = "kubectl";
     };
     loginShellInit = ''
       set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
