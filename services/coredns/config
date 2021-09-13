@@ -5,37 +5,40 @@
     errors
     cache
 
-    auto begyn.lan {
-        directory /etc/coredns/zones
-    }
-
     hosts /etc/coredns/hosts/ads-fakenews {
         fallthrough
     }
 
-	forward . 127.0.0.1:5301 127.0.0.1:5302 127.0.0.1:5303 {
-		policy sequential
-	}
+    forward . 127.0.0.1:5301 127.0.0.1:5302 127.0.0.1:5303 {
+        policy sequential
+    }
+}
+
+begyn.lan {
+    prometheus 10.5.1.10:9153
+    auto begyn.lan {
+        directory /etc/coredns/zones
+    }
 }
 
 .:5301 {
-	forward . tls://1.1.1.1 tls://1.0.0.1 {
-		tls_servername cloudflare-dns.com
-		health_check 5s
-	}
+    forward . tls://1.1.1.1 tls://1.0.0.1 {
+	tls_servername cloudflare-dns.com
+	health_check 5s
+    }
 }
 
 .:5302 {
-	forward . 212.71.0.33 212.71.8.10 {
-		health_check 5s
-	}
+    forward . 212.71.0.33 212.71.8.10 {
+        health_check 5s
+    }
 }
 
 .:5303 {
-	forward . 8.8.8.8 8.8.4.4 {
-		tls_servername dns.google
-		health_check 5s
-	}
+    forward . 8.8.8.8 8.8.4.4 {
+        tls_servername dns.google
+        health_check 5s
+    }
 }
 
 (forward-opennic) {

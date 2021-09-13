@@ -46,6 +46,7 @@ in
         ${cname "consul" "eos"}
         ${cname "grafana" "eos"}
         ${cname "prometheus" "eos"}
+        ${cname "plex" "eos"}
       '';
     };
     coredns-ads-fakenews = {

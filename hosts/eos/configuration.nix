@@ -93,6 +93,32 @@
     ];
   };
 
+  services.nginx = {
+    enable = true;
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+  };
+
+  services.nginx.virtualHosts = {
+    "prometheus.begyn.lan" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9090/";
+      };
+    };
+    "grafana.begyn.lan" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:3000/";
+      };
+    };
+    "unifi.begyn.lan" = {
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8443/";
+      };
+    };
+  };
+
   services.promtail = {
     enable = true;
     configuration = {
@@ -192,6 +218,14 @@
         }];
       }
       {
+        job_name = "website";
+        static_configs = [{
+            targets = [
+              "francis.begyn.be"
+            ];
+        }];
+      }
+      {
         job_name = "coredns";
         scheme = "http";
         static_configs = [{
@@ -210,6 +244,14 @@
         }];
       }
     ];
+  };
+
+  francis = {
+    upgrade.enable = true;
+    gc = {
+      enable = true;
+      dates = "weekly";
+    };
   };
 
   # This value determines the NixOS release from which the default

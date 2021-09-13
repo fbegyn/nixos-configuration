@@ -5,3 +5,7 @@
 			604800
 			1800				)
 	86400	NS	ns1.francis.begyn.lan
+
+prometheus      86400   A       10.5.1.10
+unifi           86400   A       10.5.1.10
+grafana         86400   A       10.5.1.10
