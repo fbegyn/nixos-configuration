@@ -3,7 +3,11 @@
 {
   hardware = {
     bluetooth.enable = true;
-    pulseaudio.package = pkgs.pulseaudioFull;
+    pulseaudio= {
+      enable = true;
+      package = pkgs.pulseaudioFull;
+      extraModules = [ pkgs.pulseaudio-modules-bt ];
+    };
   };
   environment.systemPackages = with pkgs; [
     bluez
