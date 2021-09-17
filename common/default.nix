@@ -3,6 +3,7 @@
 with lib; {
   imports = [
     ./auto-system.nix
+    ./fwupd.nix
   ];
 
   options.francis = {

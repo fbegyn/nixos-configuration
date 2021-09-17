@@ -39,7 +39,7 @@
       # Utilities
       gnome3.nautilus
       unstable.dmenu
-      unstable.ltunify
+      unstable.solaar
       unstable.evince
       pulsemixer
       unstable.pandoc

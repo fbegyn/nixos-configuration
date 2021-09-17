@@ -9,6 +9,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../common
+    ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/security.nix
     ../../common/steam.nix
