@@ -28,7 +28,7 @@
       slack
       unstable.mattermost-desktop
       unstable.tdesktop
-      master.thunderbird
+      unstable.thunderbird
       unstable.weechat
       # Browser
       unstable.firefox
