@@ -3,6 +3,7 @@
 with lib; {
   imports = [
     ./auto-system.nix
+    ./network-tools.nix
     ./fwupd.nix
   ];
 

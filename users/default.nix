@@ -21,6 +21,7 @@
       "lp"
       "scanner"
       "networkmanager"
+      "wireshark"
     ];
     group = "francis";
     shell = pkgs.unstable.fish;

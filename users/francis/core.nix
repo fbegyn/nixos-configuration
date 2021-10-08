@@ -12,7 +12,6 @@ in {
     ./configurations/bash.nix
     ./configurations/starship.nix
     ./configurations/fzf.nix
-    ./configurations/network-tools.nix
   ];
 
   nixpkgs.config = {
