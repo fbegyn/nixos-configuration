@@ -59,9 +59,6 @@
   networking.interfaces.wlp0s20f3.useDHCP = true;
   networking.interfaces.enp0s31f6.useDHCP = true;
 
-  # set trackpoint sensitivity
-  hardware.trackpoint.sensitivity = 64;
-
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "nl_BE.UTF-8";
@@ -88,10 +85,7 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = false;
 
-  environment.systemPackages = [
-    pkgs.master.linphone
-  ];
-
+  # enable tailscale
   thecy.services.tailscale.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -103,6 +97,12 @@
   francis = {
     gc.enable = true;
     upgrade.enable = true;
+  };
+
+  # trackpoint settings
+  hardware.trackpoint = {
+    sensitivity = 64;
+    speed = 90;
   };
 
   # system backups
