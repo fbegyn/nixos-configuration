@@ -272,16 +272,17 @@ in
           config = ''
             (global-evil-surround-mode 1)
           '';
+          after = [ "evil" ];
         };
 
         evil-collection = {
           enable = true;
-          after = [ "evil" ];
+          after = [ "evil" "magit" ];
         };
 
         evil-magit = {
           enable = true;
-          after = [ "magit" ];
+          after = [ "evil" "magit" ];
         };
 
         flycheck = {
