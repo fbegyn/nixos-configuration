@@ -217,7 +217,7 @@ in
           "System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown" = {
             Return = "mode default";
             Escape = "mode default";
-            l = "exec --no-startup-id swaylock -c0000000, mode default";
+            l = "exec --no-startup-id swaylock -c 000000, mode default";
             e = "exec --no-startup-id i3-msg exit, mode default";
             s = "exec --no-startup-id systemctl suspend, mode default";
             r = "exec --no-startup-id systemctl reboot, mode default";
