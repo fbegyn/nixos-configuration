@@ -39,6 +39,10 @@ in
   # polkit for the sway environment
   environment.pathsToLink = [ "/libexec" ];
 
+  # use gdm as display manager
+  services.xserver.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+
   # sway install and dependencies through home-manager
   home-manager.users.francis = {
     home.packages = with pkgs; [

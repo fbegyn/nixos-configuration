@@ -8,12 +8,17 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
     # laptop hardware
     <nixos-hardware/common/pc/laptop>
     <nixos-hardware/common/pc/ssd>
+    <nixos-hardware/common/cpu/amd>
+    <nixos-hardware/common/pc/laptop/acpi_call.nix>
+
     # specific to thinkpad
     <nixos-hardware/lenovo/thinkpad>
     <nixos-hardware/lenovo/thinkpad/t14>
+
     # common settings
     ../../common
     ../../common/moonlander.nix
@@ -29,6 +34,7 @@
     ../../common/eid.nix
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix
+    ../../common/fingerprint.nix
     ../../common/amdgpu.nix
 
     ../../common/vectera.nix

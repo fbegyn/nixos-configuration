@@ -12,10 +12,12 @@
     # laptop hardware
     <nixos-hardware/common/pc/laptop>
     <nixos-hardware/common/pc/ssd>
+    <nixos-hardware/common/cpu/intel>
+    <nixos-hardware/common/pc/laptop/acpi_call.nix>
+
     # specific to thinkpad
     <nixos-hardware/lenovo/thinkpad>
     <nixos-hardware/lenovo/thinkpad/x1>
-    <nixos-hardware/common/pc/laptop/acpi_call.nix>
 
     # wireless settings
     ../../secrets/wireless.nix
@@ -31,6 +33,7 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
+    ../../common/fingerprint.nix
     ../../common/eid.nix
     ../../users
     ../../users/francis

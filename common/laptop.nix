@@ -2,7 +2,7 @@
 
 {
   services.logind = {
-    lidSwitch = "suspend"; 
+    lidSwitch = "suspend";
     lidSwitchExternalPower = "lock";
   };
 }
