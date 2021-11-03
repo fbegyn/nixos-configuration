@@ -1,16 +1,16 @@
 { pkgs, lib, stdenv, buildGoModule, fetchFromGitHub }:
 
 let
-  commit = "21531076838f52611cd3e9587e845d448447aa28";
+  commit = "c85b8a21d47a8af9f6b88dd046149ed536c27e1f";
 in buildGoModule rec {
   pname = "website";
   version = "${commit}";
 
   src = fetchFromGitHub {
     owner = "fbegyn";
-    repo = "website"; 
+    repo = "website";
     rev = "${commit}";
-    sha256 = "0v00dh3239jmdw153yqmb1yjbna67f75j5qinjp3xzybzpx41c7c";
+    sha256 = "1pk8w5w6ihccib5d6sca1n4vfr2z7hkj51gq0jdra08x2bbdsbmw";
   };
 
   vendorSha256 = null;

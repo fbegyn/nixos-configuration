@@ -2,7 +2,7 @@
 
 
 let
-  cfg = config.thecy.services.website; 
+  cfg = config.thecy.services.website;
 in
 with lib; {
   options.thecy.services.website = {
@@ -37,7 +37,7 @@ with lib; {
 
       serviceConfig = {
         Environment="SERVER_PORT=${toString cfg.port}";
-        User = "thecywebsite"; 
+        User = "thecywebsite";
         Group = "thecy";
         WorkingDirectory = "/srv/thecy/website";
       };
