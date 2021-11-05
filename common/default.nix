@@ -67,7 +67,6 @@ with lib; {
       enable = true;
       dnssec = "false";
       fallbackDns = [
-        "10.5.1.10"
         "1.1.1.1"
         "8.8.8.8"
         "1.0.0.1"
