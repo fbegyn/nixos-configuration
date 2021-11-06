@@ -3,10 +3,9 @@
 {
   services.fprintd.enable = true;
   security.pam.services = {
-    login.fprintAuth = true;
-    swaylock.fprintAuth = true;
-    i3lock.fprintAuth = true;
-    i3lock-color.fprintAuth = true;
-    gdm.fprintAuth = true;
+    swaylock.fprintAuth = false;
+    i3lock.fprintAuth = false;
+    i3lock-color.fprintAuth = false;
+    gdm.fprintAuth = false;
   };
 }
