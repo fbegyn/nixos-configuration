@@ -15,7 +15,6 @@
     ../../users/francis
 
     # services
-    ../../services/unifi
     ../../services/coredns
     ../../services/ddclient
     ../../services/prometheus
@@ -38,6 +37,27 @@
   services.resolved.extraConfig = ''
     DNSStubListener=no
   '';
+
+  services.home-assistant = {
+    enable = true;
+    package = pkgs.unstable.home-assistant.overrideAttrs (oldAttrs: {
+      doInstallCheck = false;
+    });
+    openFirewall = true;
+    applyDefaultConfig = true;
+    config = {
+      default_config = {};
+      met = {};
+      unifi = {};
+      spotify = {};
+      shelly = {};
+      cast = {};
+      automation = "!include automations.yaml";
+      groups = "!include groups.yaml";
+      scenes = "!include scenes.yaml";
+      script = "!include scripts.yaml";
+    };
+  };
 
   networking = {
     hostName = "eos"; # After the Greek titan of dawn
@@ -110,11 +130,6 @@
     "grafana.begyn.lan" = {
       locations."/" = {
         proxyPass = "http://127.0.0.1:3000/";
-      };
-    };
-    "unifi.begyn.lan" = {
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8443/";
       };
     };
   };
@@ -205,15 +220,6 @@
             targets = [
               "10.5.1.1:9100"
               "10.5.1.10:9100"
-            ];
-        }];
-      }
-      {
-        job_name = "unifi";
-        scheme = "http";
-        static_configs = [{
-            targets = [
-              "10.5.1.10:9130"
             ];
         }];
       }
