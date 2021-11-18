@@ -238,6 +238,9 @@ in
           {
             command = "autotiling";
           }
+          {
+            command = "mako";
+          }
         ];
         window = {
           border = 2;
