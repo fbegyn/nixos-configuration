@@ -52,10 +52,11 @@
       spotify = {};
       shelly = {};
       cast = {};
+      tado = {};
       automation = "!include automations.yaml";
-      groups = "!include groups.yaml";
-      scenes = "!include scenes.yaml";
-      script = "!include scripts.yaml";
+      # groups = "!include groups.yaml";
+      # scenes = "!include scenes.yaml";
+      # script = "!include scripts.yaml";
     };
   };
 
