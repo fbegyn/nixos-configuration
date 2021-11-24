@@ -2,8 +2,11 @@
 set -eu
 
 #switch to the branch of the nixos OS
-if [ $# -gt 1 ]; then
+if [ $# -gt 0 ]; then
 	if [ $1 == "workstation" ]; then
+		nix-channel --add https://channels.nixos.org/nixos-21.05 nixos
+		nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
+	elif [ $1 == "unstable" ]; then
 		nix-channel --add https://channels.nixos.org/nixos-unstable nixos
 		nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 	elif [ $1 == "server" ]; then
