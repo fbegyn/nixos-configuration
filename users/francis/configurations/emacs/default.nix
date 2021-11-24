@@ -246,8 +246,6 @@ in
           '';
         };
 
-        cython-mode = { enable = true; };
-
         direnv = {
           enable = true;
           config = ''
