@@ -30,6 +30,7 @@ in {
   programs.go = {
     enable = true;
     goPath = "go";
+    package = pkgs.master.go;
   };
 
   programs.home-manager.enable = true;

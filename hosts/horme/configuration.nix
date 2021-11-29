@@ -41,7 +41,7 @@
     #../../users/francis/configurations/i3
     ../../users/francis/configurations/sway
     ../../services/tailscale.nix
-    ../../services/gns3.nix
+    # ../../services/gns3.nix
   ];
 
   nixpkgs.config.alluwUnfree = true;
