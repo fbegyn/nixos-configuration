@@ -37,6 +37,8 @@
       # entertainement
       unstable.playerctl
       # Utilities
+      unstable.bitwarden
+      unstable.bitwarden-cli
       gnome3.nautilus
       unstable.dmenu
       unstable.solaar
