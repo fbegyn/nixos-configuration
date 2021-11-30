@@ -60,6 +60,7 @@
 
   thecy.services.website = {
     enable = true;
+    aliases = [ "francis.begyn.eu" ];
   };
 
   services.nginx = {
@@ -89,7 +90,7 @@
         proxyPass = "http://127.0.0.1:9000";
         proxyWebsockets = true;
       };
-    };   
+    };
   };
 
   # tailscale machine specific
