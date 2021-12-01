@@ -11,6 +11,7 @@
     ../../common
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
+    ../../common/ios.nix
     ../../common/security.nix
     ../../common/steam.nix
     ../../common/pulseaudio.nix

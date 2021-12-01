@@ -24,6 +24,7 @@
     # common settings
     ../../common
     ../../common/moonlander.nix
+    ../../common/ios.nix
     ../../common/laptop.nix
     ../../common/gpg.nix
     ../../common/security.nix
