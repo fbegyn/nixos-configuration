@@ -44,6 +44,7 @@ in
   programs.emacs = {
     package = pkgs.unstable.emacsUnstable;
     enable = true;
+
     init = {
       enable = true;
 
@@ -175,9 +176,21 @@ in
                           (revert-buffer t t t)))))
                   (select-frame frm1)
                   (delete-frame frm2)))))
+
+        (require 'project)
+
+        (defun project-find-go-module (dir)
+          (when-let ((root (locate-dominating-file dir "go.mod")))
+            (cons 'go-module root)))
+
+        (cl-defmethod project-root ((project (head go-module)))
+          (cdr project))
+
+        (add-hook 'project-find-functions #'project-find-go-module)
       '';
 
       usePackageVerbose = true;
+
       usePackage = {
         company = {
             enable = true;
@@ -293,36 +306,36 @@ in
 
         go-mode = { enable = true; };
 
-        #lsp-mode = {
-        #  enable = true;
-        #  command = [ "lsp" ];
-        #  hook = [
-        #    "(go-mode . lsp)"
-        #    "(rust-mode . lsp)"
-        #    "(lsp-mode . lsp-enable-which-key-integration)"
-        #  ];
-        #  config = ''
-        #    (setq lsp-rust-server 'rust-analyzer)
-        #    (setq lsp-idle-delay 0.500)
-        #    (setq lsp-modeline-workspace-status-enable false)
-        #  '';
-        #};
-        #lsp-ui = {
-        #  enable = true;
-        #  after = [ "lsp" ];
-        #  command = [ "lsp-ui-mode" ];
-        #};
-        #lsp-ivy = {
-        #  enable = true;
-        #  after = [ "lsp" "ivy" ];
-        #  command = [ "lsp-ivy-workspace-symbol" ];
-        #};
-        eglot = {
+        lsp-mode = {
           enable = true;
+          command = [ "lsp" ];
+          hook = [
+            "(go-mode . lsp)"
+            "(rust-mode . lsp)"
+            "(lsp-mode . lsp-enable-which-key-integration)"
+          ];
           config = ''
-            (add-hook 'go-mode-hook 'eglot-ensure)
+            (setq lsp-rust-server 'rust-analyzer)
+            (setq lsp-idle-delay 0.500)
+            (setq lsp-modeline-workspace-status-enable false)
           '';
         };
+        lsp-ui = {
+          enable = true;
+          after = [ "lsp" ];
+          command = [ "lsp-ui-mode" ];
+        };
+        lsp-ivy = {
+          enable = true;
+          after = [ "lsp" "ivy" ];
+          command = [ "lsp-ivy-workspace-symbol" ];
+        };
+        # eglot = {
+        #   enable = true;
+        #   config = ''
+        #     (add-hook 'go-mode-hook 'eglot-ensure)
+        #   '';
+        # };
 
         general = {
           enable = true;
