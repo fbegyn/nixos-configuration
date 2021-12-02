@@ -7,6 +7,7 @@
 {
   imports = [
     # Include the results of the hardware scan.
+    <nixos-hardware/common/cpu/amd>
     ./hardware-configuration.nix
     ../../common
     ../../common/bluetooth.nix
@@ -37,7 +38,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.cleanTmpDir = true;
 
   nix.autoOptimiseStore = true;
@@ -47,6 +48,7 @@
   '';
 
   networking.hostName = "bia";
+  networking.hostId = "6c19e3cb";
   # After the Greek personification of force and raw energy
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -54,7 +56,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp12s0.useDHCP = true;
+  networking.interfaces.enp4s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -119,6 +121,6 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "21.11"; # Did you read the comment?
 }
 
