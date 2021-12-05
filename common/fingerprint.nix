@@ -7,5 +7,6 @@
     i3lock.fprintAuth = false;
     i3lock-color.fprintAuth = false;
     gdm.fprintAuth = false;
+    sddm.fprintAuth = false;
   };
 }

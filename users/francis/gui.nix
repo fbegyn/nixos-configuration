@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  services.gvfs.enable = true;
+
   home-manager.users.francis = {
     imports = [
       ./configurations/mpv

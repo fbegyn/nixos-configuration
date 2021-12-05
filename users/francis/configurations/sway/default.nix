@@ -31,17 +31,33 @@ in
     })
   ];
   environment.systemPackages = with pkgs; [
+    startsway
     wl-clipboard
     # polkit for the sway environment
     polkit_gnome
+
+    # theming
+    gtk-engine-murrine
+    gtk_engines
+    gsettings-desktop-schemas
+    lxappearance
   ];
+
+  # more theming
+  programs.qt5ct.enable = true;
 
   # polkit for the sway environment
   environment.pathsToLink = [ "/libexec" ];
 
+  # for working tray applets
+  environment.variables = {
+    XDG_CURRENT_DESKTOP="unity";
+  };
+
   # use gdm as display manager
-  services.xserver.enable = true;
-  services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.displayManager.sddm.enable = true;
 
   # sway install and dependencies through home-manager
   home-manager.users.francis = {
@@ -63,7 +79,6 @@ in
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
-      unstable.rofi-pass
       autotiling
       unstable.gammastep
       pkg-config

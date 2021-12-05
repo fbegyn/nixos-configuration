@@ -6,7 +6,9 @@ pkgs.writeTextFile {
   executable = true;
   text = ''
     #! ${pkgs.bash}/bin/bash
-    systemctl --user import-environment
-    exec systemctl --user start sway
+
+    if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
+        exec sway
+    fi
   '';
 }
