@@ -317,7 +317,7 @@ in
           config = ''
             (setq lsp-rust-server 'rust-analyzer)
             (setq lsp-idle-delay 0.500)
-            (setq lsp-modeline-workspace-status-enable false)
+            (setq lsp-modeline-workspace-status-enable nil)
           '';
         };
         lsp-ui = {
@@ -549,7 +549,13 @@ in
         org-projectile.enable = true;
         systemd.enable = true;
         terraform-mode.enable = true;
-        yasnippet.enable = true;
+        yasnippet = {
+          enable = true;
+          config = ''
+            (yas-reload-all)
+            (add-hook 'prog-mode-hook #'yas-minor-mode)
+          '';
+        };
       };
     };
   };
