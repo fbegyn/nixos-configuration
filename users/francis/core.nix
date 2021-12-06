@@ -30,7 +30,7 @@ in {
   programs.go = {
     enable = true;
     goPath = "go";
-    package = pkgs.master.go;
+    package = pkgs.unstable.go_1_17;
   };
 
   programs.home-manager.enable = true;
@@ -48,7 +48,6 @@ in {
     unstable.jq
     # Utilities
     gcc
-    go-tools
     pulsemixer
     libnotify
     libqalculate
@@ -61,6 +60,10 @@ in {
     unstable.morph
     inotify-tools
     gnumake
+    # go - temp manually to get latest packages
+    # go-tools
+    # goimports
+    # gopls
     # cachix
     cachix
     # tools rewritten in rust
