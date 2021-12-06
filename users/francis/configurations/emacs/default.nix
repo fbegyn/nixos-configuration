@@ -304,7 +304,13 @@ in
           '';
         };
 
-        go-mode = { enable = true; };
+        go-mode = {
+          enable = true;
+          config = ''
+            (setq gofmt-command "goimports")
+            (add-hook 'before-save-hook 'gofmt-before-save)
+          '';
+        };
 
         lsp-mode = {
           enable = true;
