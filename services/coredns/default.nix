@@ -2,7 +2,7 @@
 
 let
   corednsconf = builtins.readFile ./config;
-  host = builtins.readFile ./hosts/ads-fakenews;
+  host = builtins.readFile (builtins.fetchurl "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts");
   dnsSOA = domain: primary: ipv4: email: ''
     @	3600	SOA	${primary}.${domain}.   ${email}.${domain}. (
                 1       ; serial

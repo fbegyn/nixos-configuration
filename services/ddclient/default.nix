@@ -8,6 +8,6 @@
     interval = "15m";
     protocol = "cloudflare";
     username = "${vars.cf.email}";
-    password = "${vars.cf.dyndns.key}";
+    passwordFile = "/etc/ddclient.key";
   };
 }
