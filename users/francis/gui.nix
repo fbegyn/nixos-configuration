@@ -45,6 +45,7 @@
       unstable.dmenu
       unstable.solaar
       unstable.evince
+      unstable.okular
       pulsemixer
       unstable.pandoc
       wkhtmltopdf

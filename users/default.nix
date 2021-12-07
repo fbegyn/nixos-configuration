@@ -22,6 +22,7 @@
       "scanner"
       "networkmanager"
       "wireshark"
+      "usbmuxd"
     ];
     group = "francis";
     shell = pkgs.unstable.fish;

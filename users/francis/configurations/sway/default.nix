@@ -285,7 +285,7 @@ in
 
         # monitor config
         set $laptop_display eDP-1
-        output $laptop_display pos 0 1080 res 1920x1080
+        output $laptop_display pos 0 0 res 1920x1080
 
         # hide cursor after time
         seat seat0 hide_cursor 2500
