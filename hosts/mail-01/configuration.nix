@@ -24,9 +24,10 @@ in {
     # simple mail server
     (builtins.fetchTarball {
       # Pick a commit from the branch you are interested in
-      url = "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/fb85a3fe9e4f673f9c017a23ada00b05d61cdc6a/nixos-mailserver-fb85a3fe9e4f673f9c017a23ada00b05d61cdc6a.tar.gz";
+      url =
+        "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/nixos-21.11/nixos-mailserver-nixos-21.11.tar.gz";
       # And set its hash
-      sha256 = "1fllk14cqkpjwmf6nsy6mknn4gvxwqcl4ysyh5hxpn6axwfwjvnf";
+      sha256 = "1i56llz037x416bw698v8j6arvv622qc0vsycd20lx3yx8n77n44";
     })
   ];
 

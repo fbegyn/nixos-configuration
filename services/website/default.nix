@@ -16,7 +16,7 @@ with lib; {
     };
 
     aliases = mkOption {
-      type = types.list;
+      type = types.listOf types.str;
       default = [];
       example = [ "francis.begyn.eu" ];
       description = "The aliases NGINX should use.";
@@ -63,7 +63,7 @@ with lib; {
     services.nginx.virtualHosts.thecywebsite = {
       forceSSL = true;
       serverName = "${cfg.domain}";
-      serverAliases = ${cfg.aliases};
+      serverAliases = cfg.aliases;
       useACMEHost = "francis.begyn.be";
       root = "/var/www/francis.begyn.be";
       locations."/" = {
