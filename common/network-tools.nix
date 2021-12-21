@@ -13,9 +13,5 @@
       enable = true;
       package = pkgs.unstable.mtr;
     };
-    wireshark = {
-      enable = true;
-      package = pkgs.unstable.wireshark;
-    };
   };
 }

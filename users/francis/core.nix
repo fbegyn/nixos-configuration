@@ -1,11 +1,8 @@
 { config, pkgs, ... }:
 
-let
-  comma = import (builtins.fetchTarball "https://github.com/Shopify/comma/archive/60a4cf8ec5c93104d3cfb9fc5a5bac8fb18cc8e4.tar.gz") { inherit pkgs; };
-in {
+{
   imports = [
     ./python.nix
-    ./configurations/udiskie.nix
     ./configurations/nvim/default.nix
     ./configurations/git.nix
     ./configurations/fish.nix
@@ -27,12 +24,6 @@ in {
     "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
   };
 
-  programs.go = {
-    enable = true;
-    goPath = "go";
-    package = pkgs.unstable.go_1_17;
-  };
-
   programs.home-manager.enable = true;
 
   home.sessionPath = [
@@ -44,11 +35,9 @@ in {
   home.sessionVariables = { EDITOR = "vim"; };
 
   home.packages = with pkgs; [
-    niv
     unstable.jq
     # Utilities
     gcc
-    pulsemixer
     libnotify
     libqalculate
     unstable.htop
@@ -57,22 +46,11 @@ in {
     moreutils
     screen
     unstable.tmux
-    unstable.morph
     inotify-tools
     gnumake
-    # go - temp manually to get latest packages
-    # go-tools
-    # goimports
-    # gopls
-    # cachix
-    cachix
     # tools rewritten in rust
     unstable.ripgrep
     unstable.fd
-    unstable.hyperfine
-    unstable.bandwhich
     unzip
-    # run nix programs once without installing
-    comma
   ];
 }
