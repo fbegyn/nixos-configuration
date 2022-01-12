@@ -105,10 +105,9 @@
   };
 
   francis = {
-    upgrade.enable = true;
     gc = {
       enable = true;
-      dates = "weekly";
+      dates = "daily";
     };
   };
 

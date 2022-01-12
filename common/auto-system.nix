@@ -13,7 +13,7 @@ with lib; {
       };
     };
     gc = {
-      enable = mkEnableOption "Enable automatic GC"; 
+      enable = mkEnableOption "Enable automatic GC";
       dates = mkOption {
         type = types.str;
         default = "12:00";
