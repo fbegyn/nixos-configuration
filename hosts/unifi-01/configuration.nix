@@ -50,11 +50,15 @@
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 8443 ];
+      allowedTCPPorts = [ 22 8443 9100 ];
     };
   };
   networking.firewall = {
     allowedTCPPorts = [ 22 80 443 8080 3478 6789 ];
+  };
+
+  services.prometheus.exporters.node = {
+    enable = true;
   };
 
   # tailscale machine specific

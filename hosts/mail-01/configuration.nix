@@ -69,7 +69,7 @@ in {
   };
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 ];
+      allowedTCPPorts = [ 22 9100 ];
     };
   };
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
@@ -79,6 +79,10 @@ in {
   #   enable = true;
   #   rulesetFile = ./nftables.rules;
   # };
+
+  services.prometheus.exporters.node = {
+    enable = true;
+  };
 
   # tailscale machine specific
   thecy.services.tailscale = {

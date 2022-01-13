@@ -51,11 +51,15 @@
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 8000 9000 ];
+      allowedTCPPorts = [ 22 8000 9000 9100 ];
     };
   };
   networking.firewall = {
     allowedTCPPorts = [ 80 443 ];
+  };
+
+  services.prometheus.exporters.node = {
+    enable = true;
   };
 
   thecy.services.website = {
