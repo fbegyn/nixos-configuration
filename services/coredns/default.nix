@@ -2,7 +2,8 @@
 
 let
   corednsconf = builtins.readFile ./config;
-  host = builtins.readFile (builtins.fetchurl "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts");
+  blocklist = builtins.readFile (builtins.fetchurl "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews-porn/hosts");
+
   dnsSOA = domain: primary: ipv4: email: ''
     @	3600	SOA	${primary}.${domain}.   ${email}.${domain}. (
                 1       ; serial
@@ -18,11 +19,8 @@ let
   '';
   hostv4 = name: ipv4: ''
     ${name}               IN      A       ${ipv4}
-    ${name}.ipv4          IN      A       ${ipv4}
-  '';
-  cname = name: alias: ''
-    ${name}               IN      CNAME   ${alias}
-  '';
+    ${name}.ipv4          IN      A       ${ipv4}'';
+  cname = name: alias: ''${name}               IN      CNAME   ${alias}'';
 in
 {
   services.coredns = {
@@ -39,13 +37,15 @@ in
       text = ''
         ${dnsSOA "begyn.lan" "ns1" "10.5.1.10" "admin"}
 
+        ; A records
         ${hostv4 "router" "10.5.1.1"}
         ${hostv4 "eos" "10.5.1.10"}
 
-        ${cname "unifi" "eos"}
-        ${cname "consul" "eos"}
-        ${cname "grafana" "eos"}
+        ; CNAME records
         ${cname "prometheus" "eos"}
+        ${cname "alertmanager" "eos"}
+        ${cname "grafana" "eos"}
+        ${cname "loki" "eos"}
         ${cname "plex" "eos"}
       '';
     };
@@ -53,7 +53,7 @@ in
       enable = true;
       target = "coredns/hosts/ads-fakenews";
       text = ''
-        ${host}
+        ${blocklist}
       '';
     };
   };

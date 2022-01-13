@@ -1,11 +1,17 @@
-@	3600	SOA	ns1.francis.begyn.lan. francis.begyn.lan (
+@	3600	SOA	ns1.begyn.lan. begyn.lan (
 			1
 			3600
 			600
 			604800
 			1800				)
-	86400	NS	ns1.francis.begyn.lan
+	86400	NS	ns1.begyn.lan
 
-prometheus      86400   A       10.5.1.10
-unifi           86400   A       10.5.1.10
-grafana         86400   A       10.5.1.10
+; Zone A records
+ns1             86400   A       10.5.1.0
+eos             86400   A       10.5.1.10
+router          86400   A       10.5.1.1
+
+; Zone CNAME records
+prometheus      86400   CNAME   eos
+alertmanager    86400   CNAME   eos
+grafana         86400   CNAME   eos

@@ -124,11 +124,19 @@
 
   services.nginx.virtualHosts = {
     "prometheus.begyn.lan" = {
+      serverAliases = [ "prometheus" ];
       locations."/" = {
         proxyPass = "http://127.0.0.1:9090/";
       };
     };
+    "alertmanager.begyn.lan" = {
+      serverAliases = [ "alertmanager" ];
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:9093/";
+      };
+    };
     "grafana.begyn.lan" = {
+      serverAliases = [ "grafana" ];
       locations."/" = {
         proxyPass = "http://127.0.0.1:3000/";
       };
