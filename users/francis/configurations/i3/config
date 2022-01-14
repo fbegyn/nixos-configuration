@@ -174,7 +174,7 @@ bar {
 	    font pango:DejaVu Sans Mono 10
 }
 
-set $locker i3lock -c 000000
+set $locker betterlockscreen --off 300 -l
 
 bindsym Mod1+l exec --no-startup-id $locker
 
