@@ -228,15 +228,16 @@
         static_configs = [{
             targets = [
               "10.5.1.1:9100"
-              "10.5.1.10:9100"
-              "100.76.89.92:9100"
-              "100.93.146.4:9100"
-              "100.112.141.16:9100"
+              "eos:9100"
+              "mail-01:9100"
+              "hosting-01:9100"
+              "unifi-01:9100"
             ];
         }];
       }
       {
         job_name = "website";
+        scheme = "https";
         static_configs = [{
             targets = [
               "francis.begyn.be"
