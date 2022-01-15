@@ -221,6 +221,9 @@
   };
 
   services.prometheus= {
+    ruleFiles = [
+      ../../services/prometheus/rules/eos/node.rules
+    ];
     scrapeConfigs = [
       {
         job_name = "node-exporter";

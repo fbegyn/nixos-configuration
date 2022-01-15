@@ -1,0 +1,17 @@
+groups:
+- name: "Disk space"
+  rules:
+  - alert: LowDiskSpace
+    expr: node_filesystem_free_bytes{mountpoint=~"/|/nix|/nix/store"}/1e6 < 3000
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Disk space is low on {{ $labels.instance }} for {{ $labels.mountpoint }}
+  - alert: LowBootDiskSpace
+    expr: node_filesystem_free_bytes{mountpoint="/boot"}/1e6 < 55
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: Boot disk space is low on {{ $labels.instance }} for {{ $labels.mountpoint }}

@@ -26,7 +26,9 @@ in
     })
   ];
 
-  services.prometheus = {
+  services.prometheus = let
+    vars = import ../../secrets/hosts.nix;
+  in {
     enable = true;
     extraFlags = [
       "--storage.tsdb.retention.time 720h"
@@ -36,6 +38,13 @@ in
     alertmanager = {
       enable = true;
       configuration = {
+        global = {
+          smtp_from = "monitoring@begyn.be";
+          smtp_smarthost = "mail.begyn.be:587";
+          smtp_hello = "eos.begyn.be";
+          smtp_auth_username = "bots@begyn.be";
+          smtp_auth_password = "${vars.mail-01.mailserver.botsPass}";
+        };
         route = {
           group_by = ["alertname"];
           group_wait = "10s";
@@ -45,6 +54,9 @@ in
         };
         receivers = [{
           name = "default";
+          email_configs = [{
+            to = "francis@begyn.be";
+          }];
         }];
       };
     };
