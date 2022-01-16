@@ -1,6 +1,9 @@
 { pkgs, lib, writeTextFile, ... }:
 
 {
+  environment.systemPackages = with pkgs; [
+    wally-cli
+  ];
   services.udev.extraRules = ''
     # Teensy rules for the Ergodox EZ
     ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
