@@ -6,6 +6,11 @@ name = "bad-wolf"
 name = "none"
 
 [[block]]
+block = "keyboard_layout"
+driver = "localebus"
+format = "{layout}/{variant}"
+
+[[block]]
 block = "music"
 player = "spotify"
 buttons = ["play", "next"]
@@ -15,15 +20,11 @@ block = "sound"
 
 [[block]]
 block = "net"
-device = "wlp58s0"
-ssid = true
-ip = true
-bitrate = false
-speed_up = false
-graph_up = false
-speed_down = false
-graph_down = false
-interval = 5
+hide_missing = true
+hide_inactive = true
+format = "{ipv6} {ip}"
+format_alt = "{ssid} {signal_strength} {ipv6} {ip}"
+interval = 30
 
 [[block]]
 block = "disk_space"
@@ -48,8 +49,8 @@ alert = 5.0
 [[block]]
 block = "memory"
 display_type = "memory"
-format_mem = "{Mup}%"
-format_swap = "{SUp}%"
+format_mem = "{mem_used_percents}%/{mem_avail}"
+format_swap = "{swap_used_percents}%/{swap_total}"
 interval = 30
 
 [[block]]

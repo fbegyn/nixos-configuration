@@ -10,9 +10,9 @@
   # Enable the X11 windowing system.
   services.xserver= {
     enable = true;
-    layout = "us";
-    xkbVariant = "altgr-intl";
-    xkbOptions = "eurosign:5";
+    layout = "us,us";
+    xkbVariant = "altgr-intl,colemak";
+    xkbOptions = "eurosign:5,grp:win_space_toggle";
     libinput.enable =true;
   };
 
@@ -20,8 +20,8 @@
   services.xserver.displayManager.defaultSession = "none+i3";
   services.xserver.windowManager.i3 = {
     enable = true;
-    package = pkgs.i3;
-    extraPackages = with pkgs; [
+    package = pkgs.unstable.i3;
+    extraPackages = with pkgs.unstable; [
       maim
       pkg-config
       xclip
@@ -29,23 +29,27 @@
       autorandr
       rofi
       rofi-pass
-      unstable.picom
+      picom
       feh
       i3lock
-      unstable.betterlockscreen
+      i3status-rust
+      xkb-switch
+      betterlockscreen
     ];
   };
 
   home-manager.users.francis = {
     services = {
-        unclutter = {
+      unclutter = {
         enable = true;
         timeout = 5;
-        };
+      };
     };
 
     xdg.configFile = {
       "i3/config".source = ./config;
+      "i3status/i3status.conf".source = ./i3status.conf;
+      "i3status-rs/config.toml".source = ./i3status-config.toml;
       "picom.conf".source = ./picom.conf;
       "rofi/config.rasi".source = ./config.rasi;
     };
