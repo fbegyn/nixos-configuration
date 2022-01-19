@@ -47,9 +47,7 @@ in
 
     init = {
       enable = true;
-
       recommendedGcSettings = true;
-
       prelude = let
         fontSize = "15";
         emacsFont = ''
@@ -58,8 +56,6 @@ in
         '';
       in emacsFont + ''
         (require 'bind-key)
-
-        (setq inhibit-startup-screen t) ; don't show starup screen
 
         (menu-bar-mode -1) ; we don't need a menu bar
 
@@ -190,7 +186,6 @@ in
       '';
 
       usePackageVerbose = true;
-
       usePackage = {
         company = {
             enable = true;
@@ -237,7 +232,6 @@ in
 
         counsel = {
           enable = true;
-
           bindStar = {
             "M-x" = "counsel-M-x";
             "C-x C-f" = "counsel-find-file";
@@ -248,7 +242,6 @@ in
             "C-c l" = "counsel-locate";
             "M-y" = "counsel-yank-pop";
           };
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -398,7 +391,6 @@ in
 
         magit = {
           enable = true;
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -487,9 +479,7 @@ in
 
         swiper = {
           enable = true;
-
           bindStar = { "C-s" = "swiper"; };
-
           general = ''
             (general-nmap
               :prefix "SPC"
