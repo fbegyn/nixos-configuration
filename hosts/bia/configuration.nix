@@ -23,6 +23,7 @@
     ../../common/hidpi.nix
     ../../common/scanner.nix
     ../../common/eid.nix
+    ../../common/webcam.nix
     ../../common/liveview-webcam.nix
     ../../common/video-accel.nix
 

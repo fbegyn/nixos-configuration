@@ -128,9 +128,10 @@ in
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
-            xkb_layout = "us";
-            xkb_variant = "altgr-intl";
+            xkb_layout = "us,us";
+            xkb_variant = "altgr-intl,colemak";
             xkb_numlock = "disabled";
+            xkb_options = "grp:win_space_toggle";
           };
           "2:10:TPPS/2_Elan_TrackPoint" = {
             pointer_accel = "-0.17";

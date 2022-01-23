@@ -32,7 +32,7 @@
     ../../common/printer.nix
     ../../common/wireguard.nix
     ../../common/eid.nix
-    ../../common/liveview-webcam.nix
+    ../../common/webcam.nix
     ../../common/video-accel.nix
     ../../common/fingerprint.nix
     ../../common/amdgpu.nix

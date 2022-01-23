@@ -47,23 +47,19 @@ in
 
     init = {
       enable = true;
-
       recommendedGcSettings = true;
-
       prelude = let
-        fontSize = "15";
+        fontSize = "16";
+        font = "DejaVu Sans Mono";
         emacsFont = ''
           (when window-system
-            (set-frame-font "DejaVu Sans Mono ${fontSize}"))
+            (set-frame-font "${font} ${fontSize}"))
         '';
       in emacsFont + ''
         (require 'bind-key)
 
-        (setq inhibit-startup-screen t) ; don't show starup screen
-
-        (menu-bar-mode -1) ; we don't need a menu bar
-
-        (electric-pair-mode) ; insert matching delimiters
+        (menu-bar-mode 0) ; we don't need a menu bar
+        (setq inhibit-startup-screen t )      ; inhibit useless and old-school startup screen
 
         (recentf-mode 1) ; builds list of recently opened files
         (setq recentf-max-menu-items 25) ; max 25 items in menu
@@ -87,7 +83,6 @@ in
         (setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
         (setq vc-follow-symlinks t )	      ; don't ask for confirmation when opening symlinked file
         (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ; transform backups file name
-        (setq inhibit-startup-screen t )      ; inhibit useless and old-school startup screen
         (setq ring-bell-function 'ignore )	  ; silent bell when you make a mistake
         (setq coding-system-for-read 'utf-8 ) ; use utf-8 by default
         (setq coding-system-for-write 'utf-8 ); use utf-8 by default
@@ -106,6 +101,15 @@ in
         (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
 
         ;; some general behavior settings
+        (column-number-mode) ; enable column number display
+        (setq-default show-trailing-whitespace t)
+        (setq-default indicate-empty-lines t) ; check empty lines at the end of file
+        (setq-default indicate-buffer-boundaries 'left) ; check for termination on newline
+        (setq sentence-end-double-space nil) ; start sentences with a . and single space
+        (setq show-paren-delay 0)
+        (show-paren-mode)
+
+        (electric-pair-mode) ; insert matching delimiters
         (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
         (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
         (setq default-tab-width 2)
@@ -190,7 +194,6 @@ in
       '';
 
       usePackageVerbose = true;
-
       usePackage = {
         company = {
             enable = true;
@@ -237,7 +240,6 @@ in
 
         counsel = {
           enable = true;
-
           bindStar = {
             "M-x" = "counsel-M-x";
             "C-x C-f" = "counsel-find-file";
@@ -248,7 +250,6 @@ in
             "C-c l" = "counsel-locate";
             "M-y" = "counsel-yank-pop";
           };
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -398,7 +399,6 @@ in
 
         magit = {
           enable = true;
-
           general = ''
             (general-nmap
               :prefix "SPC"
@@ -487,9 +487,7 @@ in
 
         swiper = {
           enable = true;
-
           bindStar = { "C-s" = "swiper"; };
-
           general = ''
             (general-nmap
               :prefix "SPC"

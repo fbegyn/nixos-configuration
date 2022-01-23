@@ -5,6 +5,7 @@
     unstable.ldns
     unstable.telnet
     unstable.tcpdump
+    unstable.ncat
   ];
 
   programs = {
