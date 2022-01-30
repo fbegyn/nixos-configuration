@@ -39,13 +39,6 @@ with lib; {
       MaxFileSec=7day
     '';
 
-    security.pam.loginLimits = [{
-      domain = "*";
-      type = "soft";
-      item = "nofile";
-      value = "unlimited";
-    }];
-
     users.groups.thecy = { };
     systemd.services.thecy-homedir-setup = {
       description = "Creates homedirs for /srv/thecy services";
