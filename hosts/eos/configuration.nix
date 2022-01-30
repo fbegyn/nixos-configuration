@@ -38,25 +38,15 @@
     DNSStubListener=no
   '';
 
-  services.home-assistant = {
-    enable = true;
-    package = pkgs.unstable.home-assistant.overrideAttrs (oldAttrs: {
-      doInstallCheck = false;
-    });
-    openFirewall = true;
-    applyDefaultConfig = true;
-    config = {
-      default_config = {};
-      met = {};
-      unifi = {};
-      spotify = {};
-      shelly = {};
-      cast = {};
-      tado = {};
-      automation = "!include automations.yaml";
-      # groups = "!include groups.yaml";
-      # scenes = "!include scenes.yaml";
-      # script = "!include scripts.yaml";
+  virtualisation.oci-containers = {
+    backend = "podman";
+    containers.hass = {
+      volumes = [ "/home/francis/hass:/config" ];
+      environment.TZ = "Europe/Brussels";
+      image = "ghcr.io/home-assistant/home-assistant:stable";
+      extraOptions = [
+        "--network=host"
+      ];
     };
   };
 
@@ -77,7 +67,10 @@
         { address  = "10.5.1.10"; prefixLength = 24; }
       ];
     };
-    firewall.enable = false;
+    firewall = {
+      enable = false;
+      allowedTCPPorts = [ 8123 ];
+    };
   };
 
   # Select internationalisation properties.
