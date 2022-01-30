@@ -15,7 +15,8 @@
     ../../users/francis
 
     # services
-    ../../services/coredns
+    # ../../services/coredns
+    ../../services/adguard
     ../../services/ddclient
     ../../services/prometheus
     ../../services/grafana
