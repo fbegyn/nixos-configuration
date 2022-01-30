@@ -14,7 +14,7 @@
       "k" = "kubectl";
     };
     loginShellInit = ''
-      set -Ux SSH_AUTH_SOCK /run/user/1000/ssh-agent
+      set -Ux SSH_AUTH_SOCK /run/user/1000/gnupg/S.gpg-agent.ssh
       set -Ux BROWSER qutebrowser
       # wayland variables
       set -Uxa XDG_SESSION_TYPE wayland

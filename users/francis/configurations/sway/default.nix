@@ -42,6 +42,7 @@ in
     gsettings-desktop-schemas
     lxappearance
   ];
+  security.pam.services.swaylock = {};
 
   # more theming
   programs.qt5ct.enable = true;
@@ -70,7 +71,7 @@ in
 
       # sway tooling
       xdg_utils
-      unstable.swaylock # lockscreen
+      swaylock # lockscreen
       unstable.swayidle
       mako # notification daemon
       slurp
