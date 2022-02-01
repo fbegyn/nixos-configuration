@@ -3,7 +3,7 @@ self: super: {
     postFixup = oldAttrs.postFixup + ''
       substituteInPlace $out/lib/*/site-packages/matrix/server.py --replace "\"matrix_sso_helper\"" "\"$out/bin/matrix_sso_helper\""
       substituteInPlace $out/lib/*/site-packages/matrix/server.py --replace "and (not self.config.username or self.config.password)):" "and (not self.config.username or not self.config.password)):"
-    '';  
+    '';
   });
 
   weechat =  with super.weechatScripts; super.weechat.override {

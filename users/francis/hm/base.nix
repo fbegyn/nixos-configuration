@@ -13,7 +13,7 @@
 
   nixpkgs.config = {
     allowUnfree = true;
-    packageOverrides = import ../../pkgs;
+    packageOverrides = import ../../../pkgs;
   };
 
   xsession.initExtra = ''

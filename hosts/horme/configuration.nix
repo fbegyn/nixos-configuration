@@ -27,9 +27,7 @@
     ../../common/ios.nix
     ../../common/laptop.nix
     ../../common/gpg.nix
-    ../../common/security.nix
     ../../common/pulseaudio.nix
-    ../../common/screen-brightness.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
@@ -37,13 +35,12 @@
     ../../common/webcam.nix
     ../../common/fingerprint.nix
     ../../common/eid.nix
+    ../../common/network-tools.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
-    #../../users/francis/configurations/i3
-    ../../users/francis/configurations/sway
+    ../../users/francis/sway
     ../../services/tailscale.nix
-    # ../../services/gns3.nix
   ];
 
   nixpkgs.config.alluwUnfree = true;
@@ -99,11 +96,6 @@
   # programs.mtr.enable = true;
   programs.adb.enable = true;
   services.hardware.bolt.enable = true;
-
-  francis = {
-    gc.enable = true;
-    upgrade.enable = true;
-  };
 
   # trackpoint settings
   hardware.trackpoint = {
