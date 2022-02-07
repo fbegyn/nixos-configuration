@@ -46,7 +46,7 @@ in {
       # Browser
       unstable.firefox
       unstable.chromium
-      unstable.qutebrowser
+      qutebrowser
       # entertainement
       unstable.playerctl
       # Utilities
