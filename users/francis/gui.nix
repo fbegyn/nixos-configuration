@@ -41,7 +41,7 @@ in {
       slack
       unstable.mattermost-desktop
       unstable.tdesktop
-      unstable.thunderbird
+      thunderbird
       unstable.weechat
       # Browser
       unstable.firefox
