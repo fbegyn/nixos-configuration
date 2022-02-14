@@ -251,6 +251,17 @@
         }];
       }
       {
+        job_name = "home-assistant";
+        scheme = "http";
+	metrics_path = "/api/prometheus";
+	bearer_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhNWY2NzI5MjUxYWU0ZGUzYjAxYTY1YzdhZDM2NGQ0YSIsImlhdCI6MTY0NDY4NDUyMCwiZXhwIjoxOTYwMDQ0NTIwfQ.lexy4FxTVMVci5i7DicFRVe8Dgddwzhpf84T7COgxIg";
+        static_configs = [{
+            targets = [
+              "10.5.1.10:8123"
+            ];
+        }];
+      }
+      {
         job_name = "tc-exporter";
         scheme = "http";
         static_configs = [{
