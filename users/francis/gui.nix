@@ -13,25 +13,25 @@ in {
 
   home-manager.users.francis = {
     imports = [
-      ./go.nix
-      ./configurations/mpv
-      ./configurations/newsboat.nix
-      ./configurations/direnv.nix
-      ./configurations/zathura.nix
-      ./configurations/udiskie.nix
-      ./configurations/alacritty
-      ./configurations/hledger.nix
-      ./configurations/tmux
-      ./configurations/josm.nix
-      ./configurations/emacs
-      ./configurations/udiskie.nix
+      ./hm/go.nix
+      ./hm/configurations/mpv
+      ./hm/configurations/newsboat.nix
+      ./hm/configurations/direnv.nix
+      ./hm/configurations/zathura.nix
+      ./hm/configurations/udiskie.nix
+      ./hm/configurations/alacritty
+      ./hm/configurations/hledger.nix
+      ./hm/configurations/tmux
+      ./hm/configurations/josm.nix
+      ./hm/configurations/emacs
+      ./hm/configurations/udiskie.nix
       #./secrets/fish.nix
     ];
 
     xdg.configFile = {
-      "qutebrowser/config.py".source = ./configurations/qutebrowser/config.py;
+      "qutebrowser/config.py".source = ./hm/configurations/qutebrowser/config.py;
       "qutebrowser/css/solarized-dark-all-sites.css".source =
-        ./configurations/qutebrowser/solarized-dark-all-sites.css;
+        ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
     };
 
     home.packages = with pkgs; [
@@ -41,12 +41,12 @@ in {
       slack
       unstable.mattermost-desktop
       unstable.tdesktop
-      unstable.thunderbird
+      thunderbird
       unstable.weechat
       # Browser
       unstable.firefox
       unstable.chromium
-      unstable.qutebrowser
+      qutebrowser
       # entertainement
       unstable.playerctl
       # Utilities

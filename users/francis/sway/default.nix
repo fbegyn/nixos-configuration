@@ -87,6 +87,8 @@ in
       kanshi # autorandr
       libappindicator-gtk3
       wdisplays
+
+      brightnessctl
     ];
 
     xdg.configFile = {

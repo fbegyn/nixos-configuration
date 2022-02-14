@@ -9,7 +9,6 @@
     ./hardware-configuration.nix
 
     ../../common
-    ../../common/security.nix
 
     ../../users
     ../../users/francis
@@ -271,14 +270,6 @@
         }];
       }
     ];
-  };
-
-  francis = {
-    upgrade.enable = true;
-    gc = {
-      enable = true;
-      dates = "weekly";
-    };
   };
 
   # This value determines the NixOS release from which the default

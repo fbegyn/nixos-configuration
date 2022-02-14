@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../dunst
+    ./dunst.nix
   ];
 
   environment.pathsToLink = [ "/libexec" ];

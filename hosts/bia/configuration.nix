@@ -13,7 +13,6 @@
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/ios.nix
-    ../../common/security.nix
     ../../common/steam.nix
     ../../common/pulseaudio.nix
     ../../common/nvidia.nix
@@ -24,14 +23,13 @@
     ../../common/scanner.nix
     ../../common/eid.nix
     ../../common/webcam.nix
-    ../../common/liveview-webcam.nix
+    ../../common/network-tools.nix
     ../../common/video-accel.nix
 
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
-    ../../users/francis/configurations/i3
-
+    ../../users/francis/i3
     ../../services/tailscale.nix
   ];
 
@@ -105,14 +103,6 @@
     autoprovision = {
       enable = true;
       key = "${hosts.bia.tailscale.oneoffkey}";
-    };
-  };
-
-  francis = {
-    upgrade.enable = true;
-    gc = {
-      enable = true;
-      dates = "weekly";
     };
   };
 
