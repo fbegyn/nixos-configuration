@@ -7,6 +7,7 @@
     unstable.tcpdump
     unstable.ncat
     unstable.iperf
+    unstable.netperf
   ];
 
   programs = {
