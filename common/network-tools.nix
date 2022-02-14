@@ -6,6 +6,7 @@
     unstable.telnet
     unstable.tcpdump
     unstable.ncat
+    unstable.iperf
   ];
 
   programs = {
