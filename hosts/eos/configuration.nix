@@ -7,6 +7,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./acme.nix
 
     ../../common
 
@@ -21,7 +22,10 @@
     ../../services/grafana
     ../../services/node-exporter
     ../../services/tailscale.nix
-    ../../services/plex.nix
+    # ../../services/plex.nix
+    ../../services/postgres
+    ../../services/redis
+    ../../services/consul
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -40,13 +44,50 @@
 
   virtualisation.oci-containers = {
     backend = "podman";
-    containers.hass = {
-      volumes = [ "/home/francis/hass:/config" ];
-      environment.TZ = "Europe/Brussels";
-      image = "ghcr.io/home-assistant/home-assistant:stable";
-      extraOptions = [
-        "--network=host"
-      ];
+    containers = {
+      hass = {
+        volumes = [ "/home/francis/hass:/config" ];
+        environment.TZ = "Europe/Brussels";
+        image = "ghcr.io/home-assistant/home-assistant:stable";
+        extraOptions = [
+          "--network=host"
+        ];
+      };
+      netbox = {
+        image = "netboxcommunity/netbox:v3.1";
+        ports = [
+          "8080:8080"
+        ];
+        environmentFiles = [
+          /var/lib/netbox/env/netbox.env
+        ];
+        volumes = [
+          "/var/lib/netbox/startup_scripts:/opt/netbox/startup_scripts:z,ro"
+          "/var/lib/netbox/initializers:/opt/netbox/initializers:z,ro"
+          "/var/lib/netbox/configuration:/etc/netbox/config:z,rw"
+          "/var/lib/netbox/reports:/opt/netbox/reports:z,ro"
+          "/var/lib/netbox/scripts:/opt/netbox/scripts:z,ro"
+          "/var/lib/netbox/media_files:/opt/netbox/media:z"
+        ];
+      };
+      netbox-worker = {
+        image = "netboxcommunity/netbox:v3.1";
+        cmd = [
+          "/opt/netbox/venv/bin/python"
+          "/opt/netbox/netbox/manage.py"
+          "rqworker"
+        ];
+        environmentFiles = [
+          /var/lib/netbox/env/netbox.env
+        ];
+      };
+      netbox-housekeeping = {
+        image = "netboxcommunity/netbox:v3.1";
+        cmd = [ "/opt/netbox/housekeeping.sh" ];
+        environmentFiles = [
+          /var/lib/netbox/env/netbox.env
+        ];
+      };
     };
   };
 
@@ -134,6 +175,48 @@
         proxyPass = "http://127.0.0.1:3000/";
       };
     };
+    "netbox.begyn.be" = {
+      forceSSL = true;
+      serverName = "netbox.begyn.be";
+      serverAliases = [
+        "ipam.begyn.be"
+      ];
+      useACMEHost = "dcf.begyn.be";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8080/";
+      };
+    };
+  };
+
+  services.postgresql = {
+    ensureDatabases = [ "netbox" ];
+    ensureUsers = [
+      {
+        name = "netbox";
+        ensurePermissions = {
+          "DATABASE netbox" = "ALL PRIVILEGES";
+        };
+      }
+    ];
+    enableTCPIP = true;
+  };
+
+  services.consul = {
+    interface = {
+      bind = "enp57s0u1";
+    };
+    extraConfig = {
+      server = true;
+      bootstrap_expect = 1;
+      datacenter = "app-01";
+      bind_addr = "10.5.1.10";
+      client_addr = "10.5.1.10";
+      enable_script_checks = true;
+    };
+  };
+
+  services.redis = {
+    bind = "0.0.0.0";
   };
 
   services.promtail = {
