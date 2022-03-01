@@ -66,7 +66,6 @@ in {
     (electric-pair-mode) ; insert matching delimiters
     (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-    (setq default-tab-width 2)
     (setq frame-resize-pixelwise t)
 
     ;; rust
@@ -242,7 +241,7 @@ in {
         "(lsp-mode . lsp-enable-which-key-integration)"
       ];
       config = ''
-        (setq lsp-rust-server 'rust-analyzer)
+        (setq-default lsp-rust-server 'rust-analyzer)
         (setq lsp-idle-delay 0.500)
         (setq lsp-modeline-workspace-status-enable nil)
       '';
@@ -301,8 +300,6 @@ in {
       '';
       extraConfig = ''
         (magit-auto-revert-mode nil)
-        (magit-delete-by-moving-to-trash nil)
-        (magit-process-popup-time 5)
         (magit-save-repository-buffers 'dontask)
       '';
     };
@@ -446,59 +443,6 @@ in {
         "TAB" = "nil";
         "M-TAB" = "yas-expand";
       };
-    };
-
-    general = {
-      enable = true;
-      after = [ "evil" ];
-      config = ''
-        (general-evil-setup)
-        (general-mmap
-          ":" 'evil-ex
-          ";" 'evil-repeat-find-char)
-        (general-create-definer my-leader-def
-          :prefix "SPC")
-        (general-create-definer my-local-leader-def
-          :prefix "SPC m")
-        (general-nmap
-          :prefix "SPC"
-          "b"  '(:ignore t :which-key "buffer")
-          "bd" '(kill-this-buffer :which-key "kill buffer")
-          "f"  '(:ignore t :which-key "file")
-          "ff" '(find-file :which-key "find")
-          "fs" '(save-buffer :which-key "save")
-          "m"  '(:ignore t :which-key "mode")
-          "t"  '(:ignore t :which-key "toggle")
-          "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
-          "wv" '(split-window-horizontally :which-key "split vertical")
-          "ws" '(split-window-vertically :which-key "split horizontal")
-          "wk" '(evil-window-up :which-key "up")
-          "wj" '(evil-window-down :which-key "down")
-          "wh" '(evil-window-left :which-key "left")
-          "wl" '(evil-window-right :which-key "right")
-          "wd" '(delete-window :which-key "delete")
-          "q"  '(:ignore t :which-key "quit")
-          "qq" '(save-buffers-kill-emacs :which-key "quit"))
-        (general-nmap
-          :prefix "SPC"
-          "bb" '(ivy-switch-buffer :which-key "switch buffer")
-          "fr" '(ivy-recentf :which-key "recent file"))
-        (general-nmap
-          :prefix "SPC"
-          "g" '(:ignore t :which-key "Git")
-          "gs" 'magit-status)
-        (general-nmap
-          :prefix "SPC"
-          "p"  '(:ignore t :which-key "Project")
-          "pf" '(projectile-find-file :which-key "Find in project")
-          "pl" '(projectile-switch-project :which-key "Switch project"))
-        (general-nmap
-          :prefix "SPC"
-          "SPC" '(counsel-M-x :which-key "M-x")
-          "ff"  '(counsel-find-file :which-key "find file")
-          "s"   '(:ignore t :which-key "search")
-          "sc"  '(counsel-unicode-char :which-key "find character"))
-      '';
     };
   };
 }
