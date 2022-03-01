@@ -11,7 +11,9 @@ in {
   prelude = ''
     ;; (setq debug-on-error t)
     (when window-system
-      (set-frame-font "${font} ${fontSize}"))
+      (set-default-font "${font}-${fontSize}")
+      (set-face-attribute 'default nil :font "${font}-${fontSize}")
+      (set-frame-font "${font}-${fontSize}" nil t))
 
     (eval-when-compile (setq use-package-compute-statistics t))
 

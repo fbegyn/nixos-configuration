@@ -50,4 +50,7 @@ in
     enable = true;
     init = import ./emacs.nix { inherit pkgs; };
   };
+  xresources.properties = {
+    "Emacs.font" = "DejaVu Sans Mono-16";
+  };
 }
