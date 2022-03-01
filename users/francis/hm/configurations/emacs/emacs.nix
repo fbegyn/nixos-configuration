@@ -96,12 +96,18 @@ in {
     company = {
       enable = true;
       diminish = [ "company-mode" ];
+      bindLocal.company-active-map = {
+        "M-n" = "nil";
+        "M-p" = "nil";
+        "C-n" = "#'company-select-next";
+        "C-p" = "#'company-select-previous";
+      };
       config = ''
         (global-company-mode t)
       '';
       extraConfig = ''
         :custom
-        (company-begin-commands nil)
+        ;; (company-begin-commands nil)
         (company-minimum-prefix-length 0)
         (company-idle-delay 0.0)
         (comapny-tooltip-align-annotations t)
@@ -131,8 +137,10 @@ in {
     # sidebar file explorer
     neotree = {
       enable = true;
+      bind = {
+        "<f9>" = "neotree-toggle";
+      };
       config = ''
-        (global-set-key [f8] 'neotree-toggle)
         (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
         (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
         (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
@@ -146,9 +154,6 @@ in {
     };
     all-the-icons = {
       enable = true;
-      config = ''
-        (setq-default neo-theme 'icons)
-      '';
     };
 
     highlight-indent-guides = {
@@ -178,6 +183,10 @@ in {
     evil-collection = {
       enable = true;
       after = [ "evil" ];
+      config = ''
+        (setq evil-collection-mode-alist (delete 'go-mode evil-collection-mode-list))
+        (evil-collection-init)
+      '';
     };
     evil = {
       enable = true;
@@ -193,6 +202,16 @@ in {
         (evil-cross-lines t)
       '';
     };
+    evil-args = {
+      enable = true;
+      # after = ["evil"];
+      bindLocal.evil-inner-text-objects-map = {
+        "a" = "evil-inner-arg";
+      };
+      bindLocal.evil-outer-text-objects-map = {
+        "a" = "evil-outer-arg";
+      };
+    };
     evil-commentary = {
       enable = true;
       after = ["evil"];
@@ -201,6 +220,17 @@ in {
       '';
       diminish = ["evil-commentary-mode"];
     };
+    evil-fringe-mark = {
+      enable = true;
+      after = ["evil"];
+      config = ''
+        (setq-default evil-fringe-mark-show-special t)
+        (push ?{ evil-fringe-mark-ignore-chars)
+        (push ?} evil-fringe-mark-ignore-chars)
+        (global-evil-fringe-mark-mode)
+      '';
+      diminish = ["global-evil-fringe-mark-mode"];
+    };
     evil-indent-plus = {
       enable = true;
       after = ["evil"];
@@ -208,60 +238,114 @@ in {
         (evil-indent-plus-default-bindings)
       '';
     };
+    evil-matchit = {
+      enable = true;
+      after = ["evil"];
+      config = ''
+        (global-evil-matchit-mode 1)
+      '';
+    };
+    evil-exchange = {
+      enable = true;
+      after = ["evil"];
+      config = ''
+        (evil-exchange-cx-install)
+      '';
+    };
+    evil-easymotion = {
+      enable = true;
+      # after = ["evil"];
+      bindLocal.evil-motion-state-map = {
+        "SPC C-n" = "evilem-motion-next-line";
+        "SPC C-p" = "evilem-motion-previous-line";
+      };
+      config = ''
+        (evilem-default-keybindings "SPC")
+      '';
+    };
+    evil-numbers = {
+      enable = true;
+      bindLocal.evil-normal-state-map = {
+        "<kp-add>" = "evil-numbers/inc-at-pt";
+        "<kp-subtract>" = "evil-numbers/dec-at-pt";
+      };
+      extraConfig = ''
+        :custom
+        (evil-numbers-pad-default t)
+      '';
+    };
     evil-surround = {
       enable = true;
+      after = ["evil"];
       config = ''
         (global-evil-surround-mode 1)
       '';
-      after = [ "evil" ];
+    };
+    evil-goggles = {
+      enable = false; # these were learning wheels.
+      after = ["evil"];
+      diminish = ["evil-goggles-mode"];
+      config = ''
+        (evil-goggles-mode)
+        (evil-goggles-use-diff-faces)
+      '';
+    };
+
+    expand-region = {
+      enable = true;
+      bind = {
+        "C-=" = "er/expand-region";
+      };
     };
 
     flycheck = {
       enable = true;
-      diminish = [ "flycheck-mode" ];
-      config = ''
-        (global-flycheck-mode)
+      hook = [ "(prog-mode . flycheck-mode)" ];
+      diminish = ["flycheck-mode"];
+      extraConfig = ''
+        :custom
+        (flycheck-display-errors-function 'ignore)
+        (flycheck-highlighting-mode nil)
+        (flycheck-navigation-minimum-level 'error)
+        (flycheck-check-syntax-automatically '(save mode-enabled))
+        (flycheck-emacs-lisp-load-path 'inherit)
       '';
     };
 
     go-mode = {
       enable = true;
       config = ''
-        (setq gofmt-command "goimports")
-        (add-hook 'before-save-hook 'gofmt-before-save)
+        (evil-add-command-properties #'go-goto-arguments :jump t :repeat 'motion :type 'exclusive)
+        (evil-add-command-properties #'go-goto-docstring :jump t :repeat 'motion :type 'exclusive)
+        (evil-add-command-properties #'go-goto-function-name :jump t :repeat 'motion :type 'exclusive)
+        (evil-add-command-properties #'go-goto-method-receiver :jump t :repeat 'motion :type 'exclusive)
+        (evil-add-command-properties #'go-goto-return-values :jump t :repeat 'motion :type 'exclusive)
+        (evil-add-command-properties #'go-goto-imports :jump t :repeat 'motion :type 'exclusive)
+        (evil-add-command-properties #'go-goto-function :jump t :repeat 'motion :type 'exclusive)
+      '';
+      hook = [''
+        (go-mode . (lambda ()
+          (lsp)
+          ;; (lsp-semantic-tokens-mode)
+          (add-hook 'before-save-hook 'lsp-organize-imports t t)
+          (add-hook 'before-save-hook 'lsp-format-buffer t t)
+          (subword-mode 1)
+          (define-key evil-motion-state-local-map (kbd "gsff") #'go-goto-function)
+          (define-key evil-motion-state-local-map (kbd "gsfa") #'go-goto-arguments)
+          (define-key evil-motion-state-local-map (kbd "gsfn") #'go-goto-function-name)
+          (define-key evil-motion-state-local-map (kbd "gsfr") #'go-goto-method-receiver)
+          (define-key evil-motion-state-local-map (kbd "gsfv") #'go-goto-return-values)
+          (define-key evil-motion-state-local-map (kbd "gsd")  #'go-goto-docstring)
+          (define-key evil-motion-state-local-map (kbd "gsi")  #'go-goto-imports)
+        ))
+      ''];
+      extraConfig = ''
+        :custom
+        (godoc-at-point-function 'godoc-gogetdoc)
+        (gofmt-command "${pkgs.goimports}/bin/goimports")
+        (gofmt-show-errors 'buffer)
       '';
     };
-
-    lsp-mode = {
-      enable = true;
-      command = [ "lsp" ];
-      hook = [
-        "(go-mode . lsp)"
-        "(rust-mode . lsp)"
-        "(lsp-mode . lsp-enable-which-key-integration)"
-      ];
-      config = ''
-        (setq-default lsp-rust-server 'rust-analyzer)
-        (setq lsp-idle-delay 0.500)
-        (setq lsp-modeline-workspace-status-enable nil)
-      '';
-    };
-    lsp-ui = {
-      enable = true;
-      after = [ "lsp" ];
-      command = [ "lsp-ui-mode" ];
-    };
-    lsp-ivy = {
-      enable = true;
-      after = [ "lsp" "ivy" ];
-      command = [ "lsp-ivy-workspace-symbol" ];
-    };
-    # eglot = {
-    #   enable = true;
-    #   config = ''
-    #     (add-hook 'go-mode-hook 'eglot-ensure)
-    #   '';
-    # };
 
     ivy = {
       enable = true;
@@ -304,14 +388,66 @@ in {
       '';
     };
 
+    lsp-mode = {
+      enable = true;
+      defer = true;
+      config = ''
+
+        ;; (setq lsp-semantic-tokens-enable t)
+        ;; (setq lsp-semantic-tokens-honor-refresh-requests t)
+        ;; (setq lsp-semantic-tokens-warn-on-missing-face t)
+
+        (lsp-register-custom-settings
+          '(("gopls.importShortcut" "Definition" nil)
+            ("gopls.staticcheck" nil t)
+            ;; ("gopls.semanticTokens" t t)
+            ("gopls.experimentalPostfixCompletions" t t)))
+
+        (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
+        (lsp-register-client
+          (make-lsp-client
+            :new-connection (lsp-stdio-connection "/home/dominikh/prj/zls/zig-cache/bin/zls")
+            :major-modes '(zig-mode)
+            :server-id 'zls))
+      '';
+      extraConfig = ''
+        :custom
+        (lsp-signature-render-documentation nil)
+        (lsp-file-watch-threshold nil)
+        (lsp-auto-execute-action nil)
+        (lsp-lens-enable nil)
+        (lsp-go-hover-kind "FullDocumentation")
+        (lsp-rust-analyzer-server-command '("${pkgs.rust-analyzer}/bin/rust-analyzer"))
+        (lsp-rust-server 'rust-analyzer)
+      '';
+    };
+    lsp-ui = {
+      enable = true;
+      hook = ["(lsp-mode . lsp-ui-mode)"];
+      extraConfig = ''
+        :custom
+        (lsp-ui-doc-enable nil)
+        (lsp-ui-peek-enable nil)
+        (lsp-ui-sideline-enable nil)
+      '';
+    };
+    lsp-ivy.enable = true;
+
+    lua-mode = {
+      enable = true;
+      defer = true;
+    };
+
     elixir-mode = {
       enable = true;
+      defer = true;
       mode = [''"\\.ex'"''];
     };
     alchemist.enable = true;
 
     ledger-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.journal\\'"'' ];
       config = ''
         (setq ledger-reconcile-default-commodity "EUR")
@@ -320,18 +456,20 @@ in {
 
     python-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.py'"'' ];
     };
     virtualenvwrapper.enable = true;
 
     yaml-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.yaml'"'' ''"\\.yml'"'' ];
     };
 
     markdown-mode = {
       enable = true;
-      command = [ "markdown-mode" "gfm-mode" ];
+      defer = true;
       mode = [
         ''("README\\.md\\'" . gfm-mode)''
         ''("\\.md\\'" . markdown-mode)''
@@ -343,12 +481,14 @@ in {
 
     nix-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.nix\\'"'' ];
       bindLocal = { nix-mode-map = { "C-i" = "nix-indent-line"; }; };
     };
 
     nix-prettify-mode = {
       enable = true;
+      defer = true;
       config = ''
         (nix-prettify-global-mode)
       '';
@@ -356,6 +496,7 @@ in {
 
     nix-drv-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.drv\\'"'' ];
     };
 
@@ -395,21 +536,25 @@ in {
 
     dhall-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.dhall\\'"'' ];
     };
 
     jsonnet-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.jsonnet\\'"'' ''"\\.libsonnet\\'"'' ];
     };
 
     rust-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.rs\\'"'' ];
     };
 
     toml-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.toml\\'"'' ];
     };
 
@@ -420,6 +565,7 @@ in {
 
     web-mode = {
       enable = true;
+      defer = true;
       mode = [ ''"\\.html\\'"'' ''"\\.tmpl\\'"'' ];
     };
 
