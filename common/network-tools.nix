@@ -3,9 +3,9 @@
 {
   environment.systemPackages = with pkgs; [
     unstable.ldns
-    unstable.telnet
+    unstable.inetutils
     unstable.tcpdump
-    unstable.ncat
+    unstable.nmap
     unstable.iperf
     unstable.netperf
   ];
