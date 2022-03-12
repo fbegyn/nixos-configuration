@@ -3,6 +3,8 @@ let
   comma = import (builtins.fetchTarball "https://github.com/nix-community/comma/archive/refs/heads/master.tar.gz") { inherit pkgs; };
 in {
   services.gvfs.enable = true;
+  services.gnome.sushi.enable = true;
+  services.dbus.packages = with pkgs; [ gnome3.dconf ];
 
   programs = {
     wireshark = {
@@ -54,7 +56,7 @@ in {
       pulsemixer
       unstable.bitwarden
       unstable.bitwarden-cli
-      gnome3.nautilus
+      unstable.gnome3.nautilus
       unstable.dmenu
       unstable.solaar
       unstable.morph
