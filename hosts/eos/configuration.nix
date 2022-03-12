@@ -42,12 +42,40 @@
     DNSStubListener=no
   '';
 
+  virtualisation.docker.enable = true;
+  services.jupyterhub = {
+    enable = true;
+    jupyterlabEnv = pkgs.python3.withPackages (p: with p; [
+      jupyterhub
+      jupyterlab
+      dockerspawner
+    ]);
+    jupyterhubEnv = pkgs.python3.withPackages (p: with p; [
+      jupyterhub
+      jupyterlab
+      dockerspawner
+    ]);
+    spawner = "dockerspawner.DockerSpawner";
+    extraConfig = ''
+      c.JupyterHub.hub_ip = '10.5.1.10'
+      c.Authenticator.allowed_users = { "francis" }
+      c.Authenticator.admin_users = { "francis" }
+
+      docker_notebook_dir = '/home/jovyan/work'
+      c.DockerSpawner.image = 'jupyter/datascience-notebook:python-3.9.10'
+      c.DockerSpawner.hub_connect_ip = '10.5.1.10'
+      c.DockerSpawner.notebook_dir = docker_notebook_dir
+      c.DockerSpawner.volumes = { '/home/{username}/jupyterhub': docker_notebook_dir }
+      c.DockerSpawner.remove_containers = True
+      c.DockerSpawner.remove = True
+    '';
+  };
+
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
-      hass = {
-        volumes = [ "/home/francis/hass:/config" ];
-        environment.TZ = "Europe/Brussels";
+      hass = { volumes = [ "/home/francis/hass:/config" ];
+      environment.TZ = "Europe/Brussels";
         image = "ghcr.io/home-assistant/home-assistant:stable";
         extraOptions = [
           "--network=host"
@@ -184,6 +212,14 @@
       useACMEHost = "dcf.begyn.be";
       locations."/" = {
         proxyPass = "http://127.0.0.1:8080/";
+      };
+    };
+    "jupyterhub.dcf.begyn.be" = {
+      forceSSL = true;
+      serverName = "jupyterhub.dcf.begyn.be";
+      useACMEHost = "dcf.begyn.be";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8000/";
       };
     };
   };
