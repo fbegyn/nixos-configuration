@@ -4,6 +4,7 @@ let
 in {
   services.gvfs.enable = true;
   services.gnome.sushi.enable = true;
+  programs.dconf.enable = true;
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
 
   programs = {
