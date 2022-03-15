@@ -34,7 +34,6 @@
     ../../common/eid.nix
     ../../common/webcam.nix
     ../../common/video-accel.nix
-    ../../common/fingerprint.nix
     ../../common/amdgpu.nix
 
     ../../common/vectera.nix

@@ -33,7 +33,6 @@
     ../../common/printer.nix
     ../../common/wireguard.nix
     ../../common/webcam.nix
-    ../../common/fingerprint.nix
     ../../common/eid.nix
     ../../common/network-tools.nix
     ../../users
