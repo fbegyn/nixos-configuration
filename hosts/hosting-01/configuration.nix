@@ -10,7 +10,6 @@
     ./hardware-configuration.nix
 
     ../../common
-    ../../common/security.nix
 
     ../../users
     ../../users/francis
@@ -162,13 +161,6 @@
       enableACME = false;
       forceSSL = true;
       useACMEHost = "begyn.be";
-    };
-  };
-
-  francis = {
-    gc = {
-      enable = true;
-      dates = "weekly";
     };
   };
 

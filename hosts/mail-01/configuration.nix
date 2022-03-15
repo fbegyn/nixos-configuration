@@ -13,7 +13,6 @@ in {
     ./hardware-configuration.nix
 
     ../../common
-    ../../common/security.nix
 
     ../../users
     ../../users/francis

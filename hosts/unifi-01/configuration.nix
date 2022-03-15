@@ -10,7 +10,6 @@
     ./hardware-configuration.nix
 
     ../../common
-    ../../common/security.nix
 
     ../../users
     ../../users/francis
@@ -106,13 +105,6 @@
   services.openssh = {
     enable = true;
     openFirewall = false;
-  };
-
-  francis = {
-    gc = {
-      enable = true;
-      dates = "daily";
-    };
   };
 
   # Open ports in the firewall.
