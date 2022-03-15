@@ -44,7 +44,7 @@
 
   virtualisation.docker.enable = true;
   services.jupyterhub = {
-    enable = true;
+    enable = false;
     jupyterlabEnv = pkgs.python3.withPackages (p: with p; [
       jupyterhub
       jupyterlab
@@ -62,7 +62,7 @@
       c.Authenticator.admin_users = { "francis" }
 
       docker_notebook_dir = '/home/jovyan/work'
-      c.DockerSpawner.image = 'jupyter/datascience-notebook:python-3.9.10'
+      c.DockerSpawner.image = 'jupyter/datascience-notebook:845d8ab3cd9d'
       c.DockerSpawner.hub_connect_ip = '10.5.1.10'
       c.DockerSpawner.notebook_dir = docker_notebook_dir
       c.DockerSpawner.volumes = { '/home/{username}/jupyterhub': docker_notebook_dir }
@@ -214,14 +214,14 @@
         proxyPass = "http://127.0.0.1:8080/";
       };
     };
-    "jupyterhub.dcf.begyn.be" = {
-      forceSSL = true;
-      serverName = "jupyterhub.dcf.begyn.be";
-      useACMEHost = "dcf.begyn.be";
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8000/";
-      };
-    };
+    # "jupyterhub.dcf.begyn.be" = {
+    #   forceSSL = true;
+    #   serverName = "jupyterhub.dcf.begyn.be";
+    #   useACMEHost = "dcf.begyn.be";
+    #   locations."/" = {
+    #     proxyPass = "http://127.0.0.1:8000/";
+    #   };
+    # };
   };
 
   services.postgresql = {
