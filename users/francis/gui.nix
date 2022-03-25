@@ -45,6 +45,7 @@ in {
       unstable.mattermost-desktop
       unstable.tdesktop
       thunderbird
+      unstable.elixir
       unstable.weechat
       # Browser
       unstable.firefox
