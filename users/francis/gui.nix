@@ -28,11 +28,12 @@ in {
       ./hm/configurations/josm.nix
       ./hm/configurations/emacs
       ./hm/configurations/udiskie.nix
+      ./hm/configurations/qutebrowser
       #./secrets/fish.nix
     ];
 
     xdg.configFile = {
-      "qutebrowser/config.py".source = ./hm/configurations/qutebrowser/config.py;
+      # "qutebrowser/config.py".source = ./hm/configurations/qutebrowser/config.py;
       "qutebrowser/css/solarized-dark-all-sites.css".source =
         ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
     };
@@ -50,7 +51,6 @@ in {
       # Browser
       unstable.firefox
       unstable.chromium
-      qutebrowser
       # entertainement
       unstable.playerctl
       # Utilities
