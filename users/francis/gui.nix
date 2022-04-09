@@ -47,7 +47,7 @@ in {
       unstable.tdesktop
       thunderbird
       unstable.elixir
-      unstable.weechat
+      # unstable.weechat
       # Browser
       unstable.firefox
       unstable.chromium
