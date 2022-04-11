@@ -93,6 +93,30 @@
         proxyPass = "http://127.0.0.1:9000";
         proxyWebsockets = true;
       };
+      locations."/".root = pkgs.unstable.glowing-bear;
+    };
+  };
+
+  users.users.oauth2_proxy.group = "nginx";
+  services.oauth2_proxy = let
+    hosts = import ../../secrets/hosts.nix;
+  in {
+    enable = true;
+    email.addresses = ''
+      francis.begyn@gmail.com
+    '';
+    nginx.virtualHosts = [
+      "irc.francis.begyn.be"
+    ];
+    google = {
+      serviceAccountJSON =
+        "${hosts.hosting-01.oauth2_proxy.google.serviceAccountJSON}";
+    };
+    clientID = "${hosts.hosting-01.oauth2_proxy.clientID}";
+    keyFile = "${hosts.hosting-01.oauth2_proxy.keyFile}";
+    cookie = {
+      secret = "${hosts.hosting-01.oauth2_proxy.cookie.secret}";
+      expire = "12h0m0s";
     };
   };
 
