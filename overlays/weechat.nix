@@ -9,7 +9,7 @@ self: super: {
   weechat =  with super.weechatScripts; super.weechat.override {
     configure = { availablePlugins, ... }: {
       scripts =
-        [ self.weechatScripts.weechat-matrix-fixed weechat-otr multiline ];
+        [ self.weechatScripts.weechat-matrix-fixed multiline ];
       extraBuildInputs =
         [ availablePlugins.python.withPackages (_: [ weechat-matrix ])];
     };

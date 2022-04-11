@@ -111,7 +111,7 @@ in {
         :custom
         ;; (company-begin-commands nil)
         (company-minimum-prefix-length 0)
-        (company-idle-delay 0.0)
+        (company-idle-delay 0.3)
         (comapny-tooltip-align-annotations t)
         (company-tooltip-limit 20)
         (company-transformers '(company-sort-by-backend-importance))
