@@ -15,7 +15,7 @@
 
   fileSystems."/" =
     { device = "SystemPool/root";
-      fsType = "zfs"; options = [ "zfsutil" ];
+      fsType = "zfs";
     };
 
   fileSystems."/boot" =
@@ -25,27 +25,22 @@
 
   fileSystems."/nix" =
     { device = "SystemPool/nix";
-      fsType = "zfs"; options = [ "zfsutil" ];
-    };
-
-  fileSystems."/var/log" =
-    { device = "extraSysPool/logs";
-      fsType = "zfs"; options = [ "zfsutil" ];
+      fsType = "zfs";
     };
 
   fileSystems."/home/francis" =
     { device = "SlowStoragePool/francis/home";
-      fsType = "zfs"; options = [ "zfsutil" ];
+      fsType = "zfs";
     };
 
   fileSystems."/home/francis/.games" =
     { device = "StoragePool/francis/games";
-      fsType = "zfs"; options = [ "zfsutil" ];
+      fsType = "zfs";
     };
 
   fileSystems."/home/francis/Documents" =
     { device = "StoragePool/francis/docs";
-      fsType = "zfs"; options = [ "zfsutil" ];
+      fsType = "zfs";
     };
 
   swapDevices =
