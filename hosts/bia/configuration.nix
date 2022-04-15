@@ -101,7 +101,7 @@
   in {
     enable = true;
     autoprovision = {
-      enable = true;
+      enable = false;
       key = "${hosts.bia.tailscale.oneoffkey}";
     };
   };
