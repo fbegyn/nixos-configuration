@@ -1,7 +1,5 @@
 { config, pkgs, ... }:
-let
-  comma = import (builtins.fetchTarball "https://github.com/nix-community/comma/archive/refs/heads/master.tar.gz") { inherit pkgs; };
-in {
+{
   services.gvfs.enable = true;
   services.gnome.sushi.enable = true;
   programs.dconf.enable = true;
@@ -54,7 +52,7 @@ in {
       # entertainement
       unstable.playerctl
       # Utilities
-      comma
+      # comma
       pulsemixer
       unstable.bitwarden
       unstable.bitwarden-cli
