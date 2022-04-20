@@ -67,6 +67,10 @@
       wkhtmltopdf
       texlive.combined.scheme-small
       unstable.tmux
+      unstable.pgcli
+      unstable.mycli
+      unstable.litecli
+      unstable.sqlite
       # cachix
       cachix
       # pass # no longer needed since handled by pass-otp

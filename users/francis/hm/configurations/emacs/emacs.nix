@@ -314,6 +314,10 @@ in {
       '';
     };
 
+    cue-mode = {
+      enable = true;
+    };
+
     go-mode = {
       enable = true;
       config = ''
