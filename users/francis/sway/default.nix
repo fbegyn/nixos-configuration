@@ -44,6 +44,14 @@ in
   ];
   security.pam.services.swaylock = {};
 
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  services.dbus.enable = true;
+
   # more theming
   programs.qt5ct.enable = true;
 
