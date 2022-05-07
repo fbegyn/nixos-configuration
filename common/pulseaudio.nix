@@ -4,7 +4,7 @@
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio = {
-    enable = true;
+    enable = false;
     extraConfig = ''
       unload-module module-role-cork
     '';
