@@ -8,6 +8,18 @@ let
 in
 {
   programs.sway.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      gtkUsePortal = true;
+    };
+  };
 
   # fix clipboard for wayland
   nixpkgs.overlays = [
