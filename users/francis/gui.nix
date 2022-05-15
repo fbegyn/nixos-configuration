@@ -45,6 +45,7 @@
       unstable.tdesktop
       thunderbird
       unstable.elixir
+      unstable.flyctl
       unstable.weechat
       # Browser
       unstable.firefox
