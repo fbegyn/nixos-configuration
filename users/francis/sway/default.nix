@@ -285,6 +285,9 @@ in
           {
             command = "mako";
           }
+          {
+            command = "nm-applet";
+          }
         ];
         window = {
           border = 2;
