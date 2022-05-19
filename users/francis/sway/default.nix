@@ -106,6 +106,7 @@ in
       unstable.ydotool
       unstable.wofi
       unstable.sway-launcher-desktop
+      unstable.gnome.adwaita-icon-theme
       autotiling
       unstable.gammastep
       pkg-config
