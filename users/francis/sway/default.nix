@@ -105,6 +105,7 @@ in
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
+      unstable.sway-launcher-desktop
       autotiling
       unstable.gammastep
       pkg-config
@@ -131,7 +132,9 @@ in
       '';
     };
 
-    wayland.windowManager.sway = {
+    wayland.windowManager.sway = let
+      term = config.home-manager.users.francis.wayland.windowManager.sway.config.terminal;
+    in {
       enable = true;
       xwayland = true;
       systemdIntegration = true;
@@ -152,7 +155,7 @@ in
           size = 10.0;
         };
         terminal = "alacritty";
-        menu = "wofi --show drun";
+        menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
@@ -401,6 +404,7 @@ in
         # Tiny sticky window
         bindsym $mod+y floating toggle; resize set 424 212; sticky toggle; move window to position 1490 5;
         for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
+        for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 
         # Immediately play youtube from rofi output
         bindsym $mod+p exec rofi-pass

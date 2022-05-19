@@ -53,8 +53,8 @@
 
   networking.hostName = "horme"; # Define your hostname.
   networking.hostId = "009c169a";
-  networking.networkmanager.enable = false;
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.networkmanager.enable = true;
+  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.wireless.interfaces = [ "wlp0s20f3" ];
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
