@@ -8,11 +8,16 @@
   };
   services.printing = {
     enable = true;
-    drivers = [
-      pkgs.gutenprintBin
-      pkgs.brlaser
-      pkgs.brgenml1lpr
-      pkgs.brgenml1cupswrapper
+    drivers = with pkgs; [
+      gutenprint
+      gutenprintBin
+      brlaser
+      brgenml1lpr
+      brgenml1cupswrapper
+      cnijfilter2
+      hplip
+      splix
+      samsungUnifiedLinuxDriver
     ];
   };
 }

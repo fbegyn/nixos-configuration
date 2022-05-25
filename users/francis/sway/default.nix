@@ -53,11 +53,18 @@ in
     polkit_gnome
 
     # theming
-    gtk-engine-murrine
-    gtk_engines
-    gsettings-desktop-schemas
-    lxappearance
-    glib
+    unstable.gtk-engine-murrine
+    unstable.gtk_engines
+    unstable.gsettings-desktop-schemas
+    unstable.lxappearance
+    unstable.glib
+    unstable.gnome.adwaita-icon-theme
+    unstable.libappindicator-gtk2
+    unstable.libappindicator-gtk3
+    unstable.gnomeExtensions.appindicator
+  ];
+  services.udev.packages = with pkgs; [
+    gnome3.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
 
@@ -106,13 +113,11 @@ in
       unstable.ydotool
       unstable.wofi
       unstable.sway-launcher-desktop
-      unstable.gnome.adwaita-icon-theme
       autotiling
       unstable.gammastep
       pkg-config
       wf-recorder
       kanshi # autorandr
-      libappindicator-gtk3
       wdisplays
 
       brightnessctl
