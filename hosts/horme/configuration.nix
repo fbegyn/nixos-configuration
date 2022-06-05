@@ -24,6 +24,7 @@
     # common settings
     ../../common
     ../../common/moonlander.nix
+    ../../common/networkmanager.nix
     ../../common/ios.nix
     ../../common/laptop.nix
     ../../common/gpg.nix
@@ -51,7 +52,9 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "horme"; # Define your hostname.
-  networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  networking.hostId = "009c169a";
+  networking.networkmanager.enable = true;
+  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.wireless.interfaces = [ "wlp0s20f3" ];
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.

@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs.unstable;
     [
-      (python39.withPackages
+      (python310.withPackages
       (ps: with ps; [
         neovim
         yarp

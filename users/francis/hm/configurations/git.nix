@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.git-crypt ];
+  home.packages = with pkgs; [ git-crypt gh ];
   programs.git = {
     package = pkgs.unstable.gitAndTools.gitFull;
     enable = true;

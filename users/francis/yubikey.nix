@@ -29,7 +29,6 @@
 
   security.pam.yubico = {
     enable = false;
-    debug = true;
     mode = "challenge-response";
   };
 }

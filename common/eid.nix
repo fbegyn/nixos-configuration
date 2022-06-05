@@ -13,6 +13,6 @@ in {
 
   services.pcscd = {
     enable = true;
-    plugins = [ pkgs.unstable.ccid ];
+    plugins = [ pkgs.ccid ];
   };
 }

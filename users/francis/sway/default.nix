@@ -8,6 +8,18 @@ let
 in
 {
   programs.sway.enable = true;
+  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      gtkUsePortal = true;
+    };
+  };
 
   # fix clipboard for wayland
   nixpkgs.overlays = [
@@ -15,21 +27,25 @@ in
       wl-clipboard-x11 = super.stdenv.mkDerivation rec {
       pname = "wl-clipboard-x11";
       version = "5";
+
       src = super.fetchFromGitHub {
         owner = "brunelli";
         repo = "wl-clipboard-x11";
         rev = "v${version}";
         sha256 = "1y7jv7rps0sdzmm859wn2l8q4pg2x35smcrm7mbfxn5vrga0bslb";
       };
+
       dontBuild = true;
       dontConfigure = true;
       propagatedBuildInputs = [ super.wl-clipboard ];
       makeFlags = [ "PREFIX=$(out)" ];
       };
+
       xsel = self.wl-clipboard-x11;
       xclip = self.wl-clipboard-x11;
     })
   ];
+
   environment.systemPackages = with pkgs; [
     startsway
     wl-clipboard
@@ -37,12 +53,28 @@ in
     polkit_gnome
 
     # theming
-    gtk-engine-murrine
-    gtk_engines
-    gsettings-desktop-schemas
-    lxappearance
+    unstable.gtk-engine-murrine
+    unstable.gtk_engines
+    unstable.gsettings-desktop-schemas
+    unstable.lxappearance
+    unstable.glib
+    unstable.gnome.adwaita-icon-theme
+    unstable.libappindicator-gtk2
+    unstable.libappindicator-gtk3
+    unstable.gnomeExtensions.appindicator
+  ];
+  services.udev.packages = with pkgs; [
+    gnome3.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  services.dbus.enable = true;
 
   # more theming
   programs.qt5ct.enable = true;
@@ -80,12 +112,12 @@ in
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
+      unstable.sway-launcher-desktop
       autotiling
       unstable.gammastep
       pkg-config
       wf-recorder
       kanshi # autorandr
-      libappindicator-gtk3
       wdisplays
 
       brightnessctl
@@ -106,7 +138,9 @@ in
       '';
     };
 
-    wayland.windowManager.sway = {
+    wayland.windowManager.sway = let
+      term = config.home-manager.users.francis.wayland.windowManager.sway.config.terminal;
+    in {
       enable = true;
       xwayland = true;
       systemdIntegration = true;
@@ -127,7 +161,7 @@ in
           size = 10.0;
         };
         terminal = "alacritty";
-        menu = "wofi --show drun";
+        menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
@@ -260,6 +294,9 @@ in
           {
             command = "mako";
           }
+          {
+            command = "nm-applet";
+          }
         ];
         window = {
           border = 2;
@@ -373,6 +410,7 @@ in
         # Tiny sticky window
         bindsym $mod+y floating toggle; resize set 424 212; sticky toggle; move window to position 1490 5;
         for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
+        for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
 
         # Immediately play youtube from rofi output
         bindsym $mod+p exec rofi-pass
