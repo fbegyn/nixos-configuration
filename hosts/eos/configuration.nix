@@ -15,8 +15,7 @@
     ../../users/francis
 
     # services
-    # ../../services/coredns
-    ../../services/adguard
+    ../../services/coredns
     ../../services/ddclient
     ../../services/prometheus
     ../../services/grafana
@@ -79,41 +78,6 @@
         image = "ghcr.io/home-assistant/home-assistant:stable";
         extraOptions = [
           "--network=host"
-        ];
-      };
-      netbox = {
-        image = "netboxcommunity/netbox:v3.1";
-        ports = [
-          "8080:8080"
-        ];
-        environmentFiles = [
-          /var/lib/netbox/env/netbox.env
-        ];
-        volumes = [
-          "/var/lib/netbox/startup_scripts:/opt/netbox/startup_scripts:z,ro"
-          "/var/lib/netbox/initializers:/opt/netbox/initializers:z,ro"
-          "/var/lib/netbox/configuration:/etc/netbox/config:z,rw"
-          "/var/lib/netbox/reports:/opt/netbox/reports:z,ro"
-          "/var/lib/netbox/scripts:/opt/netbox/scripts:z,ro"
-          "/var/lib/netbox/media_files:/opt/netbox/media:z"
-        ];
-      };
-      netbox-worker = {
-        image = "netboxcommunity/netbox:v3.1";
-        cmd = [
-          "/opt/netbox/venv/bin/python"
-          "/opt/netbox/netbox/manage.py"
-          "rqworker"
-        ];
-        environmentFiles = [
-          /var/lib/netbox/env/netbox.env
-        ];
-      };
-      netbox-housekeeping = {
-        image = "netboxcommunity/netbox:v3.1";
-        cmd = [ "/opt/netbox/housekeeping.sh" ];
-        environmentFiles = [
-          /var/lib/netbox/env/netbox.env
         ];
       };
     };
@@ -203,36 +167,11 @@
         proxyPass = "http://127.0.0.1:3000/";
       };
     };
-    "netbox.begyn.be" = {
-      forceSSL = true;
-      serverName = "netbox.begyn.be";
-      serverAliases = [
-        "ipam.begyn.be"
-      ];
-      useACMEHost = "dcf.begyn.be";
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8080/";
-      };
-    };
-    # "jupyterhub.dcf.begyn.be" = {
-    #   forceSSL = true;
-    #   serverName = "jupyterhub.dcf.begyn.be";
-    #   useACMEHost = "dcf.begyn.be";
-    #   locations."/" = {
-    #     proxyPass = "http://127.0.0.1:8000/";
-    #   };
-    # };
   };
 
   services.postgresql = {
-    ensureDatabases = [ "netbox" ];
+    ensureDatabases = [];
     ensureUsers = [
-      {
-        name = "netbox";
-        ensurePermissions = {
-          "DATABASE netbox" = "ALL PRIVILEGES";
-        };
-      }
     ];
     enableTCPIP = true;
   };
