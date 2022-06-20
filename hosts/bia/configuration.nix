@@ -13,6 +13,7 @@
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/ios.nix
+    ../../common/office.nix
     ../../common/steam.nix
     ../../common/pulseaudio.nix
     ../../common/nvidia.nix
