@@ -11,7 +11,6 @@
 
       ../../common
       ../../common/security.nix
-      ../../common/pulseaudio.nix
       ../../common/bluetooth.nix
 
       ../../users

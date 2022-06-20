@@ -28,7 +28,6 @@
     ../../common/ios.nix
     ../../common/laptop.nix
     ../../common/gpg.nix
-    ../../common/pulseaudio.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix

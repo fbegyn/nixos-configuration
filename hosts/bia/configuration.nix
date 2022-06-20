@@ -14,7 +14,6 @@
     ../../common/moonlander.nix
     ../../common/ios.nix
     ../../common/steam.nix
-    ../../common/pulseaudio.nix
     ../../common/nvidia.nix
     ../../common/rtlsdr.nix
     ../../common/fonts.nix
