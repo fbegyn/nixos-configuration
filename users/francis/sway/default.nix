@@ -295,7 +295,7 @@ in
             command = "mako";
           }
           {
-            command = "nm-applet";
+            command = "nm-applet --indicator";
           }
         ];
         window = {

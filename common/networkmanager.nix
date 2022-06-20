@@ -7,10 +7,9 @@
 
   environment.systemPackages = with pkgs.unstable; [
     networkmanagerapplet
-  ];
-
-  networking.networkmanager.packages = with pkgs.unstable; [
-    networkmanagerapplet
     libnma
   ];
+
+  # networking.networkmanager.packages = with pkgs.unstable; [
+  # ];
 }

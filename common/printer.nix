@@ -17,7 +17,7 @@
       cnijfilter2
       hplip
       splix
-      samsungUnifiedLinuxDriver
+      samsung-unified-linux-driver
     ];
   };
 }

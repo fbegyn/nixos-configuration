@@ -348,7 +348,7 @@ in {
       extraConfig = ''
         :custom
         (godoc-at-point-function 'godoc-gogetdoc)
-        (gofmt-command "${pkgs.goimports}/bin/goimports")
+        (gofmt-command "${pkgs.gotools}/bin/goimports")
         (gofmt-show-errors 'buffer)
       '';
     };
