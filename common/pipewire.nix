@@ -19,9 +19,6 @@
         #"default.clock.min-quantum" = 32;
         #"default.clock.max-quantum" = 8192;
       };
-      "context.modules" = [
-        { name = "libpipewire-raop-discover"; args = { }; }
-      ];
     };
   };
 }
