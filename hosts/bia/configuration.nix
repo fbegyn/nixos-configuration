@@ -46,6 +46,8 @@
     MaxFileSec=7day
   '';
 
+  sound.enable = true;
+
   networking.hostName = "bia";
   networking.hostId = "6c19e3cb";
   # After the Greek personification of force and raw energy

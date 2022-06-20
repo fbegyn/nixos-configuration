@@ -61,6 +61,8 @@
     enable = true;
   };
 
+  sound.enable = true;
+
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager = {
