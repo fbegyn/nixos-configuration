@@ -3,6 +3,7 @@
 {
   imports = [
     ./dunst.nix
+    ../../../common/pipewire.nix
   ];
 
   environment.pathsToLink = [ "/libexec" ];

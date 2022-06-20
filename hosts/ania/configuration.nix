@@ -26,7 +26,6 @@
     ../../common/gpg.nix
     ../../common/screen-brightness.nix
     ../../common/security.nix
-    ../../common/pulseaudio.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
@@ -60,6 +59,8 @@
   services.xserver = {
     enable = true;
   };
+
+  sound.enable = true;
 
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.

@@ -28,7 +28,6 @@
     ../../common/ios.nix
     ../../common/laptop.nix
     ../../common/gpg.nix
-    ../../common/pulseaudio.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
@@ -46,7 +45,7 @@
   nixpkgs.config.alluwUnfree = true;
 
   # Use the systemd-boot EFI boot loader.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -119,9 +118,11 @@
     };
   };
 
+  virtualisation.docker.enable = true;
   environment.systemPackages = with pkgs; [
     qmapshack
     garmindev
+    docker-compose
   ];
 
   # This value determines the NixOS release from which the default

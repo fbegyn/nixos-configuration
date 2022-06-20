@@ -1,12 +1,12 @@
 { config, ... }:
 
 {
-  # Enable sound.
-  sound.enable = true;
   hardware.pulseaudio = {
-    enable = false;
+    enable = true;
     extraConfig = ''
       unload-module module-role-cork
+      load-module module-raop-discover
     '';
+    zeroconf.discovery.enable = true;
   };
 }

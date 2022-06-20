@@ -15,7 +15,6 @@
     ../../common/ios.nix
     ../../common/office.nix
     ../../common/steam.nix
-    ../../common/pulseaudio.nix
     ../../common/nvidia.nix
     ../../common/rtlsdr.nix
     ../../common/fonts.nix
@@ -46,6 +45,8 @@
     SystemMaxUse=100M
     MaxFileSec=7day
   '';
+
+  sound.enable = true;
 
   networking.hostName = "bia";
   networking.hostId = "6c19e3cb";

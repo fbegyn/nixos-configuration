@@ -8,6 +8,7 @@
     unstable.nmap
     unstable.iperf
     unstable.netperf
+    unstable.socat
   ];
 
   programs = {

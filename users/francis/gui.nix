@@ -3,7 +3,7 @@
   services.gvfs.enable = true;
   services.gnome.sushi.enable = true;
   programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
+  services.dbus.packages = with pkgs; [ dconf ];
 
   programs = {
     wireshark = {
@@ -74,8 +74,6 @@
       unstable.sqlite
       # cachix
       cachix
-      # pass # no longer needed since handled by pass-otp
-      pass-otp
       # tools rewritten in rust
       unstable.hyperfine
       unstable.bandwhich

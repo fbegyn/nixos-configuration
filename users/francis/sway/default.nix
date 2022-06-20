@@ -7,6 +7,10 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
+  imports = [
+    ../../../common/pipewire.nix
+  ];
+
   programs.sway.enable = true;
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -67,12 +71,6 @@ in
     gnome3.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
-
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
 
   services.dbus.enable = true;
 
@@ -295,7 +293,7 @@ in
             command = "mako";
           }
           {
-            command = "nm-applet";
+            command = "nm-applet --indicator";
           }
         ];
         window = {

@@ -3,7 +3,9 @@
 
 { config, pkgs, ... }:
 
-{
+let
+    hosts = import ../../secrets/hosts.nix;
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -73,14 +75,52 @@
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
-      hass = { volumes = [ "/home/francis/hass:/config" ];
-      environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:stable";
+      hass = {
+        volumes = [ "/home/francis/hass:/config" ];
+        environment.TZ = "Europe/Brussels";
+        image = "ghcr.io/home-assistant/home-assistant:2022.6";
         extraOptions = [
           "--network=host"
         ];
       };
+      eufy-ws-addon = {
+        environment = {
+          TZ = "Europe/Brussels";
+          COUNTRY = "BE";
+          PASSWORD = "${hosts.eos.eufy.wsAddon.password}";
+          USERNAME = "${hosts.eos.eufy.wsAddon.username}";
+        };
+        image = "bropat/eufy-security-ws:0.9.1";
+        ports = [
+          "13000:3000"
+        ];
+      };
+      eufy-rtsp-addon = {
+        environment = {
+          TZ = "Europe/Brussels";
+          COUNTRY = "BE";
+        };
+        image = "aler9/rtsp-simple-server:v0.19.1";
+        ports = [
+          "1935:1935"
+          "8554:8554"
+        ];
+      };
     };
+  };
+
+  services.mosquitto = {
+    enable = true;
+    bridges = {
+      shelly = {
+        addresses = [ {address = "10.5.1.10";} ];
+        topics = [
+          "francis/appartement"
+          "shellies/#"
+        ];
+      };
+    };
+    listeners = [];
   };
 
   networking = {
@@ -123,9 +163,7 @@
   };
 
   # tailscale machine specific
-  thecy.services.tailscale = let
-    hosts = import ../../secrets/hosts.nix;
-  in {
+  thecy.services.tailscale = {
     enable = true;
     autoprovision = {
       enable = true;
@@ -310,8 +348,8 @@
       {
         job_name = "home-assistant";
         scheme = "http";
-	metrics_path = "/api/prometheus";
-	bearer_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJhNWY2NzI5MjUxYWU0ZGUzYjAxYTY1YzdhZDM2NGQ0YSIsImlhdCI6MTY0NDY4NDUyMCwiZXhwIjoxOTYwMDQ0NTIwfQ.lexy4FxTVMVci5i7DicFRVe8Dgddwzhpf84T7COgxIg";
+        metrics_path = "/api/prometheus";
+        bearer_token = "${hosts.eos.prometheus.hass.token}";
         static_configs = [{
             targets = [
               "10.5.1.10:8123"
@@ -328,6 +366,13 @@
         }];
       }
     ];
+  };
+
+  services.minio = {
+    enable = true;
+    rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
+    package = pkgs.unstable.minio;
+    region = "eu-west-1";
   };
 
   # This value determines the NixOS release from which the default
