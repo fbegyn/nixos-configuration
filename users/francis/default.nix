@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  home-manager.users.francis.home.stateVersion = "22.05";
   imports = [
     <home-manager/nixos>
     ./variables.nix

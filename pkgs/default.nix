@@ -15,6 +15,18 @@ pkgs: rec {
         }))
       ];
     };
+  stable = import (builtins.fetchTarball
+    "https://github.com/NixOS/nixpkgs/archive/nixos-22.05.tar.gz") {
+      inherit pkgs;
+      config.allowUnfree = true;
+      overlays = [
+        (import ../overlays/weechat.nix)
+        (import ../overlays/browser-eid.nix)
+        (import (builtins.fetchTarball {
+            url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
+        }))
+      ];
+    };
   master = import (builtins.fetchTarball
     "https://github.com/NixOS/nixpkgs/archive/master.tar.gz") {
       inherit pkgs;

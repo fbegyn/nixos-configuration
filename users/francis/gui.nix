@@ -43,7 +43,7 @@
       slack
       unstable.mattermost-desktop
       unstable.tdesktop
-      thunderbird
+      unstable.thunderbird
       unstable.elixir
       unstable.flyctl
       unstable.weechat

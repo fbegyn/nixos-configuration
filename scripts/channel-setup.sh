@@ -8,6 +8,7 @@ if [ $# -gt 0 ]; then
 		nix-channel --add https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz home-manager
 	elif [ $1 == "unstable" ]; then
 		nix-channel --add https://channels.nixos.org/nixos-unstable nixos
+		nix-channel --add https://channels.nixos.org/nixos-22.05 stable
 		nix-channel --add https://github.com/nix-community/home-manager/archive/master.tar.gz home-manager
 	elif [ $1 == "server" ]; then
 		nix-channel --add https://channels.nixos.org/nixos-22.05 nixos
