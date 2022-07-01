@@ -232,7 +232,7 @@ in {
       '';
     };
 
-    better-defaults.enable = false;
+    better-defaults.enable = true;
 
     evil-collection = {
       enable = true;
@@ -333,15 +333,6 @@ in {
       after = ["evil"];
       config = ''
         (global-evil-surround-mode 1)
-      '';
-    };
-    evil-goggles = {
-      enable = false; # these were learning wheels.
-      after = ["evil"];
-      diminish = ["evil-goggles-mode"];
-      config = ''
-        (evil-goggles-mode)
-        (evil-goggles-use-diff-faces)
       '';
     };
 
@@ -617,7 +608,7 @@ in {
     };
 
     nov = {
-      enable = false;
+      enable = true;
       mode = [ ''"\\.epub\\'"'' ];
     };
 
