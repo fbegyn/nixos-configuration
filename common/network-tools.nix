@@ -3,7 +3,6 @@
 {
   environment.systemPackages = with pkgs; [
     unstable.ldns
-    unstable.inetutils
     unstable.tcpdump
     unstable.nmap
     unstable.iperf

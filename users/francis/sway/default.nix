@@ -63,9 +63,7 @@ in
     unstable.lxappearance
     unstable.glib
     unstable.gnome.adwaita-icon-theme
-    unstable.libappindicator-gtk2
     unstable.libappindicator-gtk3
-    unstable.gnomeExtensions.appindicator
   ];
   services.udev.packages = with pkgs; [
     gnome3.gnome-settings-daemon

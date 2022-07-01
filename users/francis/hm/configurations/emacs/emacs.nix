@@ -232,7 +232,7 @@ in {
       '';
     };
 
-    better-defaults.enable = true;
+    better-defaults.enable = false;
 
     evil-collection = {
       enable = true;
@@ -617,7 +617,7 @@ in {
     };
 
     nov = {
-      enable = true;
+      enable = false;
       mode = [ ''"\\.epub\\'"'' ];
     };
 
