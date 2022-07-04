@@ -595,6 +595,12 @@ in {
       mode = [ ''"\\.jsonnet\\'"'' ''"\\.libsonnet\\'"'' ];
     };
 
+    js2-mode = {
+      enable = true;
+      defer = true;
+      mode = [ ''"\\.js\\'"'' ];
+    };
+
     rust-mode = {
       enable = true;
       defer = true;
