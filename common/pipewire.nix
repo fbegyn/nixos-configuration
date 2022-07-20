@@ -10,11 +10,9 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    config.pipewire = {
-      "context.modules" = [
-        { name = "libpipewire-module-raop-discover"; args = {}; }
-      ];
-      "context.properties" = {
+    config.pipewire.context = {
+      modules = [{ name = "libpipewire-module-raop-discover"; }];
+      properties = {
         "link.max-buffers" = 16; # version < 3 clients can't handle more than this
         "log.level" = 2; # https://docs.pipewire.org/page_daemon.html
         #"default.clock.rate" = 48000;
