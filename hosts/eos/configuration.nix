@@ -23,7 +23,7 @@ in {
     ../../services/grafana
     ../../services/node-exporter
     ../../services/tailscale.nix
-    # ../../services/plex.nix
+    ../../services/plex.nix
     ../../services/postgres
     ../../services/redis
     ../../services/consul
