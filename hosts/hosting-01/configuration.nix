@@ -97,7 +97,6 @@
     };
   };
 
-  users.users.oauth2_proxy.group = "nginx";
   services.oauth2_proxy = let
     hosts = import ../../secrets/hosts.nix;
   in {
