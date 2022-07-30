@@ -118,11 +118,9 @@
     };
   };
 
-  virtualisation.docker.enable = true;
   environment.systemPackages = with pkgs; [
     qmapshack
     garmindev
-    docker-compose
   ];
 
   # This value determines the NixOS release from which the default
