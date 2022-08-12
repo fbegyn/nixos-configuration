@@ -63,7 +63,6 @@
 
   thecy.services.website = {
     enable = true;
-    aliases = [ "francis.begyn.eu" ];
   };
 
   services.nginx = {
