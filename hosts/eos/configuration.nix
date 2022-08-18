@@ -187,22 +187,12 @@ in {
   };
 
   services.nginx.virtualHosts = {
-    "prometheus.begyn.lan" = {
-      serverAliases = [ "prometheus" ];
+    "hass.dcf.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "dcf.begyn.be";
       locations."/" = {
-        proxyPass = "http://127.0.0.1:9090/";
-      };
-    };
-    "alertmanager.begyn.lan" = {
-      serverAliases = [ "alertmanager" ];
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:9093/";
-      };
-    };
-    "grafana.begyn.lan" = {
-      serverAliases = [ "grafana" ];
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:3000/";
+        proxyPass = "http://127.0.0.1:8123/";
+        proxyWebsockets = true;
       };
     };
   };
