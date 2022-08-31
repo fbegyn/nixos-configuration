@@ -11,7 +11,6 @@ in {
   prelude = ''
     ;; (setq debug-on-error t)
     (when window-system
-      (set-default-font "${font}-${fontSize}")
       (set-face-attribute 'default nil :font "${font}-${fontSize}")
       (set-frame-font "${font}-${fontSize}" nil t))
 
