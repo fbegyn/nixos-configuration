@@ -181,6 +181,7 @@ in
         };
         assigns = {
           "1:web" = [{ class = "^qutebrowser$"; }];
+          "1:web" = [{ class = "^chromium$"; }];
           "2:comms" = [
             { class = "^Slack$"; }
             { class = "^Mattermost$"; }
@@ -273,8 +274,11 @@ in
           };
         };
         startup = [
+          # {
+          #   command = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=2";
+          # }
           {
-            command = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=2";
+            command = "chromium";
           }
           {
             command = "sway-statusbar.sh";
