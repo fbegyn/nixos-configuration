@@ -13,6 +13,7 @@ if [ $# -gt 0 ]; then
 	elif [ $1 == "server" ]; then
 		nix-channel --add https://channels.nixos.org/nixos-22.05 nixos
 		nix-channel --add https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz home-manager
+		nix-channel --add https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz unstable-small
 	else
 		nix-channel --add https://channels.nixos.org/nixos-22.05 nixos
 		nix-channel --add https://github.com/nix-community/home-manager/archive/release-22.05.tar.gz home-manager
@@ -25,7 +26,6 @@ fi
 # setup nixos-hardware and home-manager
 nix-channel --add https://github.com/NixOS/nixos-hardware/archive/master.tar.gz nixos-hardware
 nix-channel --add https://github.com/NixOS/nixpkgs/archive/refs/heads/nixpkgs-unstable.tar.gz unstable
-nix-channel --add https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz unstable-small
 
 # update the channels
 nix-channel --update
