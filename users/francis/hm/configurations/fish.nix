@@ -15,7 +15,7 @@
     };
     loginShellInit = ''
       set -Ux SSH_AUTH_SOCK /run/user/1000/gnupg/S.gpg-agent.ssh
-      set -Ux BROWSER qutebrowser
+      set -Ux BROWSER chromium-browser
       # wayland variables
       set -Uxa XDG_SESSION_TYPE wayland
       set -Uxa QT_WAYLAND_DISABLE_WINDOWDECORATION 1

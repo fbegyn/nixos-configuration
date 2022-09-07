@@ -13,8 +13,7 @@
     };
     sessionVariables = {
       SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
-      BROWSER = "qutebrowser";
-      XDG_SESSION_TYPE = "wayland";
+      BROWSER = "chromium-browser";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
       QT_AUTO_SCREEN_SCALE_FACTOR = 0;
       QT_SCALE_FACTOR = 1;
