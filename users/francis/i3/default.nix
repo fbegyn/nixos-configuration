@@ -36,6 +36,7 @@
       i3status-rust
       xkb-switch
       betterlockscreen
+      brightnessctl
     ];
   };
 
