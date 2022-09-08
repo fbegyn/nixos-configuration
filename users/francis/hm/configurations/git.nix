@@ -18,6 +18,9 @@
       user.fom.name = "Francis Begyn - Thecy";
       user.fom.email = "theci@fom.be";
       user.fom.signingkey = "";
+      user.inuits.name = "Francis Begyn";
+      user.inuits.email = "fbegyn@inuits.eu";
+      user.inuits.signingkey = "";
       init.defaultBranch = "main";
       pull.rebase = false;
     };

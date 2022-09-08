@@ -54,6 +54,12 @@ format_swap = "{swap_used_percents}%/{swap_total}"
 interval = 30
 
 [[block]]
+block = "battery"
+interval = 10
+format = "{percentage} {time}"
+hide_missing = true
+
+[[block]]
 block = "load"
 interval = 300
 format = "{5m} {15m}"

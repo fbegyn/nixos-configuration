@@ -8,24 +8,20 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./zfs.nix
 
     # laptop hardware
     <nixos-hardware/common/pc/laptop>
     <nixos-hardware/common/pc/ssd>
-    <nixos-hardware/common/cpu/amd>
+    <nixos-hardware/common/cpu/intel>
     <nixos-hardware/common/pc/laptop/acpi_call.nix>
-
-    # specific to thinkpad
-    <nixos-hardware/lenovo/thinkpad>
-    <nixos-hardware/lenovo/thinkpad/t14>
 
     # common settings
     ../../common
     ../../common/moonlander.nix
     ../../common/laptop.nix
+    ../../common/networkmanager.nix
     ../../common/gpg.nix
-    ../../common/screen-brightness.nix
-    ../../common/security.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
     ../../common/printer.nix
@@ -33,20 +29,43 @@
     ../../common/eid.nix
     ../../common/webcam.nix
     ../../common/video-accel.nix
-    ../../common/amdgpu.nix
-
-    ../../common/vectera.nix
+    ../../common/office.nix
 
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
-    ../../users/francis/configurations/i3
+    ../../users/francis/i3
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.loader.efi.efiSysMountPoint = "/boot/efi";
+  boot.loader.efi.canTouchEfiVariables = false;
+  boot.loader.generationsDir.copyKernels = true;
+  boot.loader.grub.efiInstallAsRemovable = true;
+  boot.loader.grub.enable = true;
+  boot.loader.grub.version = 2;
+  boot.loader.grub.copyKernels = true;
+  boot.loader.grub.efiSupport = true;
+  boot.loader.grub.zfsSupport = true;
+  boot.loader.grub.extraPrepareConfig = ''
+  mkdir -p /boot/efis
+  for i in  /boot/efis/*; do mount $i ; done
+
+  mkdir -p /boot/efi
+  mount /boot/efi
+  '';
+  boot.loader.grub.extraInstallCommands = ''
+  ESP_MIRROR=$(mktemp -d)
+  cp -r /boot/efi/EFI $ESP_MIRROR
+  for i in /boot/efis/*; do
+   cp -r $ESP_MIRROR/EFI $i
+  done
+  rm -rf $ESP_MIRROR
+  '';
+  boot.loader.grub.devices = [
+    "/dev/disk/by-id/nvme-eui.e8238fa6bf530001001b448b4b64ab08"
+  ];
   boot.supportedFilesystems = [ "ntfs" ];
   boot.cleanTmpDir = true;
 
@@ -56,22 +75,10 @@
     MaxFileSec=7day
   '';
 
-  services.xserver = {
-    enable = true;
-  };
-
   sound.enable = true;
 
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager = {
-    enable = true;
-    dns = "systemd-resolved";
-    packages = with pkgs; [
-      gnome3.networkmanagerapplet
-      libnma
-    ];
-  };
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
@@ -103,17 +110,10 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
+  networking.networkmanager.enable = true;
   # networking.interfaces.enp2s0f0.useDHCP = true;
   # networking.interfaces.enp5s0.useDHCP = true;
   # networking.interfaces.wlp3s0.useDHCP = true;
-
-  francis = {
-    upgrade.enable = true;
-    gc = {
-      enable = true;
-      dates = "weekly";
-    };
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

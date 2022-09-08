@@ -233,7 +233,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -e s +10%
 
 # Autostart programs
 #exec --no-startup-id vivaldi-snapshot
-exec --no-startup-id qutebrowser
+exec --no-startup-id chromium
 exec --no-startup-id dunst
 exec --no-startup-id ~/.fehbg
 exec --no-startup-id picom
