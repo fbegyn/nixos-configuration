@@ -5,3 +5,4 @@ users/francis/secrets/** filter=git-crypt diff=git-crypt
 common/vectera.nix filter=git-crypt diff=git-crypt
 common/excentis.nix filter=git-crypt diff=git-crypt
 acme.nix filter=git-crypt diff=git-crypt
+users/francis/hm/inuits.nix filter=git-crypt diff=git-crypt
