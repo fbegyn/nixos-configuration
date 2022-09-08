@@ -34,6 +34,7 @@
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
+    ../../users/francis/inuits.nix
     ../../users/francis/i3
   ];
 
