@@ -2,16 +2,17 @@
 
 {
   environment.systemPackages = with pkgs; [
+    gnupg
     paperkey
     yubico-pam
     yubikey-manager
     yubioath-desktop
+    yubikey-personalization
   ];
 
   environment.shellInit = ''
-    export GPG_TTY="$(tty)"
     gpg-connect-agent /bye
-    export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
   '';
 
   services.pcscd.enable = true;

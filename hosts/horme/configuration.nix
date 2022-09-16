@@ -97,7 +97,6 @@
   # started in user sessions.
   # programs.mtr.enable = true;
   programs.adb.enable = true;
-  programs.gnupg.agent.pinentryFlavor = "curses";
   services.hardware.bolt.enable = true;
 
   # trackpoint settings

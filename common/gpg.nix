@@ -4,10 +4,11 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
+    pinentryFlavor = "gtk2";
   };
 
   environment.systemPackages = [
-    pkgs.pinentry
+    pkgs.pinentry-gtk2
   ];
 }
 

@@ -80,10 +80,6 @@
   # started in user sessions.
   # programs.mtr.enable = true;
   programs.adb.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryFlavor = "gtk2";
-  };
 
   # List services that you want to enable:
 
