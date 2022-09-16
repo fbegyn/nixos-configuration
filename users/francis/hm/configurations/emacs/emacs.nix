@@ -4,7 +4,7 @@
   enable = true;
   recommendedGcSettings = true;
   prelude = let
-    fontSize = "16";
+    fontSize = "14";
     font = "DejaVu Sans Mono";
     emacsFont = ''
       (when window-system
@@ -32,7 +32,7 @@
                 menu-bar-mode
                 blink-cursor-mode))
               (funcall mode 0)))
-    
+
     (add-hook 'text-mode-hook 'auto-fill-mode)
 
     (setq delete-old-versions -1 )
@@ -117,18 +117,11 @@
         :custom
         ;; (company-begin-commands nil)
         (company-minimum-prefix-length 0)
-        (company-idle-delay 0.3)
+        (company-idle-delay 0.4)
         (comapny-tooltip-align-annotations t)
         (company-tooltip-limit 20)
         (company-transformers '(company-sort-by-backend-importance))
       '';
-    };
-    company-quickhelp = {
-      # We don't use company-quickhelp because it uses pos-tip (and
-      # thus Emacs tooltips), which cannot be customized as desired.
-      # Setting colors works (with limitations), but font size, weight
-      # and so on cannot be controlled.
-      enable = false;
     };
     company-box = {
       enable = true;
@@ -318,8 +311,8 @@
       enable = true;
       # after = ["evil"];
       bindLocal.evil-motion-state-map = {
-        "SPC C-n" = "evilem-motion-next-line";
-        "SPC C-p" = "evilem-motion-previous-line";
+        "C-n" = "evilem-motion-next-line";
+        "C-p" = "evilem-motion-previous-line";
       };
       config = ''
         (evilem-default-keybindings "SPC")
@@ -423,7 +416,7 @@
     };
     ivy-hydra.enable = true;
     ivy-rich = {
-      enable = false;           # it's too slow at the moment
+      enable = false; # it's too slow at the moment
       demand = true;
       after = ["ivy"];
       config = ''
