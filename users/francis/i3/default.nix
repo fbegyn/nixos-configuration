@@ -14,7 +14,12 @@
     layout = "us,us";
     xkbVariant = "altgr-intl,colemak";
     xkbOptions = "eurosign:5,grp:win_space_toggle";
-    libinput.enable =true;
+    libinput = {
+      enable =true;
+      touchpad = {
+        tapping = false;
+      };
+    };
   };
 
   services.xserver.displayManager.lightdm.enable = true;
