@@ -1,49 +1,68 @@
 { pkgs }:
 
-let
-  lib = pkgs.lib;
-  loadImmediately = (name: value: if value ? after then value else value // { demand = true; defer = false; } );
-  fontSize = "16";
-  font = "DejaVu Sans Mono";
-in {
+{
   enable = true;
   recommendedGcSettings = true;
-  prelude = ''
-    ;; (setq debug-on-error t)
+  prelude = let
+    fontSize = "16";
+    font = "DejaVu Sans Mono";
+    emacsFont = ''
+      (when window-system
+        (set-face-attribute 'default nil :font "${font}-${fontSize}")
+        (set-frame-font "${font}-${fontSize}" nil t))
+    '';
+  in emacsFont + ''
+    (require 'bind-key)
+    (setq inhibit-startup-screen t )
+
+    (menu-bar-mode 0)
+    (electric-pair-mode)
+    (winner-mode 1)
+
+    (recentf-mode 1)
+    (setq recentf-max-menu-items 25)
+    (setq recentf-max-saved-items 25)
+    (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
     (when window-system
-      (set-face-attribute 'default nil :font "${font}-${fontSize}")
-      (set-frame-font "${font}-${fontSize}" nil t))
+            (dolist (mode
+              '(tool-bar-mode
+                tooltip-mode
+                scroll-bar-mode
+                menu-bar-mode
+                blink-cursor-mode))
+              (funcall mode 0)))
+    
+    (add-hook 'text-mode-hook 'auto-fill-mode)
+
+    (setq delete-old-versions -1 )
+    (setq version-control t )
+    (setq vc-make-backup-files t )
+    (setq backup-directory-alist `(("." . "~/.emacs.d/backups")) )
+    (setq vc-follow-symlinks t )
+    (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) )
+    (setq ring-bell-function 'ignore )
+
+    (setq coding-system-for-read 'utf-8 )
+    (setq coding-system-for-write 'utf-8 )
+    (setq sentence-end-double-space nil)
+    (setq-default fill-column 81)
+    (column-number-mode)
+    (setq-default show-trailing-whitespace t)
+    (setq-default indicate-empty-lines t)
+    (setq-default indicate-buffer-boundaries 'left)
+    (setq sentence-end-double-space nil)
+    (setq show-paren-delay 0)
+    (show-paren-mode)
 
     (require 'use-package)
     (package-initialize)
 
-    (setq inhibit-startup-screen t )      ; inhibit useless and old-school startup screen
-    (menu-bar-mode 0) ; we don't need a menu bar
-
     (load "${./defun.el}")
   '';
   postlude = ''
-    (recentf-mode 1)
-    (winner-mode 1)
-
-    (setq inhibit-startup-screen t )      ; inhibit useless and old-school startup screen
-
-    (add-hook 'text-mode-hook 'auto-fill-mode) ; automatically reflow text (M-q)
-
-    (setq delete-old-versions -1 )		  ; delete excess backup versions silently
-    (setq version-control t )	     	  ; use version control
-    (setq vc-make-backup-files t )		  ; make backups file even when in version controlled dir
-    (setq backup-directory-alist `(("." . "~/.emacs.d/backups")) ) ; which directory to put backups file
-    (setq vc-follow-symlinks t )	      ; don't ask for confirmation when opening symlinked file
-    (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) ) ; transform backups file name
-    (setq ring-bell-function 'ignore )	  ; silent bell when you make a mistake
-    (setq coding-system-for-read 'utf-8 ) ; use utf-8 by default
-    (setq coding-system-for-write 'utf-8 ); use utf-8 by default
-    (setq sentence-end-double-space nil)  ; sentence SHOULD end with only a point.
-    (setq-default fill-column 81)		  ; toggle wrapping text at the 81th character
-    (setq read-process-output-max (* 1024 1024)) ;; 1mb
-
-    (setq initial-scratch-message "coi")  ; print a default message in the empty scratch buffer opened at startup
+    (setq read-process-output-max (* 1024 1024))
+    (setq initial-scratch-message "coi")
 
     ;; line numbers
     (when (version<= "26.0.50" emacs-version )
@@ -53,16 +72,6 @@ in {
     (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
     (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
 
-    ;; some general behavior settings
-    (column-number-mode) ; enable column number display
-    (setq-default show-trailing-whitespace t)
-    (setq-default indicate-empty-lines t) ; check empty lines at the end of file
-    (setq-default indicate-buffer-boundaries 'left) ; check for termination on newline
-    (setq sentence-end-double-space nil) ; start sentences with a . and single space
-    (setq show-paren-delay 0)
-    (show-paren-mode)
-
-    (electric-pair-mode) ; insert matching delimiters
     (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
     (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
     (setq frame-resize-pixelwise t)
@@ -91,7 +100,7 @@ in {
   '';
 
   usePackageVerbose = false;
-  usePackage = lib.mapAttrs loadImmediately {
+  usePackage = {
     company = {
       enable = true;
       diminish = [ "company-mode" ];
@@ -344,6 +353,7 @@ in {
 
     flycheck = {
       enable = true;
+      command = ["global-flycheck-mode"];
       hook = [ "(prog-mode . flycheck-mode)" ];
       diminish = ["flycheck-mode"];
       extraConfig = ''
