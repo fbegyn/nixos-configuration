@@ -52,5 +52,7 @@
     unstable.ripgrep
     unstable.fd
     unzip
+    envsubst
+    wget
   ];
 }

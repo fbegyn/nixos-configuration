@@ -49,7 +49,7 @@ in
     vimAlias = true;
     vimdiffAlias = true;
     plugins = with pkgs.vimPlugins // customPlugins; [
-    	limelight-vim
+      limelight-vim
       fugitive
       gitgutter
       multiple-cursors
@@ -80,7 +80,6 @@ in
 
       ${go}
       ${rust}
-
 
       ${nerdtree}
       ${ctrlp}

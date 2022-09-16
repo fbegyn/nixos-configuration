@@ -23,6 +23,7 @@
       user.inuits.signingkey = "";
       init.defaultBranch = "main";
       pull.rebase = false;
+      url."ssh://git@github.com:".insteadOf = "git://github.com";
     };
   };
 }
