@@ -161,7 +161,7 @@ in
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us,us";
-            xkb_variant = "altgr-intl,colemak";
+            xkb_variant = "colemak,altgr-intl";
             xkb_numlock = "disabled";
             xkb_options = "grp:win_space_toggle";
           };
