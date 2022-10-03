@@ -615,6 +615,10 @@
       mode = [ ''"\\.toml\\'"'' ];
     };
 
+    puppet-mode = {
+      enable = true;
+    };
+
     nov = {
       enable = true;
       mode = [ ''"\\.epub\\'"'' ];
