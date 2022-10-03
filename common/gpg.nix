@@ -4,11 +4,11 @@
   programs.gnupg.agent = {
     enable = true;
     enableSSHSupport = true;
-    pinentryFlavor = "gtk2";
+    pinentryFlavor = "gnome3";
   };
 
   environment.systemPackages = [
-    pkgs.pinentry-gtk2
+    pkgs.pinentry-gnome
   ];
 }
 
