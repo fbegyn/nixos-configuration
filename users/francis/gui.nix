@@ -57,7 +57,7 @@
       pulsemixer
       unstable.bitwarden
       unstable.bitwarden-cli
-      unstable.gnome3.nautilus
+      unstable.gnome.nautilus
       unstable.dmenu
       unstable.solaar
       unstable.morph

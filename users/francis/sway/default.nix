@@ -65,7 +65,7 @@ in
     unstable.libappindicator-gtk3
   ];
   services.udev.packages = with pkgs; [
-    gnome3.gnome-settings-daemon
+    gnome.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
 
@@ -97,7 +97,7 @@ in
       waybar-storage
 
       # sway tooling
-      xdg_utils
+      xdg-utils
       swaylock # lockscreen
       unstable.swayidle
       mako # notification daemon
@@ -137,7 +137,7 @@ in
       term = config.home-manager.users.francis.wayland.windowManager.sway.config.terminal;
     in {
       enable = true;
-      xwayland = true;
+      xwayland = false;
       systemdIntegration = true;
       wrapperFeatures.gtk = true;
       extraSessionCommands = ''
