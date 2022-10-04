@@ -54,5 +54,8 @@
     unzip
     envsubst
     wget
+    inetutils
+    pciutils
+    usbutils
   ];
 }

@@ -14,10 +14,10 @@
     <nixos-hardware/common/pc/laptop>
     <nixos-hardware/common/pc/ssd>
     <nixos-hardware/common/cpu/intel>
-    <nixos-hardware/common/pc/laptop/acpi_call.nix>
 
     # common settings
     ../../common
+    ../../common/laptop.nix
     ../../common/moonlander.nix
     ../../common/laptop.nix
     ../../common/networkmanager.nix
