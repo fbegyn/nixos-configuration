@@ -23,7 +23,7 @@ window:
   # (changes require restart)
   dimensions:
     columns: 0
-    lines: 5000
+    lines: 0
 
   # Adds this many blank pixels of padding around the window
   # Units are physical pixels; this is not DPI aware.
@@ -99,7 +99,6 @@ font:
   # OS X only: use thin stroke font rendering. Thin strokes are suitable
   # for retina displays, but for non-retina you probably want this set to
   # false.
-  use_thin_strokes: false
 
 #colors:
 #  # Default colors
