@@ -137,7 +137,7 @@ in
       term = config.home-manager.users.francis.wayland.windowManager.sway.config.terminal;
     in {
       enable = true;
-      xwayland = false;
+      xwayland = true;
       systemdIntegration = true;
       wrapperFeatures.gtk = true;
       extraSessionCommands = ''
