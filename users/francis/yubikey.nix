@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs.unstable; [
     gnupg
     paperkey
     yubico-pam
@@ -16,7 +16,7 @@
   '';
 
   services.pcscd.enable = true;
-  services.udev.packages = with pkgs; [
+  services.udev.packages = with pkgs.unstable; [
     yubikey-personalization
   ];
 
