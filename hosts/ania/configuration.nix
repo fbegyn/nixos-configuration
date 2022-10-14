@@ -116,6 +116,8 @@
   # networking.interfaces.enp5s0.useDHCP = true;
   # networking.interfaces.wlp3s0.useDHCP = true;
 
+  programs.gnupg.package = pkgs.unstable.gnupg;
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
