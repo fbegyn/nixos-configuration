@@ -25,7 +25,6 @@ in {
     ../../services/tailscale.nix
     ../../services/plex.nix
     ../../services/postgres
-    ../../services/redis
     ../../services/consul
   ];
 
@@ -254,8 +253,13 @@ in {
     };
   };
 
-  services.redis = {
-    bind = "0.0.0.0";
+  services.redis.servers = {
+    default = {
+      enable = true;
+      bind = "0.0.0.0";
+      openFirewall = true;
+      requirePassFile = "/var/lib/redis/pass";
+    };
   };
 
   services.promtail = {
