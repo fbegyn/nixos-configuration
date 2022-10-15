@@ -1,8 +1,6 @@
-{ pkgs, ... }:
+{ pkgs, home-manager, ... }:
 
 {
-  imports = [<home-manager/nixos>];
-
   # user francis
   users.groups.francis.gid = 1000;
   users.users.francis = {

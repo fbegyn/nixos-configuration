@@ -15,13 +15,8 @@ Terminal=false
 Type=Application
       '';
     };
-    nur-no-pkgs = import (builtins.fetchTarball "https://github.com/nix-community/NUR/archive/master.tar.gz") {};
 in
 {
-  imports = [
-    nur-no-pkgs.repos.rycee.hmModules.emacs-init
-  ];
-
   home.packages = [
     pkgs.ispell
     e
@@ -44,12 +39,27 @@ in
     };
   };
 
-  services.emacs.package = pkgs.unstable.emacsUnstable;
-  programs.emacs = {
-    package = pkgs.unstable.emacsUnstable;
-    enable = true;
-    init = import ./emacs.nix { inherit pkgs; };
+  xdg.configFile = {
+    "emacs/init.el".source = ./init.el;
+    "emacs/early-init.el".source = ./early-init.el;
   };
+
+  # services.emacs = {
+  #   enable= true;
+  #   package = pkgs.emacsWithPackagesFromUsePackage;
+  #   client.enable = true;
+  #   socketActivation.enable = true;
+  # };
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacsWithPackagesFromUsePackage {
+      config = ./init.el;
+      package = pkgs.emacsPgtkNativeComp;
+      alwaysEnsure = true;
+      # extraEmacsPackages = epkgs: [];
+    };
+  };
+
   xresources.properties = {
     "Emacs.font" = "DejaVu Sans Mono-16";
   };

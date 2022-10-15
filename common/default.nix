@@ -9,6 +9,10 @@ with lib; {
     value = "unlimited";
   }];
 
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
+
   nix = {
     settings = {
       auto-optimise-store = true;
@@ -22,13 +26,6 @@ with lib; {
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
-  };
-
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = import ../pkgs;
-    overlays = [
-    ];
   };
 
   services.journald.extraConfig = ''

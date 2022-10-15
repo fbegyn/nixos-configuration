@@ -57,7 +57,7 @@
     };
     keyBindings = {
       normal = let
-        scriptPath = "${pkgs.unstable.qutebrowser}/share/qutebrowser/userscripts";
+        scriptPath = "${pkgs.qutebrowser}/share/qutebrowser/userscripts";
        in {
          ",c" = "spawn --userscript ${scriptPath}/cast";
          ",v" = "hint links spawn --detach /home/francis/Scripts/youtubeplayer.sh queue \"{hint-url}\"";

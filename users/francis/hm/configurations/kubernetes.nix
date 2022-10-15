@@ -2,12 +2,12 @@
 
 {
   home-manager.users.francis = {
-    home.packages = with pkgs; [
-      unstable.kubectl
-      unstable.kubectx
-      unstable.stern
-      unstable.kubernetes-helm
-      unstable.k9s
+    home.packages = with pkgs.unstable; [
+      kubectl
+      kubectx
+      stern
+      kubernetes-helm
+      k9s
     ];
     programs.starship.settings.kubernetes.disabled = false;
   };

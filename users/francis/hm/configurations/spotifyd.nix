@@ -1,8 +1,8 @@
 { pkgs, config, ...  }:
 
 {
-  home.packages = [
-    pkgs.unstable.spotify-tui
+  home.packages = with pkgs.unstable; [
+    spotify-tui
   ];
   services.spotifyd = {
     enable = true;

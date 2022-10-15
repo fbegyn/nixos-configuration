@@ -1,24 +1,20 @@
 {
-  description = "A very basic flake";
+  description = "Nixos configuration flake";
 
   inputs = {
-    nixos.url = "nixpkgs/nixos-22.05";
-    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs.url = "nixpkgs/nixos-22.05";
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
     flake-utils.url = "github:numtide/flake-utils";
     utils = {
-      url = "github:gytis-ivaskevicius/flake-utils-plus";
+      url = "github:gytis-ivaskevicius/flake-utils-plus/v1.3.1";
       inputs = {
         flake-utils.follows = "flake-utils";
       };
     };
-    digga= {
-      url = "github:divnix/digga";
-    };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-22.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
@@ -26,12 +22,13 @@
     };
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+      };
     };
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        flake-utils.follows = "flake-utils";
         nixpkgs.follows = "nixpkgs";
       };
     };
@@ -39,7 +36,6 @@
       url = "github:nix-community/emacs-overlay";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        flake-utils.follows = "flake-utils";
       };
     };
     nixos-mailserver = {
@@ -49,64 +45,80 @@
         utils.follows = "flake-utils";
       };
     };
+    deploy-rs.url = "github:serokell/deploy-rs";
   };
 
   outputs = inputs@{
     self,
-      nixos,
-      nixpkgs,
-      unstable,
-      nur,
-      nixos-hardware,
-      flake-utils,
-      utils,
-      digga,
-      home-manager,
-      agenix,
-      devshell,
-      emacs-overlay,
-      nixos-mailserver
-  }: digga.lib.mkFlake {
-      inherit self inputs;
+    nixpkgs,
+    nixpkgs-unstable,
+    nur,
+    nixos-hardware,
+    utils,
+    flake-utils,
+    home-manager,
+    agenix,
+    devshell,
+    emacs-overlay,
+    deploy-rs,
+    nixos-mailserver
+  }: utils.lib.mkFlake {
+    inherit self inputs;
 
-      channelsConfig.allowUnfree = true;
+    channelsConfig = {
+      allowUnfree = true;
+    };
 
-      channels = {
-        nixos = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
-          overlays = [
-          ];
+    sharedOverlays = let
+      system = "x86_64-linux";
+      overlay = final: prev: {
+        unstable = import nixpkgs-unstable {
+          inherit system;
+          config.allowUnfree = true;
         };
-        nixpkgs = {
-          imports = [ (digga.lib.importOverlays ./overlays) ];
-          overlays = [
-          ];
-        };
-        unstable = {};
       };
+    in [
+      overlay
+      nur.overlay
+      emacs-overlay.overlay
+    ];
 
-      sharedOverlays = [
-        nur.overlay
-        emacs-overlay.overlay
+    channels ={
+      nixpkgs = {
+        input = nixpkgs;
+        overlaysBuilder = _: [
+          devshell.overlay
+        ];
+      };
+    };
+
+    hostDefaults = {
+      channelName = "nixpkgs";
+      modules = [
+        { nix.generateRegistryFromInputs = true; }
+        agenix.nixosModules.age
+        home-manager.nixosModules.home-manager ({config, ...}: {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+        })
       ];
+    };
 
-      nixos = {
-        hostDefaults = {
-          channelName = "nixos";
-          modules = [
-            { nix.generateRegistryFromInputs = true; }
-            agenix.nixosModules.age
-            home-manager.nixosModule
-            nixos-mailserver.nixosModule
-          ];
-        };
-        hosts = {
-          horme.modules = [ ./hosts/horme/configuration.nix ];
-        };
+    hosts = {
+      horme = {
+        modules = [
+          ./hosts/horme/configuration.nix
+          nixos-hardware.nixosModules.common-pc-laptop
+          nixos-hardware.nixosModules.common-pc-ssd
+          nixos-hardware.nixosModules.common-cpu-intel
+          nixos-hardware.nixosModules.lenovo-thinkpad
+          nixos-hardware.nixosModules.lenovo-thinkpad-x1
+        ];
       };
+    };
 
-      home = {
-        users = digga.lib.rakeLeaves ./users/francis;
-      };
+     # This is highly advised, and will prevent many possible mistakes
+    checks = builtins.mapAttrs
+      (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
   };
 }

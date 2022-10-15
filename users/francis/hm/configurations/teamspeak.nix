@@ -1,8 +1,8 @@
 { pkgs, ... }:
 
 {
-  home.packages = [
-    pkgs.unstable.teamspeak_client
+  home.packages = with pkgs.unstable; [
+    teamspeak_client
   ];
 }
 

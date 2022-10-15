@@ -2,22 +2,12 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, pkgs, nixos-hardware, ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-
-    # laptop hardware
-    <nixos-hardware/common/pc/laptop>
-    <nixos-hardware/common/pc/ssd>
-    <nixos-hardware/common/cpu/intel>
-    <nixos-hardware/common/pc/laptop/acpi_call.nix>
-
-    # specific to thinkpad
-    <nixos-hardware/lenovo/thinkpad>
-    <nixos-hardware/lenovo/thinkpad/x1>
 
     # wireless settings
     ../../secrets/wireless.nix
@@ -43,7 +33,7 @@
     ../../services/tailscale.nix
   ];
 
-  nixpkgs.config.alluwUnfree = true;
+  nixpkgs.config.allowUnfree = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.kernelPackages = pkgs.linuxPackages;

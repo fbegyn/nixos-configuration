@@ -67,7 +67,6 @@
       unstable.pandoc
       wkhtmltopdf
       texlive.combined.scheme-small
-      unstable.tmux
       unstable.pgcli
       unstable.mycli
       unstable.litecli

@@ -11,11 +11,6 @@
     ./configurations/fzf.nix
   ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = import ../../../pkgs;
-  };
-
   xsession.initExtra = ''
     systemctl --user import-environment
   '';
@@ -32,25 +27,28 @@
     "$HOME/.cargo/bin"
   ];
 
+  nixpkgs.config = {
+    allowUnfree = true;
+  };
   home.sessionVariables = { EDITOR = "vim"; };
 
-  home.packages = with pkgs; [
-    unstable.jq
+  home.packages = with pkgs.unstable; [
     # Utilities
+    jq
     gcc
     libnotify
     libqalculate
-    unstable.htop
-    unstable.rclone
+    htop
+    rclone
     lm_sensors
     moreutils
     screen
-    unstable.tmux
+    tmux
     inotify-tools
     gnumake
     # tools rewritten in rust
-    unstable.ripgrep
-    unstable.fd
+    ripgrep
+    fd
     unzip
     envsubst
     wget

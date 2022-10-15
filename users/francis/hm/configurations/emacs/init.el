@@ -9,25 +9,16 @@
 ;;
 ;;; Code:
 
+(eval-when-compile
+  (require 'use-package)
+  (require 'use-package-ensure)
+  (setq use-package-verbose nil)
+  (setq use-package-always-ensure t))
 
-
-(defun hm/reduce-gc ()
-  "Reduce the frequency of garbage collection."
-  (setq gc-cons-threshold 402653184
-        gc-cons-percentage 0.6))
-
-(defun hm/restore-gc ()
-  "Restore the frequency of garbage collection."
-  (setq gc-cons-threshold 16777216
-        gc-cons-percentage 0.1))
-
-;; Make GC more rare during init and while minibuffer is active.
-(eval-and-compile #'hm/reduce-gc)
-(add-hook 'minibuffer-setup-hook #'hm/reduce-gc)
-
-;; But make it more regular after startup and after closing minibuffer.
-(add-hook 'emacs-startup-hook #'hm/restore-gc)
-(add-hook 'minibuffer-exit-hook #'hm/restore-gc)
+;; For :diminish in (use-package).
+(require 'diminish)
+;; For :bind in (use-package).
+(require 'bind-key)
 
 ;; Avoid unnecessary regexp matching while loading .el files.
 (defvar hm/file-name-handler-alist file-name-handler-alist)
@@ -39,7 +30,6 @@
   (makunbound 'hm/file-name-handler-alist))
 
 (add-hook 'emacs-startup-hook #'hm/restore-file-name-handler-alist)
-
 
 (when window-system
   (set-frame-font "Hack 15"))
@@ -120,22 +110,6 @@
   (other-window 1)
   (find-file arg))
 
-
-(eval-when-compile
-  (require 'package)
-
-  (setq package-archives nil
-        package-enable-at-startup nil
-        package--init-file-ensured t)
-
-  (require 'use-package)
-
-  ;; To help fixing issues during startup.
-  (setq use-package-verbose t))
-;; For :diminish in (use-package).
-(require 'diminish)
-;; For :bind in (use-package).
-(require 'bind-key)
 ;; For :general in (use-package).
 (use-package general
   :config
@@ -428,9 +402,6 @@
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :mode "\\.yaml\\'")
-
-
-
 
 (provide 'hm-init)
 ;; hm-init.el ends here
