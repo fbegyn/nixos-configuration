@@ -208,6 +208,38 @@ in {
     ];
   };
 
+  systemd.services."nextcloud-setup" = {
+    requires = ["postgresql.service"];
+    after = ["postgresql.service"];
+  };
+
+  services.nextcloud = {
+    enable = true;
+    package = pkgs.unstable.nextcloud24;
+    hostName = "docs.begyn.be";
+    config = {
+      overwriteProtocol = "https";
+
+      adminuser = "admin";
+      adminpassFile = "${pkgs.writeText "adminpass" "${hosts.eos.nextcloud.adminpass}"}";
+
+      dbtype = "pgsql";
+      dbuser = "nextcloud";
+      dbhost = "/run/postgresql";
+      dbname = "nextcloud";
+      dbpassFile = hosts.eos.nextcloud.dbpassFile;
+    };
+    https = true;
+    autoUpdateApps.enable = true;
+  };
+  services.nginx.virtualHosts = {
+    "docs.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "dcf.begyn.be";
+    };
+  };
+
+
   services.consul = {
     interface = {
       bind = "enp57s0u1";
