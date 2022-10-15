@@ -31,7 +31,7 @@ in
   in {
     enable = true;
     extraFlags = [
-      "--storage.tsdb.retention.time 720h"
+      "--storage.tsdb.retention.time 365d"
       "--web.enable-admin-api"
       "--web.enable-lifecycle"
     ];
