@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
-let
-in {
+{
   containers = {
     plex = {
       autoStart = true;
@@ -11,16 +10,10 @@ in {
           isReadOnly = true;
         };
       };
-      config = { ... }:
-        let
-          unstable =
-            import (fetchTarball https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz) {
-              config.allowUnfree = true;
-            };
-        in {
+      config = { ... }: {
           services.plex = {
             enable = true;
-            package = unstable.plex;
+            package = pkgs.unstable.plex;
           };
         };
     };

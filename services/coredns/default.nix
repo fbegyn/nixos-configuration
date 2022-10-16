@@ -2,7 +2,11 @@
 
 let
   corednsconf = builtins.readFile ./config;
-  blocklist = builtins.readFile (builtins.fetchurl "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts");
+  blocklist = builtins.readFile (builtins.fetchurl {
+    url =
+      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts";
+    sha256 = "0w17z6rbhj4pzj1jfph35nwa862dp4wyn0qn65vssbzqjhrjk291";
+  });
 
   dnsSOA = domain: primary: ipv4: email: ''
     @	3600	SOA	${primary}.${domain}.   ${email}.${domain}. (

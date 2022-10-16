@@ -1,12 +1,9 @@
 { pkgs, ... }:
 
-let
-  unstable = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz) {};
-in
 {
   nixpkgs.overlays = [
     (_self: _super: {
-      loki = unstable.loki;
+      loki = pkgs.unstable.loki;
     })
   ];
 

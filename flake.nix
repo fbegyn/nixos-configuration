@@ -115,6 +115,12 @@
           nixos-hardware.nixosModules.lenovo-thinkpad-x1
         ];
       };
+      eos = {
+        modules = [
+          ./hosts/eos/configuration.nix
+          nixpkgs.nixosModules.notDetected
+        ];
+      };
     };
 
      # This is highly advised, and will prevent many possible mistakes

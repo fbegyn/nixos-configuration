@@ -1,8 +1,6 @@
-{ ... }:
+{ pkgs, ... }:
 
 let
-  unstable = import (fetchTarball https://github.com/NixOS/nixpkgs/archive/refs/heads/nixos-unstable-small.tar.gz) {};
-
   staticScrape = (job_name: scheme: targets: {
     inherit job_name;
     inherit scheme;
@@ -22,7 +20,7 @@ in
 {
   nixpkgs.overlays = [
     (_self: _super: {
-      prometheus = unstable.prometheus;
+      prometheus = pkgs.unstable.prometheus;
     })
   ];
 
