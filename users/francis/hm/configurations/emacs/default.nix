@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   e = pkgs.writeTextFile {
@@ -17,50 +17,73 @@ Type=Application
     };
 in
 {
-  home.packages = [
-    pkgs.ispell
-    e
-  ];
-
-  home.file = {
-    ".local/bin/e" = {
-      text = ''
-        #!/bin/sh
-        emacsclient -t -a "" $@
-      '';
-      executable = true;
+  options.francis.emacs = {
+    fullConfig = lib.mkOption {
+      readOnly = true;
+      default = builtins.readFile ./base-init.el + (
+        lib.concatStringsSep "\n" config.francis.emacs.extraConfig
+        ) + ''
+          (provide 'init)
+          ;;; init.el ends here
+        '';
     };
-    ".local/bin/ew" = {
-      text = ''
-        #!/bin/sh
-        emacsclient -a "" -nc $@
-      '';
-      executable = true;
+    extraConfig = lib.mkOption {
+      default = [];
     };
-  };
-
-  xdg.configFile = {
-    "emacs/init.el".source = ./init.el;
-    "emacs/early-init.el".source = ./early-init.el;
-  };
-
-  # services.emacs = {
-  #   enable= true;
-  #   package = pkgs.emacsWithPackagesFromUsePackage;
-  #   client.enable = true;
-  #   socketActivation.enable = true;
-  # };
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacsWithPackagesFromUsePackage {
-      config = ./init.el;
-      package = pkgs.emacsPgtkNativeComp;
-      alwaysEnsure = true;
-      # extraEmacsPackages = epkgs: [];
+    package = lib.mkOption {
+      readOnly = true;
+      default = pkgs.emacsWithPackagesFromUsePackage {
+        config = config.francis.emacs.fullConfig;
+        package = pkgs.emacsPgtkNativeComp;
+        alwaysEnsure = true;
+        # extraEmacsPackages = epkgs: [];
+      };
     };
   };
 
-  xresources.properties = {
-    "Emacs.font" = "DejaVu Sans Mono-16";
+  config = {
+    home.packages = [
+      pkgs.ispell
+      e
+    ];
+
+    home.file = {
+      ".local/bin/e" = {
+        text = ''
+          #!/bin/sh
+          ${config.francis.emacs.package}/bin/emacsclient -t -a "" $@
+        '';
+        executable = true;
+      };
+      ".local/bin/ew" = {
+        text = ''
+          #!/bin/sh
+          ${config.francis.emacs.package}/bin/emacsclient -a "" -nc $@
+        '';
+        executable = true;
+      };
+      ".emacs.d/init.el".text = config.francis.emacs.fullConfig;
+      ".emacs.d/early-init.el".source = ./early-init.el;
+    };
+
+    xdg.configFile = {
+      "emacs/init.el".text = config.francis.emacs.fullConfig;
+      "emacs/early-init.el".source = ./early-init.el;
+    };
+
+    # services.emacs = {
+    #   enable= true;
+    #   package = config.francis.emacs.package;
+    #   client.enable = true;
+    #   socketActivation.enable = true;
+    # };
+    programs.emacs = {
+      enable = true;
+      package = config.francis.emacs.package;
+    };
+
+    xresources.properties = {
+      "Emacs.font" = "DejaVu Sans Mono-16";
+    };
   };
 }

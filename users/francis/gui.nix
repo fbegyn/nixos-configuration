@@ -16,6 +16,7 @@
     imports = [
       ./hm/go.nix
       ./hm/configurations/mpv
+      ./hm/configurations/emacs
       ./hm/configurations/newsboat.nix
       ./hm/configurations/direnv.nix
       ./hm/configurations/zathura.nix
@@ -24,7 +25,6 @@
       ./hm/configurations/hledger.nix
       ./hm/configurations/tmux
       ./hm/configurations/josm.nix
-      ./hm/configurations/emacs
       ./hm/configurations/udiskie.nix
       ./hm/configurations/qutebrowser
       #./secrets/fish.nix
