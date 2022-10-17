@@ -115,6 +115,14 @@
           nixos-hardware.nixosModules.lenovo-thinkpad-x1
         ];
       };
+      ania = {
+        modules = [
+          ./hosts/ania/configuration.nix
+          nixos-hardware.nixosModules.common-pc-laptop
+          nixos-hardware.nixosModules.common-pc-ssd
+          nixos-hardware.nixosModules.common-cpu-intel
+        ];
+      };
       eos = {
         modules = [
           ./hosts/eos/configuration.nix
