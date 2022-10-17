@@ -349,7 +349,6 @@ in {
         scheme = "http";
         static_configs = [{
             targets = [
-              "10.5.1.1:9100"
               "eos:9100"
               "mail-01:9100"
               "hosting-01:9100"
@@ -383,15 +382,6 @@ in {
         static_configs = [{
             targets = [
               "10.5.1.10:8123"
-            ];
-        }];
-      }
-      {
-        job_name = "tc-exporter";
-        scheme = "http";
-        static_configs = [{
-            targets = [
-              "10.5.1.1:9704"
             ];
         }];
       }
