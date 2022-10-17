@@ -115,6 +115,12 @@
           nixos-hardware.nixosModules.lenovo-thinkpad-x1
         ];
       };
+      bia = {
+        modules = [
+          ./hosts/bia/configuration.nix
+          nixos-hardware.nixosModules.common-cpu-amd
+        ];
+      };
       ania = {
         modules = [
           ./hosts/ania/configuration.nix

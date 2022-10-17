@@ -7,7 +7,7 @@
 {
   imports = [
     # Include the results of the hardware scan.
-    <nixos-hardware/common/cpu/amd>
+    # <nixos-hardware/common/cpu/amd>
     ./hardware-configuration.nix
     ../../common
     ../../common/bluetooth.nix
