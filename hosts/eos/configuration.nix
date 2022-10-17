@@ -77,7 +77,7 @@ in {
       hass = {
         volumes = [ "/home/francis/hass:/config" ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2022.6";
+        image = "ghcr.io/home-assistant/home-assistant:2022.10";
         extraOptions = [
           "--network=host"
         ];
@@ -89,7 +89,7 @@ in {
           PASSWORD = "${hosts.eos.eufy.wsAddon.password}";
           USERNAME = "${hosts.eos.eufy.wsAddon.username}";
         };
-        image = "bropat/eufy-security-ws:0.9.1";
+        image = "bropat/eufy-security-ws:0.9.4";
         ports = [
           "13000:3000"
         ];
@@ -99,7 +99,7 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "aler9/rtsp-simple-server:v0.19.1";
+        image = "aler9/rtsp-simple-server:v0.20.0";
         ports = [
           "1935:1935"
           "8554:8554"
