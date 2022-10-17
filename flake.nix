@@ -135,6 +135,11 @@
           nixpkgs.nixosModules.notDetected
         ];
       };
+      mail-01 = {
+        modules = [
+          ./hosts/mail-01/configuration.nix
+        ];
+      };
       unifi-01 = {
         modules = [
           ./hosts/unifi-01/configuration.nix
