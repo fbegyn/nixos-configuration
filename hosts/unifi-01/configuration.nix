@@ -83,6 +83,7 @@
   services.unifi = {
     enable = true;
     unifiPackage = pkgs.unstable.unifi;
+    openFirewall = true;
   };
 
   services.nginx.virtualHosts = {

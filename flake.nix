@@ -121,6 +121,11 @@
           nixpkgs.nixosModules.notDetected
         ];
       };
+      unifi-01 = {
+        modules = [
+          ./hosts/unifi-01/configuration.nix
+        ];
+      };
     };
 
      # This is highly advised, and will prevent many possible mistakes
