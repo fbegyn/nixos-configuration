@@ -53,7 +53,7 @@ in
     startsway
     wl-clipboard
     # polkit for the sway environment
-    polkit_gnome
+    unstable.polkit_gnome
 
     # theming
     unstable.gtk-engine-murrine
@@ -65,7 +65,7 @@ in
     unstable.libappindicator-gtk3
   ];
   services.udev.packages = with pkgs; [
-    gnome.gnome-settings-daemon
+    unstable.gnome.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
 
