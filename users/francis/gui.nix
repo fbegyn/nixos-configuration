@@ -58,7 +58,6 @@
       unstable.bitwarden
       unstable.bitwarden-cli
       unstable.gnome.nautilus
-      unstable.dolphin
       unstable.dmenu
       unstable.solaar
       unstable.morph
