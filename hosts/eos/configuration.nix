@@ -75,7 +75,10 @@ in {
     backend = "podman";
     containers = {
       hass = {
-        volumes = [ "/home/francis/hass:/config" ];
+        volumes = [
+          "/home/francis/hass:/config"
+          "/run/dbus:/run/dbus:ro"
+        ];
         environment.TZ = "Europe/Brussels";
         image = "ghcr.io/home-assistant/home-assistant:2022.10";
         extraOptions = [
