@@ -110,6 +110,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    steam-run
     qmapshack
     garmindev
   ];
