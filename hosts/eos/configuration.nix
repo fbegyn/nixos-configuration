@@ -111,6 +111,10 @@ in {
     };
   };
 
+  environment.systemPackages = with pkgs.unstable; [
+    dbus-broker
+  ];
+
   services.mosquitto = {
     enable = true;
     bridges = {
