@@ -52,6 +52,7 @@
     unzip
     envsubst
     wget
+    httpie
     inetutils
     pciutils
     usbutils
