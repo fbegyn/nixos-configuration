@@ -175,7 +175,7 @@ bar {
 	    font pango:DejaVu Sans Mono 10
 }
 
-set $locker betterlockscreen --off 300 -l
+set $locker xautolock -locknow
 
 bindsym Mod1+l exec --no-startup-id $locker
 

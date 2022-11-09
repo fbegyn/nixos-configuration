@@ -30,7 +30,6 @@
     ../../common/webcam.nix
     ../../common/video-accel.nix
     ../../common/office.nix
-    ../../common/xautolock.nix
 
     ../../users
     ../../users/francis

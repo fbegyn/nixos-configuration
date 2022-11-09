@@ -45,6 +45,23 @@
     ];
   };
 
+  # autolock handler for i3
+  environment.systemPackages = with pkgs.unstable; [
+    xautolock
+  ];
+  services.xserver.xautolock = {
+    enable = true;
+    nowlocker = "${pkgs.unstable.betterlockscreen}/bin/betterlockscreen --off 300 -l";
+    time = 2;
+    locker = "${pkgs.unstable.betterlockscreen}/bin/betterlockscreen --off 300 -l";
+    killtime = 20;
+    killer = "/run/current-system/systemd/bin/systemctl suspend";
+  };
+  programs.xss-lock = {
+    enable = true;
+    lockerCommand = "${pkgs.unstable.betterlockscreen}/bin/betterlockscreen --off 300 -l";
+  };
+
   home-manager.users.francis = {
     services = {
       unclutter = {
