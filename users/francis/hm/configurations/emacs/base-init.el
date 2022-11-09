@@ -282,7 +282,7 @@ the frame and makes it a dedicated window for that buffer."
 )
 
 (use-package dockerfile-mode)
-(use-package docker-tramp)
+(require 'tramp-container)
 
 (use-package elixir-mode
   :mode "\\.ex'")
