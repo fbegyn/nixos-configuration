@@ -6,18 +6,18 @@
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    flake-utils.url = "github:numtide/flake-utils";
-    utils = {
+    utils.url = "github:numtide/flake-utils";
+    utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus/v1.3.1";
       inputs = {
-        flake-utils.follows = "flake-utils";
+        utils.follows = "utils";
       };
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        utils.follows = "flake-utils";
+        utils.follows = "utils";
       };
     };
     agenix = {
@@ -42,10 +42,17 @@
       url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        utils.follows = "flake-utils";
+        utils.follows = "utils";
       };
     };
     deploy-rs.url = "github:serokell/deploy-rs";
+    website = {
+      url = "github:fbegyn/website";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        utils.follows = "utils";
+      };
+    };
   };
 
   outputs = inputs@{
@@ -54,15 +61,15 @@
     nixpkgs-unstable,
     nur,
     nixos-hardware,
+    utils-plus,
     utils,
-    flake-utils,
     home-manager,
     agenix,
     devshell,
     emacs-overlay,
     deploy-rs,
     nixos-mailserver
-  }: utils.lib.mkFlake {
+  }: utils-plus.lib.mkFlake {
     inherit self inputs;
 
     channelsConfig = {
@@ -76,7 +83,7 @@
           inherit system;
           config.allowUnfree = true;
         };
-        fbegyn = import ./pkgs/fbegyn/default.nix;
+        fbegyn = import ./pkgs/default.nix {};
       };
     in [
       overlay

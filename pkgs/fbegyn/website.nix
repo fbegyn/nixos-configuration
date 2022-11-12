@@ -1,8 +1,8 @@
-{ pkgs, lib, stdenv, buildGoModule, fetchFromGitHub }:
+{ pkgs ? import <nixpkgs>, buildGoModule ? pkgs.buildGoModule, fetchFromGitHub ? pkgs.fetchFromGitHub, lib ? pkgs.lib}:
 
 let
   commit = "e166074b97bd496fd4c46501286d9838b7353213";
-in buildGoModule rec {
+in buildGoModule {
   pname = "website";
   version = "${commit}";
 
@@ -14,7 +14,6 @@ in buildGoModule rec {
   };
 
   vendorSha256 = null;
-  subPackages = [ "./cmd/server" ];
   meta = with lib; {
     description = "fbegyn's website server";
     homepage = "https://github.com/fbegyn/website";
