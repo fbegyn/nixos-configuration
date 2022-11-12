@@ -13,8 +13,6 @@
 
     ../../users
     ../../users/francis
-
-    ../../services/website
     ../../services/tailscale.nix
 
     ./acme.nix
@@ -61,7 +59,7 @@
     enable = true;
   };
 
-  thecy.services.website = {
+  fbegyn.services.website = {
     enable = true;
   };
 

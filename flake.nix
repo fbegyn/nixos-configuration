@@ -68,6 +68,7 @@
     devshell,
     emacs-overlay,
     deploy-rs,
+    website,
     nixos-mailserver
   }: utils-plus.lib.mkFlake {
     inherit self inputs;
@@ -153,9 +154,12 @@
           ./hosts/unifi-01/configuration.nix
         ];
       };
-      hosting-01 = {
+      hosting-01 = let
+        system = "x86_64-linux";
+      in {
         modules = [
           ./hosts/hosting-01/configuration.nix
+          website.nixosModules.${system}.website
         ];
       };
     };
