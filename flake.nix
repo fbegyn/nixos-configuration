@@ -76,6 +76,7 @@
           inherit system;
           config.allowUnfree = true;
         };
+        fbegyn = import ./pkgs/fbegyn/default.nix;
       };
     in [
       overlay
