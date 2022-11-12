@@ -454,9 +454,6 @@ the frame and makes it a dedicated window for that buffer."
 (use-package neuron-mode)
 
 (use-package nix-mode
-  :bind (:map nix-mode-map
-    ("C-i" . nix-indent-line)
-  )
   :mode "\\.nix\\'")
 
 (use-package org)
