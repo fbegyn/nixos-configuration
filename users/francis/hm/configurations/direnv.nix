@@ -9,5 +9,4 @@
       };
     };
   };
-  services.lorri.enable = true;
 }
