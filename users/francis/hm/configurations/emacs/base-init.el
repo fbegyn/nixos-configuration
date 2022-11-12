@@ -161,20 +161,13 @@
   :custom
   (company-dabbrev-downcase nil "Don't downcase completions")
   (company-dabbrev-ignore-case t "Change full casing of completion if completion has different case")
-  (company-idle-delay 0.4)
+  (company-idle-delay 0.3)
   (comapny-tooltip-align-annotations t)
   (company-tooltip-limit 20)
   (company-transformers '(company-sort-by-backend-importance))
   (company-minimum-prefix-length 2 "Start autocompletion after 2 characters")
   :config
-  (global-company-mode t)
-)
-
-(use-package company-box
-  :hook (company-mode . company-box-mode)
-  :diminish (company-box-mode)
-  :config
-  (push '(foreground-color . "black") company-box-frame-parameters)
+  (add-hook 'after-init-hook 'global-company-mode)
 )
 
 ;; dired things
@@ -510,6 +503,10 @@ the frame and makes it a dedicated window for that buffer."
 (use-package puppet-mode
   :defer t
   :mode "\\.puppet\\'")
+
+(use-package json-mode
+  :defer t
+  :mode "\\.json\\'")
 
 (use-package jsonnet-mode
   :defer t
