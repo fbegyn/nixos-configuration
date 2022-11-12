@@ -10,7 +10,7 @@
 stdenv.mkDerivation rec {
   name = "MultiviewerF1-${version}";
   pname = "MultiviewerF1";
-  version = "1.9.8";
+  version = "1.11.0";
 
   system = "x86_64-linux";
 
@@ -21,12 +21,23 @@ stdenv.mkDerivation rec {
   };
   sourceRoot = ".";
 
-  nativeBuildInputs = [
-    autoPatchelfHook
+  nativeBuildInputs = with pkgs; [
+    glib
+    nss_latest
+    at-spi2-atk
+    xorg.libX11
+    xorg.libXdamage
+    mesa
+    alsa-lib
+    wayland
+    cups
+    gtk3-x11
+    libdrm
   ];
 
-  buildInputs = with pkgs; [
-    unzip
+  buildInputs = [
+    pkgs.unzip
+    autoPatchelfHook
   ];
 
   unpackPhase = "true";
@@ -35,8 +46,12 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p $out
     unzip $src
-    ls -al ./'MultiViewer for F1-linux-x64'
-    install -d -m755 -D ./'MultiViewer for F1-linux-x64' $out/bin/multiviewer
+    mv ./'MultiViewer for F1-linux-x64' ./src
+    cd ./src
+    mv ./'MultiViewer for F1' ./multiviewer-for-f1
+    for srcFile in $(ls ./); do
+      cp -r $srcFile $out/
+    done
   '';
 
   meta = with lib; {
