@@ -23,19 +23,19 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
       };
     };
     devshell = {
       url = "github:numtide/devshell";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
       };
     };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
       };
     };
     nixos-mailserver = {
@@ -49,7 +49,7 @@
     website = {
       url = "github:fbegyn/website";
       inputs = {
-        nixpkgs.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs-unstable";
         utils.follows = "utils";
       };
     };
