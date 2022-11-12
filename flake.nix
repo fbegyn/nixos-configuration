@@ -145,6 +145,11 @@
           ./hosts/unifi-01/configuration.nix
         ];
       };
+      hosting-01 = {
+        modules = [
+          ./hosts/hosting-01/configuration.nix
+        ];
+      };
     };
 
      # This is highly advised, and will prevent many possible mistakes
