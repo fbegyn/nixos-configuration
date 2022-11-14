@@ -48,11 +48,11 @@
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 8000 9000 9100 ];
+      allowedTCPPorts = [ 22 8000 8443 9000 9100 ];
     };
   };
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 ];
+    allowedTCPPorts = [ 80 443 8080 3478 6789 ];
   };
 
   services.prometheus.exporters.node = {
@@ -69,6 +69,28 @@
     recommendedOptimisation = true;
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
+  };
+
+  # unifi
+  services.unifi = {
+    enable = true;
+    unifiPackage = pkgs.unstable.unifi;
+    openFirewall = true;
+  };
+  services.nginx.virtualHosts = {
+    "unifi.svc.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "svc-01.begyn.be";
+      locations = {
+        "/" = {
+          proxyPass = "https://127.0.0.1:8443$request_uri";
+          extraConfig = ''
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+          '';
+        };
+      };
+    };
   };
 
   # weechat
