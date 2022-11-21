@@ -7,6 +7,6 @@
     port = 3000;
     protocol = "http";
     dataDir = "/var/lib/grafana";
-    package = pkgs.unstable.grafana;
+    package = pkgs.grafana;
   };
 }
