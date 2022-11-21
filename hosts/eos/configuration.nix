@@ -80,7 +80,7 @@ in {
           "/run/dbus:/run/dbus:ro"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2022.10";
+        image = "ghcr.io/home-assistant/home-assistant:2022.11";
         extraOptions = [
           "--network=host"
         ];
@@ -91,8 +91,9 @@ in {
           COUNTRY = "BE";
           PASSWORD = "${hosts.eos.eufy.wsAddon.password}";
           USERNAME = "${hosts.eos.eufy.wsAddon.username}";
+          TRUSTED_DEVICE_NAME = "eos";
         };
-        image = "bropat/eufy-security-ws:0.9.4";
+        image = "bropat/eufy-security-ws:1.1.0";
         ports = [
           "13000:3000"
         ];
@@ -102,7 +103,7 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "aler9/rtsp-simple-server:v0.20.0";
+        image = "aler9/rtsp-simple-server:v0.20.2";
         ports = [
           "1935:1935"
           "8554:8554"
