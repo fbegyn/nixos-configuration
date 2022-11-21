@@ -19,7 +19,6 @@
     ../../common
     ../../common/laptop.nix
     ../../common/moonlander.nix
-    ../../common/laptop.nix
     ../../common/networkmanager.nix
     ../../common/gpg.nix
     ../../common/bluetooth.nix
@@ -40,9 +39,11 @@
 
   # Use the systemd-boot EFI boot loader.
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelParams = [ "i915.force_probe=46a8" ];
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.efi.canTouchEfiVariables = false;
   boot.loader.generationsDir.copyKernels = true;
+
   boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -67,6 +68,7 @@
   boot.loader.grub.devices = [
     "/dev/disk/by-id/nvme-eui.e8238fa6bf530001001b448b4b64ab08"
   ];
+
   boot.supportedFilesystems = [ "ntfs" ];
   boot.cleanTmpDir = true;
 
