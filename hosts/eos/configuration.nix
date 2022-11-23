@@ -349,23 +349,23 @@ in {
   };
 
   fbegyn.services.gotosocial = {
-    enable = true;
+    enable = false;
     serverName = "social.begyn.be";
   };
-  services.nginx.virtualHosts."${config.fbegyn.services.gotosocial.serverName}" = {
-    forceSSL = true;
-    useACMEHost = "${config.fbegyn.services.gotosocial.serverName}";
-    locations."/" = {
-      proxyPass = "http://127.0.0.1:${toString config.fbegyn.services.gotosocial.port}";
-      extraConfig = ''
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-      '';
-    };
-    extraConfig = ''
-      client_max_body_size 40M;
-    '';
-  };
+  #services.nginx.virtualHosts."${config.fbegyn.services.gotosocial.serverName}" = {
+  #  forceSSL = true;
+  #  useACMEHost = "${config.fbegyn.services.gotosocial.serverName}";
+  #  locations."/" = {
+  #    proxyPass = "http://127.0.0.1:${toString config.fbegyn.services.gotosocial.port}";
+  #    extraConfig = ''
+  #      proxy_set_header Upgrade $http_upgrade;
+  #      proxy_set_header Connection $connection_upgrade;
+  #    '';
+  #  };
+  #  extraConfig = ''
+  #    client_max_body_size 40M;
+  #  '';
+  #};
 
   services.prometheus= {
     ruleFiles = [
