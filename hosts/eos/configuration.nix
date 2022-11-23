@@ -18,6 +18,7 @@ in {
 
     # services
     ../../services/coredns
+    ../../services/gotosocial
     ../../services/ddclient
     ../../services/prometheus
     ../../services/grafana
@@ -149,7 +150,7 @@ in {
     };
     firewall = {
       enable = false;
-      allowedTCPPorts = [ 8123 ];
+      allowedTCPPorts = [ 80 443 3000 9090 8443 8123 22 ];
     };
   };
 
@@ -345,6 +346,25 @@ in {
         reject_old_samples_max_age = "168h";
       };
     };
+  };
+
+  fbegyn.services.gotosocial = {
+    enable = true;
+    serverName = "social.begyn.be";
+  };
+  services.nginx.virtualHosts."${config.fbegyn.services.gotosocial.serverName}" = {
+    forceSSL = true;
+    useACMEHost = "${config.fbegyn.services.gotosocial.serverName}";
+    locations."/" = {
+      proxyPass = "http://127.0.0.1:${toString config.fbegyn.services.gotosocial.port}";
+      extraConfig = ''
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+      '';
+    };
+    extraConfig = ''
+      client_max_body_size 40M;
+    '';
   };
 
   services.prometheus= {
