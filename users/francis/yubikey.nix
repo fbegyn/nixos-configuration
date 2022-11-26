@@ -6,7 +6,6 @@
     paperkey
     yubico-pam
     yubikey-manager
-    yubioath-desktop
     yubikey-personalization
   ];
 
