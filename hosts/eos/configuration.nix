@@ -18,7 +18,6 @@ in {
 
     # services
     ../../services/coredns
-    ../../services/gotosocial
     ../../services/ddclient
     ../../services/prometheus
     ../../services/grafana
@@ -207,7 +206,9 @@ in {
 
   services.postgresql = {
     enable = true;
-    ensureDatabases = [ "nextcloud" ];
+    ensureDatabases = [
+      "nextcloud"
+    ];
     ensureUsers = [
       {
         name = "nextcloud";
@@ -215,10 +216,9 @@ in {
       }
     ];
   };
-
-  systemd.services."nextcloud-setup" = {
-    requires = ["postgresql.service"];
-    after = ["postgresql.service"];
+  services.postgresqlBackup = {
+    enable = true;
+    databases = [ "mastodon" ];
   };
 
   services.nextcloud = {
@@ -246,7 +246,10 @@ in {
       useACMEHost = "dcf.begyn.be";
     };
   };
-
+  systemd.services."nextcloud-setup" = {
+    requires = ["postgresql.service"];
+    after = ["postgresql.service"];
+  };
 
   services.consul = {
     interface = {
@@ -348,24 +351,46 @@ in {
     };
   };
 
-  fbegyn.services.gotosocial = {
-    enable = false;
-    serverName = "social.begyn.be";
+  services.mastodon = {
+    enable= true;
+    package = pkgs.unstable.mastodon;
+    localDomain = "social.begyn.be";
+    enableUnixSocket = true;
+    smtp = {
+      host = "mail.begyn.be";
+      port = 587;
+      authenticate = true;
+      user = "bots";
+      fromAddress = "social@begyn.be";
+      createLocally = false;
+    };
+    database.createLocally = true;
+    redis.createLocally = true;
   };
-  #services.nginx.virtualHosts."${config.fbegyn.services.gotosocial.serverName}" = {
-  #  forceSSL = true;
-  #  useACMEHost = "${config.fbegyn.services.gotosocial.serverName}";
-  #  locations."/" = {
-  #    proxyPass = "http://127.0.0.1:${toString config.fbegyn.services.gotosocial.port}";
-  #    extraConfig = ''
-  #      proxy_set_header Upgrade $http_upgrade;
-  #      proxy_set_header Connection $connection_upgrade;
-  #    '';
-  #  };
-  #  extraConfig = ''
-  #    client_max_body_size 40M;
-  #  '';
-  #};
+  users.groups.mastodon.members = [ "nginx" ];
+  services.nginx.virtualHosts."social.begyn.be" = let
+    cfg = config.services.mastodon;
+  in {
+    root = "${cfg.package}/public/";
+    forceSSL = true;
+    useACMEHost = "social.begyn.be";
+
+    locations."/system/".alias = "/var/lib/mastodon/public-system/";
+    locations."/" = {
+      tryFiles = "$uri @proxy";
+    };
+    locations."@proxy" = {
+      proxyPass = (if cfg.enableUnixSocket then "http://unix:/run/mastodon-web/web.socket" else "http://127.0.0.1:${toString(cfg.webPort)}");
+      proxyWebsockets = true;
+    };
+    locations."/api/v1/streaming/" = {
+      proxyPass = (if cfg.enableUnixSocket then "http://unix:/run/mastodon-streaming/streaming.socket" else "http://127.0.0.1:${toString(cfg.streamingPort)}/");
+      proxyWebsockets = true;
+    };
+    extraConfig = ''
+      client_max_body_size 40M;
+    '';
+  };
 
   services.prometheus= {
     ruleFiles = [
