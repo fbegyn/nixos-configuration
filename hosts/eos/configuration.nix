@@ -381,7 +381,7 @@ in {
     };
     email = {
       server = "mail.begyn.be:587";
-      login = "bots@begyn.be";
+      login = "bots";
       password = "${hosts.mail.bots.password}";
       security = "tls";
       fromAddress = "bots@begyn.be";
