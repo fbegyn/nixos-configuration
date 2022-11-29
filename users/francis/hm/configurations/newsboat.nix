@@ -6,9 +6,11 @@
       { url = http://sreweekly.com/feed/; }
       { url = https://blog.cloudflare.com/rss/; }
       { url = https://news.ycombinator.com/rss; }
-      { url = https://www.vrt.be/vrtnws/nl.rss.headlines.xml; }
-      { url = https://www.ugent.be/RSS; }
+      { url = https://www.vrt.be/vrtnws/nl.rss.headlines.xml; titel = "VRT NWS"; }
+      { url = https://www.ugent.be/RSS; title = "UGent RSS"; }
       { url = https://francis.begyn.be/blog.rss; }
+      { url = https://blog.codinghorror.com/rss/; }
+      { url = https://predr.ag/atom.xml; }
     ];
     autoReload = true;
     reloadTime = 300;
