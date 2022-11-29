@@ -193,6 +193,26 @@ in {
     recommendedTlsSettings = true;
   };
 
+  services.oauth2_proxy = {
+    enable = true;
+    email.addresses = ''
+      francis.begyn@gmail.com
+    '';
+    nginx.virtualHosts = [
+      "news.francis.begyn.be"
+    ];
+    google = {
+      serviceAccountJSON =
+        "${hosts.eos.oauth2_proxy.google.serviceAccountJSON}";
+    };
+    clientID = "${hosts.eos.oauth2_proxy.clientID}";
+    keyFile = "${hosts.eos.oauth2_proxy.keyFile}";
+    cookie = {
+      secret = "${hosts.eos.oauth2_proxy.cookie.secret}";
+      expire = "12h0m0s";
+    };
+  };
+
   services.nginx.virtualHosts = {
     "hass.dcf.begyn.be" = {
       forceSSL = true;
@@ -348,6 +368,50 @@ in {
         reject_old_samples = true;
         reject_old_samples_max_age = "168h";
       };
+    };
+  };
+
+  services.tt-rss = {
+    enable = true;
+    virtualHost = null;
+    selfUrlPath = "https://news.francis.begyn.be";
+    database = {
+      createLocally = true;
+      passwordFile = "/var/lib/tt-rss/db-password";
+    };
+    email = {
+      server = "mail.begyn.be:587";
+      login = "bots@begyn.be";
+      password = "${hosts.mail.bots.password}";
+      security = "tls";
+      fromAddress = "bots@begyn.be";
+    };
+    singleUserMode = true;
+    auth = {
+      autoCreate = false;
+      autoLogin = false;
+    };
+    logDestination = "syslog";
+  };
+  services.nginx.virtualHosts."news.francis.begyn.be" = let
+    cfg = config.services.tt-rss;
+  in {
+    root = "${cfg.root}/www";
+    forceSSL = true;
+    useACMEHost = "francis.dcf.begyn.be";
+
+    locations."/" = {
+      index = "index.php";
+    };
+    locations."^~ /feed-icons" = {
+      root = "${cfg.root}";
+    };
+    locations."~ \\.php$" = {
+      extraConfig = ''
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:${config.services.phpfpm.pools.tt-rss.socket};
+        fastcgi_index index.php;
+      '';
     };
   };
 
