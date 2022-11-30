@@ -426,6 +426,7 @@ in {
       authenticate = true;
       user = "bots";
       fromAddress = "social@begyn.be";
+      passwordFile = "/var/lib/mastodon/secrets/smtp-password";
       createLocally = false;
     };
     database.createLocally = true;
