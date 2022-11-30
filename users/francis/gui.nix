@@ -65,7 +65,6 @@
       unstable.okular
       pulsemixer
       unstable.pandoc
-      wkhtmltopdf
       texlive.combined.scheme-small
       unstable.pgcli
       unstable.mycli
