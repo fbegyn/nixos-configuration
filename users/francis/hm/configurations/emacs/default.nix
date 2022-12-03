@@ -34,7 +34,7 @@ in
       readOnly = true;
       default = pkgs.emacsWithPackagesFromUsePackage {
         config = config.francis.emacs.fullConfig;
-        package = pkgs.emacsPgtkNativeComp;
+        package = pkgs.emacsPgtk;
         alwaysEnsure = true;
         # extraEmacsPackages = epkgs: [];
       };
