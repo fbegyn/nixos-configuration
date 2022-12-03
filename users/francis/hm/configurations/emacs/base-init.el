@@ -79,6 +79,7 @@
 (setq frame-resize-pixelwise t)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (setq default-tab-width 2)
+(setq tab-always-indent 'complete)
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
 ;; rust
