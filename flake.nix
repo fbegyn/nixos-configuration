@@ -9,15 +9,11 @@
     utils.url = "github:numtide/flake-utils";
     utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus/v1.3.1";
-      inputs = {
-        utils.follows = "utils";
-      };
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        utils.follows = "utils";
       };
     };
     agenix = {
@@ -50,7 +46,6 @@
       url = "github:fbegyn/website";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
-        utils.follows = "utils";
       };
     };
   };
