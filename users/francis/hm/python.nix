@@ -12,8 +12,7 @@
         virtualenv
         jedi
         requests
-        opencv
+        opencv4
       ]))
-      opencv
     ];
 }
