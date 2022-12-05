@@ -57,10 +57,6 @@
     killtime = 20;
     killer = "/run/current-system/systemd/bin/systemctl suspend";
   };
-  programs.xss-lock = {
-    enable = true;
-    lockerCommand = "${pkgs.unstable.betterlockscreen}/bin/betterlockscreen --off 300 -l";
-  };
 
   home-manager.users.francis = {
     services = {
