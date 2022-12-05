@@ -2,7 +2,17 @@
 
 {
   services.udev.packages = [
-    pkgs.rtl-sdr
+    pkgs.unstable.rtl-sdr
   ];
   boot.blacklistedKernelModules = [ "dvb_usb_rtl28xxu" ];
+
+  users.users.francis.extraGroups = [ "plugdev" ];
+
+  home-manager.users.francis.home.packages = with pkgs.unstable; [
+    gqrx
+    urh
+    rtl-sdr
+  ];
+  hardware.rtl-sdr.enable = true;
+
 }

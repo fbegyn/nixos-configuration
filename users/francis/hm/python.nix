@@ -7,6 +7,7 @@
       (ps: with ps; [
         neovim
         yarp
+        pip
         setuptools
         virtualenv
         jedi

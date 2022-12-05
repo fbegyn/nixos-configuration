@@ -25,6 +25,7 @@
     ../../common/wireguard.nix
     ../../common/webcam.nix
     ../../common/eid.nix
+    ../../common/rtlsdr.nix
     ../../common/network-tools.nix
     ../../users
     ../../users/francis
@@ -108,13 +109,6 @@
       };
     };
   };
-
-  home-manager.users.francis.home.packages = with pkgs.unstable; [
-    gqrx
-    rtl-sdr
-    urh
-  ];
-  hardware.rtl-sdr.enable = true;
 
   environment.systemPackages = with pkgs; [
     steam-run
