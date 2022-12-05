@@ -109,6 +109,13 @@
     };
   };
 
+  home-manager.users.francis.home.packages = with pkgs.unstable; [
+    gqrx
+    rtl-sdr
+    urh
+  ];
+  hardware.rtl-sdr.enable = true;
+
   environment.systemPackages = with pkgs; [
     steam-run
     qmapshack

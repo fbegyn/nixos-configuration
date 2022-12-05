@@ -11,6 +11,8 @@
         virtualenv
         jedi
         requests
+        opencv
       ]))
+      opencv
     ];
 }
