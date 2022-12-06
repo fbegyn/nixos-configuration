@@ -215,7 +215,7 @@ the frame and makes it a dedicated window for that buffer."
   (progn
     ;; Function to customize the line prefixes (I simply indent the lines a bit)
     (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s)))
-    (setq dired-subtree-use-backgrounds nil))
+    )
 
   (defun mhj/dwim-toggle-or-open ()
     "Toggle subtree or open the file."
@@ -321,6 +321,17 @@ the frame and makes it a dedicated window for that buffer."
   (flycheck-emacs-lisp-load-path 'inherit)
 )
 
+(require 'project)
+
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
+
+(add-hook 'project-find-functions #'project-find-go-module)
+
 (use-package go-mode
   :hook
   (go-mode . (lambda ()
@@ -352,8 +363,7 @@ the frame and makes it a dedicated window for that buffer."
 )
 
 (use-package gruvbox-theme
-  :config
-  (load-theme 'gruvbox-dark-hard t)
+  :config (load-theme 'gruvbox-dark-hard t)
 )
 
 (use-package highlight-indent-guides
@@ -386,10 +396,6 @@ the frame and makes it a dedicated window for that buffer."
   (setq ledger-reconcile-default-commodity "EUR")
 )
 
-(use-package lsp-ivy
-  :after (lsp ivy)
-  :commands (lsp-ivy-workspace-symbol))
-
 (use-package lsp-mode
   :commands (lsp)
   :hook (go-mode . lsp)
@@ -412,16 +418,22 @@ the frame and makes it a dedicated window for that buffer."
   (lsp-signature-render-documentation nil)
   (lsp-file-watch-threshold nil)
   (lsp-auto-execute-action nil)
-  (lsp-lens-enable nil)
+  (lsp-lens-enable t)
   (lsp-go-hover-kind "FullDocumentation")
   (lsp-rust-analyzer-server-command '("${pkgs.rust-analyzer}/bin/rust-analyzer"))
   (lsp-rust-server 'rust-analyzer)
 )
 
+(use-package lsp-pyright)
+
 (use-package lsp-ui
   :after (lsp)
   :hook (lsp-mode . lsp-ui-mode)
 )
+
+(use-package lsp-ivy
+  :after (lsp ivy)
+  :commands (lsp-ivy-workspace-symbol))
 
 (use-package magit
   :after (general)
