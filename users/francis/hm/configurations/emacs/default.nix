@@ -42,9 +42,14 @@ in
   };
 
   config = {
-    home.packages = [
-      pkgs.ispell
+    home.packages = with pkgs.unstable; [
       e
+      ispell
+      elixir_ls
+      solargraph
+      rust-analyzer
+      lua53Packages.digestif
+      rnix-lsp
     ];
 
     home.file = {

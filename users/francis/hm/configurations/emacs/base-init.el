@@ -408,19 +408,12 @@ the frame and makes it a dedicated window for that buffer."
       ;; ("gopls.semanticTokens" t t)
       ("gopls.experimentalPostfixCompletions" t t)))
 
-  (add-to-list 'lsp-language-id-configuration '(zig-mode . "zig"))
-  (lsp-register-client
-    (make-lsp-client
-      :new-connection (lsp-stdio-connection "/home/dominikh/prj/zls/zig-cache/bin/zls")
-      :major-modes '(zig-mode)
-      :server-id 'zls))
   :custom
   (lsp-signature-render-documentation nil)
   (lsp-file-watch-threshold nil)
   (lsp-auto-execute-action nil)
   (lsp-lens-enable t)
   (lsp-go-hover-kind "FullDocumentation")
-  (lsp-rust-analyzer-server-command '("${pkgs.rust-analyzer}/bin/rust-analyzer"))
   (lsp-rust-server 'rust-analyzer)
 )
 
