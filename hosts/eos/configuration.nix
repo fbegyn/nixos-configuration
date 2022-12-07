@@ -12,6 +12,7 @@ in {
     ./acme.nix
 
     ../../common
+    ../../common/network-tools.nix
 
     ../../users
     ../../users/francis
@@ -117,10 +118,12 @@ in {
   ];
 
   services.mosquitto = {
-    enable = true;
+    enable = false;
     bridges = {
       shelly = {
-        addresses = [ {address = "10.5.1.10";} ];
+        addresses = [
+          {address = "10.5.1.10";}
+        ];
         topics = [
           "francis/appartement"
           "shellies/#"
@@ -142,10 +145,18 @@ in {
       interface = "enp57s0u1";
     };
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
-    interfaces.enp57s0u1 = {
-      ipv4.addresses = [
-        { address  = "10.5.1.10"; prefixLength = 24; }
-      ];
+    interfaces = {
+      enp57s0u1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
+      lan20.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
+      mgmt.ipv4.addresses = [{ address = "10.5.30.10"; prefixLength = 32; }];
+      iot.ipv4.addresses = [{ address = "10.5.90.10"; prefixLength = 32; }];
+      guests.ipv4.addresses = [{ address = "10.5.100.10"; prefixLength = 32; }];
+    };
+    vlans = {
+      lan20 = { id = 20; interface = "enp57s0u1"; };
+      mgmt = { id = 30; interface = "enp57s0u1"; };
+      iot = { id = 90; interface = "enp57s0u1"; };
+      guests = { id = 100; interface = "enp57s0u1"; };
     };
     firewall = {
       enable = false;
@@ -187,6 +198,7 @@ in {
 
   services.nginx = {
     enable = true;
+    defaultListenAddresses = [ "10.5.1.10" ];
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
@@ -211,6 +223,16 @@ in {
       secret = "${hosts.eos.oauth2_proxy.cookie.secret}";
       expire = "12h0m0s";
     };
+  };
+
+  services.avahi = {
+    enable = true;
+    reflector = true;
+    interfaces = [
+      "enp57s0u1"
+      "lan0"
+      "iot"
+    ];
   };
 
   services.nginx.virtualHosts = {
