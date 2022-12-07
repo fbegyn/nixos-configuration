@@ -243,7 +243,8 @@ in {
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.unstable.nextcloud24;
+    package = pkgs.unstable.nextcloud25;
+    enableBrokenCiphersForSSE = false;
     hostName = "docs.begyn.be";
     config = {
       overwriteProtocol = "https";

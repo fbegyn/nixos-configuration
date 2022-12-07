@@ -3,9 +3,11 @@
 {
   services.grafana = {
     enable = true;
-    addr = "";
-    port = 3000;
-    protocol = "http";
+    settings.server = {
+      http_port = 3000;
+      http_addr = "";
+      protocol = "http";
+    };
     dataDir = "/var/lib/grafana";
     package = pkgs.grafana;
   };
