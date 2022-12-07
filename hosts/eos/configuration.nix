@@ -13,6 +13,8 @@ in {
 
     ../../common
     ../../common/network-tools.nix
+    ../../common/bluetooth.nix
+    ../../common/rtlsdr.nix
 
     ../../users
     ../../users/francis
@@ -118,19 +120,14 @@ in {
   ];
 
   services.mosquitto = {
-    enable = false;
-    bridges = {
-      shelly = {
-        addresses = [
-          {address = "10.5.1.10";}
-        ];
-        topics = [
-          "francis/appartement"
-          "shellies/#"
-        ];
-      };
-    };
-    listeners = [];
+    enable = true;
+    listeners = [
+      {
+        address = "10.5.90.10";
+        users.shelly.password = "${hosts.eos.hass.mqtt.shelly.password}";
+        users.hass.password = "${hosts.eos.hass.mqtt.hass.password}";
+      }
+    ];
   };
 
   networking = {
