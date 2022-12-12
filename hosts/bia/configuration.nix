@@ -38,7 +38,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = pkgs.linuxPackages;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.cleanTmpDir = true;
 
   nix.settings.auto-optimise-store = true;
