@@ -72,7 +72,7 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.cleanTmpDir = true;
 
-  nix.autoOptimiseStore = true;
+  nix.settings.auto-optimise-store = true;
   services.journald.extraConfig = ''
     SystemMaxUse=100M
     MaxFileSec=7day

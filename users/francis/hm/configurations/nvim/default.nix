@@ -41,7 +41,7 @@ let
   };
 in
 {
-  home.packages = with pkgs; [
+  home.packages = with pkgs.unstable; [
     rnix-lsp
   ];
   programs.neovim = {
