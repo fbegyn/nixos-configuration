@@ -161,7 +161,7 @@ in
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us,us";
-            xkb_variant = "colemak,altgr-intl";
+            xkb_variant = "altgr-intl,colemak";
             xkb_numlock = "disabled";
             xkb_options = "grp:win_space_toggle";
           };
@@ -219,6 +219,10 @@ in
             terminal = wm.config.terminal;
             menu = wm.config.menu;
             locker = "swaylock -c 000000";
+            left = "h";
+            down = "j";
+            up = "k";
+            right = "l";
           in
             lib.mkOptionDefault {
               "${mod}+Shift+Return" = "exec ${terminal} -e tmux new-session -A main";
@@ -245,10 +249,20 @@ in
 
               "${mod}+w" = "exec /home/francis/Scripts/wpa_switcher.sh";
 
-              "Mod1+Shift+h" = "move workspace to output right";
-              "Mod1+Shift+j" = "move workspace to output down";
-              "Mod1+Shift+k" = "move workspace to output up";
-              "Mod1+Shift+l" = "move workspace to output left";
+              "${mod}+${left}" = "focus left";
+              "${mod}+${down}" = "focus down";
+              "${mod}+${up}" = "focus up";
+              "${mod}+${right}" = "focus right";
+
+              "${mod}+Shift+${left}" = "move left";
+              "${mod}+Shift+${down}" = "move down";
+              "${mod}+Shift+${up}" = "move up";
+              "${mod}+Shift+${right}" = "move right";
+
+              "Mod1+Shift+${left}" = "move workspace to output left";
+              "Mod1+Shift+${down}" = "move workspace to output down";
+              "Mod1+Shift+${up}" = "move workspace to output up";
+              "Mod1+Shift+${right}" = "move workspace to output right";
 
               "Mod1+l" = "exec ${locker}";
         };
@@ -258,9 +272,9 @@ in
             Escape = "mode default";
             Return = "mode default";
             h = "resize shrink width 10 px";
-            j = "resize grow height 10 px";
-            k = "resize shrink height 10 px";
-            l = "resize grow width 10 px";
+            n = "resize grow height 10 px";
+            e = "resize shrink height 10 px";
+            i = "resize grow width 10 px";
           };
           "System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown" = {
             Return = "mode default";
@@ -318,7 +332,11 @@ in
         workspaceAutoBackAndForth = true;
         workspaceLayout = "default";
       };
-      extraConfig = ''
+      extraConfig =
+        let
+          wm = config.home-manager.users.francis.wayland.windowManager.sway;
+          mod = wm.config.modifier;
+      in ''
         # set wallpaper
         output "*" background ~/Pictures/wallpapers/background.jpg fill
 
@@ -330,7 +348,7 @@ in
         seat seat0 hide_cursor 2500
 
         # set global modifier to windows key
-        set $mod Mod4
+        set $mod ${mod}
 
         set $locker swaylock -c 000000
 
