@@ -139,13 +139,14 @@
   };
 
   # tailscale machine specific
-  thecy.services.tailscale = let
+  fbegyn.services.tailscale = let
     hosts = import ../../secrets/hosts.nix;
   in {
     enable = true;
     autoprovision = {
       enable = true;
       key = "${hosts.hosting-01.tailscale.oneoffkey}";
+      options = [ "--ssh" ];
     };
   };
 

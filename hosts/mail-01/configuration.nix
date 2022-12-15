@@ -84,11 +84,12 @@ in {
   };
 
   # tailscale machine specific
-  thecy.services.tailscale = {
+  fbegyn.services.tailscale = {
     enable = true;
     autoprovision = {
       enable = true;
       key = "${vars.tailscale.oneoffkey}";
+      options = [ "--ssh" ];
     };
   };
 

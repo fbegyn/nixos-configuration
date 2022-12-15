@@ -95,13 +95,14 @@
   # networking.firewall.enable = false;
 
   # tailscale machine specific
-  thecy.services.tailscale = let
+  fbegyn.services.tailscale = let
     hosts = import ../../secrets/hosts.nix;
   in {
     enable = true;
     autoprovision = {
       enable = false;
       key = "${hosts.bia.tailscale.oneoffkey}";
+      options = [ "--accept-routes" ];
     };
   };
 
