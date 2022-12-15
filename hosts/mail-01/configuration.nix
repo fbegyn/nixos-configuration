@@ -88,8 +88,8 @@ in {
     enable = true;
     autoprovision = {
       enable = true;
-      key = "${vars.tailscale.oneoffkey}";
-      options = [ "--ssh" ];
+      key = "${hosts.tailscale.tempkey}";
+      options = [ "--ssh" "--advertise-tags=tag:prod,tag:hetzner" ];
     };
   };
 

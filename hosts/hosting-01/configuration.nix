@@ -145,8 +145,8 @@
     enable = true;
     autoprovision = {
       enable = true;
-      key = "${hosts.hosting-01.tailscale.oneoffkey}";
-      options = [ "--ssh" ];
+      key = "${hosts.tailscale.tempkey}";
+      options = [ "--ssh" "--advertise-tags=tag:prod,tag:hetzner" ];
     };
   };
 

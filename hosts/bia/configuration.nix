@@ -102,7 +102,6 @@
     autoprovision = {
       enable = false;
       key = "${hosts.bia.tailscale.oneoffkey}";
-      options = [ "--accept-routes" ];
     };
   };
 
