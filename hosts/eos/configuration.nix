@@ -183,10 +183,12 @@ in {
     setSysctlForwarding = true;
     autoprovision = {
       enable = true;
-      key = "${hosts.eos.tailscale.oneoffkey}";
+      key = "${hosts.tailscale.tempkey}";
       options = [
         "--advertise-routes=${hosts.eos.tailscale.routes}"
         "--advertise-exit-node"
+        "--ssh"
+        "--advertise-tags=tag:prod,tag:dcf,tag:hass"
       ];
     };
   };
