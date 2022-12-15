@@ -35,17 +35,14 @@
   home.packages = with pkgs.unstable; [
     # Utilities
     jq
-    gcc
-    libnotify
-    libqalculate
+    yq
+    killall
     htop
     rclone
-    lm_sensors
     moreutils
     screen
     tmux
     inotify-tools
-    gnumake
     # tools rewritten in rust
     ripgrep
     fd

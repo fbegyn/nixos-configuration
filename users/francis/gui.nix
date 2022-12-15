@@ -36,49 +36,59 @@
         ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
     };
 
-    home.packages = with pkgs; [
+    home.packages = with pkgs.unstable; [
       niv
-      unstable.nodejs
+      nodejs
       # Comms
       slack
-      unstable.mattermost-desktop
-      unstable.tdesktop
-      unstable.thunderbird
-      unstable.elixir
-      unstable.flyctl
-      unstable.weechat
+      mattermost-desktop
+      tdesktop
+      thunderbird
+      elixir
+      flyctl
+      weechat
       # Browser
-      unstable.firefox
-      unstable.chromium
+      firefox
+      chromium
       # entertainement
-      unstable.playerctl
+      playerctl
       # Utilities
       # comma
+      libnotify
+      docker-compose
+      lm_sensors
+      terraform
+      terraform-lsp
+      ansible
+      gnumake
+      bat
+      tig
+      sshuttle
       pulsemixer
-      unstable.bitwarden
-      unstable.bitwarden-cli
-      unstable.gnome.nautilus
-      unstable.dmenu
-      unstable.solaar
-      unstable.morph
-      unstable.evince
-      unstable.okular
+      bitwarden
+      bitwarden-cli
+      gnome.nautilus
+      dmenu
+      solaar
+      morph
+      evince
+      okular
       pulsemixer
-      unstable.pandoc
+      pandoc
       texlive.combined.scheme-small
-      unstable.pgcli
-      unstable.mycli
-      unstable.litecli
-      unstable.sqlite
+      pgcli
+      mycli
+      litecli
+      sqlite
       # cachix
       cachix
       # tools rewritten in rust
-      unstable.hyperfine
-      unstable.bandwhich
+      hyperfine
+      bandwhich
       # unfree packages
-      unstable.spotify
-      unstable.vscode
-      unstable.discord
+      spotify
+      vscode
+      discord
     ];
   };
 }
