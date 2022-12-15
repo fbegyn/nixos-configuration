@@ -28,6 +28,12 @@ with lib; {
       description = "Enable notifyd support";
     };
 
+    cmd = mkOption {
+      type = types.str;
+      default = "${cfg.package}/bin/tailscaled -port ${toString cfg.port}";
+      description = "Command to run tailscaled with";
+    };
+
     autoprovision = {
       enable = mkEnableOption "enable auto provisioning";
       key = mkOption {
@@ -85,7 +91,7 @@ with lib; {
       serviceConfig.Type = "oneshot";
       script = ''
         # authenticate to tailscale
-        ${cfg.cmd}
+        ${cfg.autoprovision.cmd}
       '';
     };
   };
