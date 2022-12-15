@@ -55,6 +55,13 @@
   networking.interfaces.wlp0s20f3.useDHCP = true;
   networking.interfaces.enp0s31f6.useDHCP = true;
 
+  virtualisation.podman.enable = true;
+  virtualisation.docker.enable = true;
+  environment.systemPackages = with pkgs.unstable; [
+    docker-compose
+    podman-compose
+  ]
+
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "nl_BE.UTF-8";

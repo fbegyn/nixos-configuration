@@ -55,7 +55,6 @@
       # Utilities
       # comma
       libnotify
-      docker-compose
       lm_sensors
       terraform
       terraform-lsp
