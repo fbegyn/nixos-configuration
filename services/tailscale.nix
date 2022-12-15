@@ -17,6 +17,7 @@ with lib; {
     port = mkOption {
       type = types.port;
       default = 41641;
+      example = "8113";
       description = "The port to listen on for tunnel traffic (0=autoselect).";
     };
 
@@ -34,11 +35,17 @@ with lib; {
         description = "API secret used to access tailscale";
       };
     };
-    cmd = {
-      type = types.string;
-      default = "${cfg.package}/bin/tailscaled --port ${toString cfg.port}";
+    cmd = mkOption {
+      type = types.str;
+      default = "${cfg.package}/bin/tailscaled --port ${toString cfg.port} ${lib.concatStringsSep " " cfg.options}";
       description = "Command to use when running Tailscale";
-    }
+    };
+    options = mkOption {
+      type = types.listOf types.str;
+      default = [];
+      example = "[ \"--advertise-exit-node\" ]";
+      description = "Options to pass to Tailscale";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -59,7 +66,7 @@ with lib; {
       };
 
       serviceConfig = {
-        ExecStart = "${cfg.cmd}";
+        ExecStart = cfg.cmd;
         RuntimeDirectory = "tailscale";
         RuntimeDirectoryMode = 755;
         StateDirectory = "tailscale";
