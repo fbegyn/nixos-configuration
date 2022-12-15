@@ -178,17 +178,15 @@ in {
   };
 
   # tailscale machine specific
-  fbegyn.services.tailscale = let
-    cfg = config.fbegyn.services.tailscale;
-  in {
+  fbegyn.services.tailscale = {
     enable = true;
-    options = [
-      "--advertise-routes=${hosts.eos.tailscale.routes}"
-      "--advertise-exit-node"
-    ];
     autoprovision = {
       enable = true;
       key = "${hosts.eos.tailscale.oneoffkey}";
+      options = [
+        "--advertise-routes=${hosts.eos.tailscale.routes}"
+        "--advertise-exit-node"
+      ];
     };
   };
 

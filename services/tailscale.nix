@@ -34,17 +34,17 @@ with lib; {
         type = types.str;
         description = "API secret used to access tailscale";
       };
-    };
-    cmd = mkOption {
-      type = types.str;
-      default = "${cfg.package}/bin/tailscaled --port ${toString cfg.port} ${lib.concatStringsSep " " cfg.options}";
-      description = "Command to use when running Tailscale";
-    };
-    options = mkOption {
-      type = types.listOf types.str;
-      default = [];
-      example = "[ \"--advertise-exit-node\" ]";
-      description = "Options to pass to Tailscale";
+      cmd = mkOption {
+        type = types.str;
+        default = "${cfg.package}/bin/tailscale up --authkey=${cfg.autoprovision.key} ${lib.concatStringsSep " " cfg.options}";
+        description = "Command to use when running Tailscale";
+      };
+      options = mkOption {
+        type = types.listOf types.str;
+        default = [];
+        example = "[ \"--advertise-exit-node\" ]";
+        description = "Options to pass to Tailscale";
+      };
     };
   };
 
@@ -85,7 +85,7 @@ with lib; {
       serviceConfig.Type = "oneshot";
       script = ''
         # authenticate to tailscale
-        ${cfg.package}/bin/tailscale up --authkey=${cfg.autoprovision.key}
+        ${cfg.cmd}
       '';
     };
   };
