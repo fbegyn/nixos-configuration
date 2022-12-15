@@ -42,7 +42,7 @@ with lib; {
       };
       cmd = mkOption {
         type = types.str;
-        default = "${cfg.package}/bin/tailscale up --authkey=${cfg.autoprovision.key} ${lib.concatStringsSep " " cfg.options}";
+        default = "${cfg.package}/bin/tailscale up --auth-key=${cfg.autoprovision.key} ${lib.concatStringsSep " "cfg.autoprovision.options}";
         description = "Command to use when running Tailscale";
       };
       options = mkOption {
@@ -51,6 +51,12 @@ with lib; {
         example = "[ \"--advertise-exit-node\" ]";
         description = "Options to pass to Tailscale";
       };
+    };
+
+    setSysctlForwarding = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Set the sysctl parameters for ip forwarding";
     };
   };
 
@@ -93,6 +99,11 @@ with lib; {
         # authenticate to tailscale
         ${cfg.autoprovision.cmd}
       '';
+    };
+
+    boot.kernel.sysctl = mkIf cfg.setSysctlForwarding {
+      "net.ipv4.ip_forward" = "1";
+      "net.ipv6.conf.all.forwarding" = "1";
     };
   };
 }

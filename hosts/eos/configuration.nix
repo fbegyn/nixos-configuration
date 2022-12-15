@@ -180,6 +180,7 @@ in {
   # tailscale machine specific
   fbegyn.services.tailscale = {
     enable = true;
+    setSysctlForwarding = true;
     autoprovision = {
       enable = true;
       key = "${hosts.eos.tailscale.oneoffkey}";
