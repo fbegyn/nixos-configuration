@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./python.nix
     ./configurations/nvim/default.nix
     ./configurations/git.nix
     ./configurations/fish.nix

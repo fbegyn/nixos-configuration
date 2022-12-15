@@ -15,6 +15,7 @@
   home-manager.users.francis = {
     imports = [
       ./hm/go.nix
+      ./hm/python.nix
       ./hm/configurations/mpv
       ./hm/configurations/emacs
       ./hm/configurations/newsboat.nix

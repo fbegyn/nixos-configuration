@@ -55,13 +55,6 @@
   networking.interfaces.wlp0s20f3.useDHCP = true;
   networking.interfaces.enp0s31f6.useDHCP = true;
 
-  virtualisation.podman.enable = true;
-  virtualisation.docker.enable = true;
-  environment.systemPackages = with pkgs.unstable; [
-    docker-compose
-    podman-compose
-  ]
-
   # Select internationalisation properties.
   i18n = {
     defaultLocale = "nl_BE.UTF-8";
@@ -117,10 +110,15 @@
     };
   };
 
-  environment.systemPackages = with pkgs; [
+  virtualisation.podman.enable = true;
+  virtualisation.docker.enable = true;
+
+  environment.systemPackages = with pkgs.unstable; [
     steam-run
     qmapshack
     garmindev
+    docker-compose
+    podman-compose
   ];
 
   # This value determines the NixOS release from which the default
