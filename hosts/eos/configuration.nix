@@ -178,8 +178,11 @@ in {
   };
 
   # tailscale machine specific
-  thecy.services.tailscale = {
+  fbegyn.services.tailscale = let
+    cfg = config.fbegyn.services.tailscale;
+  in {
     enable = true;
+    cmd = "${cfg.package}/bin/tailscale up --advertise-routes=${hosts.eos.tailscale.routes} --advertise-exit-node"
     autoprovision = {
       enable = true;
       key = "${hosts.eos.tailscale.oneoffkey}";

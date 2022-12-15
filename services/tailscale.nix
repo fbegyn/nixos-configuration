@@ -1,10 +1,10 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.thecy.services.tailscale;
+  cfg = config.fbegyn.services.tailscale;
 in
 with lib; {
-  options.thecy.services.tailscale = {
+  options.fbegyn.services.tailscale = {
     enable = mkEnableOption "enables tailscale client services";
 
     package = mkOption {
@@ -34,6 +34,11 @@ with lib; {
         description = "API secret used to access tailscale";
       };
     };
+    cmd = {
+      type = types.string;
+      default = "${cfg.package}/bin/tailscaled --port ${toString cfg.port}";
+      description = "Command to use when running Tailscale";
+    }
   };
 
   config = mkIf cfg.enable {
@@ -44,7 +49,6 @@ with lib; {
       enable = true;
       description = "Tailscale client daemon";
       path = [ pkgs.openresolv ];
-
       after = [ "network-pre.target" ];
       wants = [ "network-pre.target" ];
       wantedBy = [ "multi-user.target" ];
@@ -55,17 +59,13 @@ with lib; {
       };
 
       serviceConfig = {
-        ExecStart = "${cfg.package}/bin/tailscaled --port ${toString cfg.port}";
-
+        ExecStart = "${cfg.cmd}";
         RuntimeDirectory = "tailscale";
         RuntimeDirectoryMode = 755;
-
         StateDirectory = "tailscale";
         StateDirectoryMode = 750;
-
         CacheDirectory = "tailscale";
         CacheDirectoryMode = 750;
-
         Restart = "on-failure";
       };
     };
@@ -75,9 +75,7 @@ with lib; {
       after = [ "network-pre.target" "tailscale.service" ];
       wants = [ "network-pre.target" "tailscale.service" ];
       wantedBy = [ "multi-user.target" ];
-
       serviceConfig.Type = "oneshot";
-
       script = ''
         # authenticate to tailscale
         ${cfg.package}/bin/tailscale up --authkey=${cfg.autoprovision.key}
