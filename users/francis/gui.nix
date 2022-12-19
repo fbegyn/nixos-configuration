@@ -53,7 +53,6 @@
       chromium
       # entertainement
       playerctl
-      ffmpeg
       # Utilities
       # comma
       libnotify
