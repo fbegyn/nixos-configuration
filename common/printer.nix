@@ -18,6 +18,7 @@
       hplip
       splix
       samsung-unified-linux-driver
+      (pkgs.callPackage ../pkgs/brother/drivers/hll2375dw-cups.nix {})
     ];
   };
 }
