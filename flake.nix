@@ -78,6 +78,9 @@
         unstable = import nixpkgs-unstable {
           inherit system;
           config.allowUnfree = true;
+          overlays = [
+            (import ./overlays/slack-wayland.nix)
+          ];
         };
         fbegyn = import ./pkgs/default.nix {};
       };

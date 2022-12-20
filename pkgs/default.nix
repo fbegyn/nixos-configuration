@@ -9,6 +9,7 @@ pkgs: rec {
       config.allowUnfree = true;
       overlays = [
         (import ../overlays/weechat.nix)
+        (import ../overlays/slack-wayland.nix)
         (import ../overlays/browser-eid.nix)
         (import (builtins.fetchTarball {
             url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
@@ -21,6 +22,7 @@ pkgs: rec {
       config.allowUnfree = true;
       overlays = [
         (import ../overlays/weechat.nix)
+        (import ../overlays/slack-wayland.nix)
         (import ../overlays/browser-eid.nix)
         (import (builtins.fetchTarball {
             url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
