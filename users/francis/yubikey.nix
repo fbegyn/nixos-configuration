@@ -7,7 +7,7 @@
     yubico-pam
     yubikey-manager
     yubikey-personalization
-    yubioath-desktop
+    yubioath-flutter
   ];
 
   environment.shellInit = ''
