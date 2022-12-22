@@ -30,6 +30,7 @@
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
+    ../../users/francis/yubikey.nix
     ../../users/francis/sway
     ../../services/tailscale.nix
   ];

@@ -7,6 +7,7 @@
     yubico-pam
     yubikey-manager
     yubikey-personalization
+    yubioath-desktop
   ];
 
   environment.shellInit = ''
