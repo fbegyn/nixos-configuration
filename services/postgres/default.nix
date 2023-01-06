@@ -11,9 +11,6 @@
         };
       }
     ];
-    authentication = ''
-      host all all 0.0.0.0/0 md5
-    '';
   };
 
   environment.systemPackages = with pkgs; [
