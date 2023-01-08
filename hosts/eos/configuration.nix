@@ -54,7 +54,7 @@ in {
           "/run/dbus:/run/dbus:ro"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2022.12";
+        image = "ghcr.io/home-assistant/home-assistant:2023.1";
         extraOptions = [
           "--network=host"
         ];
@@ -67,7 +67,7 @@ in {
           USERNAME = "${hosts.eos.eufy.wsAddon.username}";
           TRUSTED_DEVICE_NAME = "eos";
         };
-        image = "bropat/eufy-security-ws:1.2.0";
+        image = "bropat/eufy-security-ws:1.3.0";
         ports = [
           "13000:3000"
         ];
@@ -77,10 +77,36 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "aler9/rtsp-simple-server:v0.20.4";
+        image = "aler9/rtsp-simple-server:v0.21.0";
         ports = [
           "1935:1935"
           "8554:8554"
+        ];
+      };
+      dmarc-report = {
+        environment = {
+          TZ = "Europe/Brussels";
+          COUNTRY = "BE";
+          REPORT_DB_HOST = "10.88.0.1";
+          REPORT_DB_PORT = "5432";
+          REPORT_DB_TYPE = "Pg";
+          REPORT_DB_NAME = "${hosts.eos.db.dmarc_report.name}";
+          REPORT_DB_USER = "${hosts.eos.db.dmarc_report.user}";
+          REPORT_DB_PASS = "${hosts.eos.db.dmarc_report.pass}";
+          PARSER_IMAP_SERVER = "${hosts.mail.dmarc.hostname}";
+          PARSER_IMAP_PORT = "993";
+          PARSER_IMAP_SSL = "1";
+          PARSER_IMAP_TLS = "0";
+          PARSER_IMAP_USER = "${hosts.mail.dmarc.mail}";
+          PARSER_IMAP_PASS = "${hosts.mail.dmarc.pass}";
+          PARSER_IMAP_READ_FOLDER = "Inbox";
+          PARSER_IMAP_MOVE_FOLDER = "processed";
+          PARSER_IMAP_MOVE_FOLDER_ERR = "error";
+        };
+        image = "gutmensch/dmarc-report:1.3";
+        ports = [
+          "21080:80"
+          "28080:8080"
         ];
       };
     };
@@ -128,7 +154,7 @@ in {
     };
     firewall = {
       enable = false;
-      allowedTCPPorts = [ 80 443 3000 9090 8443 8123 22 ];
+      allowedTCPPorts = [ 80 443 3000 9090 8443 8123 22 28080 ];
     };
   };
 
@@ -225,13 +251,24 @@ in {
     enable = true;
     ensureDatabases = [
       "nextcloud"
+      hosts.eos.db.dmarc_report.name
     ];
     ensureUsers = [
       {
         name = "nextcloud";
         ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
       }
+      {
+        name = hosts.eos.db.dmarc_report.user;
+        ensurePermissions."DATABASE ${hosts.eos.db.dmarc_report.name}" = "ALL PRIVILEGES";
+      }
     ];
+    enableTCPIP = true;
+    authentication = ''
+      local all all trust
+      host all all 0.0.0.0/0 md5
+      host all all 10.88.0.1/24 md5
+    '';
   };
   services.postgresqlBackup = {
     enable = true;
@@ -504,7 +541,7 @@ in {
   };
 
   services.minio = {
-    enable = true;
+    enable = false;
     rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
     package = pkgs.unstable.minio;
     region = "eu-west-1";
