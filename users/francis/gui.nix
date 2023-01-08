@@ -40,6 +40,7 @@
     home.packages = with pkgs.unstable; [
       niv
       nodejs
+      gcc
       # Comms
       slack
       mattermost-desktop
