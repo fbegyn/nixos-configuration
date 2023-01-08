@@ -8,7 +8,7 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     utils.url = "github:numtide/flake-utils";
     utils-plus = {
-      url = "github:gytis-ivaskevicius/flake-utils-plus/v1.3.1";
+      url = "github:gytis-ivaskevicius/flake-utils-plus";
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-22.05";
@@ -142,11 +142,6 @@
       mail-01 = {
         modules = [
           ./hosts/mail-01/configuration.nix
-        ];
-      };
-      unifi-01 = {
-        modules = [
-          ./hosts/unifi-01/configuration.nix
         ];
       };
       hosting-01 = let

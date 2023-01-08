@@ -41,6 +41,7 @@
       niv
       nodejs
       gcc
+      deploy-rs
       # Comms
       slack
       mattermost-desktop
