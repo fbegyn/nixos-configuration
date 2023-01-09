@@ -450,6 +450,10 @@ in
         # Brightness control
         bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl -e s 10%-
         bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -e s +10%
+
+        # Handle the slow startup of GTK issues
+        # see https://github.com/swaywm/sway/wiki#gtk-applications-take-20-seconds-to-start
+        exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK
       '';
     };
   };
