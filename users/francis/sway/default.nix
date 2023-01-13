@@ -130,6 +130,9 @@ in
     programs.fish = {
       loginShellInit = ''
         systemctl --user import-environment
+        if test -z $DISPLAY; and test $XDG_VTNR -eq 1
+          exec startsway
+        end
       '';
     };
 

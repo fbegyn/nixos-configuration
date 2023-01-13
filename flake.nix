@@ -155,7 +155,17 @@
     };
 
     # This is highly advised, and will prevent many possible mistakes
-    checks = builtins.mapAttrs
-      (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+    checks = builtins.mapAttrs(system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
+
+    deploy = {
+      sudo = "sudo -Su";
+      nodes.eos = {
+        hostname = "10.5.20.10";
+        profiles.system = {
+          user = "root";
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.eos;
+        };
+      };
+    };
   };
 }
