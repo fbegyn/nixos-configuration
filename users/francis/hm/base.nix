@@ -10,10 +10,6 @@
     ./configurations/fzf.nix
   ];
 
-  xsession.initExtra = ''
-    systemctl --user import-environment
-  '';
-
   xdg.configFile = {
     "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
   };
