@@ -78,9 +78,9 @@
       pulsemixer
       pandoc
       texlive.combined.scheme-small
-      pgcli
-      mycli
-      litecli
+      pkgs.pgcli
+      pkgs.mycli
+      pkgs.litecli
       sqlite
       # cachix
       cachix
