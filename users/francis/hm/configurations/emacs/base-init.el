@@ -172,7 +172,12 @@
 )
 
 (require 'tramp)
-(setq tramp-default-method "ssh")
+(setq tramp-default-method "sshx")
+(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+(eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
+(add-to-list 'tramp-connection-properties
+                   (list ".*" "locale" "LC_ALL=C"))
 
 ;; dired things
 (progn
@@ -452,6 +457,7 @@ the frame and makes it a dedicated window for that buffer."
   :mode ("\\.markdown\\'" . markdown-mode))
 
 (use-package neotree)
+(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
 (use-package neuron-mode)
 
