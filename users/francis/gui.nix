@@ -95,16 +95,13 @@
           bbenoist.nix
           vscodevim.vim
           ms-vscode-remote.remote-ssh
-          ms-vscode.remote-explorer
-          ms-vscode-remote.remote-containers
           ms-azuretools.vscode-docker
           ms-vsliveshare.vsliveshare
           golang.go
-          ms-python.python
           ms-python.vscode-pylance
           coolbear.systemd-unit-file
           redhat.vscode-yaml
-        ] ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [{}];
+        ];
       })
     ];
   };

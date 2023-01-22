@@ -171,6 +171,9 @@
   (add-hook 'after-init-hook 'global-company-mode)
 )
 
+(require 'tramp)
+(setq tramp-default-method "ssh")
+
 ;; dired things
 (progn
   (setq dired-listing-switches "-lXGh --group-directories-first")
