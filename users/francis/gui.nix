@@ -78,9 +78,9 @@
       pulsemixer
       pandoc
       texlive.combined.scheme-small
-      pgcli
-      mycli
-      litecli
+      pkgs.pgcli
+      pkgs.mycli
+      pkgs.litecli
       sqlite
       # cachix
       cachix
@@ -89,8 +89,20 @@
       bandwhich
       # unfree packages
       spotify
-      vscode
       discord
+      (vscode-with-extensions.override {
+        vscodeExtensions = with vscode-extensions; [
+          bbenoist.nix
+          vscodevim.vim
+          ms-vscode-remote.remote-ssh
+          ms-azuretools.vscode-docker
+          ms-vsliveshare.vsliveshare
+          golang.go
+          ms-python.vscode-pylance
+          coolbear.systemd-unit-file
+          redhat.vscode-yaml
+        ];
+      })
     ];
   };
 }

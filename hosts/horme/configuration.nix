@@ -93,8 +93,10 @@
 
   # trackpoint settings
   hardware.trackpoint = {
+    enable = true;
     sensitivity = 64;
     speed = 90;
+    emulateWheel = true;
   };
 
   # system backups
