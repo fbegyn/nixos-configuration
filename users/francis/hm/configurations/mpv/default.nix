@@ -3,8 +3,7 @@
 {
   home.packages = with pkgs.unstable; [
     mpv
-    youtube-dl
-    castnow
+    python310Packages.yt-dlp
     streamlink
   ];
 
