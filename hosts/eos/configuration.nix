@@ -442,7 +442,7 @@ in {
 
   services.mastodon = {
     enable= true;
-    package = pkgs.unstable.mastodon;
+    package = pkgs.mastodon;
     localDomain = "social.begyn.be";
     enableUnixSocket = true;
     smtp = {
