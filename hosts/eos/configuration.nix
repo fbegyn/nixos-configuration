@@ -272,6 +272,7 @@ in {
     hostName = "docs.begyn.be";
     config = {
       overwriteProtocol = "https";
+      defaultPhoneRegion = "BE";
 
       adminuser = "admin";
       adminpassFile = "${pkgs.writeText "adminpass" "${hosts.eos.nextcloud.adminpass}"}";
@@ -284,6 +285,7 @@ in {
     };
     https = true;
     autoUpdateApps.enable = true;
+    enableImagemagick = true;
   };
   services.nginx.virtualHosts = {
     "docs.begyn.be" = {
