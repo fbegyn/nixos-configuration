@@ -226,16 +226,6 @@ in {
     };
   };
 
-  services.avahi = {
-    enable = true;
-    reflector = true;
-    interfaces = [
-      "enp57s0u1"
-      "lan0"
-      "iot"
-    ];
-  };
-
   services.nginx.virtualHosts = {
     "hass.dcf.begyn.be" = {
       forceSSL = true;
