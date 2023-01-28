@@ -36,7 +36,6 @@
     rclone
     moreutils
     screen
-    tmux
     inotify-tools
     # tools rewritten in rust
     ripgrep
