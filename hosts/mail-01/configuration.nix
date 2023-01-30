@@ -13,10 +13,7 @@ in {
     ./hardware-configuration.nix
 
     ../../common
-
     ../../users
-    ../../users/francis
-
     ./acme.nix
     ../../services/tailscale.nix
 

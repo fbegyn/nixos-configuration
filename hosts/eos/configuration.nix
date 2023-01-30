@@ -17,7 +17,6 @@ in {
     ../../common/rtlsdr.nix
 
     ../../users
-    ../../users/francis
 
     # services
     ../../services/coredns

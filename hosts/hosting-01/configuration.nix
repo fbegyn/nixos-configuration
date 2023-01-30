@@ -12,7 +12,6 @@
     ../../common
 
     ../../users
-    ../../users/francis
     ../../services/tailscale.nix
 
     ./acme.nix
