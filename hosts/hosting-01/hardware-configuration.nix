@@ -18,6 +18,11 @@
       fsType = "ext4";
     };
 
+  fileSystems."/nix-new" =
+    { device = "/dev/disk/by-id/scsi-0HC_Volume_26663541";
+      fsType = "ext4";
+    };
+
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/E69E-292F";
       fsType = "vfat";
