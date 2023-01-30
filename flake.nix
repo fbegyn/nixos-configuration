@@ -65,107 +65,79 @@
     deploy-rs,
     website,
     nixos-mailserver
-  }: utils-plus.lib.mkFlake {
-    inherit self inputs;
+  }: let
+    pkgs = nixpkgs.legacyPackages."x86_64-linux";
 
-    channelsConfig = {
-      allowUnfree = true;
-    };
-
-    sharedOverlays = let
-      system = "x86_64-linux";
-      overlay = final: prev: {
-        unstable = import nixpkgs-unstable {
-          inherit system;
-          config.allowUnfree = true;
-        };
-        fbegyn = import ./pkgs/default.nix {};
+    overlay = final: prev: {
+      unstable = import nixpkgs-unstable {
+        system = "x86_64-linux";
+        inherit nixpkgs;
+        config.allowUnfree = true;
       };
-    in [
-      overlay
-      nur.overlay
-      emacs-overlay.overlay
-    ];
-
-    channels ={
-      nixpkgs = {
-        input = nixpkgs;
-        overlaysBuilder = _: [
-          devshell.overlay
-        ];
+      fbegyn = {
+        system = "x86_64-linux";
+        website = nixpkgs.callPackage ./fbegyn/website.nix {};
+        f1multiviewer = nixpkgs.callPackage ./fbegyn/f1multiviewer.nix {};
+        brother-hll2375dw-driver = nixpkgs.callPackage ./brother/drivers/hll2375dw-cups.nix {};
       };
     };
 
-    hostDefaults = {
-      channelName = "nixpkgs";
-      modules = [
-        { nix.generateRegistryFromInputs = true; }
-        agenix.nixosModules.age
-        home-manager.nixosModules.home-manager ({config, ...}: {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-        })
+    mkMachine = extraModules:
+      nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        modules = [
+          ({config, ...}: {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              overlay
+              nur.overlay
+              emacs-overlay.overlay
+            ];
+          })
+          agenix.nixosModules.age
+          home-manager.nixosModules.home-manager ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          })
+        ] ++ extraModules;
+      };
+  in {
+    devShells.x86_64-linux.default = pkgs.mkShell {
+      buildInputs = [
+        deploy-rs.packages.x86_64-linux.deploy-rs
+        agenix.packages.x86_64-linux.agenix
       ];
     };
 
-    hosts = {
-      horme = {
-        modules = [
-          ./hosts/horme/configuration.nix
-          nixos-hardware.nixosModules.common-pc-laptop
-          nixos-hardware.nixosModules.common-pc-ssd
-          nixos-hardware.nixosModules.common-cpu-intel
-          nixos-hardware.nixosModules.lenovo-thinkpad
-          nixos-hardware.nixosModules.lenovo-thinkpad-x1
-        ];
-      };
-      bia = {
-        modules = [
-          ./hosts/bia/configuration.nix
-          nixos-hardware.nixosModules.common-cpu-amd
-        ];
-      };
-      ania = {
-        modules = [
-          ./hosts/ania/configuration.nix
-          nixos-hardware.nixosModules.common-pc-laptop
-          nixos-hardware.nixosModules.common-pc-ssd
-          nixos-hardware.nixosModules.common-cpu-intel
-        ];
-      };
-      eos = {
-        modules = [
-          ./hosts/eos/configuration.nix
-          nixpkgs.nixosModules.notDetected
-        ];
-      };
-      mail-01 = {
-        modules = [
-          ./hosts/mail-01/configuration.nix
-        ];
-      };
-      hosting-01 = let
-        system = "x86_64-linux";
-      in {
-        modules = [
-          ./hosts/hosting-01/configuration.nix
-          website.nixosModules.${system}.website
-        ];
-      };
-    };
-
-    # This is highly advised, and will prevent many possible mistakes
-    checks = builtins.mapAttrs(system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
-
-    deploy = {
-      sudo = "sudo -Su";
-      nodes.eos = {
-        hostname = "10.5.20.10";
-        profiles.system = {
-          user = "root";
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.eos;
-        };
-      };
+    nixosConfigurations = {
+      horme = mkMachine [
+        ./hosts/horme/configuration.nix
+        nixos-hardware.nixosModules.common-pc-laptop
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+        nixos-hardware.nixosModules.lenovo-thinkpad
+        nixos-hardware.nixosModules.lenovo-thinkpad-x1
+      ];
+      bia = mkMachine [
+        ./hosts/bia/configuration.nix
+        nixos-hardware.nixosModules.common-cpu-amd
+      ];
+      eos = mkMachine [
+        ./hosts/eos/configuration.nix
+      ];
+      ania = mkMachine [
+        ./hosts/ania/configuration.nix
+        nixos-hardware.nixosModules.common-pc-laptop
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+      ];
+      hosting-01 = mkMachine [
+        ./hosts/hosting-01/configuration.nix
+        website.nixosModules.x86_64-linux.website
+      ];
+      mail-01 = mkMachine [
+        ./hosts/mail-01/configuration.nix
+      ];
     };
   };
 }
