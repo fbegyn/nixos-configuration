@@ -114,6 +114,7 @@ in {
 
   environment.systemPackages = with pkgs.unstable; [
     dbus-broker
+    nodejs
   ];
 
   services.mosquitto = {
@@ -537,6 +538,32 @@ in {
     rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
     package = pkgs.unstable.minio;
     region = "eu-west-1";
+  };
+
+  services.nginx.virtualHosts = {
+    "sign.begyn.be" = {
+      forceSSL = true;
+      root = "/home/francis/pdftron-sign-app/public";
+      useACMEHost = "dcf.begyn.be";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:13001/";
+        basicAuth = hosts.eos.nginx.sign.basicAuth;
+      };
+      locations."/manifest.json" = {
+        proxyPass = "http://127.0.0.1:13001";
+      };
+      locations."/ws" = {
+        proxyPass = "http://127.0.0.1:13001";
+        proxyWebsockets = true;
+        recommendedProxySettings = false;
+        extraConfig = ''
+          proxy_read_timeout     60;
+          proxy_connect_timeout  60;
+          proxy_redirect         off;
+          proxy_cache_bypass $http_upgrade;
+        '';
+      };
+    };
   };
 
   # This value determines the NixOS release from which the default
