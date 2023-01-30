@@ -18,12 +18,6 @@ let
   });
 in
 {
-  nixpkgs.overlays = [
-    (_self: _super: {
-      prometheus = pkgs.unstable.prometheus;
-    })
-  ];
-
   services.prometheus = let
     vars = import ../../secrets/hosts.nix;
   in {

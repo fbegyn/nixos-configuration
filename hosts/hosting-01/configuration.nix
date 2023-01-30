@@ -74,8 +74,6 @@
   services.unifi = {
     enable = true;
     unifiPackage = pkgs.unstable.unifi;
-    jrePackage = pkgs.unstable.jdk11;
-    mongodbPackage = pkgs.unstable.mongodb;
     openFirewall = true;
   };
   services.nginx.virtualHosts = {
