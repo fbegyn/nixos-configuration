@@ -104,6 +104,7 @@ in
       slurp
       grim
       unstable.imv
+      unstable.swayr
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
@@ -166,7 +167,7 @@ in
             xkb_layout = "us,us";
             xkb_variant = "altgr-intl,colemak";
             xkb_numlock = "disabled";
-            xkb_options = "grp:win_space_toggle";
+            xkb_options = "grp:rctrl_rshift_toggle";
           };
           "2:10:TPPS/2_Elan_TrackPoint" = {
             pointer_accel = "-0.17";
@@ -268,6 +269,9 @@ in
               "Mod1+Shift+${right}" = "move workspace to output right";
 
               "Mod1+l" = "exec ${locker}";
+
+              "${mod}+space" = "exec swayr switch-window";
+              "${mod}+tab" = "exec swayr switch-to-urgent-or-lru-window";
         };
         keycodebindings = { };
         modes = {
@@ -295,6 +299,9 @@ in
           # }
           {
             command = "chromium-browser";
+          }
+          {
+            command = "swayrd";
           }
           {
             command = "sway-statusbar.sh";

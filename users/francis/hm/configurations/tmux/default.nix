@@ -9,8 +9,10 @@
     secureSocket = true;
 
     prefix = "C-a";
-    extraConfig = ''
-      (builtins.readFile ./tmux.conf)
+    extraConfig = let
+      conf = builtins.readFile ./tmux.conf;
+    in ''
+      ${conf}
     '';
     plugins = with pkgs.unstable; [
       tmuxPlugins.tmux-fzf
