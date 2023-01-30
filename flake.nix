@@ -139,5 +139,36 @@
         ./hosts/mail-01/configuration.nix
       ];
     };
+
+    deploy.nodes.eos = {
+      hostname = "eos";
+      sshUser = "francis";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.x86_64-linux.activate.nixos
+          self.nixosConfigurations.eos;
+      };
+    };
+    deploy.nodes.hosting-01 = {
+      hostname = "hosting-01";
+      sshUser = "francis";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.x86_64-linux.activate.nixos
+          self.nixosConfigurations.hosting-01;
+      };
+    };
+    deploy.nodes.mail-01 = {
+      hostname = "mail-01";
+      sshUser = "francis";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.x86_64-linux.activate.nixos
+          self.nixosConfigurations.mail-01;
+      };
+    };
+    # This is highly advised, and will prevent many possible mistakes
+    checks = builtins.mapAttrs
+      (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
   };
 }
