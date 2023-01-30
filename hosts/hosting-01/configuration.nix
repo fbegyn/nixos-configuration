@@ -147,7 +147,7 @@
     autoprovision = {
       enable = true;
       key = "${hosts.tailscale.tempkey}";
-      options = [ "--ssh" "--advertise-tags=tag:prod,tag:hetzner" ];
+      options = [ "--advertise-tags=tag:prod,tag:hetzner" ];
     };
   };
 
@@ -207,12 +207,6 @@
       useACMEHost = "begyn.be";
     };
   };
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -86,7 +86,7 @@ in {
     autoprovision = {
       enable = true;
       key = "${hosts.tailscale.tempkey}";
-      options = [ "--ssh" "--advertise-tags=tag:prod,tag:hetzner" ];
+      options = [ "--advertise-tags=tag:prod,tag:hetzner" ];
     };
   };
 

@@ -184,7 +184,6 @@ in {
       options = [
         "--advertise-routes=${hosts.eos.tailscale.routes}"
         "--advertise-exit-node"
-        "--ssh"
         "--advertise-tags=tag:prod,tag:dcf,tag:hass"
       ];
     };
