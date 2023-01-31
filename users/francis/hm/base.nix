@@ -4,7 +4,7 @@
   imports = [
     ./configurations/nvim/default.nix
     ./configurations/git.nix
-    ./configurations/fish.nix
+    ./configurations/fish
     ./configurations/bash.nix
     ./configurations/fzf.nix
   ];
