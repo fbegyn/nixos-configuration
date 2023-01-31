@@ -279,9 +279,9 @@ in
             Escape = "mode default";
             Return = "mode default";
             h = "resize shrink width 10 px";
-            n = "resize grow height 10 px";
-            e = "resize shrink height 10 px";
-            i = "resize grow width 10 px";
+            k = "resize grow height 10 px";
+            j = "resize shrink height 10 px";
+            l = "resize grow width 10 px";
           };
           "System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown" = {
             Return = "mode default";
