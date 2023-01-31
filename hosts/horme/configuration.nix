@@ -12,7 +12,6 @@
     # wireless settings
     ../../secrets/wireless.nix
     # common settings
-    ../../common
     ../../common/moonlander.nix
     ../../common/networkmanager.nix
     ../../common/ios.nix

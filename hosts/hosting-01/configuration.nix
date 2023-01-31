@@ -8,12 +8,8 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-
-    ../../common
-
     ../../users
     ../../services/tailscale.nix
-
     ./acme.nix
   ];
 
@@ -75,7 +71,7 @@
     enable = true;
     unifiPackage = pkgs.unstable.unifi;
     jrePackage = pkgs.jdk11;
-    mongodbPackage = pkgs.unstable.mongodb;
+    mongodbPackage = pkgs.mongodb-6_0;
     openFirewall = true;
   };
   services.nginx.virtualHosts = {

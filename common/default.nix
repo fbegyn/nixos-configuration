@@ -1,13 +1,18 @@
 { config, lib, pkgs, ... }:
 
-with lib; {
+{
   boot.cleanTmpDir = true;
+
+  security.polkit.enable = true;
+  programs.nix-ld.enable = true;
   security.pam.loginLimits = [{
     domain = "*";
     type = "soft";
     item = "nofile";
     value = "unlimited";
   }];
+
+  boot.binfmt.emulatedSystems = [ "wasm32-wasi" "aarch64-linux" ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -16,14 +21,17 @@ with lib; {
   nix = {
     settings = {
       auto-optimise-store = true;
+      sandbox = true;
       substituters = [
         "https://nix-community.cachix.org"
-        "https://cache.nixos.org/"
+        "https://cache.garnix.io"
+        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
+        "https://cuda-maintainers.cachix.org"
       ];
-      sandbox = true;
       trusted-users = [ "root" "francis" ];
     };
     extraOptions = ''
@@ -31,8 +39,13 @@ with lib; {
     '';
   };
 
+  services.prometheus.exporters.node.enable = true;
+  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
+
   services.journald.extraConfig = ''
     SystemMaxUse=100M
     MaxFileSec=7day
   '';
+
+  system.stateVersion = lib.mkDefault "22.11";
 }

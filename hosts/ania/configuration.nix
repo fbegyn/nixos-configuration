@@ -16,7 +16,6 @@
     # <nixos-hardware/common/cpu/intel>
 
     # common settings
-    ../../common
     ../../common/laptop.nix
     ../../common/moonlander.nix
     ../../common/networkmanager.nix
