@@ -1,6 +1,10 @@
 { pkgs, ...}:
 
 {
+  home.file = {
+    ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
+    ".config/fish/functions/fish_right_prompt.fish".source = ./fish_right_prompt.fish;
+  }
   programs.fish = {
     enable = true;
     package = pkgs.unstable.fish;
