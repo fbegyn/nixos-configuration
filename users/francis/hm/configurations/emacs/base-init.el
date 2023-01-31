@@ -467,6 +467,9 @@ the frame and makes it a dedicated window for that buffer."
 (use-package org)
 
 (use-package org-download)
+(use-package org-roam)
+(use-package org-roam-ui)
+(use-package vertico)
 
 (use-package org-mime)
 
