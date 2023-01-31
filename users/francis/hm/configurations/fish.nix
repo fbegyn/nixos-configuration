@@ -25,6 +25,7 @@
       set -Uxa GDK_DPI_SCALE 1
       set -Uxa MOZ_ENABLE_WAYLAND 1
       set -Uxa _JAVA_AWT_WM_NONREPARENTING 1
+      set -Uxa NIX_SSHOPTS -t
 
       # If a dumb terminal connects, just show simple prompt
       if test "$TERM" = "dumb"
