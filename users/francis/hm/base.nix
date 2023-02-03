@@ -28,6 +28,7 @@
 
   home.packages = with pkgs.unstable; [
     # Utilities
+    openssl
     jq
     yq
     killall

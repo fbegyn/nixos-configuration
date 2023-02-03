@@ -84,6 +84,10 @@
   # enable tailscale
   fbegyn.services.tailscale.enable = true;
 
+  security.pki.certificateFiles = [
+    "/home/francis/Documents/certs/ca.crt"
+  ];
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
