@@ -40,6 +40,7 @@
     home.packages = with pkgs.unstable; [
       niv
       nodejs
+      vault
       gcc
       deploy-rs
       # Comms
