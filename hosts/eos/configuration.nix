@@ -53,7 +53,7 @@ in {
           "/run/dbus:/run/dbus:ro"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2023.1";
+        image = "ghcr.io/home-assistant/home-assistant:2023.2";
         extraOptions = [
           "--network=host"
         ];
@@ -76,7 +76,7 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "aler9/rtsp-simple-server:v0.21.0";
+        image = "aler9/rtsp-simple-server:v0.21.2";
         ports = [
           "1935:1935"
           "8554:8554"
