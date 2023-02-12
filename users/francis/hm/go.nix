@@ -3,7 +3,7 @@
 {
   programs.go = {
     enable = true;
-    goPath = ".go";
-    package = pkgs.unstable.go_1_19;
+    goPath = "go";
+    package = pkgs.unstable.go_1_20;
   };
 }

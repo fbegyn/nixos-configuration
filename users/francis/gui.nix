@@ -26,7 +26,6 @@
       ./hm/configurations/hledger.nix
       ./hm/configurations/tmux
       ./hm/configurations/josm.nix
-      ./hm/configurations/udiskie.nix
       ./hm/configurations/qutebrowser
       ./secrets/fish.nix
     ];
