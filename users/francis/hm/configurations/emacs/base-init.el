@@ -302,6 +302,30 @@ the frame and makes it a dedicated window for that buffer."
   (evil-want-integration t "Also needed for evil-collection")
   :config
   (evil-mode 1)
+  (evil-define-key '(motion normal visual) 'global
+    "n" 'evil-next-line
+    "gn" 'evil-next-visual-line
+    "e" 'evil-previous-line
+    "E" 'evil-lookup
+    "ge" 'evil-previous-visual-line
+    "i" 'evil-forward-char
+    "I" 'evil-window-bottom
+    "zi" 'evil-scroll-column-right
+    "zI" 'evil-scroll-right
+    "j" 'evil-forward-word-end
+    "J" 'evil-forward-WORD-end
+    "gj" 'evil-backward-word-end
+    "gJ" 'evil-backward-WORD-end
+    "k" (if (eq evil-search-module 'evil-search) 'evil-ex-search-next 'evil-search-next)
+    "K" (if (eq evil-search-module 'evil-search) 'evil-ex-search-previous 'evil-search-previous)
+    "gk" 'evil-next-match
+    "gK" 'evil-previous-match)
+  (evil-define-key 'normal 'global
+    "l" 'evil-undo
+    "u" 'evil-insert
+    "U" 'evil-insert-line
+    "gu" 'evil-insert-resume
+    "gU" 'evil-insert-0-line)
 )
 
 (use-package evil-collection

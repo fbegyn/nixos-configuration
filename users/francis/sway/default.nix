@@ -212,76 +212,102 @@ in
           mouseWarping = true;
           newWindow = "smart";
         };
-        up = "k";
-        down = "j";
-        right = "l";
+        up = "e";
+        down = "n";
+        right = "i";
         left = "h";
         keybindings =
           let
             wm = config.home-manager.users.francis.wayland.windowManager.sway;
             mod = wm.config.modifier;
             terminal = wm.config.terminal;
-            menu = wm.config.menu;
             locker = "swaylock -c 000000";
-            left = "h";
-            down = "j";
-            up = "k";
-            right = "l";
-          in
-            lib.mkOptionDefault {
-              "${mod}+Shift+Return" = "exec ${terminal} -e tmux new-session -A main";
-              "${mod}+a" = "exec rofi -show window";
+          in {
+          "${mod}+Return" = "exec ${wm.config.terminal}";
+          "${mod}+Shift+q" = "kill";
+          "${mod}+d" = "exec ${wm.config.menu}";
 
-              "${mod}+1" = "workspace 1:web";
-              "${mod}+2" = "workspace 2:comms";
-              "${mod}+3" = "workspace 3:mail";
-              "${mod}+4" = "workspace 4:music";
-              "${mod}+5" = "workspace 5:video";
-              "${mod}+6" = "workspace 6:ide";
-              "${mod}+7" = "workspace 7:files";
-              "${mod}+8" = "workspace 8:workplace";
-              "${mod}+9" = "workspace 9:terminal";
-              "${mod}+Shift+1" = "move container to workspace 1:web";
-              "${mod}+Shift+2" = "move container to workspace 2:comms";
-              "${mod}+Shift+3" = "move container to workspace 3:mail";
-              "${mod}+Shift+4" = "move container to workspace 4:music";
-              "${mod}+Shift+5" = "move container to workspace 5:video";
-              "${mod}+Shift+6" = "move container to workspace 6:ide";
-              "${mod}+Shift+7" = "move container to workspace 7:files";
-              "${mod}+Shift+8" = "move container to workspace 8:workplace";
-              "${mod}+Shift+9" = "move container to workspace 9:terminal";
+          "${mod}+${wm.config.left}" = "focus left";
+          "${mod}+${wm.config.down}" = "focus down";
+          "${mod}+${wm.config.up}" = "focus up";
+          "${mod}+${wm.config.right}" = "focus right";
 
-              "${mod}+w" = "exec /home/francis/Scripts/wpa_switcher.sh";
+          "${mod}+Left" = "focus left";
+          "${mod}+Down" = "focus down";
+          "${mod}+Up" = "focus up";
+          "${mod}+Right" = "focus right";
 
-              "${mod}+${left}" = "focus left";
-              "${mod}+${down}" = "focus down";
-              "${mod}+${up}" = "focus up";
-              "${mod}+${right}" = "focus right";
+          "${mod}+Shift+${wm.config.left}" = "move left";
+          "${mod}+Shift+${wm.config.down}" = "move down";
+          "${mod}+Shift+${wm.config.up}" = "move up";
+          "${mod}+Shift+${wm.config.right}" = "move right";
 
-              "${mod}+Shift+${left}" = "move left";
-              "${mod}+Shift+${down}" = "move down";
-              "${mod}+Shift+${up}" = "move up";
-              "${mod}+Shift+${right}" = "move right";
+          "${mod}+Shift+Left" = "move left";
+          "${mod}+Shift+Down" = "move down";
+          "${mod}+Shift+Up" = "move up";
+          "${mod}+Shift+Right" = "move right";
 
-              "Mod1+Shift+${left}" = "move workspace to output left";
-              "Mod1+Shift+${down}" = "move workspace to output down";
-              "Mod1+Shift+${up}" = "move workspace to output up";
-              "Mod1+Shift+${right}" = "move workspace to output right";
+          "${mod}+b" = "splith";
+          "${mod}+v" = "splitv";
+          "${mod}+f" = "fullscreen toggle";
+          "${mod}+a" = "focus parent";
 
-              "Mod1+l" = "exec ${locker}";
+          "${mod}+s" = "layout stacking";
+          "${mod}+w" = "layout tabbed";
+          "${mod}+e+s" = "layout toggle split";
 
-              "${mod}+space" = "exec swayr switch-window";
-              "${mod}+tab" = "exec swayr switch-to-urgent-or-lru-window";
+          "${mod}+Shift+space" = "floating toggle";
+          "${mod}+space" = "focus mode_toggle";
+
+          "${mod}+1" = "workspace number 1:web";
+          "${mod}+2" = "workspace number 2:comms";
+          "${mod}+3" = "workspace number 3:mail";
+          "${mod}+4" = "workspace number 4:music";
+          "${mod}+5" = "workspace number 5:video";
+          "${mod}+6" = "workspace number 6:ide";
+          "${mod}+7" = "workspace number 7:files";
+          "${mod}+8" = "workspace number 8:workspace";
+          "${mod}+9" = "workspace number 9:terminal";
+
+          "${wm.config.modifier}+Shift+1" =
+            "move container to workspace number 1:web";
+          "${wm.config.modifier}+Shift+2" =
+            "move container to workspace number 2:comms";
+          "${wm.config.modifier}+Shift+3" =
+            "move container to workspace number 3:mail";
+          "${wm.config.modifier}+Shift+4" =
+            "move container to workspace number 4:music";
+          "${wm.config.modifier}+Shift+5" =
+            "move container to workspace number 5:video";
+          "${wm.config.modifier}+Shift+6" =
+            "move container to workspace number 6:ide";
+          "${wm.config.modifier}+Shift+7" =
+            "move container to workspace number 7:files";
+          "${wm.config.modifier}+Shift+8" =
+            "move container to workspace number 8:workspace";
+          "${wm.config.modifier}+Shift+9" =
+            "move container to workspace number 9:terminal";
+
+          "${wm.config.modifier}+Shift+minus" = "move scratchpad";
+          "${wm.config.modifier}+minus" = "scratchpad show";
+
+          "${wm.config.modifier}+Shift+c" = "reload";
+          "${wm.config.modifier}+Shift+f" =
+            "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
+
+          "${mod}+r" = "mode resize";
         };
         keycodebindings = { };
-        modes = {
+        modes = let
+            wm = config.home-manager.users.francis.wayland.windowManager.sway;
+        in {
           resize = {
             Escape = "mode default";
             Return = "mode default";
-            h = "resize shrink width 10 px";
-            k = "resize grow height 10 px";
-            j = "resize shrink height 10 px";
-            l = "resize grow width 10 px";
+            "${wm.config.left}" = "resize shrink width 10 px";
+            "${wm.config.up}" = "resize grow height 10 px";
+            "${wm.config.down}" = "resize shrink height 10 px";
+            "${wm.config.right}" = "resize grow width 10 px";
           };
           "System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown" = {
             Return = "mode default";
