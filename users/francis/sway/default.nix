@@ -165,7 +165,7 @@ in
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us,us";
-            xkb_variant = "colemak,altgr-intl";
+            xkb_variant = "altgr-intl,colemak";
             xkb_numlock = "disabled";
             xkb_options = "grp:rctrl_rshift_toggle";
           };
@@ -212,9 +212,9 @@ in
           mouseWarping = true;
           newWindow = "smart";
         };
-        up = "e";
-        down = "n";
-        right = "i";
+        up = "k";
+        down = "j";
+        right = "l";
         left = "h";
         keybindings =
           let
@@ -254,7 +254,7 @@ in
 
           "${mod}+s" = "layout stacking";
           "${mod}+w" = "layout tabbed";
-          "${mod}+e+s" = "layout toggle split";
+          "${mod}+e" = "layout toggle split";
 
           "${mod}+Shift+space" = "floating toggle";
           "${mod}+space" = "focus mode_toggle";
