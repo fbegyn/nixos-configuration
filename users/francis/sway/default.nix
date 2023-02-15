@@ -165,7 +165,7 @@ in
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us,us";
-            xkb_variant = "altgr-intl,colemak";
+            xkb_variant = "colemak,altgr-intl";
             xkb_numlock = "disabled";
             xkb_options = "grp:rctrl_rshift_toggle";
           };
@@ -296,6 +296,8 @@ in
             "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
 
           "${mod}+r" = "mode resize";
+
+          "${mod}+Tab" = "exec swayr switch-window";
         };
         keycodebindings = { };
         modes = let
