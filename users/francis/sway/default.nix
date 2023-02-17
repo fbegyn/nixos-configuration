@@ -256,6 +256,8 @@ in
           "${mod}+w" = "layout tabbed";
           "${mod}+e" = "layout toggle split";
 
+          "Mod1+l" = "exec --no-startup-id ${locker}";
+
           "${mod}+Shift+space" = "floating toggle";
           "${mod}+space" = "focus mode_toggle";
 
