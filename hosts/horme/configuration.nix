@@ -120,6 +120,7 @@
   virtualisation.docker.enable = true;
 
   environment.systemPackages = with pkgs.unstable; [
+    sshpass
     steam-run
     qmapshack
     garmindev

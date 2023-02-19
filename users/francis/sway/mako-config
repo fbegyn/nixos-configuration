@@ -1,0 +1,26 @@
+anchor=top-right
+default-timeout=7000
+
+width=400
+height=126
+
+font=DejaVu Sans Mono 10
+text-color=#F1EFDC
+background-color=#0F0E0EF0
+border-color=#D36B00
+border-size=2
+padding=8
+border-radius=2
+
+format=<b>%a: %s</b>\n%b
+
+[grouped=true]
+format=(%g) <b>%a: %s</b>\n%b
+
+[urgency="low"]
+default-timeout=4000
+[urgency="normal"]
+default-timeout=7000
+[urgency="high"]
+default-timeout=12000
+

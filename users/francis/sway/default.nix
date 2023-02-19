@@ -120,10 +120,7 @@ in
     ];
 
     xdg.configFile = {
-      "mako/config".text = ''
-        anchor=top-center
-        default-timeout=2000
-      '';
+      "mako/config".source = ./mako-config;
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
     };
