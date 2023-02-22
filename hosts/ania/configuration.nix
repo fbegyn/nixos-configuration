@@ -34,6 +34,8 @@
     ../../users/francis/gui.nix
     ../../users/francis/inuits.nix
     ../../users/francis/i3
+
+    ../../services/tailscale.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -118,6 +120,7 @@
   # networking.interfaces.wlp3s0.useDHCP = true;
 
   programs.gnupg.package = pkgs.unstable.gnupg;
+  francis.services.tailscale.enable = true;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
