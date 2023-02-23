@@ -484,6 +484,9 @@ in {
   };
 
   services.prometheus= {
+    extraFlags = [
+      "--storage.tsdb.allow-overlapping-blocks"
+    ];
     ruleFiles = [
       ../../services/prometheus/rules/eos/node.rules
     ];
