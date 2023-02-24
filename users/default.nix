@@ -12,6 +12,7 @@
       "video"
       "plugdev"
       "libvirtd"
+      "libvirt"
       "vboxusers"
       "adbusers"
       "input"

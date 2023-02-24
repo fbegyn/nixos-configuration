@@ -29,6 +29,7 @@
     ../../common/video-accel.nix
     ../../common/office.nix
     ../../common/ios.nix
+    ../../common/libvirt.nix
 
     ../../users
     ../../users/francis

@@ -59,6 +59,7 @@
       # comma
       libnotify
       lm_sensors
+      vagrant
       terraform
       terraform-lsp
       ansible

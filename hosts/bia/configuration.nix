@@ -10,6 +10,7 @@
     # <nixos-hardware/common/cpu/amd>
     ./hardware-configuration.nix
     ../../common
+    ../../common/libvirt.nix
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/ios.nix
