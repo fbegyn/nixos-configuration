@@ -3,6 +3,10 @@
 {
   boot.cleanTmpDir = true;
 
+  boot.extraModprobeConfig = ''
+    options hid_apple swap_opt_cmd=1
+  '';
+
   security.polkit.enable = true;
   programs.nix-ld.enable = true;
   security.pam.loginLimits = [{

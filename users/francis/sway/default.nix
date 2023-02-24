@@ -108,6 +108,7 @@ in
       unstable.wl-clipboard
       unstable.ydotool
       unstable.wofi
+      unstable.tofi
       unstable.sway-launcher-desktop
       autotiling
       unstable.gammastep
@@ -157,7 +158,8 @@ in
           size = 10.0;
         };
         terminal = "alacritty";
-        menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
+        # menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
+        menu = "tofi-drun ";
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
