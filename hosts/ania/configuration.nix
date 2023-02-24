@@ -28,6 +28,7 @@
     ../../common/webcam.nix
     ../../common/video-accel.nix
     ../../common/office.nix
+    ../../common/ios.nix
 
     ../../users
     ../../users/francis
