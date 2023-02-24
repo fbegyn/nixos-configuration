@@ -2,7 +2,7 @@ anchor=top-right
 default-timeout=7000
 
 width=400
-height=126
+height=256
 
 font=DejaVu Sans Mono 10
 text-color=#F1EFDC

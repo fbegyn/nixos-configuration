@@ -9,7 +9,7 @@
     follow = mouse
 
 	width = (0,400)
-	height = 250
+	height = 256
 	origin = top-right
 	offset = 5x25
 	scale = 1
