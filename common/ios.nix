@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.usbmuxd.enable = true;
-  services.usbmuxd.user = "francis";
+  services.usbmuxd = {
+    enable = true;
+  };
   environment.systemPackages = with pkgs; [
     libimobiledevice
-    usbmuxd
+    ifuse
   ];
 }
