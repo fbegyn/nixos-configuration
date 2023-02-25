@@ -11,7 +11,37 @@ in
     ../../../common/pipewire.nix
   ];
 
-  programs.sway.enable = true;
+  programs.sway = {
+    enable = true;
+    wrapperFeatures = {
+      base = true;
+      gtk = true;
+    };
+    extraPackages = with pkgs.unstable; [
+      # waybar + scripts
+      waybar # status bar
+      waybarsh
+      waybar-spotify
+      waybar-storage
+      swaylock # lockscreen
+      swayidle
+      mako # notification daemon
+      slurp
+      grim
+      imv
+      swayr
+      wl-clipboard
+      ydotool
+      tofi
+      autotiling
+      gammastep
+      pkg-config
+      wf-recorder
+      kanshi # autorandr
+      wdisplays
+      brightnessctl
+    ];
+  };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
   xdg = {
@@ -90,34 +120,9 @@ in
   # sway install and dependencies through home-manager
   home-manager.users.francis = {
     home.packages = with pkgs; [
-      # waybar + scripts
-      unstable.waybar # status bar
-      waybarsh
-      waybar-spotify
-      waybar-storage
-
-      # sway tooling
-      xdg-utils
-      swaylock # lockscreen
-      unstable.swayidle
-      mako # notification daemon
-      slurp
-      grim
-      unstable.imv
-      unstable.swayr
-      unstable.wl-clipboard
-      unstable.ydotool
       unstable.wofi
       unstable.tofi
       unstable.sway-launcher-desktop
-      autotiling
-      unstable.gammastep
-      pkg-config
-      wf-recorder
-      kanshi # autorandr
-      wdisplays
-
-      brightnessctl
     ];
 
     xdg.configFile = {

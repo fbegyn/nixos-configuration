@@ -8,7 +8,7 @@ pkgs.writeTextFile {
     #! ${pkgs.bash}/bin/bash
 
     if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-        exec sway
+        exec dbus-run-session sway
     fi
   '';
 }
