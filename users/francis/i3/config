@@ -256,7 +256,7 @@ assign [class="Qutebrowser"] $workspace1
 assign [class="Spotify"] $workspace4
 
 # Password manager access
-bindsym $mod+p exec rofi-pass
+bindsym $mod+p exec "rofi-rbw --clear-after 10 --action copy"
 
 # Autoswitch workspaces
 workspace_auto_back_and_forth yes

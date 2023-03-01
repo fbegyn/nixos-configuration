@@ -14,6 +14,7 @@
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/ios.nix
+    ../../common/gpg.nix
     ../../common/office.nix
     ../../common/steam.nix
     ../../common/nvidia.nix

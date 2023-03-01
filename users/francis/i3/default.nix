@@ -35,6 +35,9 @@
       autorandr
       rofi
       rofi-pass
+      rbw
+      xdotool
+      rofi-rbw
       picom
       feh
       i3lock
