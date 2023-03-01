@@ -36,6 +36,7 @@
   ];
 
   nixpkgs.config.allowUnfree = true;
+  services.nfs.server.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
