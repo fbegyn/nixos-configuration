@@ -32,7 +32,6 @@ in
       swayr
       wl-clipboard
       ydotool
-      tofi
       autotiling
       gammastep
       pkg-config
@@ -121,7 +120,6 @@ in
   home-manager.users.francis = {
     home.packages = with pkgs; [
       unstable.wofi
-      unstable.tofi
       unstable.sway-launcher-desktop
     ];
 
@@ -163,8 +161,7 @@ in
           size = 10.0;
         };
         terminal = "alacritty";
-        # menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
-        menu = "tofi-drun ";
+        menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
@@ -470,7 +467,7 @@ in
         # Tiny sticky window
         bindsym $mod+y floating toggle; resize set 424 212; sticky toggle; move window to position 1490 5;
         for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
-        for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 30 ppt 60 ppt, border pixel 10
+        for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 384 px 512 px, border pixel 5
 
         # Immediately play youtube from rofi output
         bindsym $mod+p exec rofi-pass
