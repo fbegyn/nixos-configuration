@@ -29,6 +29,7 @@ in
       slurp
       grim
       imv
+      xdg-utils
       swayr
       wl-clipboard
       ydotool
