@@ -74,6 +74,10 @@
         system = "x86_64-linux";
         inherit nixpkgs;
         config.allowUnfree = true;
+        overlays = [
+          (import ./overlays/weechat.nix)
+          (import ./overlays/browser-eid.nix)
+        ];
       };
       fbegyn = {
         system = "x86_64-linux";
@@ -90,6 +94,7 @@
           ({config, ...}: {
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
+              (import ./overlays/weechat.nix)
               overlay
               nur.overlay
               emacs-overlay.overlay

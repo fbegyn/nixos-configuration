@@ -1,7 +1,7 @@
-self: surer: {
-  weechat =  with super.weechatScripts; {
+self: super: {
+  weechat =  super.weechat.override {
     configure = { availablePlugins, ... }: {
-      scripts = [
+      scripts = with super.weechatScripts; [
         multiline
         weechat-matrix
       ];
