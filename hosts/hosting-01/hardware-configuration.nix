@@ -18,9 +18,9 @@
       fsType = "ext4";
     };
 
-  fileSystems."/nix-new" =
-    { device = "/dev/disk/by-id/scsi-0HC_Volume_26663541";
-      fsType = "ext4";
+  fileSystems."/var" =
+    { device = "/dev/disk/by-uuid/b29b3d6e-d73c-47e7-b77f-12118508e828";
+      fsType = "xfs";
     };
 
   fileSystems."/boot" =
