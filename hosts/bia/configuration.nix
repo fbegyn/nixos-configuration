@@ -96,6 +96,8 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
+  fbegyn.x.xautolock = false;
+
   # tailscale machine specific
   fbegyn.services.tailscale = let
     hosts = import ../../secrets/hosts.nix;

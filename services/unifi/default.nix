@@ -7,7 +7,7 @@ in {
     enable = true;
     unifiPackage = pkgs.unstable.unifi;
     jrePackage = pkgs.jdk11;
-    mongodbPackage = pkgs.unstable.mongodb;
+    mongodbPackage = pkgs.mongodb-6_0;
   };
 
   services.prometheus.exporters.unifi = {
