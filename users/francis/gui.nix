@@ -14,6 +14,8 @@
 
   home-manager.users.francis = {
     imports = [
+      ./hm/configurations/nvim/default.nix
+      ./hm/configurations/fzf.nix
       ./hm/go.nix
       ./hm/python.nix
       ./hm/configurations/mpv
@@ -37,6 +39,11 @@
     };
 
     home.packages = with pkgs.unstable; [
+      ripgrep
+      fd
+      inetutils
+      pciutils
+      usbutils
       niv
       nodejs
       vault

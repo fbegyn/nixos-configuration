@@ -2,11 +2,9 @@
 
 {
   imports = [
-    ./configurations/nvim/default.nix
     ./configurations/git.nix
     ./configurations/fish
     ./configurations/bash.nix
-    ./configurations/fzf.nix
   ];
 
   xdg.configFile = {
@@ -14,6 +12,11 @@
   };
 
   programs.home-manager.enable = true;
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+  };
 
   home.sessionPath = [
     "$HOME/go/bin"
@@ -37,14 +40,7 @@
     moreutils
     screen
     inotify-tools
-    # tools rewritten in rust
-    ripgrep
-    fd
-    unzip
     envsubst
     wget
-    inetutils
-    pciutils
-    usbutils
   ];
 }
