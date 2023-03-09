@@ -92,6 +92,7 @@
       sqlite
       # cachix
       cachix
+      nix-index
       # tools rewritten in rust
       hyperfine
       bandwhich
