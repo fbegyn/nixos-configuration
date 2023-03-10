@@ -71,7 +71,7 @@
 
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
-        system = "x86_64-linux";
+        system = prev.system;
         inherit nixpkgs;
         config.allowUnfree = true;
         overlays = [
@@ -80,7 +80,7 @@
         ];
       };
       fbegyn = {
-        system = "x86_64-linux";
+        system = prev.system;
         website = nixpkgs.callPackage ./fbegyn/website.nix {};
         f1multiviewer = nixpkgs.callPackage ./fbegyn/f1multiviewer.nix {};
         brother-hll2375dw-driver = nixpkgs.callPackage ./brother/drivers/hll2375dw-cups.nix {};
