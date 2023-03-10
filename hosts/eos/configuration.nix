@@ -279,7 +279,7 @@ in {
       forceSSL = true;
       useACMEHost = "svc-02.begyn.be";
       locations."/" = {
-        proxyPass = "http://127.0.0.1:8443/";
+        proxyPass = "https://127.0.0.1:8443/";
         proxyWebsockets = true;
       };
     };
