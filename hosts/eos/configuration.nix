@@ -102,10 +102,32 @@ in {
           PARSER_IMAP_MOVE_FOLDER = "processed";
           PARSER_IMAP_MOVE_FOLDER_ERR = "error";
         };
-        image = "gutmensch/dmarc-report:1.3";
+        image = "gutmensch/dmarc-report:1.4.1";
         ports = [
           "21080:80"
           "28080:8080"
+        ];
+      };
+      unifi = {
+        image = "linuxserver/unifi-controller:7.3.83";
+        environment = {
+          TZ = "Europe/Brussels";
+          COUNTRY = "BE";
+          MEM_LIMIT = "2048";
+          MEM_STARTUP = "1024";
+        };
+        volumes = [
+          "/home/francis/unifi:/config"
+        ];
+        ports = [
+          "8443:8443"
+          "3478:3478/udp"
+          "10001:10001/udp"
+          "8080:8080"
+          "8843:8843"
+          "8880:8880"
+          "6789:6789"
+          "5514:5514/udp"
         ];
       };
     };
@@ -231,6 +253,14 @@ in {
       useACMEHost = "dcf.begyn.be";
       locations."/" = {
         proxyPass = "http://127.0.0.1:8123/";
+        proxyWebsockets = true;
+      };
+    };
+    "unifi.svc.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "svc-02.begyn.be";
+      locations."/" = {
+        proxyPass = "http://127.0.0.1:8443/";
         proxyWebsockets = true;
       };
     };
