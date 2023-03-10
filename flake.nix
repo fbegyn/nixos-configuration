@@ -143,6 +143,9 @@
         ./hosts/hosting-01/configuration.nix
         website.nixosModules.x86_64-linux.website
       ];
+      router-01 = mkMachine [
+        ./hosts/router-01/configuration.nix
+      ];
       mail-01 = mkMachine [
         ./hosts/mail-01/configuration.nix
       ];
@@ -164,6 +167,15 @@
         user = "root";
         path = deploy-rs.x86_64-linux.activate.nixos
           self.nixosConfigurations.hosting-01;
+      };
+    };
+    deploy.nodes.router-01 = {
+      hostname = "router-01";
+      sshUser = "francis";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.x86_64-linux.activate.nixos
+          self.nixosConfigurations.router-01;
       };
     };
     deploy.nodes.mail-01 = {
