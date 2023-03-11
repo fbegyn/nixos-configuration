@@ -146,6 +146,9 @@
       router-01 = mkMachine [
         ./hosts/router-01/configuration.nix
       ];
+      zima432 = mkMachine [
+        ./hosts/zima432/configuration.nix
+      ];
       mail-01 = mkMachine [
         ./hosts/mail-01/configuration.nix
       ];
@@ -176,6 +179,15 @@
         user = "root";
         path = deploy-rs.x86_64-linux.activate.nixos
           self.nixosConfigurations.router-01;
+      };
+    };
+    deploy.nodes.zima432 = {
+      hostname = "zima432";
+      sshUser = "francis";
+      profiles.system = {
+        user = "root";
+        path = deploy-rs.x86_64-linux.activate.nixos
+          self.nixosConfigurations.zima432;
       };
     };
     deploy.nodes.mail-01 = {
