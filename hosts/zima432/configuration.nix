@@ -44,6 +44,9 @@
     nameservers = [ "1.1.1.1" "10.5.1.10" "8.8.8.8" ];
     useDHCP = false;
     interfaces = {
+      enp2s0 = {
+        useDHCP = true;
+      };
       enp3s0 = {
         useDHCP = true;
       };
