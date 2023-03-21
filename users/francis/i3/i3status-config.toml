@@ -1,37 +1,38 @@
 [theme]
-name = "bad-wolf"
+theme = "srcery"
 [theme.overrides]
 
 [icons]
-name = "none"
+icons = "awesome6"
 
 [[block]]
 block = "keyboard_layout"
 driver = "localebus"
-format = "{layout}/{variant}"
+format = "$layout / $variant"
 
 [[block]]
 block = "music"
 player = "spotify"
-buttons = ["play", "next"]
+format = "$icon {$combo.str(max_w:20) $play $next |}"
+[[block.click]]
+button = "up"
+action = "volume_up"
+[[block.click]]
+button = "down"
+action = "volume_down"
 
 [[block]]
 block = "sound"
 
 [[block]]
 block = "net"
-hide_missing = true
-hide_inactive = true
-format = "{ipv6} {ip}"
-format_alt = "{ssid} {signal_strength} {ipv6} {ip}"
+format = " $icon {$ssid $signal_strength $frequency|Wired} $ip $ipv6"
 interval = 30
 
 [[block]]
 block = "disk_space"
 path = "/home/francis"
-alias = "HOME"
 info_type = "available"
-unit = "GB"
 interval = 600
 warning = 20.0
 alert = 10.0
@@ -39,33 +40,25 @@ alert = 10.0
 [[block]]
 block = "disk_space"
 path = "/"
-alias = "ROOT"
 info_type = "available"
-unit = "GB"
 interval = 600
 warning = 10.0
 alert = 5.0
 
 [[block]]
 block = "memory"
-display_type = "memory"
-format_mem = "{mem_used_percents}%/{mem_avail}"
-format_swap = "{swap_used_percents}%/{swap_total}"
 interval = 30
 
 [[block]]
 block = "battery"
 interval = 10
-format = "{percentage} {time}"
-hide_missing = true
+format = "$icon $percentage($time)"
 
 [[block]]
 block = "load"
 interval = 300
-format = "{5m} {15m}"
+format = " $icon $5m.eng(w:4)/$15m.eng(w:4)"
 
 [[block]]
 block = "time"
 interval = 60
-format = "%a %d/%m %H:%M"
-
