@@ -29,6 +29,8 @@
   };
   home.sessionVariables = { EDITOR = "vim"; };
 
+  home.stateVersion = "22.11";
+
   home.packages = with pkgs.unstable; [
     # Utilities
     openssl
