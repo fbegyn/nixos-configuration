@@ -13,7 +13,7 @@ format = "$layout / $variant"
 [[block]]
 block = "music"
 player = "spotify"
-format = "$icon {$combo.str(max_w:20) $play $next |}"
+format = " $icon {$combo.str(max_w:20) $play $next |}"
 [[block.click]]
 button = "up"
 action = "volume_up"
@@ -26,7 +26,13 @@ block = "sound"
 
 [[block]]
 block = "net"
-format = " $icon {$ssid $signal_strength $frequency|Wired} $ip $ipv6"
+format = " $icon {$ssid $signal_strength $frequency|Wired} $ip"
+interval = 30
+
+[[block]]
+block = "custom"
+command = "tailscale status --json | jq -rc '.BackendState'"
+format = " {$icon|Tailscale: } $text.pango-str() "
 interval = 30
 
 [[block]]
@@ -52,7 +58,7 @@ interval = 30
 [[block]]
 block = "battery"
 interval = 10
-format = "$icon $percentage($time)"
+format = " $icon $percentage($time)"
 
 [[block]]
 block = "load"
