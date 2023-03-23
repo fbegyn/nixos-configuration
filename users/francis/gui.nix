@@ -27,6 +27,7 @@
       ./hm/configurations/alacritty
       ./hm/configurations/hledger.nix
       ./hm/configurations/tmux
+      ./hm/configurations/mail
       ./hm/configurations/josm.nix
       ./hm/configurations/qutebrowser
       ./secrets/fish.nix

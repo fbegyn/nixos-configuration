@@ -9,7 +9,7 @@
         address = "francis@begyn.be";
         userName = "francis@begyn.be";
         realName = "Francis Begyn";
-        passwordCommand = "${pkgs.pass}/bin/pass mail/mail.begyn.be";
+        passwordCommand = "${pkgs.coreutils}/bin/cat /var/lib/mail/personal";
         imap.host = "mail.begyn.be";
         smtp.host = "mail.begyn.be";
         notmuch.enable = true;
@@ -40,7 +40,7 @@
           trash = "Trash";
         };
         neomutt = {
-          enable = true;
+          enable = false;
           extraMailboxes = [
             { mailbox = "Sent"; name = "Sent"; }
             { mailbox = "Drafts"; name = "Drafts"; }
@@ -55,7 +55,7 @@
         address = "francis.begyn@gmail.com";
         userName = "francis.begyn@gmail.com";
         realName = "Francis Begyn";
-        passwordCommand = "${pkgs.pass}/bin/pass mail/gmail-app";
+        passwordCommand = "${pkgs.coreutils}/bin/cat /var/lib/mail/google";
         imap.host = "imap.gmail.com";
         smtp.host = "smtp.gmail.com";
         signature = {
@@ -86,7 +86,7 @@
           trash = "[Gmail]/Trash";
         };
         neomutt = {
-          enable = true;
+          enable = false;
           extraMailboxes = [
             { mailbox = "[Gmail]/Sent Mail"; name = "Sent"; }
             { mailbox = "[Gmail]/Drafts"; name = "Drafts"; }
@@ -97,10 +97,11 @@
         };
       };
       sko = {
+        flavor = "outlook.office365.com";
         address = "francis.begyn@studentkickoff.be";
         userName = "francis.begyn@studentkickoff.be";
         realName = "Francis Begyn";
-        passwordCommand = "${pkgs.pass}/bin/pass mail/sko-app";
+        passwordCommand = "${pkgs.coreutils}/bin/cat /var/lib/mail/sko";
         imap.host = "outlook.office365.com";
         smtp.host = "smtp.office365.com";
         notmuch.enable = true;
@@ -131,7 +132,7 @@
           trash = "Verwijderde items";
         };
         neomutt = {
-          enable = true;
+          enable = false;
           extraMailboxes = [
             { mailbox = "Verzonden items"; name = "Sent"; }
             { mailbox = "Concepten"; name = "Concepten"; }
@@ -170,7 +171,7 @@
 
   # afew setup
   programs.afew = {
-    enable = true;
+    enable = false;
     extraConfig = ''
       # This is the default filter chain
       [SpamFilter]
@@ -220,7 +221,7 @@
 
   # alot setup
   programs.alot = {
-    enable = true;
+    enable = false;
     bindings = {
       global = {
         up ="";
