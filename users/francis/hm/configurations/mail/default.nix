@@ -40,7 +40,7 @@
           trash = "Trash";
         };
         neomutt = {
-          enable = false;
+          enable = true;
           extraMailboxes = [
             { mailbox = "Sent"; name = "Sent"; }
             { mailbox = "Drafts"; name = "Drafts"; }
@@ -86,7 +86,7 @@
           trash = "[Gmail]/Trash";
         };
         neomutt = {
-          enable = false;
+          enable = true;
           extraMailboxes = [
             { mailbox = "[Gmail]/Sent Mail"; name = "Sent"; }
             { mailbox = "[Gmail]/Drafts"; name = "Drafts"; }
@@ -132,7 +132,7 @@
           trash = "Verwijderde items";
         };
         neomutt = {
-          enable = false;
+          enable = true;
           extraMailboxes = [
             { mailbox = "Verzonden items"; name = "Sent"; }
             { mailbox = "Concepten"; name = "Concepten"; }
@@ -145,10 +145,9 @@
   };
 
   # mbsync setup: still needs some work to be fully functional
-  home.packages = [
-    pkgs.isync
-    pkgs.w3m
-    pkgs.mu
+  home.packages = with pkgs.unstable; [
+    w3m
+    mu
   ];
   programs.mbsync = {
     enable = true;
@@ -161,22 +160,22 @@
   # enable notmuch
   programs.notmuch = {
     enable = true;
+    hooks = {
+      preNew = "mbsync --all";
+    };
     new = {
       tags = ["new" "unread"];
     };
   };
-  home.sessionVariables = {
-    NOTMUCH_CONFIG = /home/francis/.config/notmuch/notmuchrc;
-  };
 
   # afew setup
   programs.afew = {
-    enable = false;
+    enable = true;
     extraConfig = ''
       # This is the default filter chain
       [SpamFilter]
       [Filter.1]
-      message = mark ll mail in junk/trash folders as trash
+      message = mark all mail in junk/trash folders as trash
       query = folder:gmail/[Gmail]/Spam
       tags = +trash -inbox -unread
       [KillThreadsFilter]
@@ -221,7 +220,7 @@
 
   # alot setup
   programs.alot = {
-    enable = false;
+    enable = true;
     bindings = {
       global = {
         up ="";
@@ -343,7 +342,7 @@
       terminal_cmd = "alacritty -e"
       timestamp_format = "%Y/%m/%d %H:%M"
       ask_subject = True
-      theme = mutt
+      # theme = mutt
       thread_focus_linewise = True
     '';
   };
