@@ -5,7 +5,7 @@ let
   blocklist = builtins.readFile (builtins.fetchurl {
     url =
       "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts";
-    sha256 = "sha256:1hxhsbcpj205gzrivrslxza1bp34a3kx8gcd746f8bb7zdiqlyxq";
+    sha256 = "sha256:1gz5rmzjv4ky2033hq21549hnv5dqixkks0zj0mjbhrns3ifsh7l";
   });
 
   dnsSOA = domain: primary: ipv4: email: ''
