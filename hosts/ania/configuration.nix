@@ -65,6 +65,7 @@
     SystemMaxUse=100M
     MaxFileSec=7day
   '';
+  services.nfs.server.enable = true;
 
   sound.enable = true;
 
