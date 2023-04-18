@@ -10,6 +10,8 @@
       noto-fonts-emoji
       liberation_ttf
       fira-code-symbols
+      freefont_ttf
+      montserrat
       dina-font
       symbola
       (nerdfonts.override { fonts = [
