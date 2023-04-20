@@ -103,6 +103,7 @@
         vscodeExtensions = with vscode-extensions; [
           bbenoist.nix
           vscodevim.vim
+          elixir-lsp.vscode-elixir-ls
           ms-vscode-remote.remote-ssh
           ms-azuretools.vscode-docker
           ms-vsliveshare.vsliveshare
