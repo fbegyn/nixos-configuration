@@ -18,6 +18,7 @@
     # common settings
     ../../common/laptop.nix
     ../../common/moonlander.nix
+    ../../common/network-tools.nix
     ../../common/networkmanager.nix
     ../../common/gpg.nix
     ../../common/bluetooth.nix
