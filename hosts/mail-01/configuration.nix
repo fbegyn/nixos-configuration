@@ -14,15 +14,6 @@ in {
     ../../users
     ./acme.nix
     ../../services/tailscale.nix
-
-    # simple mail server
-    (builtins.fetchTarball {
-      # Pick a commit from the branch you are interested in
-      url =
-        "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver/-/archive/nixos-22.05/nixos-mailserver-nixos-22.05.tar.gz";
-      # And set its hash
-      sha256 = "0csx2i8p7gbis0n5aqpm57z5f9cd8n9yabq04bg1h4mkfcf7mpl6";
-    })
   ];
 
   # Use the GRUB 2 boot loader.
@@ -64,6 +55,9 @@ in {
   networking.firewall.interfaces = {
     "tailscale0" = {
       allowedTCPPorts = [ 22 9100 ];
+    };
+    "ens3" = {
+      allowedTCPPorts = [ 25 80 143 443 465 587 993 ];
     };
   };
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
@@ -130,10 +124,33 @@ in {
     domains = vars.mailserver.domains;
     loginAccounts = vars.mailserver.accounts;
     certificateScheme = 3;
+    certificateDomains = vars.mailserver.certificateDomains;
     virusScanning = false;
     monitoring = {
       enable = false;
       alertAddress = vars.mailserver.alertAddress;
+    };
+  };
+  services.nginx.virtualHosts."autoconfig.begyn.be" = {
+    useACMEHost = "mx-01.begyn.be";
+    forceSSL = true;
+    locations."/" = {
+      proxyPass = "http://localhost:11234";
+    };
+  };
+  services.go-autoconfig = {
+    enable = true;
+    settings = {
+      service_addr = ":11234";
+      domain = "begyn.be";
+      imap = {
+        server = "imap.begyn.be";
+        port = 993;
+      };
+      smtp = {
+        server = "smtp.begyn.be";
+        port = 465;
+      };
     };
   };
 
