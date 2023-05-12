@@ -95,6 +95,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  programs.steam.remotePlay.openFirewall = true;
 
   fbegyn.x.xautolock = false;
 
