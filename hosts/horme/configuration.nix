@@ -125,7 +125,6 @@
     sshpass
     steam-run
     qmapshack
-    garmindev
     docker-compose
     podman-compose
   ];
