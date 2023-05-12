@@ -151,6 +151,7 @@
       ];
       mail-01 = mkMachine [
         ./hosts/mail-01/configuration.nix
+        nixos-mailserver.nixosModules.mailserver
       ];
     };
 
