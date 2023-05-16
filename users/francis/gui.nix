@@ -4,6 +4,7 @@
   services.gnome.sushi.enable = true;
   programs.dconf.enable = true;
   services.dbus.packages = with pkgs; [ dconf ];
+  services.gnome.gnome-keyring.enable = true;
 
   programs = {
     wireshark = {
@@ -108,6 +109,7 @@
           ms-azuretools.vscode-docker
           ms-vsliveshare.vsliveshare
           golang.go
+          ms-python.python
           ms-python.vscode-pylance
           coolbear.systemd-unit-file
           redhat.vscode-yaml

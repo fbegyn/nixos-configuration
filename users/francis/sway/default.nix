@@ -121,7 +121,7 @@ in
   home-manager.users.francis = {
     home.packages = with pkgs; [
       unstable.wofi
-      unstable.sway-launcher-desktop
+      unstable.fuzzel
     ];
 
     xdg.configFile = {
@@ -162,7 +162,7 @@ in
           size = 10.0;
         };
         terminal = "alacritty";
-        menu = "${term} --class=launcher -e ${pkgs.unstable.sway-launcher-desktop}/bin/sway-launcher-desktop";
+        menu = "${pkgs.unstable.fuzzel}/bin/fuzzel";
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {

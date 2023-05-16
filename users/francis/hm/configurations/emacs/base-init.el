@@ -369,8 +369,8 @@ the frame and makes it a dedicated window for that buffer."
   (go-mode . (lambda ()
     (lsp)
     ;; (lsp-semantic-tokens-mode)
-    (add-hook 'before-save-hook 'lsp-organize-imports t t)
-    (add-hook 'before-save-hook 'lsp-format-buffer t t)
+    ;; (add-hook 'before-save-hook 'lsp-organize-imports t t)
+    ;; (add-hook 'before-save-hook 'lsp-format-buffer t t)
     (subword-mode 1)
     (define-key evil-motion-state-local-map (kbd "gsff") #'go-goto-function)
     (define-key evil-motion-state-local-map (kbd "gsfa") #'go-goto-arguments)
@@ -428,37 +428,51 @@ the frame and makes it a dedicated window for that buffer."
   (setq ledger-reconcile-default-commodity "EUR")
 )
 
-(use-package lsp-mode
-  :commands (lsp)
-  :hook (go-mode . lsp)
-  :hook (rust-mode . lsp)
-  :hook (lsp-mode . lsp-enable-which-key-integration)
+(use-package eglot
+  :ensure t
+  :defer t
   :config
-  (lsp-register-custom-settings
-    '(("gopls.importShortcut" "Definition" nil)
-      ("gopls.staticcheck" nil t)
-      ;; ("gopls.semanticTokens" t t)
-      ("gopls.experimentalPostfixCompletions" t t)))
-
   :custom
-  (lsp-signature-render-documentation nil)
-  (lsp-file-watch-threshold nil)
-  (lsp-auto-execute-action nil)
-  (lsp-lens-enable t)
-  (lsp-go-hover-kind "FullDocumentation")
-  (lsp-rust-server 'rust-analyzer)
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 50000)
+  (eglot-send-changes-idle-time 3)
+  (flymake-no-changes-timeout 5)
+  (eldoc-echo-area-use-multiline-p nil)
+  (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
+  :hook (python-mode . eglot-ensure)
 )
-
-(use-package lsp-pyright)
-
-(use-package lsp-ui
-  :after (lsp)
-  :hook (lsp-mode . lsp-ui-mode)
-)
-
-(use-package lsp-ivy
-  :after (lsp ivy)
-  :commands (lsp-ivy-workspace-symbol))
+;; (use-package lsp-mode
+;;   :commands (lsp)
+;;   :hook (go-mode . lsp)
+;;   :hook (rust-mode . lsp)
+;;   :hook (lsp-mode . lsp-enable-which-key-integration)
+;;   :config
+;;   (lsp-register-custom-settings
+;;     '(("gopls.importShortcut" "Definition" nil)
+;;       ("gopls.staticcheck" nil t)
+;;       ;; ("gopls.semanticTokens" t t)
+;;       ("gopls.experimentalPostfixCompletions" t t)))
+;;   :custom
+;;   (lsp-signature-render-documentation nil)
+;;   (lsp-file-watch-threshold nil)
+;;   (lsp-auto-execute-action nil)
+;;   (lsp-lens-enable t)
+;;   (lsp-go-hover-kind "FullDocumentation")
+;;   (lsp-rust-server 'rust-analyzer)
+;; )
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;;         (require 'lsp-pyright)
+;;         (lsp)))
+;; )
+;; (use-package lsp-ui
+;;   :after (lsp)
+;;   :hook (lsp-mode . lsp-ui-mode)
+;; )
+;; (use-package lsp-ivy
+;;   :after (lsp ivy)
+;;   :commands (lsp-ivy-workspace-symbol))
 
 (use-package magit
   :after (general)

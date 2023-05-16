@@ -49,6 +49,7 @@ in
       rust-analyzer
       lua53Packages.digestif
       rnix-lsp
+      pyright
     ];
 
     home.file = {
