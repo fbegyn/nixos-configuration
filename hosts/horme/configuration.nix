@@ -33,6 +33,7 @@
     ../../users/francis/gui.nix
     ../../users/francis/yubikey.nix
     ../../users/francis/sway
+    ../../users/francis/river
     ../../services/tailscale.nix
   ];
 

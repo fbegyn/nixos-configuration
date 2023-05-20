@@ -25,21 +25,25 @@ in
       waybar-storage
       swaylock # lockscreen
       swayidle
+
       mako # notification daemon
       slurp
       grim
       imv
-      xdg-utils
+
       swayr
+      xdg-utils
       wl-clipboard
       ydotool
       autotiling
       gammastep
-      pkg-config
+
       wf-recorder
       kanshi # autorandr
       wdisplays
       brightnessctl
+
+      pkg-config
     ];
   };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -132,7 +136,6 @@ in
 
     programs.fish = {
       loginShellInit = ''
-        systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
         if test -z $DISPLAY; and test $XDG_VTNR -eq 1
           exec startsway
         end
