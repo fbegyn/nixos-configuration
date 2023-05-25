@@ -31,7 +31,6 @@ in
       grim
       imv
 
-      swayr
       xdg-utils
       wl-clipboard
       ydotool
@@ -136,13 +135,13 @@ in
       "waybar/style.css".source = ./waybar-style.css;
     };
 
-    programs.fish = {
-      loginShellInit = ''
-        if test -z $DISPLAY; and test $XDG_VTNR -eq 1
-          exec startsway
-        end
-      '';
-    };
+    # programs.fish = {
+    #   loginShellInit = ''
+    #     if test -z $DISPLAY; and test $XDG_VTNR -eq 1
+    #       exec startsway
+    #     end
+    #   '';
+    # };
 
     wayland.windowManager.sway = let
       term = config.home-manager.users.francis.wayland.windowManager.sway.config.terminal;
@@ -306,7 +305,6 @@ in
 
           "${mod}+r" = "mode resize";
 
-          "${mod}+Tab" = "exec swayr switch-window";
         };
         keycodebindings = { };
         modes = let
@@ -336,9 +334,6 @@ in
           # }
           {
             command = "chromium-browser";
-          }
-          {
-            command = "swayrd";
           }
           {
             command = "sway-statusbar.sh";
