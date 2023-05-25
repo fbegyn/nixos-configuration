@@ -37,12 +37,18 @@ in
       autotiling
       gammastep
 
+      wl-mirror
+      pipectl
+      rofi
+      wofi
+
       wf-recorder
       kanshi # autorandr
       wdisplays
       brightnessctl
 
       pkg-config
+      fuzzel
     ];
   };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -124,11 +130,6 @@ in
 
   # sway install and dependencies through home-manager
   home-manager.users.francis = {
-    home.packages = with pkgs; [
-      unstable.wofi
-      unstable.fuzzel
-    ];
-
     xdg.configFile = {
       "mako/config".source = ./mako-config;
       "waybar/config".source = ./waybar-config;
