@@ -103,27 +103,4 @@ in
   environment.variables = {
     XDG_CURRENT_DESKTOP="unity";
   };
-
-  # use gdm as display manager
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.displayManager.sddm.enable = true;
-
-  # sway install and dependencies through home-manager
-  home-manager.users.francis = {
-    xdg.configFile = {
-      "mako/config".source = ./mako-config;
-      "waybar/config".source = ./waybar-config;
-      "waybar/style.css".source = ./waybar-style.css;
-    };
-
-    programs.fish = {
-      loginShellInit = ''
-        systemctl --user import-environment DISPLAY WAYLAND_DISPLAY SWAYSOCK
-        if test -z $DISPLAY; and test $XDG_VTNR -eq 2
-          exec river
-        end
-      '';
-    };
-  };
 }
