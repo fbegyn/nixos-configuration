@@ -105,4 +105,15 @@ in
   environment.variables = {
     XDG_CURRENT_DESKTOP="unity";
   };
+
+
+  home-manager.users.francis = {
+    programs.fish = {
+      loginShellInit = ''
+        if test -z $DISPLAY; and test $XDG_VTNR -eq 2
+          exec startriver
+        end
+      '';
+    };
+  };
 }

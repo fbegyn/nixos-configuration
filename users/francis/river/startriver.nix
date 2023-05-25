@@ -8,7 +8,7 @@ pkgs.writeTextFile {
     #! ${pkgs.bash}/bin/bash
 
     if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty2" ]; then
-        exec dbus-run-session river
+        exec river
     fi
   '';
 }
