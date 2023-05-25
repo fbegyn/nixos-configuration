@@ -103,6 +103,8 @@ in
   ];
   security.pam.services.swaylock = {};
 
+  services.gnome.at-spi2-core.enable = true;
+
   services.dbus.enable = true;
 
   # more theming

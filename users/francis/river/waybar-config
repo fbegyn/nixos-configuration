@@ -1,25 +1,21 @@
 {
     "layer": "bottom",
     "position": "top",
-    "height": 30,
+    "height": 32,
 
-    "modules-left": ["sway/workspaces", "sway/mode", "sway/window"],
-    "modules-center": ["clock", "pulseaudio", "backlight", "sway/language"],
-    "modules-right": ["tray", "custom/spotify", "custom/storage",  "custom/bluetooth", "network", "idle_inhibitor", "battery"],
-    "sway/mode": {
-        "format": "mode {}"
+    "modules-left": ["river/tags", "river/mode", "river/window"],
+    "modules-center": ["clock", "pulseaudio", "backlight"],
+    "modules-right": ["tray", "custom/spotify", "custom/storage",  "custom/bluetooth", "network", "battery"],
+    "river/mode": {
+        "format": "mode: {}"
     },
-    "sway/workspaces": {
-        "format": "{name}",
-        "disable-scroll": true
+    "river/tags": {
+        "num-tags": 9,
     },
-    "sway/window": {
+    "river/window": {
         "max-length": 70,
         "tooltip": false
     },
-	"sway/language": {
-		"format": "{short}/{variant}",
-	},
     "clock": {
         "format": "{:%a %d %b %H:%M}",
         "tooltip": false
@@ -90,14 +86,6 @@
         "format-icons": ["☾", "☼"],
         "on-scroll-up": "light -A 1",
         "on-scroll-down": "light -U 1"
-    },
-    "idle_inhibitor": {
-        "format": "{icon}",
-        "format-icons": {
-            "activated": "presenter",
-            "deactivated": "normal"
-        },
-        "tooltip": false
     },
     "tray": {
         "icon-size": 18

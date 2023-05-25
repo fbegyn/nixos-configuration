@@ -4,7 +4,7 @@ let
   waybarsh = import ./waybar.sh.nix { inherit pkgs; };
   waybar-spotify = import ./waybar-spotify.nix { inherit pkgs; };
   waybar-storage = import ./waybar-storage.nix { inherit pkgs; };
-  startsway = import ./startsway.nix { inherit pkgs; };
+  startriver = import ./startriver.nix { inherit pkgs; };
 in
 {
   imports = [
@@ -90,6 +90,8 @@ in
     unstable.gnome.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
+
+  services.gnome.at-spi2-core.enable = true;
 
   services.dbus.enable = true;
 
