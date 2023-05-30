@@ -14,14 +14,6 @@
     yubikey-personalization
   ];
 
-  programs = {
-    ssh.startAgent = false;
-    gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
-  };
-
   security.pam.yubico = {
     enable = false;
     mode = "challenge-response";
