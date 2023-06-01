@@ -93,7 +93,7 @@ in {
     enable = true;
     package = pkgs.unstable.fail2ban;
     packageFirewall = pkgs.unstable.iptables-nftables-compat;
-    ignoreIP = [ "213.119.124.156" "100.88.113.9" ];
+    ignoreIP = [ "213.119.124.156" "100.88.113.9" "109.236.137.143" ];
     jails = {
       dovecot = ''
         enabled  = true
@@ -123,7 +123,7 @@ in {
     fqdn = vars.mailserver.fqdn;
     domains = vars.mailserver.domains;
     loginAccounts = vars.mailserver.accounts;
-    certificateScheme = 3;
+    certificateScheme = "acme-nginx";
     certificateDomains = vars.mailserver.certificateDomains;
     virusScanning = false;
     monitoring = {
