@@ -2,7 +2,7 @@
   description = "Nixos configuration flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-22.11";
+    nixpkgs.url = "nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -11,7 +11,7 @@
       url = "github:gytis-ivaskevicius/flake-utils-plus";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-22.11";
+      url = "github:nix-community/home-manager/release-23.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
       };
@@ -30,7 +30,7 @@
     };
     emacs-overlay = {
       url =
-        "github:nix-community/emacs-overlay/5f9bc90bd2fd0bf53cc4e2643b083fa75b358461";
+        "github:nix-community/emacs-overlay/dbb2bb4f40a27e2bba0bee5fe6f97e832a4583c6";
       inputs = {
         nixpkgs.follows = "nixpkgs-unstable";
       };
