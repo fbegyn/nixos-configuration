@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  boot.cleanTmpDir = true;
+  boot.tmp.cleanOnBoot = true;
 
   boot.extraModprobeConfig = ''
     options hid_apple swap_opt_cmd=1

@@ -51,7 +51,6 @@
 
   boot.loader.grub.efiInstallAsRemovable = true;
   boot.loader.grub.enable = true;
-  boot.loader.grub.version = 2;
   boot.loader.grub.copyKernels = true;
   boot.loader.grub.efiSupport = true;
   boot.loader.grub.zfsSupport = true;
@@ -60,7 +59,6 @@
   ];
 
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.cleanTmpDir = true;
 
   nix.settings.auto-optimise-store = true;
   services.journald.extraConfig = ''

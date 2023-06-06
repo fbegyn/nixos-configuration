@@ -29,7 +29,6 @@
     options = "--delete-older-then 15d";
   };
 
-  boot.cleanTmpDir = true;
   boot.consoleLogLevel = 7;
 
   # File systems configuration for using the installer's partition layout
@@ -39,7 +38,7 @@
       fsType = "ext4";
     };
   };
-    
+
   swapDevices = [ { device = "/swapfile"; size = 1024; } ];
 
   networking = {
@@ -54,7 +53,7 @@
     enable = true;
     permitRootLogin = "yes";
   };
-    
+
   # setup francis user
   users.groups.francis.gid = 1000;
   users.users.francis = {
