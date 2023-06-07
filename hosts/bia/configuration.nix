@@ -21,7 +21,6 @@
     ../../common/rtlsdr.nix
     ../../common/fonts.nix
     ../../common/printer.nix
-    ../../common/hidpi.nix
     ../../common/scanner.nix
     ../../common/eid.nix
     ../../common/rtlsdr.nix
