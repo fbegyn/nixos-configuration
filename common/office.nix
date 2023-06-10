@@ -2,6 +2,6 @@
 
 {
   environment.systemPackages = with pkgs; [
-    libreoffice-fresh-unwrapped
+    libreoffice-fresh
   ];
 }
