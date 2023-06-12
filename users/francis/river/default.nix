@@ -96,7 +96,7 @@ in
   services.dbus.enable = true;
 
   # more theming
-  qt5.platformTheme = "qt5ct";
+  qt.platformTheme = "qt5ct";
 
   # polkit for the sway environment
   environment.pathsToLink = [ "/libexec" ];
