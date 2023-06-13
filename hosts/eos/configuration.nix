@@ -561,23 +561,6 @@ in {
     ];
   };
 
-  services.vault = {
-    enable = true;
-    package = pkgs.vault-bin;
-    address = "10.5.1.10:8200";
-    storageBackend = "file";
-    storagePath = "/var/lib/vault/storage";
-    tlsCertFile = "/var/lib/vault/ssl/server.crt";
-    tlsKeyFile = "/var/lib/vault/ssl/server.key";
-    extraConfig = ''
-      ui = true
-      api_addr = "https://10.5.1.10:8200"
-    '';
-    telemetryConfig = ''
-      prometheus_retention_time = "24h"
-    '';
-  };
-
   services.minio = {
     enable = false;
     rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
