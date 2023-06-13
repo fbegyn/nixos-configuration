@@ -21,18 +21,18 @@ with lib; {
       description = "The port to listen on for tunnel traffic (0=autoselect).";
     };
 
-    sockPath = mkOption {
-      type = types.path;
-      default = "/run/tailscale/tailscaled.socket";
-      example = "/run/tailscale/tailscaled.socket";
-      description = "The port to listen on for tunnel traffic (0=autoselect).";
-    };
+    routingFeature = mkOption {
+      type = types.enum [ "none" "client" "server" "both" ];
+      default = "none";
+      example = "server";
+      description = lib.mdDoc ''
+        Enables settings required for Tailscale's routing features like subnet routers and exit nodes.
 
-    statePath = mkOption {
-      type = types.path;
-      default = "/var/lib/tailscale/tailscaled.state";
-      example = "/var/lib/tailscale/tailscaled.state";
-      description = "The port to listen on for tunnel traffic (0=autoselect).";
+        To use these these features, you will still need to call `sudo tailscale up` with the relevant flags like `--advertise-exit-node` and `--exit-node`.
+
+        When set to `client` or `both`, reverse path filtering will be set to loose instead of strict.
+        When set to `server` or `both`, IP forwarding will be enabled.
+      '';
     };
 
     notifySupport = mkOption {
@@ -44,7 +44,7 @@ with lib; {
 
     cmd = mkOption {
       type = types.str;
-      default = "${cfg.package}/bin/tailscaled --state=${cfg.statePath} --socket=${cfg.sockPath} --port ${toString cfg.port}";
+      default = "${cfg.package}/bin/tailscaled --port ${toString cfg.port}";
       description = "Command to run tailscaled with";
     };
 
@@ -56,8 +56,14 @@ with lib; {
       };
       cmd = mkOption {
         type = types.str;
-        default = "${cfg.package}/bin/tailscale up --auth-key=${cfg.autoprovision.key} ${lib.concatStringsSep " "cfg.autoprovision.options}";
+        default = "${cfg.package}/bin/tailscale up --auth-key=${cfg.autoprovision.key} --operator=${cfg.autoprovision.operator} ${lib.concatStringsSep " "cfg.autoprovision.options}";
         description = "Command to use when running Tailscale";
+      };
+      operator = mkOption {
+        type = types.str;
+        default = "francis";
+        example = "francis";
+        description = "Operator that can control tailscale";
       };
       options = mkOption {
         type = types.listOf types.str;
@@ -66,23 +72,32 @@ with lib; {
         description = "Options to pass to Tailscale";
       };
     };
-
-    setSysctlForwarding = mkOption {
-      type = types.bool;
-      default = false;
-      description = "Set the sysctl parameters for ip forwarding";
-    };
   };
 
   config = mkIf cfg.enable {
     environment.systemPackages = [ cfg.package ];
     systemd.packages = [ cfg.package ];
 
-    systemd.services.tailscaled = {
+    services.tailscale = {
+      enable = false;
+      package = cfg.package;
+      useRoutingFeatures = "${cfg.routingFeature}";
+    };
+    systemd.services.tailscaled.enable = false;
+    boot.kernel.sysctl = mkIf (cfg.routingFeature == "server" || cfg.routingFeature == "both") {
+      "net.ipv4.conf.all.forwarding" = mkOverride 97 true;
+      "net.ipv6.conf.all.forwarding" = mkOverride 97 true;
+    };
+
+    systemd.services.tailscale = {
       enable = true;
       description = "Tailscale node agent";
-      documentation = "https://tailscale.com/kb/";
-      path = [ pkgs.openresolv ];
+      documentation = [ "https://tailscale.com/kb/" ];
+      path = [
+	config.networking.resolvconf.package # for configuring DNS in some configs
+        pkgs.procps     # for collecting running services (opt-in feature)
+        pkgs.glibc
+      ];
       after = [
         "network-pre.target"
         "NetworkManager.service"
@@ -112,19 +127,14 @@ with lib; {
 
     systemd.services.tailscale-autoprovision = mkIf cfg.autoprovision.enable {
       description = "automagically provision a tailscale machine";
-      after = [ "network-pre.target" "tailscale.service" ];
-      wants = [ "network-pre.target" "tailscale.service" ];
+      after = [ "network-pre.target" "NetworkManager.service" "systemd-resolved.service" "tailscale.service" ];
+      wants = [ "tailscale.service" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig.Type = "oneshot";
       script = ''
         # authenticate to tailscale
         ${cfg.autoprovision.cmd}
       '';
-    };
-
-    boot.kernel.sysctl = mkIf cfg.setSysctlForwarding {
-      "net.ipv4.ip_forward" = "1";
-      "net.ipv6.conf.all.forwarding" = "1";
     };
   };
 }
