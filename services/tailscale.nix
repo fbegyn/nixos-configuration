@@ -21,6 +21,20 @@ with lib; {
       description = "The port to listen on for tunnel traffic (0=autoselect).";
     };
 
+    sockPath = mkOption {
+      type = types.path;
+      default = "/run/tailscale/tailscaled.socket";
+      example = "/run/tailscale/tailscaled.socket";
+      description = "The port to listen on for tunnel traffic (0=autoselect).";
+    };
+
+    statePath = mkOption {
+      type = types.path;
+      default = "/var/lib/tailscale/tailscaled.state";
+      example = "/var/lib/tailscale/tailscaled.state";
+      description = "The port to listen on for tunnel traffic (0=autoselect).";
+    };
+
     notifySupport = mkOption {
       type = types.bool;
       default = false;
@@ -30,7 +44,7 @@ with lib; {
 
     cmd = mkOption {
       type = types.str;
-      default = "${cfg.package}/bin/tailscaled -port ${toString cfg.port}";
+      default = "${cfg.package}/bin/tailscaled --state=${cfg.statePath} --socket=${cfg.sockPath} --port ${toString cfg.port}";
       description = "Command to run tailscaled with";
     };
 
@@ -64,11 +78,16 @@ with lib; {
     environment.systemPackages = [ cfg.package ];
     systemd.packages = [ cfg.package ];
 
-    systemd.services.tailscale = {
+    systemd.services.tailscaled = {
       enable = true;
-      description = "Tailscale client daemon";
+      description = "Tailscale node agent";
+      documentation = "https://tailscale.com/kb/";
       path = [ pkgs.openresolv ];
-      after = [ "network-pre.target" ];
+      after = [
+        "network-pre.target"
+        "NetworkManager.service"
+        "systemd-resolved.service"
+      ];
       wants = [ "network-pre.target" ];
       wantedBy = [ "multi-user.target" ];
 
@@ -79,6 +98,8 @@ with lib; {
 
       serviceConfig = {
         ExecStart = cfg.cmd;
+        ExecStartPre = "${cfg.package}/bin/tailscaled --cleanup";
+        ExecStopPost = "${cfg.package}/bin/tailscaled --cleanup";
         RuntimeDirectory = "tailscale";
         RuntimeDirectoryMode = 755;
         StateDirectory = "tailscale";
