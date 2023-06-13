@@ -31,7 +31,7 @@ in {
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
@@ -108,28 +108,6 @@ in {
           "28080:8080"
         ];
       };
-      unifi = {
-        image = "linuxserver/unifi-controller:7.3.83";
-        environment = {
-          TZ = "Europe/Brussels";
-          COUNTRY = "BE";
-          MEM_LIMIT = "2048";
-          MEM_STARTUP = "1024";
-        };
-        volumes = [
-          "/home/francis/unifi:/config"
-        ];
-        ports = [
-          "8443:8443"
-          "3478:3478/udp"
-          "10001:10001/udp"
-          "8080:8080"
-          "8843:8843"
-          "8880:8880"
-          "6789:6789"
-          "5514:5514/udp"
-        ];
-      };
     };
   };
 
@@ -151,6 +129,7 @@ in {
 
   networking = {
     hostName = "eos"; # After the Greek titan of dawn
+    hostId = "4bd898f1";
     wireless.enable = false;
     # The global useDHCP flag is deprecated, therefore explicitly set to false here.
     # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -158,21 +137,21 @@ in {
     useDHCP = false;
     defaultGateway = {
       address = "10.5.1.1";
-      interface = "enp57s0u1";
+      interface = "eno1";
     };
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
     interfaces = {
-      enp57s0u1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
+      eno1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
       lan20.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
       mgmt.ipv4.addresses = [{ address = "10.5.30.10"; prefixLength = 32; }];
       iot.ipv4.addresses = [{ address = "10.5.90.10"; prefixLength = 32; }];
       guests.ipv4.addresses = [{ address = "10.5.100.10"; prefixLength = 32; }];
     };
     vlans = {
-      lan20 = { id = 20; interface = "enp57s0u1"; };
-      mgmt = { id = 30; interface = "enp57s0u1"; };
-      iot = { id = 90; interface = "enp57s0u1"; };
-      guests = { id = 100; interface = "enp57s0u1"; };
+      lan20 = { id = 20; interface = "eno1"; };
+      mgmt = { id = 30; interface = "eno1"; };
+      iot = { id = 90; interface = "eno1"; };
+      guests = { id = 100; interface = "eno1"; };
     };
     firewall = {
       enable = false;
@@ -348,7 +327,7 @@ in {
 
   services.consul = {
     interface = {
-      bind = "enp57s0u1";
+      bind = "eno1";
     };
     extraConfig = {
       server = true;
