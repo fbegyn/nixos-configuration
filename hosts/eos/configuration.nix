@@ -25,7 +25,6 @@ in {
     ../../services/grafana
     ../../services/node-exporter
     ../../services/tailscale.nix
-    ../../services/plex.nix
     ../../services/postgres
     ../../services/consul
   ];
