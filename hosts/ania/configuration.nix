@@ -106,6 +106,9 @@
   # networking.interfaces.enp2s0f0.useDHCP = true;
   # networking.interfaces.enp5s0.useDHCP = true;
   # networking.interfaces.wlp3s0.useDHCP = true;
+  environment.systemPackages = with pkgs; [
+    steam-run
+  ];
 
   programs.gnupg.package = pkgs.unstable.gnupg;
   services.tailscale = {
