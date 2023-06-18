@@ -29,13 +29,11 @@
       substituters = [
         "https://fbegyn-personal.cachix.org"
         "https://nix-community.cachix.org"
-        "https://cache.garnix.io"
         "https://cuda-maintainers.cachix.org"
       ];
       trusted-public-keys = [
         "fbegyn-personal.cachix.org-1:0BEArpeI+ISsPainphPLHBozpP+zExYO6+43lLORDnI="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
       trusted-users = [ "root" "francis" ];
