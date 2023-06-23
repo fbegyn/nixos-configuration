@@ -51,5 +51,5 @@
     MaxFileSec=7day
   '';
 
-  system.stateVersion = lib.mkDefault "22.11";
+  system.stateVersion = lib.mkDefault "23.05";
 }
