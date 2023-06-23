@@ -179,11 +179,67 @@
 (add-to-list 'tramp-connection-properties
                    (list ".*" "locale" "LC_ALL=C"))
 
-;; dired things
-(progn
-  (setq dired-listing-switches "-lXGh --group-directories-first")
-  (add-hook 'dired-mode-hook 'dired-omit-mode)
-  (add-hook 'dired-mode-hook 'dired-hide-details-mode))
+(use-package treemacs
+  :ensure t
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+(use-package treemacs-projectile
+  :after (treemacs evil)
+  :ensure t)
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once)
+  :ensure t)
+(use-package treemacs-magit
+  :after (treemacs evil)
+  :ensure t)
+
+(require 'dired)
+(use-package dired
+  :ensure nil
+  :config
+  ;; dired things
+  (progn
+    (setq dired-listing-switches "-lXGh --group-directories-first")
+    (add-hook 'dired-mode-hook 'dired-omit-mode)
+    (add-hook 'dired-mode-hook 'dired-hide-details-mode)))
+(use-package dired-subtree
+  :demand
+  :bind
+  (:map dired-mode-map
+    ("<enter>" ."mhj/dwim-toggle-or-open")
+    ("<return>" . "mhj/dwim-toggle-or-open")
+    ("<tab>" . "mhj/dwim-toggle-or-open")
+    ("<down-mouse-1>" . "mhj/mouse-dwim-to-toggle-or-open"))
+  :config
+  (progn
+    ;; Function to customize the line prefixes (I simply indent the lines a bit)
+    (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s)))
+    )
+
+  (defun mhj/dwim-toggle-or-open ()
+    "Toggle subtree or open the file."
+    (interactive)
+    (if (file-directory-p (dired-get-file-for-visit))
+        (progn
+          (dired-subtree-toggle)
+          (revert-buffer))
+          (dired-find-file)))
+
+  (defun mhj/mouse-dwim-to-toggle-or-open (event)
+    "Toggle subtree or the open file on mouse-click in dired."
+    (interactive "e")
+    (let* ((window (posn-window (event-end event)))
+       (buffer (window-buffer window))
+       (pos (posn-point (event-end event))))
+      (progn
+        (with-current-buffer buffer
+        (goto-char pos)
+        (mhj/dwim-toggle-or-open))))))
 
 (defun mhj/toggle-project-explorer ()
   "Toggle the project explorer window."
@@ -191,7 +247,7 @@
   (let* ((buffer (dired-noselect (projectile-project-root)))
     (window (get-buffer-window buffer)))
     (if window
-    (mhj/hide-project-explorer)
+      (mhj/hide-project-explorer)
       (mhj/show-project-explorer))))
 
 (defun mhj/show-project-explorer ()
@@ -210,41 +266,6 @@ the frame and makes it a dedicated window for that buffer."
       (delete-window (get-buffer-window buffer))
       (kill-buffer buffer))))
 
-(require 'dired)
-(use-package dired-subtree
-  ;:bind (
-  ;  :map dired-mode
-  ;  ("<enter>" ."mhj/dwim-toggle-or-open")
-  ;  ("<return>" . "mhj/dwim-toggle-or-open")
-  ;  ("<tab>" . "mhj/dwim-toggle-or-open")
-  ;  ("<down-mouse-1>" . "mhj/mouse-dwim-to-toggle-or-open")
-  ;)
-  :config
-  (progn
-    ;; Function to customize the line prefixes (I simply indent the lines a bit)
-    (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s)))
-    )
-
-  (defun mhj/dwim-toggle-or-open ()
-    "Toggle subtree or open the file."
-    (interactive)
-    (if (file-directory-p (dired-get-file-for-visit))
-        (progn
-      (dired-subtree-toggle)
-      (revert-buffer))
-      (dired-find-file)))
-
-  (defun mhj/mouse-dwim-to-toggle-or-open (event)
-    "Toggle subtree or the open file on mouse-click in dired."
-    (interactive "e")
-    (let* ((window (posn-window (event-end event)))
-       (buffer (window-buffer window))
-       (pos (posn-point (event-end event))))
-      (progn
-        (with-current-buffer buffer
-      (goto-char pos)
-      (mhj/dwim-toggle-or-open)))))
-)
 
 (use-package counsel
   :after (general)
