@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 let
   staticScrape = (job_name: scheme: targets: {
@@ -17,18 +17,34 @@ let
     ];
   });
 in
-{
-  services.prometheus = let
+with lib; {
+  options.francis.services.prometheus = {
+    retention = {
+      time = mkOption {
+        type = lib.types.str;
+        default = "30d";
+        example = "365d";
+        description = "Retention time passed to the Prometheus TSDB";
+      };
+      size = mkOption {
+        type = lib.types.str;
+        default = "0";
+        example = "10GB";
+        description = "Retention size passed to the Prometheus TSDB, defaults to 0 disabling it";
+      };
+    };
+  };
+  config.services.prometheus = let
     vars = import ../../secrets/hosts.nix;
+    cfg = config.francis.services.prometheus;
   in {
-    enable = true;
     extraFlags = [
-      "--storage.tsdb.retention.time 365d"
+      "--storage.tsdb.retention.time ${cfg.retention.time}"
+      "--storage.tsdb.retention.size ${cfg.retention.size}"
       "--web.enable-admin-api"
       "--web.enable-lifecycle"
     ];
     alertmanager = {
-      enable = true;
       configuration = {
         global = {
           smtp_from = "monitoring@begyn.be";
@@ -37,13 +53,6 @@ in
           smtp_auth_username = "bots@begyn.be";
           smtp_auth_password = "${vars.mail-01.mailserver.botsPass}";
         };
-        route = {
-          group_by = ["alertname"];
-          group_wait = "10s";
-          group_interval = "10s";
-          repeat_interval = "1h";
-          receiver = "default";
-        };
         receivers = [{
           name = "default";
           email_configs = [{
@@ -51,15 +60,6 @@ in
           }];
         }];
       };
-    };
-    alertmanagers = [{
-      static_configs = [{
-        targets = ["localhost:9093"];
-      }];
-    }];
-    globalConfig = {
-      scrape_interval = "10s";
-      scrape_timeout = "8s";
     };
   };
 }

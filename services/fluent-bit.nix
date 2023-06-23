@@ -2,7 +2,7 @@
 
 
 let
-  cfg = config.services.fluent-bit; 
+  cfg = config.services.fluent-bit;
 in
 with lib; {
   options.services.fluent-bit = {
@@ -41,7 +41,7 @@ with lib; {
     systemd.services.fluent-bit = {
       enable = true;
       serviceConfig = {
-        User = "fluent-bit"; 
+        User = "fluent-bit";
         Group = "fluent-bit";
         WorkingDirectroy = "/etc/fluent-bit";
         ExecStart = "${cfg.package}/bin/fluent-bit -c ${pkgs.writeText "fluent.conf" cfg.config}";

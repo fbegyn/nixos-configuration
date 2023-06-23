@@ -28,7 +28,6 @@ let
 in
 {
   services.coredns = {
-    enable = true;
     config = ''
       ${corednsconf}
     '';

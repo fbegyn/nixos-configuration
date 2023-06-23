@@ -14,18 +14,14 @@ in {
     ../../common
     ../../common/network-tools.nix
     ../../common/bluetooth.nix
-    ../../common/rtlsdr.nix
 
     ../../users
 
     # services
     ../../services/coredns
     ../../services/prometheus
-    ../../services/grafana
-    ../../services/node-exporter
     ../../services/tailscale.nix
     ../../services/postgres
-    ../../services/consul
   ];
 
   # Use the systemd-boot EFI boot loader.
@@ -42,6 +38,130 @@ in {
     DNSStubListener=no
   '';
 
+  environment.systemPackages = with pkgs.unstable; [
+    dbus-broker
+    nodejs
+  ];
+
+  networking = {
+    hostName = "eos"; # After the Greek titan of dawn
+    hostId = "4bd898f1";
+    wireless.enable = false;
+    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
+    # Per-interface useDHCP will be mandatory in the future, so this generated config
+    # replicates the default behaviour.
+    useDHCP = false;
+    defaultGateway = {
+      address = "10.5.1.1";
+      interface = "eno1";
+    };
+    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    interfaces = {
+      eno1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
+      lan20.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
+      mgmt.ipv4.addresses = [{ address = "10.5.30.10"; prefixLength = 32; }];
+      iot.ipv4.addresses = [{ address = "10.5.90.10"; prefixLength = 32; }];
+      guests.ipv4.addresses = [{ address = "10.5.100.10"; prefixLength = 32; }];
+    };
+    vlans = {
+      lan20 = { id = 20; interface = "eno1"; };
+      mgmt = { id = 30; interface = "eno1"; };
+      iot = { id = 90; interface = "eno1"; };
+      guests = { id = 100; interface = "eno1"; };
+    };
+    firewall = {
+      enable = false;
+      allowedTCPPorts = [
+        22 # ssh
+        80 # HTTP
+        443 # HTTPS
+        3000 # Grafana
+        9090 # Prometheus
+        8123 # HASS
+        28080
+      ];
+      allowedUDPPorts = [
+        5514
+        3478
+      ];
+    };
+  };
+
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  # Set your time zone.
+  time.timeZone = "Europe/Brussels";
+
+  # List services that you want to enable:
+  # Enable the OpenSSH daemon.
+  services.openssh = {
+    enable = true;
+  };
+
+  # VPN settings
+  fbegyn.services.tailscale = {
+    enable = true;
+    routingFeature = "server";
+    autoprovision = {
+      enable = true;
+      key = "${hosts.tailscale.tempkey}";
+      options = [
+        "--advertise-routes=${hosts.eos.tailscale.routes}"
+        "--advertise-exit-node"
+        "--advertise-tags=tag:prod,tag:dcf,tag:hass"
+      ];
+    };
+  };
+
+  # Web/ingress
+  services.nginx = {
+    enable = true;
+    defaultListenAddresses = [ "10.5.1.10" ];
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+    virtualHosts = {
+      "hass.dcf.begyn.be" = {
+        forceSSL = true;
+        useACMEHost = "dcf.begyn.be";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:8123/";
+          proxyWebsockets = true;
+        };
+      };
+      "unifi.svc.begyn.be" = {
+        forceSSL = true;
+        useACMEHost = "svc-02.begyn.be";
+        locations."/" = {
+          proxyPass = "https://127.0.0.1:8443/";
+          proxyWebsockets = true;
+        };
+      };
+    };
+  };
+  services.oauth2_proxy = {
+    enable = true;
+    email.addresses = ''
+      francis.begyn@gmail.com
+    '';
+    nginx.virtualHosts = [
+      "news.francis.begyn.be"
+    ];
+    google = {
+      serviceAccountJSON =
+        "${hosts.eos.oauth2_proxy.google.serviceAccountJSON}";
+    };
+    clientID = "${hosts.eos.oauth2_proxy.clientID}";
+    keyFile = "${hosts.eos.oauth2_proxy.keyFile}";
+    cookie = {
+      secret = "${hosts.eos.oauth2_proxy.cookie.secret}";
+      expire = "12h0m0s";
+    };
+  };
+
+  # containers
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
@@ -109,11 +229,8 @@ in {
     };
   };
 
-  environment.systemPackages = with pkgs.unstable; [
-    dbus-broker
-    nodejs
-  ];
-
+  # network services
+  services.coredns.enable = true;
   services.mosquitto = {
     enable = true;
     listeners = [
@@ -125,136 +242,29 @@ in {
     ];
   };
 
-  networking = {
-    hostName = "eos"; # After the Greek titan of dawn
-    hostId = "4bd898f1";
-    wireless.enable = false;
-    # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-    # Per-interface useDHCP will be mandatory in the future, so this generated config
-    # replicates the default behaviour.
-    useDHCP = false;
-    defaultGateway = {
-      address = "10.5.1.1";
-      interface = "eno1";
-    };
-    nameservers = [ "1.1.1.1" "8.8.8.8" ];
-    interfaces = {
-      eno1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
-      lan20.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
-      mgmt.ipv4.addresses = [{ address = "10.5.30.10"; prefixLength = 32; }];
-      iot.ipv4.addresses = [{ address = "10.5.90.10"; prefixLength = 32; }];
-      guests.ipv4.addresses = [{ address = "10.5.100.10"; prefixLength = 32; }];
-    };
-    vlans = {
-      lan20 = { id = 20; interface = "eno1"; };
-      mgmt = { id = 30; interface = "eno1"; };
-      iot = { id = 90; interface = "eno1"; };
-      guests = { id = 100; interface = "eno1"; };
-    };
-    firewall = {
-      enable = false;
-      allowedTCPPorts = [
-        22
-        80
-        443
-
-        3000
-
-        9090
-
-        8123
-
-        28080
-
-        8443
-        8080
-      ];
-      allowedUDPPorts = [
-        5514
-        3478
-      ];
-    };
-  };
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  # console = {
-  #   font = "Lat2-Terminus16";
-  #   keyMap = "us";
-  # };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
-
-  # List services that you want to enable:
-  # Enable the OpenSSH daemon.
-  services.openssh = {
+  # storage and databases
+  services.consul = {
+    package = pkgs.unstable.consul;
     enable = true;
-  };
-
-  # tailscale machine specific
-  fbegyn.services.tailscale = {
-    enable = true;
-    routingFeature = "server";
-    autoprovision = {
-      enable = true;
-      key = "${hosts.tailscale.tempkey}";
-      options = [
-        "--advertise-routes=${hosts.eos.tailscale.routes}"
-        "--advertise-exit-node"
-        "--advertise-tags=tag:prod,tag:dcf,tag:hass"
-      ];
+    webUi = true;
+    interface = {
+      bind = "eno1";
+    };
+    extraConfig = {
+      server = true;
+      bootstrap_expect = 1;
+      datacenter = "app-01";
+      bind_addr = "10.5.1.10";
+      client_addr = "10.5.1.10";
+      enable_script_checks = true;
     };
   };
-
-  services.nginx = {
-    enable = true;
-    defaultListenAddresses = [ "10.5.1.10" ];
-    recommendedGzipSettings = true;
-    recommendedOptimisation = true;
-    recommendedProxySettings = true;
-    recommendedTlsSettings = true;
+  services.minio = {
+    enable = false;
+    rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
+    package = pkgs.unstable.minio;
+    region = "eu-west-1";
   };
-
-  services.oauth2_proxy = {
-    enable = true;
-    email.addresses = ''
-      francis.begyn@gmail.com
-    '';
-    nginx.virtualHosts = [
-      "news.francis.begyn.be"
-    ];
-    google = {
-      serviceAccountJSON =
-        "${hosts.eos.oauth2_proxy.google.serviceAccountJSON}";
-    };
-    clientID = "${hosts.eos.oauth2_proxy.clientID}";
-    keyFile = "${hosts.eos.oauth2_proxy.keyFile}";
-    cookie = {
-      secret = "${hosts.eos.oauth2_proxy.cookie.secret}";
-      expire = "12h0m0s";
-    };
-  };
-
-  services.nginx.virtualHosts = {
-    "hass.dcf.begyn.be" = {
-      forceSSL = true;
-      useACMEHost = "dcf.begyn.be";
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:8123/";
-        proxyWebsockets = true;
-      };
-    };
-    "unifi.svc.begyn.be" = {
-      forceSSL = true;
-      useACMEHost = "svc-02.begyn.be";
-      locations."/" = {
-        proxyPass = "https://127.0.0.1:8443/";
-        proxyWebsockets = true;
-      };
-    };
-  };
-
   services.postgresql = {
     enable = true;
     ensureDatabases = [
@@ -283,223 +293,45 @@ in {
     databases = [ "mastodon" ];
   };
 
-  services.nextcloud = {
-    enable = false;
-    package = pkgs.unstable.nextcloud25;
-    enableBrokenCiphersForSSE = false;
-    hostName = "docs.begyn.be";
-    config = {
-      overwriteProtocol = "https";
-      defaultPhoneRegion = "BE";
 
-      adminuser = "admin";
-      adminpassFile = "${pkgs.writeText "adminpass" "${hosts.eos.nextcloud.adminpass}"}";
-
-      dbtype = "pgsql";
-      dbuser = "nextcloud";
-      dbhost = "/run/postgresql";
-      dbname = "nextcloud";
-      dbpassFile = hosts.eos.nextcloud.dbpassFile;
-    };
-    https = true;
-    autoUpdateApps.enable = true;
-    enableImagemagick = true;
-  };
-  services.nginx.virtualHosts = {
-    "docs.begyn.be" = {
-      forceSSL = true;
-      useACMEHost = "dcf.begyn.be";
-    };
-  };
-  systemd.services."nextcloud-setup" = {
-    requires = ["postgresql.service"];
-    after = ["postgresql.service"];
-  };
-
-  services.consul = {
-    interface = {
-      bind = "eno1";
-    };
-    extraConfig = {
-      server = true;
-      bootstrap_expect = 1;
-      datacenter = "app-01";
-      bind_addr = "10.5.1.10";
-      client_addr = "10.5.1.10";
-      enable_script_checks = true;
-    };
-  };
-
-  services.promtail = {
+  # monitoring applications
+  services.grafana = {
     enable = true;
-    configuration = {
-      server = {
-        http_listen_port = 9080;
-        grpc_listen_port = 0;
-      };
-      client.url = "http://localhost:3100/loki/api/v1/push";
-      scrape_configs = [{
-        job_name = "var-logs";
-        static_configs = [
-          {
-            targets = [ "localhost" ];
-            labels = {
-              job = "varlogs";
-              host = "eos";
-              __path__ = "/var/log/*.log";
-            };
-          }
-        ];
-      }
-      {
-        job_name = "journald";
-        journal = {
-          max_age = "12h";
-          labels = {
-            job = "journald";
-            host = "eos";
-          };
-        };
-        relabel_configs = [{
-          source_labels = [ "__journal__systemd_unit" ];
-          target_label = "unit";
-        }];
-      }];
+    settings.server = {
+      http_port = 3000;
+      http_addr = "";
+      protocol = "http";
     };
+    dataDir = "/var/lib/grafana";
+    package = pkgs.unstable.grafana;
   };
-
-  services.loki = {
+  francis.services.prometheus.retention.time = "365d";
+  francis.services.prometheus.retention.size = "32GB";
+  services.prometheus = {
     enable = true;
-    configuration = {
-      auth_enabled = false;
-      server.http_listen_port = 3100;
-      ingester = {
-        lifecycler = {
-          address = "127.0.0.1";
-          ring = {
-            kvstore.store = "inmemory";
-            replication_factor = 1;
-          };
-          final_sleep = "0s";
-        };
-        chunk_idle_period = "5m";
-        chunk_retain_period = "30s";
-      };
-      schema_config.configs = [{
-        from = "2020-05-15";
-        store = "boltdb";
-        object_store = "filesystem";
-        schema = "v11";
-        index = {
-          prefix = "index_";
-          period = "168h";
-        };
-      }];
-      storage_config = {
-        boltdb.directory = "/tmp/loki/index";
-        filesystem.directory = "/tmp/loki/chunks";
-      };
-      limits_config = {
-        enforce_metric_name = false;
-        reject_old_samples = true;
-        reject_old_samples_max_age = "168h";
-      };
-    };
-  };
-
-  services.tt-rss = {
-    enable = true;
-    virtualHost = null;
-    selfUrlPath = "https://news.francis.begyn.be";
-    database = {
-      createLocally = true;
-      passwordFile = "/var/lib/tt-rss/db-password";
-    };
-    email = {
-      server = "mail.begyn.be:587";
-      login = "bots";
-      password = "${hosts.mail.bots.password}";
-      security = "tls";
-      fromAddress = "bots@begyn.be";
-    };
-    singleUserMode = true;
-    auth = {
-      autoCreate = false;
-      autoLogin = false;
-    };
-    logDestination = "syslog";
-  };
-  services.nginx.virtualHosts."news.francis.begyn.be" = let
-    cfg = config.services.tt-rss;
-  in {
-    root = "${cfg.root}/www";
-    forceSSL = true;
-    useACMEHost = "francis.dcf.begyn.be";
-
-    locations."/" = {
-      index = "index.php";
-    };
-    locations."^~ /feed-icons" = {
-      root = "${cfg.root}";
-    };
-    locations."~ \\.php$" = {
-      extraConfig = ''
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:${config.services.phpfpm.pools.tt-rss.socket};
-        fastcgi_index index.php;
-      '';
-    };
-  };
-
-  services.mastodon = {
-    enable= true;
-    package = pkgs.mastodon;
-    localDomain = "social.begyn.be";
-    enableUnixSocket = true;
-    smtp = {
-      host = "mail.begyn.be";
-      port = 587;
-      authenticate = true;
-      user = "bots";
-      fromAddress = "social@begyn.be";
-      passwordFile = "/var/lib/mastodon/secrets/smtp-password";
-      createLocally = false;
-    };
-    database.createLocally = true;
-    redis.createLocally = true;
-  };
-  users.groups.mastodon.members = [ "nginx" ];
-  services.nginx.virtualHosts."social.begyn.be" = let
-    cfg = config.services.mastodon;
-  in {
-    root = "${cfg.package}/public/";
-    forceSSL = true;
-    useACMEHost = "social.begyn.be";
-
-    locations."/system/".alias = "/var/lib/mastodon/public-system/";
-    locations."/" = {
-      tryFiles = "$uri @proxy";
-    };
-    locations."@proxy" = {
-      proxyPass = (if cfg.enableUnixSocket then "http://unix:/run/mastodon-web/web.socket" else "http://127.0.0.1:${toString(cfg.webPort)}");
-      proxyWebsockets = true;
-    };
-    locations."/api/v1/streaming/" = {
-      proxyPass = (if cfg.enableUnixSocket then "http://unix:/run/mastodon-streaming/streaming.socket" else "http://127.0.0.1:${toString(cfg.streamingPort)}/");
-      proxyWebsockets = true;
-    };
-    extraConfig = ''
-      client_max_body_size 40M;
-    '';
-  };
-
-  services.prometheus= {
     extraFlags = [
       "--storage.tsdb.allow-overlapping-blocks"
     ];
     ruleFiles = [
       ../../services/prometheus/rules/eos/node.rules
     ];
+    alertmanager.enable = true;
+    alertmanager.configuration.route = {
+      group_by = ["alertname"];
+      group_wait = "10s";
+      group_interval = "10s";
+      repeat_interval = "1h";
+      receiver = "default";
+    };
+    alertmanagers = [{
+      static_configs = [{
+        targets = ["localhost:9093"];
+      }];
+    }];
+    globalConfig = {
+      scrape_interval = "10s";
+      scrape_timeout = "8s";
+    };
     scrapeConfigs = [
       {
         job_name = "node-exporter";
@@ -543,38 +375,202 @@ in {
       }
     ];
   };
-
-  services.minio = {
-    enable = false;
-    rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
-    package = pkgs.unstable.minio;
-    region = "eu-west-1";
+  services.promtail = {
+    enable = true;
+    configuration = {
+      server = {
+        http_listen_port = 9080;
+        grpc_listen_port = 0;
+      };
+      client.url = "http://localhost:3100/loki/api/v1/push";
+      scrape_configs = [{
+        job_name = "var-logs";
+        static_configs = [
+          {
+            targets = [ "localhost" ];
+            labels = {
+              job = "varlogs";
+              host = "eos";
+              __path__ = "/var/log/*.log";
+            };
+          }
+        ];
+      }
+      {
+        job_name = "journald";
+        journal = {
+          max_age = "12h";
+          labels = {
+            job = "journald";
+            host = "eos";
+          };
+        };
+        relabel_configs = [{
+          source_labels = [ "__journal__systemd_unit" ];
+          target_label = "unit";
+        }];
+      }];
+    };
   };
-
-  services.nginx.virtualHosts = {
-    "sign.begyn.be" = {
-      forceSSL = true;
-      root = "/home/francis/pdftron-sign-app/public";
-      useACMEHost = "dcf.begyn.be";
-      locations."/" = {
-        proxyPass = "http://127.0.0.1:13001/";
-        basicAuth = hosts.eos.nginx.sign.basicAuth;
+  services.loki = {
+    enable = true;
+    configuration = {
+      auth_enabled = false;
+      server.http_listen_port = 3100;
+      ingester = {
+        lifecycler = {
+          address = "127.0.0.1";
+          ring = {
+            kvstore.store = "inmemory";
+            replication_factor = 1;
+          };
+          final_sleep = "0s";
+        };
+        chunk_idle_period = "5m";
+        chunk_retain_period = "30s";
       };
-      locations."/manifest.json" = {
-        proxyPass = "http://127.0.0.1:13001";
+      schema_config.configs = [{
+        from = "2020-05-15";
+        store = "boltdb";
+        object_store = "filesystem";
+        schema = "v11";
+        index = {
+          prefix = "index_";
+          period = "168h";
+        };
+      }];
+      storage_config = {
+        boltdb.directory = "/tmp/loki/index";
+        filesystem.directory = "/tmp/loki/chunks";
       };
-      locations."/ws" = {
-        proxyPass = "http://127.0.0.1:13001";
-        proxyWebsockets = true;
-        recommendedProxySettings = false;
-        extraConfig = ''
-          proxy_read_timeout     60;
-          proxy_connect_timeout  60;
-          proxy_redirect         off;
-          proxy_cache_bypass $http_upgrade;
-        '';
+      limits_config = {
+        enforce_metric_name = false;
+        reject_old_samples = true;
+        reject_old_samples_max_age = "168h";
       };
     };
+  };
+
+
+  # Web application/services
+  ## Nextcloud
+  services.nextcloud = {
+    enable = false;
+    package = pkgs.unstable.nextcloud25;
+    enableBrokenCiphersForSSE = false;
+    hostName = "docs.begyn.be";
+    config = {
+      overwriteProtocol = "https";
+      defaultPhoneRegion = "BE";
+
+      adminuser = "admin";
+      adminpassFile = "${pkgs.writeText "adminpass" "${hosts.eos.nextcloud.adminpass}"}";
+
+      dbtype = "pgsql";
+      dbuser = "nextcloud";
+      dbhost = "/run/postgresql";
+      dbname = "nextcloud";
+      dbpassFile = hosts.eos.nextcloud.dbpassFile;
+    };
+    https = true;
+    autoUpdateApps.enable = true;
+    enableImagemagick = true;
+  };
+  services.nginx.virtualHosts = {
+    "docs.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "dcf.begyn.be";
+    };
+  };
+  systemd.services."nextcloud-setup" = {
+    requires = ["postgresql.service"];
+    after = ["postgresql.service"];
+  };
+  ## tt-rss RSS feed reader
+  services.tt-rss = {
+    enable = true;
+    virtualHost = null;
+    selfUrlPath = "https://news.francis.begyn.be";
+    database = {
+      createLocally = true;
+      passwordFile = "/var/lib/tt-rss/db-password";
+    };
+    email = {
+      server = "mail.begyn.be:587";
+      login = "bots";
+      password = "${hosts.mail.bots.password}";
+      security = "tls";
+      fromAddress = "bots@begyn.be";
+    };
+    singleUserMode = true;
+    auth = {
+      autoCreate = false;
+      autoLogin = false;
+    };
+    logDestination = "syslog";
+  };
+  services.nginx.virtualHosts."news.francis.begyn.be" = let
+    cfg = config.services.tt-rss;
+  in {
+    root = "${cfg.root}/www";
+    forceSSL = true;
+    useACMEHost = "francis.dcf.begyn.be";
+
+    locations."/" = {
+      index = "index.php";
+    };
+    locations."^~ /feed-icons" = {
+      root = "${cfg.root}";
+    };
+    locations."~ \\.php$" = {
+      extraConfig = ''
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass unix:${config.services.phpfpm.pools.tt-rss.socket};
+        fastcgi_index index.php;
+      '';
+    };
+  };
+  ## Mastodon
+  services.mastodon = {
+    enable= true;
+    package = pkgs.mastodon;
+    localDomain = "social.begyn.be";
+    enableUnixSocket = true;
+    smtp = {
+      host = "mail.begyn.be";
+      port = 587;
+      authenticate = true;
+      user = "bots";
+      fromAddress = "social@begyn.be";
+      passwordFile = "/var/lib/mastodon/secrets/smtp-password";
+      createLocally = false;
+    };
+    database.createLocally = true;
+    redis.createLocally = true;
+  };
+  users.groups.mastodon.members = [ "nginx" ];
+  services.nginx.virtualHosts."social.begyn.be" = let
+    cfg = config.services.mastodon;
+  in {
+    root = "${cfg.package}/public/";
+    forceSSL = true;
+    useACMEHost = "social.begyn.be";
+
+    locations."/system/".alias = "/var/lib/mastodon/public-system/";
+    locations."/" = {
+      tryFiles = "$uri @proxy";
+    };
+    locations."@proxy" = {
+      proxyPass = (if cfg.enableUnixSocket then "http://unix:/run/mastodon-web/web.socket" else "http://127.0.0.1:${toString(cfg.webPort)}");
+      proxyWebsockets = true;
+    };
+    locations."/api/v1/streaming/" = {
+      proxyPass = (if cfg.enableUnixSocket then "http://unix:/run/mastodon-streaming/streaming.socket" else "http://127.0.0.1:${toString(cfg.streamingPort)}/");
+      proxyWebsockets = true;
+    };
+    extraConfig = ''
+      client_max_body_size 40M;
+    '';
   };
 
   # This value determines the NixOS release from which the default
