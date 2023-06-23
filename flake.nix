@@ -105,7 +105,6 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           })
-
           ./common
         ] ++ extraModules;
       };
@@ -130,12 +129,14 @@
         ./hosts/bia/configuration.nix
         nixos-hardware.nixosModules.common-cpu-amd
       ];
-      eos = mkMachine [
-        ./hosts/eos/configuration.nix
-      ];
       ania = mkMachine [
         ./hosts/ania/configuration.nix
         nixos-hardware.nixosModules.common-pc-laptop
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+      ];
+      eos = mkMachine [
+        ./hosts/eos/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
       ];
