@@ -6,8 +6,8 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nur.url = "github:nix-community/NUR";
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    utils.url = "github:numtide/flake-utils";
-    utils-plus = {
+    flake-utils.url = "github:numtide/flake-utils";
+    flake-utils-plus = {
       url = "github:gytis-ivaskevicius/flake-utils-plus";
     };
     home-manager = {
@@ -39,7 +39,7 @@
       url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
       inputs = {
         nixpkgs.follows = "nixpkgs";
-        utils.follows = "utils";
+        utils.follows = "flake-utils";
       };
     };
     deploy-rs.url = "github:serokell/deploy-rs";
@@ -57,8 +57,8 @@
     nixpkgs-unstable,
     nur,
     nixos-hardware,
-    utils-plus,
-    utils,
+    flake-utils-plus,
+    flake-utils,
     home-manager,
     agenix,
     devshell,
