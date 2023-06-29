@@ -4,9 +4,7 @@
   services.ddclient = let
     vars = import ../../secrets/variables.nix;
   in {
-    interval = "15m";
-    protocol = "cloudflare";
-    username = "${vars.cf.email}";
+    interval = "10m";
     passwordFile = "/etc/ddclient.key";
   };
 }
