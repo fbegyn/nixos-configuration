@@ -51,6 +51,7 @@ in
   environment.systemPackages = with pkgs; [
     river
     rivercarro
+    foot
 
     waybar # status bar
     waybarsh

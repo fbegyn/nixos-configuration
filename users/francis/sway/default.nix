@@ -31,12 +31,15 @@ in
       grim
       imv
 
+      foot
+
       xdg-utils
       wl-clipboard
       ydotool
       autotiling
       gammastep
 
+      pkgs.xdg-desktop-portal-wlr
       wl-mirror
       pipectl
       rofi
@@ -58,7 +61,6 @@ in
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
       ];
     };
   };
@@ -134,6 +136,9 @@ in
       "mako/config".source = ./mako-config;
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
+      "chromium-flags.conf".text = ''
+        --ozone-platform=wayland
+      '';
     };
 
     programs.fish = {
@@ -166,7 +171,7 @@ in
           names = [ "Hack" "DejaVu Sans Mono" "FontAwesome" ];
           size = 10.0;
         };
-        terminal = "alacritty";
+        terminal = "${pkgs.unstable.foot}/bin/foot";
         menu = "${pkgs.unstable.fuzzel}/bin/fuzzel";
         modifier = "Mod4";
         input = {
@@ -409,7 +414,7 @@ in
         floating_modifier $mod
 
         # Set terminal
-        set $terminal alacritty
+        set $terminal foot
 
         # split the window
         # change container layout (stacked, tabbed, toggle split)
