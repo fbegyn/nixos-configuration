@@ -30,7 +30,7 @@
     ../../common/video-accel.nix
     ../../common/office.nix
     ../../common/ios.nix
-    ../../common/libvirt.nix
+    ../../common/virt.nix
 
     ../../users
     ../../users/francis

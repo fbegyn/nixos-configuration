@@ -14,7 +14,7 @@
     # common settings
     ../../common/moonlander.nix
     ../../common/networkmanager.nix
-    ../../common/libvirt.nix
+    ../../common/virt.nix
     ../../common/ios.nix
     ../../common/laptop.nix
     ../../common/gpg.nix
