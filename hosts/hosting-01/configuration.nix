@@ -81,8 +81,21 @@
         "/" = {
           proxyPass = "https://127.0.0.1:8443$request_uri";
           extraConfig = ''
+            proxy_ssl_verify off;
+            proxy_ssl_session_reuse on;
+            proxy_buffering off;
             proxy_set_header Upgrade $http_upgrade;
             proxy_set_header Connection "Upgrade";
+          '';
+        };
+        "/wss/" = {
+          proxyPass = "https://127.0.0.1:8443";
+          extraConfig = ''
+            proxy_http_version 1.1;
+            proxy_buffering off;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection "Upgrade";
+            proxy_read_timeout 86400;
           '';
         };
       };
