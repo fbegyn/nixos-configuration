@@ -7,4 +7,7 @@
   services.logind = {
     lidSwitch = "suspend";
   };
+  environment.systemPackages = with pkgs; [
+    acpi
+  ];
 }
