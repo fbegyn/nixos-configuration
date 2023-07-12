@@ -43,6 +43,7 @@
       };
     };
     deploy-rs.url = "github:serokell/deploy-rs";
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
     website = {
       url = "github:fbegyn/website";
       inputs = {
@@ -64,6 +65,7 @@
     devshell,
     emacs-overlay,
     deploy-rs,
+    vscode-server,
     website,
     nixos-mailserver
   }: let
@@ -139,6 +141,7 @@
         ./hosts/eos/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
+	vscode-server.nixosModules.default
       ];
       hosting-01 = mkMachine [
         ./hosts/hosting-01/configuration.nix
