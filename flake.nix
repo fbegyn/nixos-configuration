@@ -50,6 +50,12 @@
         nixpkgs.follows = "nixpkgs-unstable";
       };
     };
+
+    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
+    darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs-darwin";
+    };
   };
 
   outputs = inputs@{
@@ -58,6 +64,8 @@
     nixpkgs-unstable,
     nur,
     nixos-hardware,
+    darwin,
+    nixpkgs-darwin,
     flake-utils-plus,
     flake-utils,
     home-manager,
@@ -110,12 +118,42 @@
           ./common
         ] ++ extraModules;
       };
+
+    mkMac = extraModules:
+      nixpkgs.lib.nixosSystem rec {
+        system = "x86_64-linux";
+        modules = [
+          ({config, ...}: {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              (import ./overlays/weechat.nix)
+              overlay
+              nur.overlay
+              emacs-overlay.overlay
+            ];
+          })
+          agenix.nixosModules.age
+          home-manager.nixosModules.home-manager ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          })
+          ./common
+        ] ++ extraModules;
+      };
   in {
     devShells.x86_64-linux.default = pkgs.mkShell {
       buildInputs = [
         deploy-rs.packages.x86_64-linux.deploy-rs
         agenix.packages.x86_64-linux.agenix
       ];
+    };
+
+    darwinConfigurations = {
+      erebus = darwin.lib.darwinSystem {
+        modules = [
+          ./hosts/erebus/configuration.nix
+        ];
+      };
     };
 
     nixosConfigurations = {
