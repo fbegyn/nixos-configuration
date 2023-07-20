@@ -1,11 +1,27 @@
 { pkgs, ... }:
 {
+  # system packages to install
   environment.systemPackages = with pkgs; [
     git
     vim
+    alacritty
   ];
+
+  # darwin specific modules
+  homebrew = {
+    enable = false;
+    onActivation.autoUpdate = true;
+  };
+
+  # home-manager settings (darwin)
+  # home-manager.users.francis = {
+  #   home.stateVersion = "23.05";
+  #   imports = [
+  #   ];
+  # };
+
+  # nix settings
   services.nix-daemon.enable = true;
-  nixpkgs.hostPlatform = "aarch64-darwin";
   nix = {
     package = pkgs.nix;
     settings = {

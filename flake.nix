@@ -54,7 +54,7 @@
     nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
     darwin = {
       url = "github:LnL7/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs-darwin";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
 
@@ -79,6 +79,17 @@
   }: let
     pkgs = nixpkgs.legacyPackages."x86_64-linux";
 
+    darwin-overlay = final: prev: {
+      unstable = import nixpkgs-darwin {
+        system = prev.system;
+        inherit nixpkgs;
+        config.allowUnfree = true;
+        overlays = [
+          (import ./overlays/weechat.nix)
+          (import ./overlays/browser-eid.nix)
+        ];
+      };
+    };
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
         system = prev.system;
@@ -106,7 +117,6 @@
             nixpkgs.overlays = [
               (import ./overlays/weechat.nix)
               overlay
-              nur.overlay
               emacs-overlay.overlay
             ];
           })
@@ -120,24 +130,20 @@
       };
 
     mkMac = extraModules:
-      nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
+      darwin.lib.darwinSystem rec {
+        system = "aarch64-darwin";
         modules = [
           ({config, ...}: {
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
-              (import ./overlays/weechat.nix)
-              overlay
-              nur.overlay
-              emacs-overlay.overlay
+              darwin-overlay
             ];
           })
-          agenix.nixosModules.age
-          home-manager.nixosModules.home-manager ({config, ...}: {
+          agenix.darwinModules.age
+          home-manager.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           })
-          ./common
         ] ++ extraModules;
       };
   in {
@@ -149,11 +155,9 @@
     };
 
     darwinConfigurations = {
-      erebus = darwin.lib.darwinSystem {
-        modules = [
-          ./hosts/erebus/configuration.nix
-        ];
-      };
+      erebus = mkMac [
+        ./hosts/erebus/configuration.nix
+      ];
     };
 
     nixosConfigurations = {
