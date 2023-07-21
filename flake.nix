@@ -79,17 +79,6 @@
   }: let
     pkgs = nixpkgs.legacyPackages."x86_64-linux";
 
-    darwin-overlay = final: prev: {
-      unstable = import nixpkgs-darwin {
-        system = prev.system;
-        inherit nixpkgs;
-        config.allowUnfree = true;
-        overlays = [
-          (import ./overlays/weechat.nix)
-          (import ./overlays/browser-eid.nix)
-        ];
-      };
-    };
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
         system = prev.system;
@@ -136,7 +125,8 @@
           ({config, ...}: {
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
-              darwin-overlay
+              overlay
+              emacs-overlay.overlay
             ];
           })
           agenix.darwinModules.age

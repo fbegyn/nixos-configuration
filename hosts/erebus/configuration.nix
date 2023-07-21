@@ -1,15 +1,24 @@
 { pkgs, ... }:
 {
   # system packages to install
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs.unstable; [
     git
     vim
     alacritty
+    go_1_20
+    (pkgs.emacsWithPackagesFromUsePackage {
+      config = builtins.readFile ../../users/francis/hm/configurations/emacs/base-init.el;
+      package = pkgs.emacs;
+      alwaysEnsure = true;
+    })
+    curl
+    wget
+    starship
   ];
 
   # darwin specific modules
   homebrew = {
-    enable = false;
+    enable = true;
     onActivation.autoUpdate = true;
   };
 
@@ -23,7 +32,7 @@
   # nix settings
   services.nix-daemon.enable = true;
   nix = {
-    package = pkgs.nix;
+    package = pkgs.unstable.nix;
     settings = {
       auto-optimise-store = true;
       sandbox = true;
@@ -41,7 +50,6 @@
     };
     extraOptions = ''
       experimental-features = nix-command flakes
-      build-users-group = nixbld
       extra-nix-path = nixpkgs=flake:nixpkgs
       bash-prompt-prefix = (nix:$name)\040
     '';
