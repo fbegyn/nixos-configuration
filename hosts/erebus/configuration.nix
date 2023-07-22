@@ -23,10 +23,43 @@
     starship
   ];
 
+  fonts = {
+    fontDir.enable = true;
+    fonts = with pkgs; [
+      nerdfonts
+    ];
+  };
+
+  users.users.francis.home = "/Users/francis";
+  environment = {
+    shells = with pkgs; [
+      bashInteractive
+      zsh
+      fish
+    ];
+    loginShell = pkgs.fish;
+    systemPath = [
+      "/Users/francis/.local/bin"
+      "/Users/francis/.go/bin"
+      "/opt/homebrew/bin"
+    ];
+  };
+  services.tailscale.enable = true;
+  programs.fish.enable = true;
+
   # darwin specific modules
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
+    global.brewfile = true;
+    casks = [
+      "docker"
+      "google-chrome"
+      "visual-studio-code"
+      "discord"
+    ];
+    taps = [];
+    brews = [];
   };
 
   # home-manager settings (darwin)
@@ -37,6 +70,7 @@
   # };
 
   # nix settings
+  nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
   nix = {
     package = pkgs.unstable.nix;

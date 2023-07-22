@@ -51,9 +51,8 @@
       };
     };
 
-    nixpkgs-darwin.url = "github:nixos/nixpkgs/nixpkgs-23.05-darwin";
     darwin = {
-      url = "github:LnL7/nix-darwin/master";
+      url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
   };
@@ -65,7 +64,6 @@
     nur,
     nixos-hardware,
     darwin,
-    nixpkgs-darwin,
     flake-utils-plus,
     flake-utils,
     home-manager,
