@@ -5,6 +5,13 @@
     git
     vim
     alacritty
+    vagrant
+    tmux
+    nfpm
+    ripgrep
+    ldns
+    fish
+    bat
     go_1_20
     (pkgs.emacsWithPackagesFromUsePackage {
       config = builtins.readFile ../../users/francis/hm/configurations/emacs/base-init.el;
