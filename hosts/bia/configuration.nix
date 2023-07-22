@@ -108,6 +108,19 @@
     };
   };
 
+  # configure the systems wake on lan settings
+  systemd.services.wol-setup = {
+    enable = true;
+    description = " Configure WoL on boot";
+    after = [ "network.target" ];
+    serviceConfig = {
+      Type = "simple";
+      RemainAfterExit = "true";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp5s0 wol bg";
+    };
+    wantedBy = [ "multi-user.target" ];
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
