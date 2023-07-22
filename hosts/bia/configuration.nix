@@ -111,12 +111,12 @@
   # configure the systems wake on lan settings
   systemd.services.wol-setup = {
     enable = true;
-    description = " Configure WoL on boot";
+    description = "Configure WoL on boot";
     after = [ "network.target" ];
     serviceConfig = {
       Type = "simple";
       RemainAfterExit = "true";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp5s0 wol bg";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp5s0 wol g";
     };
     wantedBy = [ "multi-user.target" ];
   };
