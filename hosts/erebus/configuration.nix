@@ -57,9 +57,12 @@
       "google-chrome"
       "visual-studio-code"
       "discord"
+      "libreoffice"
     ];
     taps = [];
-    brews = [];
+    brews = [
+      "htop"
+    ];
   };
 
   # home-manager settings (darwin)
