@@ -573,14 +573,6 @@ in {
     '';
   };
 
-  services.vscode-server = {
-    enable = true;
-    enableFHS = true;
-    extraRuntimeDependencies = pkgs: with pkgs.unstable; [
-      curl
-      wget
-    ];
-  };
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
