@@ -160,6 +160,7 @@
       bia = mkMachine [
         ./hosts/bia/configuration.nix
         nixos-hardware.nixosModules.common-cpu-amd
+        vscode-server.nixosModules.default
       ];
       ania = mkMachine [
         ./hosts/ania/configuration.nix

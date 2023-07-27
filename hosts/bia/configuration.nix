@@ -93,6 +93,12 @@
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
 
+  services.vscode-server = {
+    enable = true;
+    enableFHS = true;
+    nodejsPackage = pkgs.unstable.nodejs_18;
+  };
+
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
   ];
