@@ -78,12 +78,14 @@
     pkgs = nixpkgs.legacyPackages."x86_64-linux";
 
     overlay = final: prev: {
+      nix = final.nixVersions.nix_2_16;
       unstable = import nixpkgs-unstable {
         system = prev.system;
         inherit nixpkgs;
         config.allowUnfree = true;
         overlays = [
           (import ./overlays/weechat.nix)
+          (import ./overlays/nix-updates.nix)
           (import ./overlays/browser-eid.nix)
         ];
       };

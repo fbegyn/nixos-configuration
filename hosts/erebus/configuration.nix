@@ -2,25 +2,14 @@
 {
   # system packages to install
   environment.systemPackages = with pkgs.unstable; [
-    git
-    vim
-    alacritty
-    vagrant
     tmux
-    nfpm
-    ripgrep
     ldns
-    fish
-    bat
     go_1_20
     (pkgs.emacsWithPackagesFromUsePackage {
       config = builtins.readFile ../../users/francis/hm/configurations/emacs/base-init.el;
       package = pkgs.emacs;
       alwaysEnsure = true;
     })
-    curl
-    wget
-    starship
   ];
 
   fonts = {
@@ -66,11 +55,49 @@
   };
 
   # home-manager settings (darwin)
-  # home-manager.users.francis = {
-  #   home.stateVersion = "23.05";
-  #   imports = [
-  #   ];
-  # };
+  home-manager.users.francis = {
+    home.stateVersion = "23.05";
+    imports = [
+      ../../users/francis/hm/base.nix
+      ../../users/francis/hm/go.nix
+      ../../users/francis/hm/configurations/fzf.nix
+      ../../users/francis/hm/configurations/emacs
+      ../../users/francis/hm/configurations/mpv
+      ../../users/francis/hm/configurations/hledger.nix
+      ../../users/francis/hm/configurations/direnv.nix
+      ../../users/francis/secrets/fish.nix
+    ];
+
+    home.packages = with pkgs.unstable; [
+      ripgrep
+      fd
+      inetutils
+      # Comms
+      flyctl
+      # Utilities
+      nfpm
+      vagrant
+      terraform
+      terraform-lsp
+      ansible
+      gnumake
+      bat
+      tig
+      sshuttle
+      pandoc
+      texlive.combined.scheme-small
+      pkgs.pgcli
+      pkgs.mycli
+      pkgs.litecli
+      sqlite
+      # cachix
+      cachix
+      nix-index
+      # tools rewritten in rust
+      hyperfine
+      bandwhich
+    ];
+  };
 
   # nix settings
   nixpkgs.hostPlatform = "aarch64-darwin";
