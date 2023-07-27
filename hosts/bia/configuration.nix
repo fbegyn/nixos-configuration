@@ -17,7 +17,6 @@
     ../../common/gpg.nix
     ../../common/office.nix
     ../../common/steam.nix
-    ../../common/nvidia.nix
     ../../common/rtlsdr.nix
     ../../common/fonts.nix
     ../../common/printer.nix
@@ -46,6 +45,13 @@
     SystemMaxUse=100M
     MaxFileSec=7day
   '';
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware.nvidia = {
+    modesetting.enable = false;
+    open = false;
+    nvidiaSettings = true;
+  };
 
   sound.enable = true;
 
