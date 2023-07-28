@@ -43,6 +43,7 @@
     global.brewfile = true;
     casks = [
       "docker"
+      "telegram"
       "google-chrome"
       "visual-studio-code"
       "discord"
