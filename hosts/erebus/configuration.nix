@@ -47,6 +47,7 @@
       "google-chrome"
       "visual-studio-code"
       "discord"
+      "orbstack"
       "libreoffice"
     ];
     taps = [];
