@@ -71,23 +71,23 @@
     ];
 
     home.packages = with pkgs.unstable; [
-      ripgrep
-      fd
-      inetutils
       # Comms
+      # SRE - deployment
       flyctl
-      # Utilities
-      nfpm
-      vagrant
       terraform
       terraform-lsp
       ansible
-      gnumake
+      vagrant
+      # Utilities
+      ripgrep
+      fd
       bat
-      tig
-      sshuttle
+      inetutils
+      nfpm
+      gnumake
       pandoc
       texlive.combined.scheme-small
+      # Databases
       pkgs.pgcli
       pkgs.mycli
       pkgs.litecli
@@ -98,6 +98,10 @@
       # tools rewritten in rust
       hyperfine
       bandwhich
+      # development
+      tig
+      sshuttle
+      act
     ];
   };
 
