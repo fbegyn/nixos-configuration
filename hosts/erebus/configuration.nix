@@ -103,6 +103,12 @@
       sshuttle
       act
     ];
+
+    programs.neovim = {
+      enable = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+    };
   };
 
   # nix settings
