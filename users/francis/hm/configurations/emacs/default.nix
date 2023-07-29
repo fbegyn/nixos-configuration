@@ -6,7 +6,7 @@ let
     destination = "/share/applications/francis-emacs.desktop";
     text = ''
 [Desktop Entry]
-Exec=emacsclient -nc
+Exec=${config.francis.emacs.package}/bin/emacsclient -nc
 Icon=emacs
 Name[en_US]=Emacs Client
 Name=Emacs Client
@@ -76,19 +76,9 @@ in
       "emacs/early-init.el".source = ./early-init.el;
     };
 
-    # services.emacs = {
-    #   enable= true;
-    #   package = config.francis.emacs.package;
-    #   client.enable = true;
-    #   socketActivation.enable = true;
-    # };
     programs.emacs = {
       enable = true;
       package = config.francis.emacs.package;
-    };
-
-    xresources.properties = {
-      "Emacs.font" = "DejaVu Sans Mono-16";
     };
   };
 }

@@ -23,8 +23,6 @@
 
 (add-hook 'emacs-startup-hook #'hm/restore-file-name-handler-alist)
 
-(when window-system (set-frame-font "Dejavu Sans Mono 12"))
-
 (setq inhibit-startup-screen t )
 
 (menu-bar-mode 0)
@@ -305,7 +303,6 @@ the frame and makes it a dedicated window for that buffer."
 )
 
 (use-package dockerfile-mode)
-(require 'tramp-container)
 
 (use-package elixir-mode
   :mode "\\.ex'")
@@ -503,11 +500,9 @@ the frame and makes it a dedicated window for that buffer."
   "g" '(:ignore t :which-key "Git")
   "gs" 'magit-status)
   :config
-  (magit-auto-revert-mode)
   (global-git-commit-mode 1)
   (magit-auto-revert-mode nil)
-  (magit-save-repository-buffers 'dontask)
-)
+  (magit-save-repository-buffers 'dontask))
 
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
