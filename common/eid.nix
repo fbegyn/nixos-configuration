@@ -4,11 +4,11 @@ let
   browser-eid-overlay = import ../overlays/browser-eid.nix;
 in {
   nixpkgs.overlays = [
-    browser-eid-overlay
+    # browser-eid-overlay
   ];
 
   environment.systemPackages = [
-    pkgs.unstable.eid-mw
+    # pkgs.unstable.eid-mw
   ];
 
   services.pcscd = {

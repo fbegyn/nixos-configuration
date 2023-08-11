@@ -35,6 +35,7 @@
       enable = true;
       package = pkgs.unstable.i3;
       extraPackages = with pkgs.unstable; [
+        alacritty
         maim
         pkg-config
         xclip

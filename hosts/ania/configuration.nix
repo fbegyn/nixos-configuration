@@ -25,7 +25,7 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/eid.nix
+    # ../../common/eid.nix
     ../../common/webcam.nix
     ../../common/video-accel.nix
     ../../common/office.nix
@@ -115,6 +115,8 @@
     enable = true;
     package = pkgs.unstable.tailscale;
   };
+
+  home-manager.users.francis.home.stateVersion = "23.05";
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

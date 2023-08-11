@@ -13,7 +13,6 @@
     };
     sessionVariables = {
       WINIT_X11_SCALE_FACTOR = "1.0";
-      SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
       BROWSER = "chromium-browser";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = 1;
       QT_AUTO_SCREEN_SCALE_FACTOR = 0;

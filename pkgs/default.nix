@@ -9,7 +9,7 @@ pkgs: rec {
       config.allowUnfree = true;
       overlays = [
         (import ../overlays/weechat.nix)
-        (import ../overlays/browser-eid.nix)
+        # (import ../overlays/browser-eid.nix)
         (import (builtins.fetchTarball {
             url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
         }))
@@ -21,7 +21,7 @@ pkgs: rec {
       config.allowUnfree = true;
       overlays = [
         (import ../overlays/weechat.nix)
-        (import ../overlays/browser-eid.nix)
+        # (import ../overlays/browser-eid.nix)
         (import (builtins.fetchTarball {
             url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
         }))
@@ -31,7 +31,7 @@ pkgs: rec {
     "https://github.com/NixOS/nixpkgs/archive/master.tar.gz") {
       inherit pkgs;
       overlays = [
-        (import ../overlays/browser-eid.nix)
+        # (import ../overlays/browser-eid.nix)
         (import (builtins.fetchTarball {
             url = https://github.com/nix-community/emacs-overlay/archive/master.tar.gz;
         }))

@@ -86,7 +86,7 @@
         overlays = [
           (import ./overlays/weechat.nix)
           (import ./overlays/nix-updates.nix)
-          (import ./overlays/browser-eid.nix)
+          # (import ./overlays/browser-eid.nix)
         ];
       };
       fbegyn = {
