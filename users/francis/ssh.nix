@@ -3,16 +3,16 @@
 {
   programs = {
     ssh = {
-      startAgent = false;
+      startAgent = true;
       agentTimeout = "4h";
     };
     gnupg.agent = {
-      enableSSHSupport = true;
+      enableSSHSupport = false;
     };
   };
 
-  environment.shellInit = ''
-    gpg-connect-agent /bye
-    export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
-  '';
+  # environment.shellInit = ''
+  #   gpg-connect-agent /bye
+  #   export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
+  # '';
 }
