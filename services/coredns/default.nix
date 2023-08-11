@@ -3,8 +3,7 @@
 let
   corednsconf = builtins.readFile ./config;
   blocklist = builtins.readFile (builtins.fetchurl {
-    url =
-      "https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/fakenews/hosts";
+    url = "https://raw.githubusercontent.com/StevenBlack/hosts/3.13.18/alternates/fakenews/hosts";
     sha256 = "sha256:1fwrs5r606nm403ns4pqbagvm68pzks81l20m76s84ycravb8pfi";
   });
 

@@ -49,6 +49,7 @@
       "discord"
       "orbstack"
       "libreoffice"
+      "tunnelblick"
     ];
     taps = [];
     brews = [
@@ -62,6 +63,7 @@
     imports = [
       ../../users/francis/hm/base.nix
       ../../users/francis/hm/go.nix
+      ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs
       ../../users/francis/hm/configurations/mpv
@@ -79,6 +81,8 @@
       ansible
       vagrant
       # Utilities
+      wakeonlan
+      bitwarden-cli
       ripgrep
       fd
       bat
