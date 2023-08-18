@@ -64,7 +64,7 @@
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
   networking.useDHCP = false;
-  networking.interfaces.enp5s0.useDHCP = true;
+  networking.interfaces.enp4s0.useDHCP = true;
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -128,7 +128,7 @@
     serviceConfig = {
       Type = "simple";
       RemainAfterExit = "true";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp5s0 wol g";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp4s0 wol g";
     };
     wantedBy = [ "multi-user.target" ];
   };
