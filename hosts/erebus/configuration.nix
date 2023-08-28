@@ -77,6 +77,7 @@
       flyctl
       terraform
       terraform-lsp
+      pulumi
       ansible
       vagrant
       # Utilities
