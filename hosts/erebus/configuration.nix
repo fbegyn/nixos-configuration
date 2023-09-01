@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs.unstable; [
     tmux
     ldns
+    sshpass
     (pkgs.emacsWithPackagesFromUsePackage {
       config = builtins.readFile ../../users/francis/hm/configurations/emacs/base-init.el;
       package = pkgs.emacs;
