@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs.unstable; [
     mpv
-    python310Packages.yt-dlp
+    python311Packages.yt-dlp
     streamlink
   ];
 

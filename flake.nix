@@ -16,6 +16,12 @@
         nixpkgs.follows = "nixpkgs";
       };
     };
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager/master";
+      inputs = {
+        nixpkgs.follows = "nixpkgs-unstable";
+      };
+    };
     agenix = {
       url = "github:ryantm/agenix";
       inputs = {
@@ -67,6 +73,7 @@
     flake-utils-plus,
     flake-utils,
     home-manager,
+    home-manager-unstable,
     agenix,
     devshell,
     emacs-overlay,
@@ -130,7 +137,7 @@
             ];
           })
           agenix.darwinModules.age
-          home-manager.darwinModules.home-manager ({config, ...}: {
+          home-manager-unstable.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           })
