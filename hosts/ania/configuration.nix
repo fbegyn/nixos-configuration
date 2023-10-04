@@ -25,7 +25,7 @@
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/wireguard.nix
-    # ../../common/eid.nix
+    ../../common/eid.nix
     ../../common/webcam.nix
     ../../common/video-accel.nix
     ../../common/office.nix
