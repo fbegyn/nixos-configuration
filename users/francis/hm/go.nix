@@ -4,6 +4,6 @@
   programs.go = {
     enable = true;
     goPath = ".go";
-    package = pkgs.unstable.go_1_20;
+    package = pkgs.unstable.go_1_21;
   };
 }
