@@ -51,5 +51,6 @@
     MaxFileSec=7day
   '';
 
+  home-manager.users.francis.home.stateVersion = lib.mkDefault "23.05";
   system.stateVersion = lib.mkDefault "23.05";
 }
