@@ -48,10 +48,16 @@
 (setq delete-old-versions -1 )
 (setq version-control t )
 (setq vc-make-backup-files t )
-(setq backup-directory-alist `(("." . "~/.emacs.d/backups")) )
 (setq vc-follow-symlinks t )
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) )
 (setq ring-bell-function 'ignore )
+
+(setq backup-by-copying t)
+(make-directory "~/.emacs.d/backups/" t)
+(make-directory "~/.emacs.d/auto-save-list/" t)
+(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) )
+(setq backup-directory-alist `(("." . "~/.emacs.d/backups")) )
+
+(setq require-final-newline t)
 
 (setq coding-system-for-read 'utf-8 )
 (setq coding-system-for-write 'utf-8 )
@@ -420,6 +426,11 @@ the frame and makes it a dedicated window for that buffer."
   :config
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 )
+(require 'dtrt-indent
+  :config
+  (setq dtrt-indent-global-mode t)
+  ;(setcar (alist-get 'dtrt-indent-mode minor-mode-alist) "")
+)
 
 (use-package ivy
   :after (general)
@@ -637,6 +648,8 @@ the frame and makes it a dedicated window for that buffer."
 ;; tweak some parameters
 (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
 (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
+(setq frame-inhibit-implied-resize t)
+(setq pixel-scroll-precision-mode t)
 
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
