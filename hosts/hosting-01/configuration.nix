@@ -68,10 +68,10 @@
 
   # unifi
   services.unifi = {
-    enable = true;
+    enable = false;
     unifiPackage = pkgs.unstable.unifi;
     jrePackage = pkgs.jdk11;
-    mongodbPackage = pkgs.mongodb-5_0;
+    mongodbPackage = pkgs.mongodb-4_4;
     openFirewall = true;
   };
   services.nginx.virtualHosts = {
