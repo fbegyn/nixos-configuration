@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ../../../users
     ];
 
   # ZFS things
@@ -136,19 +137,21 @@
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "yes";
+    settings.PermitRootLogin = "yes";
   };
 
   services.grafana = {
     enable = true;
-    # package = pkgs.unstable.grafana;
-    addr = "10.30.10.1";
-    port = 3000;
+    package = pkgs.unstable.grafana;
+    settings.server = {
+      http_addr = "10.30.10.1";
+      http_port = 3000;
+    };
   };
 
   services.prometheus = {
     enable = true;
-    # package = pkgs.unstable.prometheus;
+    package = pkgs.unstable.prometheus;
     stateDir = "prometheus";
     scrapeConfigs = [
       {
