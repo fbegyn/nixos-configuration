@@ -181,7 +181,7 @@
         ./hosts/eos/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
-	vscode-server.nixosModules.default
+        vscode-server.nixosModules.default
       ];
       hosting-01 = mkMachine [
         ./hosts/hosting-01/configuration.nix
@@ -197,55 +197,11 @@
         ./hosts/mail-01/configuration.nix
         nixos-mailserver.nixosModules.mailserver
       ];
+      lan-app-01 = mkMachine [
+        ./hosts/lan-party/app-01/configuration.nix
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+      ];
     };
-
-    deploy.nodes.eos = {
-      hostname = "eos";
-      sshUser = "francis";
-      profiles.system = {
-        user = "root";
-        path = deploy-rs.x86_64-linux.activate.nixos
-          self.nixosConfigurations.eos;
-      };
-    };
-    deploy.nodes.hosting-01 = {
-      hostname = "hosting-01";
-      sshUser = "francis";
-      profiles.system = {
-        user = "root";
-        path = deploy-rs.x86_64-linux.activate.nixos
-          self.nixosConfigurations.hosting-01;
-      };
-    };
-    deploy.nodes.router-01 = {
-      hostname = "router-01";
-      sshUser = "francis";
-      profiles.system = {
-        user = "root";
-        path = deploy-rs.x86_64-linux.activate.nixos
-          self.nixosConfigurations.router-01;
-      };
-    };
-    deploy.nodes.zima432 = {
-      hostname = "zima432";
-      sshUser = "francis";
-      profiles.system = {
-        user = "root";
-        path = deploy-rs.x86_64-linux.activate.nixos
-          self.nixosConfigurations.zima432;
-      };
-    };
-    deploy.nodes.mail-01 = {
-      hostname = "mail-01";
-      sshUser = "francis";
-      profiles.system = {
-        user = "root";
-        path = deploy-rs.x86_64-linux.activate.nixos
-          self.nixosConfigurations.mail-01;
-      };
-    };
-    # This is highly advised, and will prevent many possible mistakes
-    checks = builtins.mapAttrs
-      (system: deployLib: deployLib.deployChecks self.deploy) deploy-rs.lib;
   };
 }
