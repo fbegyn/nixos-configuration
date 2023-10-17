@@ -74,6 +74,7 @@
 
     home.packages = with pkgs.unstable; [
       # Comms
+      openscad
       # SRE - deployment
       flyctl
       terraform
