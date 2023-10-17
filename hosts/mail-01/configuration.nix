@@ -161,9 +161,16 @@ in {
       "/var/dkim"
     ];
     repo = vars.mailserver.backups.borgbase.repo;
+    quota = "8G";
     encryption = {
       mode = "repokey-blake2";
       passCommand = vars.mailserver.backups.borgbase.key;
+    };
+    prune.keep = {
+      within = "3d";
+      daily = 5;
+      weekly = 2;
+      monthly = 5;
     };
     environment.BORG_RSH = vars.mailserver.backups.borgbase.ssh;
     compression = "auto,lzma";
