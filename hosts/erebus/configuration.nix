@@ -101,6 +101,7 @@
       # cachix
       cachix
       nix-index
+      nixos-rebuild
       # tools rewritten in rust
       hyperfine
       bandwhich
