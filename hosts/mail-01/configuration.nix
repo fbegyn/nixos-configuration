@@ -161,7 +161,6 @@ in {
       "/var/dkim"
     ];
     repo = vars.mailserver.backups.borgbase.repo;
-    quota = "8G";
     encryption = {
       mode = "repokey-blake2";
       passCommand = vars.mailserver.backups.borgbase.key;
