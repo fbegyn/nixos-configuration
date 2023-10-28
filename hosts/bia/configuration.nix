@@ -40,12 +40,7 @@
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
-  nix.settings.auto-optimise-store = true;
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    MaxFileSec=7day
-  '';
-
+  sound.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = false;
@@ -53,7 +48,9 @@
     nvidiaSettings = true;
   };
 
-  sound.enable = true;
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "wasm32-wasi" ];
+  services.prometheus.exporters.node.enable = true;
+  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   networking.hostName = "bia";
   networking.hostId = "6c19e3cb";

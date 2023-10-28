@@ -29,6 +29,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "wasm32-wasi" ];
 
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";
@@ -295,6 +296,8 @@ in {
 
 
   # monitoring applications
+  services.prometheus.exporters.node.enable = true;
+  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
   services.grafana = {
     enable = true;
     settings.server = {

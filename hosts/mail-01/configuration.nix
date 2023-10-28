@@ -67,9 +67,8 @@ in {
   #   rulesetFile = ./nftables.rules;
   # };
 
-  services.prometheus.exporters.node = {
-    enable = true;
-  };
+  services.prometheus.exporters.node.enable = true;
+  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   # tailscale machine specific
   fbegyn.services.tailscale = {

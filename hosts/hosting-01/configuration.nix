@@ -50,9 +50,8 @@
     allowedTCPPorts = [ 80 443 8080 3478 6789 ];
   };
 
-  services.prometheus.exporters.node = {
-    enable = true;
-  };
+  services.prometheus.exporters.node.enable = true;
+  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   fbegyn.services.website = {
     enable = true;

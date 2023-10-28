@@ -3,10 +3,6 @@
 {
   boot.tmp.cleanOnBoot = true;
 
-  boot.extraModprobeConfig = ''
-    options hid_apple swap_opt_cmd=1
-  '';
-
   security.polkit.enable = true;
   programs.nix-ld.enable = true;
   security.pam.loginLimits = [{
@@ -15,8 +11,6 @@
     item = "nofile";
     value = "unlimited";
   }];
-
-  boot.binfmt.emulatedSystems = [ "wasm32-wasi" "aarch64-linux" ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -42,9 +36,6 @@
       experimental-features = nix-command flakes
     '';
   };
-
-  services.prometheus.exporters.node.enable = true;
-  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   services.journald.extraConfig = ''
     SystemMaxUse=100M
