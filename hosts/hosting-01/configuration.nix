@@ -8,10 +8,10 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ./acme.nix
     ../../common
     ../../users
     ../../services/tailscale.nix
-    ./acme.nix
   ];
 
   # Use the GRUB 2 boot loader.
