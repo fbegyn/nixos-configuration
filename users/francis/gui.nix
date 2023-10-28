@@ -109,8 +109,6 @@
           ms-azuretools.vscode-docker
           ms-vsliveshare.vsliveshare
           golang.go
-          ms-python.python
-          ms-python.vscode-pylance
           coolbear.systemd-unit-file
           redhat.vscode-yaml
         ];
