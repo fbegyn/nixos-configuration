@@ -1,10 +1,10 @@
 { pkgs, ...}:
 
 {
-  home.file = {
-    ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
-    ".config/fish/functions/fish_right_prompt.fish".source = ./fish_right_prompt.fish;
-  };
+  # home.file = {
+  #   ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
+  #   ".config/fish/functions/fish_right_prompt.fish".source = ./fish_right_prompt.fish;
+  # };
   programs.fish = {
     enable = true;
     package = pkgs.unstable.fish;
@@ -39,25 +39,5 @@
         function fish_title; end
       end
     '';
-    plugins = [
-      {
-        name = "z";
-        src = pkgs.fetchFromGitHub {
-          owner = "jethrokuan";
-          repo = "z";
-          rev = "ddeb28a7b6a1f0ec6dae40c636e5ca4908ad160a";
-          sha256 = "0c5i7sdrsp0q3vbziqzdyqn4fmp235ax4mn4zslrswvn8g3fvdyh";
-        };
-      }
-      {
-        name = "fzf";
-        src = pkgs.fetchFromGitHub {
-          owner = "jethrokuan";
-          repo = "fzf";
-          rev = "24f4739fc1dffafcc0da3ccfbbd14d9c7d31827a";
-          sha256 = "0kz057nr07ybh0y06ww3p424rgk8pi84pnch9jzb040qqn9a8823";
-        };
-      }
-    ];
   };
 }

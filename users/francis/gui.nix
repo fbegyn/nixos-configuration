@@ -49,7 +49,7 @@
       gcc
       # Comms
       slack
-      mattermost-desktop
+      #mattermost-desktop
       thunderbird
       weechat
       # Browser
@@ -67,8 +67,8 @@
       bat
       tig
       sshuttle
-      bitwarden
-      bitwarden-cli
+      # bitwarden
+      # bitwarden-cli
       gnome.nautilus
       dmenu
       solaar

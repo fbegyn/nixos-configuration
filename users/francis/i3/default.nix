@@ -38,6 +38,7 @@
         alacritty
         maim
         pkg-config
+        glib
         xclip
         arandr
         autorandr

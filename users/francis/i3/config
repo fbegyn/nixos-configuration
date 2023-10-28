@@ -235,7 +235,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl -e s +10%
 exec --no-startup-id chromium
 exec --no-startup-id dunst
 exec --no-startup-id ~/.fehbg
-exec --no-startup-id picom
+exec --no-startup-id picom --daemon
 exec --no-startup-id nm-applet
 #exec --no-startup-id slack
 #exec --no-startup-id telegram-desktop

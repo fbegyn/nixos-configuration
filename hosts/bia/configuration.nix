@@ -10,14 +10,12 @@
     # <nixos-hardware/common/cpu/amd>
     ./hardware-configuration.nix
     ../../common
-    ../../common/virt.nix
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/ios.nix
     ../../common/gpg.nix
     ../../common/office.nix
     ../../common/steam.nix
-    ../../common/rtlsdr.nix
     ../../common/fonts.nix
     ../../common/printer.nix
     ../../common/scanner.nix
@@ -48,7 +46,7 @@
     nvidiaSettings = true;
   };
 
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "wasm32-wasi" ];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 

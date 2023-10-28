@@ -1,13 +1,13 @@
 { config, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    unstable.ldns
-    unstable.tcpdump
-    unstable.nmap
-    unstable.iperf
-    unstable.netperf
-    unstable.socat
+  environment.systemPackages = with pkgs.unstable; [
+    ldns
+    tcpdump
+    nmap
+    iperf
+    netperf
+    socat
   ];
 
   programs = {
