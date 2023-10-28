@@ -29,7 +29,7 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "wasm32-wasi" ];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "wasm32-wasi" ];
 
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";

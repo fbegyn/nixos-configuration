@@ -5,42 +5,35 @@
     nixpkgs.url = "nixpkgs/nixos-23.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nur.url = "github:nix-community/NUR";
+
     nixos-hardware.url = "github:nixos/nixos-hardware";
+
     flake-utils.url = "github:numtide/flake-utils";
-    flake-utils-plus = {
-      url = "github:gytis-ivaskevicius/flake-utils-plus";
-    };
+    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-23.05";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager-unstable = {
       url = "github:nix-community/home-manager/master";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
     agenix = {
       url = "github:ryantm/agenix";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     devshell = {
       url = "github:numtide/devshell";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     emacs-overlay = {
       url =
         "github:nix-community/emacs-overlay/dbb2bb4f40a27e2bba0bee5fe6f97e832a4583c6";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
     nixos-mailserver = {
       url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
       inputs = {
@@ -48,7 +41,6 @@
         utils.follows = "flake-utils";
       };
     };
-    deploy-rs.url = "github:serokell/deploy-rs";
     vscode-server.url = "github:nix-community/nixos-vscode-server";
     website = {
       url = "github:fbegyn/website";
@@ -77,7 +69,6 @@
     agenix,
     devshell,
     emacs-overlay,
-    deploy-rs,
     vscode-server,
     website,
     nixos-mailserver
@@ -146,7 +137,6 @@
   in {
     devShells.x86_64-linux.default = pkgs.mkShell {
       buildInputs = [
-        deploy-rs.packages.x86_64-linux.deploy-rs
         agenix.packages.x86_64-linux.agenix
       ];
     };

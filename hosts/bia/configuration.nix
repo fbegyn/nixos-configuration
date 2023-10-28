@@ -48,7 +48,7 @@
     nvidiaSettings = true;
   };
 
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" "wasm32-wasi" ];
+  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "wasm32-wasi" ];
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
