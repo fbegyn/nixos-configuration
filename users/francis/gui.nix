@@ -29,7 +29,7 @@
       ./hm/configurations/hledger.nix
       ./hm/configurations/tmux
       ./hm/configurations/josm.nix
-      ./hm/configurations/qutebrowser
+      # ./hm/configurations/qutebrowser
       ./secrets/fish.nix
     ];
 
@@ -45,46 +45,35 @@
       inetutils
       pciutils
       usbutils
-      niv
       nodejs
-      vault
       gcc
-      deploy-rs
       # Comms
       slack
       mattermost-desktop
-      tdesktop
       thunderbird
-      elixir
-      flyctl
       weechat
       # Browser
       firefox
       chromium
       # entertainement
       playerctl
+      pulsemixer
       # Utilities
-      # comma
-      libnotify
+      flyctl
+      elixir
       lm_sensors
-      vagrant
-      terraform
-      terraform-lsp
-      ansible
       gnumake
+      ansible
       bat
       tig
       sshuttle
-      pulsemixer
       bitwarden
       bitwarden-cli
       gnome.nautilus
       dmenu
       solaar
-      morph
       evince
       okular
-      pulsemixer
       pandoc
       texlive.combined.scheme-small
       pkgs.pgcli
