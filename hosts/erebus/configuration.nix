@@ -124,8 +124,8 @@
   nix = {
     package = pkgs.unstable.nix;
     settings = {
-      auto-optimise-store = true;
-      sandbox = true;
+      auto-optimise-store = false;
+      sandbox = false;
       substituters = [
         "https://fbegyn-personal.cachix.org"
         "https://nix-community.cachix.org"
