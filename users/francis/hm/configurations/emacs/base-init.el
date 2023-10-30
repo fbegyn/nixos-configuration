@@ -78,6 +78,7 @@
 ;;;;;;;;;;
 
 ;; go
+(setenv "GOPATH" (concat (getenv "HOME") "/.go"))
 (setq gofmt-command "goimports")
 (setq frame-resize-pixelwise t)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
@@ -424,11 +425,6 @@ the frame and makes it a dedicated window for that buffer."
 (use-package highlight-indent-guides
   :config
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-)
-(use-package dtrt-indent
-  :config
-  (setq dtrt-indent-global-mode t)
-  ;(setcar (alist-get 'dtrt-indent-mode minor-mode-alist) "")
 )
 
 (use-package ivy

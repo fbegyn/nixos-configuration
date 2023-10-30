@@ -31,7 +31,6 @@ in
       default = [];
     };
     package = lib.mkOption {
-      readOnly = true;
       default = pkgs.emacsWithPackagesFromUsePackage {
         config = config.francis.emacs.fullConfig;
         package = pkgs.emacs-pgtk;
