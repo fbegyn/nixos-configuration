@@ -78,7 +78,7 @@
 ;;;;;;;;;;
 
 ;; go
-(setenv "GOPATH" (concat (getenv "HOME") "/go"))
+(setenv "GOPATH" (concat (getenv "HOME") "/.go"))
 (setq gofmt-command "goimports")
 (setq frame-resize-pixelwise t)
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
