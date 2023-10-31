@@ -1,21 +1,4 @@
 { config, lib, pkgs, ... }:
-
-let
-  e = pkgs.writeTextFile {
-    name = "francis-emacs.desktop";
-    destination = "/share/applications/francis-emacs.desktop";
-    text = ''
-[Desktop Entry]
-Exec=${config.francis.emacs.package}/bin/emacsclient -nc
-Icon=emacs
-Name[en_US]=Emacs Client
-Name=Emacs Client
-StartupNotify=true
-Terminal=false
-Type=Application
-      '';
-    };
-in
 {
   options.francis.emacs = {
     fullConfig = lib.mkOption {
@@ -42,7 +25,6 @@ in
 
   config = {
     home.packages = with pkgs.unstable; [
-      e
       ispell
       solargraph
       rust-analyzer
