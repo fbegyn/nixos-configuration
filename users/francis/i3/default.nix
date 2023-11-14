@@ -19,7 +19,7 @@
     services.xserver= {
       enable = true;
       layout = "us,us";
-      xkbVariant = "altgr-intl,colemak";
+      xkbVariant = "altgr-intl";
       xkbOptions = "eurosign:5,grp:win_space_toggle";
       libinput = {
         enable =true;

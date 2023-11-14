@@ -177,7 +177,7 @@ in
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us,us";
-            xkb_variant = "altgr-intl,colemak";
+            xkb_variant = "altgr-intl";
             xkb_numlock = "disabled";
             xkb_options = "grp:rctrl_rshift_toggle";
           };
