@@ -25,11 +25,11 @@ in {
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.binfmt.emulatedSystems = [ "x86_64-linux" "aarch64-linux" "wasm32-wasi" ];
+  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";
@@ -185,7 +185,7 @@ in {
           USERNAME = "${hosts.eos.eufy.wsAddon.username}";
           TRUSTED_DEVICE_NAME = "eos";
         };
-        image = "bropat/eufy-security-ws:1.6.4";
+        image = "bropat/eufy-security-ws:1.7.1";
         ports = [
           "13000:3000"
         ];
@@ -195,7 +195,7 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "bluenviron/mediamtx:1.2.0";
+        image = "bluenviron/mediamtx:1.3.0";
         ports = [
           "1935:1935"
           "8554:8554"

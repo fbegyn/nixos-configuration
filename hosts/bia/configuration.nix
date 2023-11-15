@@ -37,6 +37,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
   sound.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -46,7 +47,6 @@
     nvidiaSettings = true;
   };
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 

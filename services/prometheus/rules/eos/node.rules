@@ -2,16 +2,18 @@ groups:
 - name: "Disk space"
   rules:
   - alert: LowDiskSpace
-    expr: node_filesystem_free_bytes{mountpoint=~"/|/nix|/nix/store"}/1e6 < 3000
+    expr: node_filesystem_free_bytes{mountpoint=~"/|/nix|/nix/store"} < 2000e6
     for: 5m
     labels:
       severity: warning
     annotations:
       summary: Disk space is low on {{ $labels.instance }} for {{ $labels.mountpoint }}
+      description: Only {{ .Value | humanize }} space left on {{ $labels.instance }}/{{ $labels.mountpoint }}. Expecting at least 2GB of free space.
   - alert: LowBootDiskSpace
-    expr: node_filesystem_free_bytes{mountpoint="/boot"}/1e6 < 55
+    expr: node_filesystem_free_bytes{mountpoint="/boot"} < 100e6
     for: 5m
     labels:
       severity: warning
     annotations:
-      summary: Boot disk space is low on {{ $labels.instance }} for {{ $labels.mountpoint }}
+      summary: Boot disk space is low on {{ $labels.instance }}
+      description: Only {{ .Value | humanize }} space left on {{ $labels.instance }}/{{ $labels.mountpoint }}. Expecting at least 100MB of free space.
