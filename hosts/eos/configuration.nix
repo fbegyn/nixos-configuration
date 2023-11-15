@@ -169,7 +169,7 @@ in {
           "/run/dbus:/run/dbus:ro"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2023.10";
+        image = "ghcr.io/home-assistant/home-assistant:2023.11";
         extraOptions = [
           "--network=host"
         ];
