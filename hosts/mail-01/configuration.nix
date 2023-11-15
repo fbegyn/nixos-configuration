@@ -91,29 +91,54 @@ in {
     enable = true;
     package = pkgs.unstable.fail2ban;
     packageFirewall = pkgs.unstable.iptables-nftables-compat;
-    ignoreIP = [ "213.119.124.156" "100.88.113.9" "109.236.137.143" ];
+    extraPackages = [ pkgs.unstable.ipset ];
+    maxretry = 5;
+    bantime = "15m";
+    ignoreIP = [
+      "213.119.124.156"
+      "100.88.113.9"
+      "109.236.137.143"
+    ];
     jails = {
-      dovecot = ''
+      postfix-bruteforce = ''
         enabled  = true
-        port     = pop3,pop3s,imap,imap
-        filter   = dovecot
+        filter   = postfix-bruteforce
+        findtime = 600
         maxretry = 3
+        bantime  = 12h
       '';
-      postfix = ''
+      postfix-ssl-error = ''
         enabled  = true
-        port     = smtp,465,587
-        filter   = postfix
-        maxretry = 4
+        filter   = postfix-ssl-error
+        findtime = 600
+        maxretry = 3
+        bantime  = 12h
       '';
-      postfix-strict = ''
+      postfix-improper-command = ''
         enabled  = true
-        port     = smtp,465,587
-        filter   = postfix-strict-custom
-        bantime  = -1
-        maxretry = 1
-        findtime = 86400
+        filter   = postfix-improper-command
+        findtime = 600
+        maxretry = 2
+        bantime  = 12h
       '';
     };
+  };
+  environment.etc = {
+    "fail2ban/filter.d/postfix-bruteforce.conf".text = ''
+      [Definition]
+      failregex= warning: [\w\.\-]+\[<HOST>\]: SASL LOGIN authentication failed.*$
+      journalmatch = _SYSTEMD_UNIT=postfix.service
+    '';
+    "fail2ban/filter.d/postfix-ssl-error.conf".text = ''
+      [Definition]
+      failregex= SSL_accept error from unknown\[<HOST>\]: *
+      journalmatch = _SYSTEMD_UNIT=postfix.service
+    '';
+    "fail2ban/filter.d/postfix-improper-command.conf".text = ''
+      [Definition]
+      failregex= improper command pipelining after CONNECT from unknown\[<HOST>\]: *
+      journalmatch = _SYSTEMD_UNIT=postfix.service
+    '';
   };
 
   mailserver = {
