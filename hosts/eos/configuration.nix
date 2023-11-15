@@ -31,6 +31,8 @@ in {
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
+  systemd.services.zfs-mount.enable = false;
+
   # disable the laptop lid switch
   services.logind.lidSwitch = "ignore";
   services.logind.lidSwitchDocked = "ignore";
@@ -39,10 +41,11 @@ in {
     DNSStubListener=no
   '';
 
-  environment.systemPackages = with pkgs.unstable; [
-    dbus-broker
-    nodejs
-  ];
+  # Select internationalisation properties.
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  # Set your time zone.
+  time.timeZone = "Europe/Brussels";
 
   networking = {
     hostName = "eos"; # After the Greek titan of dawn
@@ -87,12 +90,6 @@ in {
       ];
     };
   };
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
 
   # List services that you want to enable:
   # Enable the OpenSSH daemon.
@@ -233,7 +230,7 @@ in {
   # network services
   services.coredns.enable = true;
   services.mosquitto = {
-    enable = true;
+    enable = false;
     listeners = [
       {
         address = "10.5.90.10";
@@ -245,8 +242,8 @@ in {
 
   # storage and databases
   services.consul = {
+    enable = false;
     package = pkgs.unstable.consul;
-    enable = true;
     webUi = true;
     interface = {
       bind = "eno1";
@@ -286,7 +283,7 @@ in {
     authentication = ''
       local all all trust
       host all all 0.0.0.0/0 md5
-      host all all 10.88.0.1/24 md5
+      host all all 10.88.0.1/16 md5
     '';
   };
   services.postgresqlBackup = {
@@ -294,10 +291,11 @@ in {
     databases = [ "mastodon" ];
   };
 
-
   # monitoring applications
+  ## exporters
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
+  ## grafana
   services.grafana = {
     enable = true;
     settings.server = {
@@ -308,6 +306,7 @@ in {
     dataDir = "/var/lib/grafana";
     package = pkgs.unstable.grafana;
   };
+  ## prometheus
   francis.services.prometheus.retention.time = "365d";
   francis.services.prometheus.retention.size = "32GB";
   services.prometheus = {
@@ -378,6 +377,7 @@ in {
       }
     ];
   };
+  ## logging
   services.promtail = {
     enable = true;
     configuration = {
@@ -584,6 +584,6 @@ in {
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.05"; # Did you read the comment?
+  system.stateVersion = "23.05"; # Did you read the comment?
 }
 
