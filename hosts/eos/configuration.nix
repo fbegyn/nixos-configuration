@@ -198,32 +198,32 @@ in {
           "8554:8554"
         ];
       };
-      # dmarc-report = {
-      #   environment = {
-      #     TZ = "Europe/Brussels";
-      #     COUNTRY = "BE";
-      #     REPORT_DB_HOST = "10.88.0.1";
-      #     REPORT_DB_PORT = "5432";
-      #     REPORT_DB_TYPE = "Pg";
-      #     REPORT_DB_NAME = "${hosts.eos.db.dmarc_report.name}";
-      #     REPORT_DB_USER = "${hosts.eos.db.dmarc_report.user}";
-      #     REPORT_DB_PASS = "${hosts.eos.db.dmarc_report.pass}";
-      #     PARSER_IMAP_SERVER = "${hosts.mail.dmarc.hostname}";
-      #     PARSER_IMAP_PORT = "993";
-      #     PARSER_IMAP_SSL = "1";
-      #     PARSER_IMAP_TLS = "0";
-      #     PARSER_IMAP_USER = "${hosts.mail.dmarc.mail}";
-      #     PARSER_IMAP_PASS = "${hosts.mail.dmarc.pass}";
-      #     PARSER_IMAP_READ_FOLDER = "Inbox";
-      #     PARSER_IMAP_MOVE_FOLDER = "processed";
-      #     PARSER_IMAP_MOVE_FOLDER_ERR = "error";
-      #   };
-      #   image = "gutmensch/dmarc-report:1.4.1";
-      #   ports = [
-      #     "21080:80"
-      #     "28080:8080"
-      #   ];
-      # };
+      dmarc-report = {
+        environment = {
+          TZ = "Europe/Brussels";
+          COUNTRY = "BE";
+          REPORT_DB_HOST = "10.88.0.1";
+          REPORT_DB_PORT = "5432";
+          REPORT_DB_TYPE = "pgsql";
+          REPORT_DB_NAME = "${hosts.eos.db.dmarc_report.name}";
+          REPORT_DB_USER = "${hosts.eos.db.dmarc_report.user}";
+          REPORT_DB_PASS = "${hosts.eos.db.dmarc_report.pass}";
+          PARSER_IMAP_SERVER = "${hosts.mail.dmarc.hostname}";
+          PARSER_IMAP_PORT = "993";
+          PARSER_IMAP_SSL = "1";
+          PARSER_IMAP_TLS = "0";
+          PARSER_IMAP_USER = "${hosts.mail.dmarc.mail}";
+          PARSER_IMAP_PASS = "${hosts.mail.dmarc.pass}";
+          PARSER_IMAP_READ_FOLDER = "Inbox";
+          PARSER_IMAP_MOVE_FOLDER = "processed";
+          PARSER_IMAP_MOVE_FOLDER_ERR = "error";
+        };
+        image = "gutmensch/dmarc-report:1.4.1";
+        ports = [
+          "21080:80"
+          "28080:8080"
+        ];
+      };
     };
   };
 

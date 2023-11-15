@@ -68,7 +68,7 @@
   # unifi
   services.unifi = {
     enable = false;
-    unifiPackage = pkgs.unstable.unifi;
+    unifiPackage = pkgs.unstable.unifi7;
     jrePackage = pkgs.jdk11;
     mongodbPackage = pkgs.mongodb-4_4;
     openFirewall = true;
