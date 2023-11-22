@@ -75,7 +75,6 @@
       terraform-lsp
       pulumi
       ansible
-      vagrant
       # Utilities
       wakeonlan
       bitwarden-cli
