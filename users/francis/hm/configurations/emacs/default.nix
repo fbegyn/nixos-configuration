@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.francis.emacs;
+  cfg = config.emacs;
 in {
-  options.francis.emacs = {
+  options.emacs = {
     fullConfig = lib.mkOption {
       readOnly = true;
       default = builtins.readFile ./base-init.el + (
@@ -16,10 +16,13 @@ in {
     extraConfig = lib.mkOption {
       default = [];
     };
+    emacsPackage = lib.mkOption {
+      default = pkgs.emacs-pgtk;
+    };
     package = lib.mkOption {
       default = pkgs.emacsWithPackagesFromUsePackage {
         config = cfg.fullConfig;
-        package = pkgs.emacs-pgtk;
+        package = cfg.emacsPackage;
         alwaysEnsure = true;
         # extraEmacsPackages = epkgs: [];
       };
