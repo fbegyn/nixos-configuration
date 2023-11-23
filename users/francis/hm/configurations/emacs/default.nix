@@ -1,10 +1,13 @@
 { config, lib, pkgs, ... }:
-{
+
+let
+  cfg = config.francis.emacs;
+in {
   options.francis.emacs = {
     fullConfig = lib.mkOption {
       readOnly = true;
       default = builtins.readFile ./base-init.el + (
-        lib.concatStringsSep "\n" config.francis.emacs.extraConfig
+        lib.concatStringsSep "\n" cfg.extraConfig
         ) + ''
           (provide 'init)
           ;;; init.el ends here
@@ -15,7 +18,7 @@
     };
     package = lib.mkOption {
       default = pkgs.emacsWithPackagesFromUsePackage {
-        config = config.francis.emacs.fullConfig;
+        config = cfg.fullConfig;
         package = pkgs.emacs-pgtk;
         alwaysEnsure = true;
         # extraEmacsPackages = epkgs: [];
@@ -37,29 +40,27 @@
       ".local/bin/e" = {
         text = ''
           #!/bin/sh
-          ${config.francis.emacs.package}/bin/emacsclient -t -a "" $@
+          ${cfg.package}/bin/emacsclient -t -a "" $@
         '';
         executable = true;
       };
       ".local/bin/ew" = {
         text = ''
           #!/bin/sh
-          ${config.francis.emacs.package}/bin/emacsclient -a "" -nc $@
+          ${cfg.package}/bin/emacsclient -a "" -nc $@
         '';
         executable = true;
       };
-      ".emacs.d/init.el".text = config.francis.emacs.fullConfig;
-      ".emacs.d/early-init.el".source = ./early-init.el;
     };
 
     xdg.configFile = {
-      "emacs/init.el".text = config.francis.emacs.fullConfig;
+      "emacs/init.el".text = cfg.fullConfig;
       "emacs/early-init.el".source = ./early-init.el;
     };
 
     programs.emacs = {
       enable = true;
-      package = config.francis.emacs.package;
+      package = cfg.package;
     };
   };
 }
