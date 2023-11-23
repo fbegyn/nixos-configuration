@@ -54,11 +54,13 @@ in {
         '';
         executable = true;
       };
+      ".emacs.d/early-init.el".source = ./early-init.el;
+      ".emacs.d/init.el".text = cfg.fullConfig;
     };
 
     xdg.configFile = {
-      "emacs/init.el".text = cfg.fullConfig;
       "emacs/early-init.el".source = ./early-init.el;
+      "emacs/init.el".text = cfg.fullConfig;
     };
 
     programs.emacs = {
