@@ -43,11 +43,12 @@
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 8000 8443 9000 9100 ];
+      allowedTCPPorts = [ 22 9100 ];
     };
   };
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 8080 3478 6789 ];
+    allowedTCPPorts = [ 80 443 6789 8080 ];
+    allowedUDPPorts = [ 3478 10001 5514 123 ];
   };
 
   services.prometheus.exporters.node.enable = true;
@@ -66,12 +67,34 @@
   };
 
   # unifi
-  services.unifi = {
-    enable = true;
-    unifiPackage = pkgs.unstable.unifi7;
-    jrePackage = pkgs.jdk11;
-    mongodbPackage = pkgs.mongodb-5_0;
-    openFirewall = true;
+  virtualisation.oci-containers = {
+    backend = "podman";
+    containers = {
+      "unifi-controller" = {
+        image = "linuxserver/unifi-controller:8.0.7";
+        environment = {
+	  PUID = "1000";
+	  PGID = "1000";
+	  TZ = "Europe/Brussels";
+	  MEM_LIMIT = "1024";
+	  MEM_STARTUP = "1024";
+	};
+	volumes = [
+	  "/home/francis/unifi-controller:/config"
+	];
+	ports = [
+          "8443:8443"
+          "3478:3478/udp"
+          "10001:10001/udp"
+          "8080:8080"
+          # "1900:1900/udp" #optional
+          "8843:8843"     #optional
+          "8880:8880"     #optional
+          "6789:6789"     #optional
+          "5514:5514/udp" #optional
+	];
+      };
+    };
   };
   services.nginx.virtualHosts = {
     "unifi.svc.begyn.be" = {
@@ -81,6 +104,7 @@
         "/" = {
           proxyPass = "https://127.0.0.1:8443$request_uri";
           extraConfig = ''
+	    client_max_body_size 15M;
             proxy_ssl_verify off;
             proxy_ssl_session_reuse on;
             proxy_buffering off;
