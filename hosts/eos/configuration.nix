@@ -62,16 +62,16 @@ in {
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
     interfaces = {
       eno1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
-      lan20.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
+      lan.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
       mgmt.ipv4.addresses = [{ address = "10.5.30.10"; prefixLength = 32; }];
       iot.ipv4.addresses = [{ address = "10.5.90.10"; prefixLength = 32; }];
       guests.ipv4.addresses = [{ address = "10.5.100.10"; prefixLength = 32; }];
     };
     vlans = {
-      lan20 = { id = 20; interface = "eno1"; };
-      mgmt = { id = 30; interface = "eno1"; };
-      iot = { id = 90; interface = "eno1"; };
-      guests = { id = 100; interface = "eno1"; };
+      lan = { id = 120; interface = "eno1"; };
+      mgmt = { id = 130; interface = "eno1"; };
+      iot = { id = 190; interface = "eno1"; };
+      guests = { id = 1100; interface = "eno1"; };
     };
     firewall = {
       enable = false;
