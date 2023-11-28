@@ -47,8 +47,17 @@
     };
   };
   networking.firewall = {
-    allowedTCPPorts = [ 80 443 6789 8080 ];
-    allowedUDPPorts = [ 3478 10001 5514 123 ];
+    allowedTCPPorts = [
+      80 443
+      8080  # Port for UAP to inform controller.
+      8880  # Port for HTTP portal redirect, if guest portal is enabled.
+      8843  # Port for HTTPS portal redirect, ditto.
+      6789  # Port for UniFi mobile speed test.
+    ];
+    allowedUDPPorts = [
+      3478  # UDP port used for STUN.
+      10001 # UDP port used for device discovery.
+    ];
   };
 
   services.prometheus.exporters.node.enable = true;
@@ -70,30 +79,111 @@
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
-      "unifi-controller" = {
-        image = "linuxserver/unifi-controller:8.0.7";
-        environment = {
-	  PUID = "1000";
-	  PGID = "1000";
-	  TZ = "Europe/Brussels";
-	  MEM_LIMIT = "1024";
-	  MEM_STARTUP = "1024";
-	};
-	volumes = [
-	  "/home/francis/unifi-controller:/config"
-	];
+      "mongodb" = {
+        image = "mongo:5.0.22";
 	ports = [
-          "8443:8443"
-          "3478:3478/udp"
-          "10001:10001/udp"
-          "8080:8080"
-          # "1900:1900/udp" #optional
-          "8843:8843"     #optional
-          "8880:8880"     #optional
-          "6789:6789"     #optional
-          "5514:5514/udp" #optional
-	];
+	  "27017:27017"
+        ];
       };
+    };
+  };
+  users.users.unifi = {
+    isSystemUser = true;
+    group = "unifi";
+    description = "UniFi controller daemon user";
+    home = "/var/lib/unifi";
+  };
+  users.groups.unifi = {};
+
+  systemd.services.unifi = {
+    description = "UniFi controller daemon";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+
+    # This a HACK to fix missing dependencies of dynamic libs extracted from jars
+    environment.LD_LIBRARY_PATH = with pkgs.stdenv; "${cc.cc.lib}/lib";
+    # Make sure package upgrades trigger a service restart
+    restartTriggers = [ pkgs.unstable.unifi7 ];
+
+    serviceConfig = let
+      cmd = pkgs.lib.escapeShellArgs ([ "@${pkgs.unstable.jdk17_headless}/bin/java" "java" ]
+            ++ [
+	      "--add-opens=java.base/java.lang=ALL-UNNAMED"
+              "--add-opens=java.base/java.time=ALL-UNNAMED"
+              "--add-opens=java.base/sun.security.util=ALL-UNNAMED"
+              "--add-opens=java.base/java.io=ALL-UNNAMED"
+              "--add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED"
+	      "-Xms1024m"
+	      "-Xmx1096m"
+	    ]
+            ++ [ "-jar" "/var/lib/unifi/lib/ace.jar" ]);
+    in {
+      Type = "simple";
+      ExecStart = "${cmd} start";
+      ExecStop = "${cmd} stop";
+      Restart = "on-failure";
+      TimeoutSec = "5min";
+      User = "unifi";
+      UMask = "0077";
+      WorkingDirectory = "/var/lib/unifi";
+      # the stop command exits while the main process is still running, and unifi
+      # wants to manage its own child processes. this means we have to set KillSignal
+      # to something the main process ignores, otherwise every stop will have unifi.service
+      # fail with SIGTERM status.
+      KillSignal = "SIGCONT";
+
+      # Hardening
+      AmbientCapabilities = "";
+      CapabilityBoundingSet = "";
+      # ProtectClock= adds DeviceAllow=char-rtc r
+      DeviceAllow = "";
+      DevicePolicy = "closed";
+      LockPersonality = true;
+      NoNewPrivileges = true;
+      PrivateDevices = true;
+      PrivateMounts = true;
+      PrivateTmp = true;
+      PrivateUsers = true;
+      ProtectClock = true;
+      ProtectControlGroups = true;
+      ProtectHome = true;
+      ProtectHostname = true;
+      ProtectKernelLogs = true;
+      ProtectKernelModules = true;
+      ProtectKernelTunables = true;
+      ProtectSystem = "strict";
+      RemoveIPC = true;
+      RestrictNamespaces = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+      SystemCallErrorNumber = "EPERM";
+      SystemCallFilter = [ "@system-service" ];
+
+      StateDirectory = "unifi";
+      RuntimeDirectory = "unifi";
+      LogsDirectory = "unifi";
+      CacheDirectory= "unifi";
+
+      TemporaryFileSystem = [
+        # required as we want to create bind mounts below
+        "/var/lib/unifi/webapps:rw"
+      ];
+
+      # We must create the binary directories as bind mounts instead of symlinks
+      # This is because the controller resolves all symlinks to absolute paths
+      # to be used as the working directory.
+      BindPaths =  [
+        "/var/log/unifi:/var/lib/unifi/logs"
+        "/run/unifi:/var/lib/unifi/run"
+        "${pkgs.unstable.unifi7}/dl:/var/lib/unifi/dl"
+        "${pkgs.unstable.unifi7}/lib:/var/lib/unifi/lib"
+        "${pkgs.unstable.unifi7}/webapps/ROOT:/var/lib/unifi/webapps/ROOT"
+      ];
+
+      # Needs network access
+      PrivateNetwork = false;
+      # Cannot be true due to OpenJDK
+      MemoryDenyWriteExecute = false;
     };
   };
   services.nginx.virtualHosts = {
