@@ -160,18 +160,30 @@ in {
   };
 
   # containers
+  environment.systemPackages = with pkgs; [
+    bluez
+  ];
+  services.dbus = {
+    enable = true;
+    implementation = "broker";
+    packages = [ pkgs.bluez ];
+  };
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
       hass = {
         volumes = [
           "/home/francis/hass:/config"
+          "/dev/ttyUSB0:/dev/ttyUSB0"
           "/run/dbus:/run/dbus:ro"
+	  "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+	  "/sys:/sys"
         ];
         environment.TZ = "Europe/Brussels";
         image = "ghcr.io/home-assistant/home-assistant:2023.11";
         extraOptions = [
           "--network=host"
+	  "--userns=keep-id"
         ];
       };
       eufy-ws-addon = {
@@ -230,7 +242,7 @@ in {
   # network services
   services.coredns.enable = true;
   services.mosquitto = {
-    enable = false;
+    enable = true;
     listeners = [
       {
         address = "10.5.90.10";
