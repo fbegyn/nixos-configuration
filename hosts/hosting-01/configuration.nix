@@ -206,6 +206,7 @@
   };
 
   # roundcube webmail
+  services.postgresql.package = pkgs.postgresql_15;
   services.roundcube = {
     enable = true;
     package = pkgs.unstable.roundcube;
