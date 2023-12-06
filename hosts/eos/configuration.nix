@@ -172,9 +172,11 @@ in {
     backend = "podman";
     containers = {
       hass = {
+        ports = [
+	  "8123:8123"
+	];
         volumes = [
           "/home/francis/hass:/config"
-          "/dev/ttyUSB0:/dev/ttyUSB0"
           "/run/dbus:/run/dbus:ro"
 	  "/sys/fs/cgroup:/sys/fs/cgroup:ro"
 	  "/sys:/sys"
@@ -183,7 +185,9 @@ in {
         image = "ghcr.io/home-assistant/home-assistant:2023.11";
         extraOptions = [
           "--network=host"
+	  "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
 	  "--userns=keep-id"
+	  # "--device=/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_d49a7c097245ed118dcec68f0a86e0b4-if00-port0:/dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_d49a7c097245ed118dcec68f0a86e0b4-if00-port0:rwm"
         ];
       };
       eufy-ws-addon = {
