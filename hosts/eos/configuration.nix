@@ -182,7 +182,7 @@ in {
 	  "/sys:/sys"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2023.11";
+        image = "ghcr.io/home-assistant/home-assistant:2023.12";
         extraOptions = [
           "--network=host"
 	  "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
@@ -476,7 +476,6 @@ in {
   services.nextcloud = {
     enable = false;
     package = pkgs.unstable.nextcloud25;
-    enableBrokenCiphersForSSE = false;
     hostName = "docs.begyn.be";
     config = {
       overwriteProtocol = "https";
@@ -555,6 +554,7 @@ in {
     package = pkgs.mastodon;
     localDomain = "social.begyn.be";
     enableUnixSocket = true;
+    streamingProcesses = 2;
     smtp = {
       host = "mail.begyn.be";
       port = 587;
