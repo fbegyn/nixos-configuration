@@ -71,6 +71,7 @@
 
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
+  networking.useNetworkd = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
