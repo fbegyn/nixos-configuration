@@ -2,8 +2,8 @@
   description = "Nixos configuration flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nur.url = "github:nix-community/NUR";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -76,15 +76,13 @@
     pkgs = nixpkgs.legacyPackages."x86_64-linux";
 
     overlay = final: prev: {
-      nix = final.nixVersions.nix_2_16;
       unstable = import nixpkgs-unstable {
         system = prev.system;
         inherit nixpkgs;
         config.allowUnfree = true;
         overlays = [
           (import ./overlays/weechat.nix)
-          (import ./overlays/nix-updates.nix)
-          # (import ./overlays/browser-eid.nix)
+          (import ./overlays/browser-eid.nix)
         ];
       };
       fbegyn = {
