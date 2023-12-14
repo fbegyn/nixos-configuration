@@ -50,7 +50,7 @@
       (aspellWithDicts (dicts: with dicts; [en en-science nl]))
       # Comms
       slack
-      pkgs.mattermost-desktop
+      mattermost-desktop
       thunderbird
       weechat
       # Browser
