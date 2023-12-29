@@ -180,6 +180,7 @@
 
       "t"  '(:ignore t :which-key "toggle")
       "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
+      "tt" '(treemacs :which-key "treemacs")
       "wv" '(split-window-horizontally :which-key "split vertical")
       "ws" '(split-window-vertically :which-key "split horizontal")
       "wk" '(evil-window-up :which-key "up")
@@ -190,7 +191,6 @@
 
       "q"  '(:ignore t :which-key "quit")
       "qq" '(save-buffers-kill-emacs :which-key "quit")))
-
 (use-package which-key
   :demand
   :diminish (which-key-mode)
@@ -243,6 +243,7 @@
     "bb" '(ivy-switch-buffer :which-key "switch buffer")
     "fr" '(ivy-recentf :which-key "recent file")))
 
+;; git stuff
 (use-package magit
   :after (general)
   :general
@@ -257,7 +258,6 @@
   (global-git-commit-mode 1)
   (magit-auto-revert-mode nil)
   (magit-save-repository-buffers 'dontask))
-
 (use-package diff-hl
   :init
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
@@ -270,11 +270,64 @@
   (leader-keys
     "'" '(vterm-toggle :which-key "terminal")))
 
+;; look and feel
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
-
+(use-package gruvbox-theme
+  :config (load-theme 'gruvbox-dark-hard t))
+(use-package highlight-indent-guides
+  :config
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 (use-package nerd-icons)
+
+(use-package treemacs
+  :defer t
+  :init
+  (with-eval-after-load 'winum
+    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+(use-package treemacs-evil
+  :after (treemacs evil))
+(use-package treemacs-projectile
+  :after (treemacs evil))
+(use-package treemacs-icons-dired
+  :hook (dired-mode . treemacs-icons-dired-enable-once))
+(use-package treemacs-magit
+  :after (treemacs evil))
+
+(use-package evil
+  :demand
+  :diminish (evil-collection-unimpaired-mode)
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
+  :config
+  (evil-mode 1))
+(use-package evil-collection
+  :after (evil)
+  :config
+  (setq evil-collection-mode-alist (delete 'go-mode evil-collection-mode-list))
+  (evil-collection-init))
+(use-package evil-surround
+  :ensure t
+  :config
+  (global-evil-surround-mode 1))
+(use-package evil-nerd-commenter
+  :general
+  (general-nvmap
+    "gc" 'evilnc-comment-operator))
+
+
+(use-package flycheck
+  :diminish (flycheck-mode)
+  :hook (prog-mode . flycheck-mode)
+  :config (global-flycheck-mode)
+  :custom
+  (flycheck-display-errors-function 'ignore)
+  (flycheck-highlighting-mode nil)
+  (flycheck-navigation-minimum-level 'error)
+  (flycheck-check-syntax-automatically '(save mode-enabled))
+  (flycheck-emacs-lisp-load-path 'inherit))
 
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
@@ -306,25 +359,6 @@
 (eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
 (add-to-list 'tramp-connection-properties
                    (list ".*" "locale" "LC_ALL=C"))
-
-(use-package treemacs
-  :ensure t
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
-(use-package treemacs-evil
-  :after (treemacs evil)
-  :ensure t)
-(use-package treemacs-projectile
-  :after (treemacs evil)
-  :ensure t)
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
-(use-package treemacs-magit
-  :after (treemacs evil)
-  :ensure t)
 
 (require 'dired)
 (use-package dired
@@ -436,45 +470,6 @@ the frame and makes it a dedicated window for that buffer."
 (use-package elixir-mode
   :mode "\\.ex'")
 
-(use-package evil
-  :demand
-  :diminish (evil-collection-unimpaired-mode)
-  :init
-  (setq evil-want-keybinding nil)
-  (setq evil-want-integration t)
-  :config
-  (evil-mode 1))
-
-(use-package evil-collection
-  :after (evil)
-  :config
-  (setq evil-collection-mode-alist (delete 'go-mode evil-collection-mode-list))
-  (evil-collection-init)
-)
-
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1)
-)
-
-(use-package evil-nerd-commenter
-  :general
-  (general-nvmap
-    "gc" 'evilnc-comment-operator))
-
-(use-package flycheck
-  :diminish (flycheck-mode)
-  :hook (prog-mode . flycheck-mode)
-  :config (global-flycheck-mode)
-  :custom
-  (flycheck-display-errors-function 'ignore)
-  (flycheck-highlighting-mode nil)
-  (flycheck-navigation-minimum-level 'error)
-  (flycheck-check-syntax-automatically '(save mode-enabled))
-  (flycheck-emacs-lisp-load-path 'inherit)
-)
-
 (require 'project)
 
 (defun project-find-go-module (dir)
@@ -514,15 +509,6 @@ the frame and makes it a dedicated window for that buffer."
   (godoc-at-point-function 'godoc-gogetdoc)
   (gofmt-command "goimports")
   (gofmt-show-errors 'buffer)
-)
-
-(use-package gruvbox-theme
-  :config (load-theme 'gruvbox-dark-hard t)
-)
-
-(use-package highlight-indent-guides
-  :config
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 )
 
 (use-package ledger-mode
