@@ -53,6 +53,7 @@
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    mac-app-util.url = "github:hraban/mac-app-util";
   };
 
   outputs = inputs@{
@@ -62,6 +63,7 @@
     nur,
     nixos-hardware,
     darwin,
+    mac-app-util,
     flake-utils-plus,
     flake-utils,
     home-manager,
@@ -142,6 +144,12 @@
     darwinConfigurations = {
       erebus = mkMac [
         ./hosts/erebus/configuration.nix
+        mac-app-util.darwinModules.default
+	({pkgs, config, inputs, ...}: {
+	  home-manager.users.francis.imports = [
+	    mac-app-util.homeManagerModules.default
+	  ];
+	})
       ];
     };
 
