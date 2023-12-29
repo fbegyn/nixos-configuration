@@ -87,6 +87,7 @@
       gnumake
       pandoc
       texlive.combined.scheme-small
+      yamllint
       # Databases
       pkgs.pgcli
       pkgs.mycli
@@ -103,6 +104,7 @@
       tig
       sshuttle
       act
+      nodejs
     ];
 
     programs.neovim = {
