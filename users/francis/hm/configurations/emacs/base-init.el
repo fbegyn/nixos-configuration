@@ -15,16 +15,17 @@
 ;; Avoid unnecessary regexp matching while loading .el files.
 (defvar hm/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
-
 (defun hm/restore-file-name-handler-alist ()
   "Restores the file-name-handler-alist variable."
   (setq file-name-handler-alist hm/file-name-handler-alist)
   (makunbound 'hm/file-name-handler-alist))
-
 (add-hook 'emacs-startup-hook #'hm/restore-file-name-handler-alist)
 
+;; Inhibit startup screens
 (setq inhibit-startup-screen t )
+(setq inhibit-splash-screen t )
 
+;; Disable some menu elements
 (menu-bar-mode 0)
 (electric-pair-mode)
 (winner-mode 1)
@@ -41,7 +42,7 @@
             scroll-bar-mode
             menu-bar-mode
             blink-cursor-mode))
-          (funcall mode 0)))
+          (funcall mode -1)))
 
 (add-hook 'text-mode-hook 'auto-fill-mode)
 
@@ -74,6 +75,39 @@
 (require 'use-package)
 (package-initialize)
 
+;; emacs settings
+(use-package emacs
+  :defer t
+  :init
+  ;; disable scratch message
+  (setq initial-scratch-message nil)
+  (defun display-startup-echo-area-message ()
+    (message ""))
+  ;; switch to y/n prompts
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  ;; use spaces and set tab width
+  (setq-default indent-tabs-mode nil)
+  (setq default-tab-width 2)
+  ;; correct macos modifiers
+  (when (eq system-type 'darwin)
+		(setq mac-command-modifier 'super)
+		(setq mac-option-modifier 'meta)
+		(setq mac-control-modifier 'control))
+  ;; use escape to exit menus (like vim)
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+  ;; use UTF-8
+  (set-charset-priority 'unicode)
+  (setq locale-coding-system 'utf-8
+        coding-system-for-read 'utf-8
+        coding-system-for-write 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+)
+
+
 (auto-compression-mode 1)
 ;;;;;;;;;;
 
@@ -81,10 +115,14 @@
 (setenv "GOPATH" (concat (getenv "HOME") "/.go"))
 (setq gofmt-command "goimports")
 (setq frame-resize-pixelwise t)
+
+;; bibliography listings
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-(setq default-tab-width 2)
-(setq tab-always-indent 'complete)
+
+;; highlight guides
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
+
+(setq tab-always-indent 'complete)
 
 ;; rust
 (setq rust-format-on-save t)
@@ -113,52 +151,138 @@
   (other-window 1)
   (find-file arg))
 
+;; ===============================================
 ;; For :general in (use-package).
 (use-package general
-  :ensure t
-  :after (evil which-key)
+  :demand ;; no lazy loading
   :config
-  (general-evil-setup t)
+  (general-evil-setup)
 
-  (general-mmap
-    ":" 'evil-ex
-    ";" 'evil-repeat-find-char)
+  ;;(general-mmap
+  ;;  ":" 'evil-ex
+  ;;  ";" 'evil-repeat-find-char)
 
-  (general-create-definer my-leader-def
-    :prefix "SPC")
-
-  (general-create-definer my-local-leader-def
-    :prefix "SPC m")
-
-  (general-nmap
+  (general-create-definer leader-keys
+    :states '(normal insert visual emacs)
+    :keymaps 'override
     :prefix "SPC"
-    "b"  '(:ignore t :which-key "buffer")
-    "bd" '(kill-this-buffer :which-key "kill buffer")
+    :global-prefix "C-SPC")
 
-    "f"  '(:ignore t :which-key "file")
-    "ff" '(find-file :which-key "find")
-    "fs" '(save-buffer :which-key "save")
+  (leader-keys
+      "b"  '(:ignore t :which-key "buffer")
+      "bd" '(kill-this-buffer :which-key "kill buffer")
 
-    "m"  '(:ignore t :which-key "mode")
+      "f"  '(:ignore t :which-key "file")
+      "ff" '(find-file :which-key "find")
+      "fs" '(save-buffer :which-key "save")
 
-    "t"  '(:ignore t :which-key "toggle")
-    "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
-    "wv" '(split-window-horizontally :which-key "split vertical")
-    "ws" '(split-window-vertically :which-key "split horizontal")
-    "wk" '(evil-window-up :which-key "up")
-    "wj" '(evil-window-down :which-key "down")
-    "wh" '(evil-window-left :which-key "left")
-    "wl" '(evil-window-right :which-key "right")
-    "wd" '(delete-window :which-key "delete")
+      "m"  '(:ignore t :which-key "mode")
 
-    "q"  '(:ignore t :which-key "quit")
-    "qq" '(save-buffers-kill-emacs :which-key "quit"))
-)
+      "t"  '(:ignore t :which-key "toggle")
+      "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
+      "wv" '(split-window-horizontally :which-key "split vertical")
+      "ws" '(split-window-vertically :which-key "split horizontal")
+      "wk" '(evil-window-up :which-key "up")
+      "wj" '(evil-window-down :which-key "down")
+      "wh" '(evil-window-left :which-key "left")
+      "wl" '(evil-window-right :which-key "right")
+      "wd" '(delete-window :which-key "delete")
+
+      "q"  '(:ignore t :which-key "quit")
+      "qq" '(save-buffers-kill-emacs :which-key "quit")))
+
+(use-package which-key
+  :demand
+  :diminish (which-key-mode)
+  :init
+  (setq which-key-sort-order 'which-key-key-order-alpha
+        which-key-side-window-max-width 0.33
+        which-key-idle-delay 0.25))
+  :config
+  (which-key-mode)
+  (which-key-setup-side-window-right-bottom)
+
+(use-package projectile
+  :demand
+  :after (general)
+  :init
+  (projectile-mode +1)
+  :config
+  (progn
+    (setq projectile-enable-caching t)
+    (setq projectile-require-project-root nil)
+    (setq projectile-completion-system 'ivy)
+    (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
+  :general
+  (leader-keys
+    :states 'normal
+    "pf" '(projectile-find-file :which-key "Find in project")
+    ;; Buffers
+    "bb" '(projectile-switch-to-buffer :which-key "switch buffer")
+
+    ;; Projects
+    "p"  '(:ignore t :which-key "project")
+    "p<escape>" '(keyboard-escape-quit :which-key t)
+    "pp" '(projectile-switch-project :which-key "switch project")
+    "pa" '(projectile-switch-project :which-key "add project")
+    "pr" '(projectile-switch-project :which-key "remove project")))
+
+(use-package ivy
+  :demand
+  :after (general)
+  :config
+  (ivy-mode)
+  :custom
+  (ivy-use-virtual-buffers t)
+  (ivy-wrap t)
+  (ivy-height 20)
+  (ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+  (ivy-virtual-abbreviate 'full)
+  :general
+  (leader-keys
+    "bb" '(ivy-switch-buffer :which-key "switch buffer")
+    "fr" '(ivy-recentf :which-key "recent file")))
+
+(use-package magit
+  :after (general)
+  :general
+  (leader-keys
+    "g" '(:ignore t :which-key "git")
+    "g <escape>" '(keyboard-escape-quit :which-key t)
+    "g g" '(magit-status :which-key "status")
+    "g l" '(magit-log :which-key "log"))
+  (general-nmap
+    "<escape>" #'transient-quit-one)
+  :config
+  (global-git-commit-mode 1)
+  (magit-auto-revert-mode nil)
+  (magit-save-repository-buffers 'dontask))
+
+(use-package diff-hl
+  :init
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  :config
+  (global-diff-hl-mode))
+
+(use-package vterm-toggle
+  :general
+  (leader-keys
+    "'" '(vterm-toggle :which-key "terminal")))
+
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+
+(use-package nerd-icons)
+
+;; ----====-----
+;; emacs config rework TODO ALL BELOW
 
 (use-package alchemist)
 
 (use-package better-defaults
-			 :config (ido-mode nil))
+  :config (ido-mode nil))
 
 (use-package company
   :diminish (company-mode)
@@ -285,12 +409,11 @@ the frame and makes it a dedicated window for that buffer."
     ("M-y" . counsel-yank-pop)
   )
   :general
-  (general-nmap
-  :prefix "SPC"
-  "SPC" '(counsel-M-x :which-key "M-x")
-  "ff"  '(counsel-find-file :which-key "find file")
-  "s"   '(:ignore t :which-key "search")
-  "sc"  '(counsel-unicode-char :which-key "find character"))
+  (leader-keys
+    "SPC" '(counsel-M-x :which-key "M-x")
+    "ff"  '(counsel-find-file :which-key "find file")
+    "s"   '(:ignore t :which-key "search")
+    "sc"  '(counsel-unicode-char :which-key "find character"))
   :config
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   (setq counsel-switch-buffer-preview-virtual-buffers nil)
@@ -313,44 +436,14 @@ the frame and makes it a dedicated window for that buffer."
 (use-package elixir-mode
   :mode "\\.ex'")
 
-;;; UNDO
-;; Vim style undo not needed for emacs 28
-(use-package undo-fu)
-
 (use-package evil
+  :demand
   :diminish (evil-collection-unimpaired-mode)
-  :custom
-  (evil-want-keybinding nil "Disable default evil keybindings, since
-    evil-collection is a superset. See
-    https://github.com/emacs-evil/evil-collection/issues/60.")
-  (evil-want-integration t "Also needed for evil-collection")
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
   :config
-  (evil-mode 1)
-  ;(evil-define-key '(motion normal visual) 'global
-  ;  "n" 'evil-next-line
-  ;  "gn" 'evil-next-visual-line
-  ;  "e" 'evil-previous-line
-  ;  "E" 'evil-lookup
-  ;  "ge" 'evil-previous-visual-line
-  ;  "i" 'evil-forward-char
-  ;  "I" 'evil-window-bottom
-  ;  "zi" 'evil-scroll-column-right
-  ;  "zI" 'evil-scroll-right
-  ;  "j" 'evil-forward-word-end
-  ;  "J" 'evil-forward-WORD-end
-  ;  "gj" 'evil-backward-word-end
-  ;  "gJ" 'evil-backward-WORD-end
-  ;  "k" (if (eq evil-search-module 'evil-search) 'evil-ex-search-next 'evil-search-next)
-  ;  "K" (if (eq evil-search-module 'evil-search) 'evil-ex-search-previous 'evil-search-previous)
-  ;  "gk" 'evil-next-match
-  ;  "gK" 'evil-previous-match)
-  ;(evil-define-key 'normal 'global
-  ;  "l" 'evil-undo
-  ;  "u" 'evil-insert
-  ;  "U" 'evil-insert-line
-  ;  "gu" 'evil-insert-resume
-  ;  "gU" 'evil-insert-0-line)
-)
+  (evil-mode 1))
 
 (use-package evil-collection
   :after (evil)
@@ -364,6 +457,11 @@ the frame and makes it a dedicated window for that buffer."
   :config
   (global-evil-surround-mode 1)
 )
+
+(use-package evil-nerd-commenter
+  :general
+  (general-nvmap
+    "gc" 'evilnc-comment-operator))
 
 (use-package flycheck
   :diminish (flycheck-mode)
@@ -427,25 +525,6 @@ the frame and makes it a dedicated window for that buffer."
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 )
 
-(use-package ivy
-  :after (general)
-  :demand t
-  :diminish (ivy-mode)
-  :config
-  (ivy-mode 1)
-  :custom
-  (ivy-use-virtual-buffers t)
-  (ivy-wrap t)
-  (ivy-height 20)
-  (ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-  (ivy-virtual-abbreviate 'full)
-  :general
-  (general-nmap
-  :prefix "SPC"
-  "bb" '(ivy-switch-buffer :which-key "switch buffer")
-  "fr" '(ivy-recentf :which-key "recent file"))
-)
-
 (use-package ledger-mode
   :mode "\\.journal\\'"
   :config
@@ -498,18 +577,6 @@ the frame and makes it a dedicated window for that buffer."
 ;;   :after (lsp ivy)
 ;;   :commands (lsp-ivy-workspace-symbol))
 
-(use-package magit
-  :after (general)
-  :general
-  (general-nmap
-  :prefix "SPC"
-  "g" '(:ignore t :which-key "Git")
-  "gs" 'magit-status)
-  :config
-  (global-git-commit-mode 1)
-  (magit-auto-revert-mode nil)
-  (magit-save-repository-buffers 'dontask))
-
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode ("README\\.md\\'" . gfm-mode)
@@ -537,24 +604,6 @@ the frame and makes it a dedicated window for that buffer."
 
 (use-package org-projectile)
 
-(use-package projectile
-  :after (ivy general)
-  :diminish (projectile-mode)
-  :config
-  (projectile-mode 1)
-  (progn
-    (setq projectile-enable-caching t)
-    (setq projectile-require-project-root nil)
-    (setq projectile-completion-system 'ivy)
-    (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
-    :general
-    (general-nmap
-    :prefix "SPC"
-    "p"  '(:ignore t :which-key "Project")
-    "pf" '(projectile-find-file :which-key "Find in project")
-    "pl" '(projectile-switch-project :which-key "Switch project"))
-)
-
 (use-package protobuf-mode)
 
 (use-package rust-mode
@@ -567,8 +616,7 @@ the frame and makes it a dedicated window for that buffer."
     ("C-s" . swiper)
   )
   :general
-  (general-nmap
-  :prefix "SPC"
+  (leader-keys
   "ss" '(swiper :which-key "swiper"))
 )
 
@@ -605,16 +653,6 @@ the frame and makes it a dedicated window for that buffer."
   :mode "\\.tmpl\\'")
 
 (use-package swiper)
-
-(use-package which-key
-  :diminish (which-key-mode)
-  :config
-  (which-key-mode)
-  (which-key-setup-side-window-right-bottom)
-  (setq which-key-sort-order 'which-key-key-order-alpha
-        which-key-side-window-max-width 0.33
-        which-key-idle-delay 0.05)
-)
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
