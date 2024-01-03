@@ -571,8 +571,8 @@ the frame and makes it a dedicated window for that buffer."
 
 (use-package eglot
   :ensure t
-  :defer t
   :config
+  :hook (python-mode . eglot-ensure)
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 50000)
@@ -580,7 +580,6 @@ the frame and makes it a dedicated window for that buffer."
   (flymake-no-changes-timeout 5)
   (eldoc-echo-area-use-multiline-p nil)
   (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
-  :hook (python-mode . eglot-ensure)
 )
 ;; (use-package lsp-mode
 ;;   :commands (lsp)
