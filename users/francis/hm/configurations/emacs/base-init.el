@@ -307,8 +307,11 @@
 (use-package gruvbox-theme
   :config (load-theme 'gruvbox-dark-hard t))
 (use-package highlight-indent-guides
-  :config
-  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :init
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-character ?|)
+  (setq highlight-indent-guides-responsive 'top))
 
 (use-package nerd-icons)
 (use-package all-the-icons)
@@ -563,7 +566,7 @@ the frame and makes it a dedicated window for that buffer."
 (use-package ledger-mode
   :mode "\\.journal\\'"
   :config
-  (setq ledger-reconcile-default-commodity "EUR")
+  (setq ledger-reconcile-default-commodity "€")
 )
 
 (use-package eglot
