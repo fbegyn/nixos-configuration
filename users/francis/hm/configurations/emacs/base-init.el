@@ -88,11 +88,29 @@
   ;; use spaces and set tab width
   (setq-default indent-tabs-mode nil)
   (setq default-tab-width 2)
+  ;; Stop emacs from littering the file system with backup files
+	(setq make-backup-files nil
+				auto-save-default nil
+				create-lockfiles nil)
+
+	;; Follow symlinks
+	(setq vc-follow-symlinks t)
   ;; correct macos modifiers
-  (when (eq system-type 'darwin)
-		(setq mac-command-modifier 'super)
-		(setq mac-option-modifier 'meta)
-		(setq mac-control-modifier 'control))
+  (defun ab/is-macos? ()
+		(eq system-type 'darwin))
+	(when (ab/is-macos?)
+		(setq mac-command-modifier 'super)   ; command as super
+		(setq mac-option-modifier 'meta)     ; alt as meta
+		(setq mac-control-modifier 'control) ; control as control
+		)
+	;; emacs-mac
+	(when (fboundp 'mac-auto-operator-composition-mode)
+		(mac-auto-operator-composition-mode) ; enables font ligatures
+		(global-set-key [(s c)] 'kill-ring-save)
+		(global-set-key [(s v)] 'yank)
+		(global-set-key [(s x)] 'kill-region)
+		(global-set-key [(s q)] 'kill-emacs)
+		)
   ;; use escape to exit menus (like vim)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ;; use UTF-8
@@ -105,6 +123,13 @@
   (set-selection-coding-system 'utf-8)
   (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+  ;; Less noise when compiling elisp
+	(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+	(setq native-comp-async-report-warnings-errors nil)
+	(setq load-prefer-newer t)
+	;; Clean up the mode line
+	(display-time-mode -1)
+	(setq column-number-mode t)
 )
 
 
@@ -152,6 +177,11 @@
   (find-file arg))
 
 ;; ===============================================
+(use-package gcmh
+	:demand
+	:config
+	(gcmh-mode 1))
+
 ;; For :general in (use-package).
 (use-package general
   :demand ;; no lazy loading
@@ -162,13 +192,13 @@
   ;;  ":" 'evil-ex
   ;;  ";" 'evil-repeat-find-char)
 
-  (general-create-definer leader-keys
+  (general-create-definer fb/leader-keys
     :states '(normal insert visual emacs)
     :keymaps 'override
     :prefix "SPC"
     :global-prefix "C-SPC")
 
-  (leader-keys
+  (fb/leader-keys
       "b"  '(:ignore t :which-key "buffer")
       "bd" '(kill-this-buffer :which-key "kill buffer")
 
@@ -214,7 +244,7 @@
     (setq projectile-completion-system 'ivy)
     (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
   :general
-  (leader-keys
+  (fb/leader-keys
     :states 'normal
     "pf" '(projectile-find-file :which-key "Find in project")
     ;; Buffers
@@ -239,7 +269,7 @@
   (ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
   (ivy-virtual-abbreviate 'full)
   :general
-  (leader-keys
+  (fb/leader-keys
     "bb" '(ivy-switch-buffer :which-key "switch buffer")
     "fr" '(ivy-recentf :which-key "recent file")))
 
@@ -247,7 +277,7 @@
 (use-package magit
   :after (general)
   :general
-  (leader-keys
+  (fb/leader-keys
     "g" '(:ignore t :which-key "git")
     "g <escape>" '(keyboard-escape-quit :which-key t)
     "g g" '(magit-status :which-key "status")
@@ -267,7 +297,7 @@
 
 (use-package vterm-toggle
   :general
-  (leader-keys
+  (fb/leader-keys
     "'" '(vterm-toggle :which-key "terminal")))
 
 ;; look and feel
@@ -279,7 +309,9 @@
 (use-package highlight-indent-guides
   :config
   (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
+
 (use-package nerd-icons)
+(use-package all-the-icons)
 
 (use-package treemacs
   :defer t
@@ -289,11 +321,11 @@
 (use-package treemacs-evil
   :after (treemacs evil))
 (use-package treemacs-projectile
-  :after (treemacs evil))
-(use-package treemacs-icons-dired
-  :hook (dired-mode . treemacs-icons-dired-enable-once))
+  :after (treemacs projectile))
 (use-package treemacs-magit
-  :after (treemacs evil))
+  :after (treemacs magit))
+(use-package treemacs-all-the-icons
+  :after treemacs)
 
 (use-package evil
   :demand
@@ -317,7 +349,6 @@
   (general-nvmap
     "gc" 'evilnc-comment-operator))
 
-
 (use-package flycheck
   :diminish (flycheck-mode)
   :hook (prog-mode . flycheck-mode)
@@ -329,6 +360,27 @@
   (flycheck-check-syntax-automatically '(save mode-enabled))
   (flycheck-emacs-lisp-load-path 'inherit))
 
+(use-package restart-emacs
+	:general
+	(fb/leader-keys
+		"e" '(:ignore true :wk "emacs")
+		"e <escape>" '(keyboard-escape-quit :wk t)
+		"e e" '(ab/edit-emacs-config :wk "edit") 
+		"e R" '(restart-emacs :wk "restart")
+		"e L" '(ab/reload-emacs :wk "reload"))
+	:init
+	(defun ab/reload-emacs ()
+		"Tangle the literate config and reload"
+		(interactive)
+		(require 'org)
+		(org-babel-tangle-file "~/.emacs.d/init.el")
+		(restart-emacs)
+		)
+  (defun ab/edit-emacs-config ()
+		"Open the literate config"
+		(interactive)
+		(find-file "~/.emacs.d/init.el")))
+
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
 
@@ -339,7 +391,7 @@
 
 (use-package company
   :diminish (company-mode)
-  :hook ((text-mode prog-mode) . company-mode)
+  :hook (after-init . global-company-mode)
   :custom
   (company-dabbrev-downcase nil "Don't downcase completions")
   (company-dabbrev-ignore-case t "Change full casing of completion if completion has different case")
@@ -347,10 +399,7 @@
   (comapny-tooltip-align-annotations t)
   (company-tooltip-limit 20)
   (company-transformers '(company-sort-by-backend-importance))
-  (company-minimum-prefix-length 2 "Start autocompletion after 2 characters")
-  :config
-  (add-hook 'after-init-hook 'global-company-mode)
-)
+  (company-minimum-prefix-length 2 "Start autocompletion after 2 characters"))
 
 (require 'tramp)
 (setq tramp-default-method "sshx")
@@ -443,7 +492,7 @@ the frame and makes it a dedicated window for that buffer."
     ("M-y" . counsel-yank-pop)
   )
   :general
-  (leader-keys
+  (fb/leader-keys
     "SPC" '(counsel-M-x :which-key "M-x")
     "ff"  '(counsel-find-file :which-key "find file")
     "s"   '(:ignore t :which-key "search")
@@ -602,7 +651,7 @@ the frame and makes it a dedicated window for that buffer."
     ("C-s" . swiper)
   )
   :general
-  (leader-keys
+  (fb/leader-keys
   "ss" '(swiper :which-key "swiper"))
 )
 
