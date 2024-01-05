@@ -8,4 +8,8 @@
   environment.systemPackages = with pkgs.unstable; [
     virt-manager
   ];
+
+  virtualisation.docker = {
+    storageDriver = "overlay2";
+  };
 }
