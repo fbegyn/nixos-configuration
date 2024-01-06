@@ -13,7 +13,7 @@ in buildGoModule {
     sha256 = "0l8z6zy3carh91pwhn4amwpdmjiac8ib4zx0x37lkc5n85g4dc9l";
   };
 
-  vendorSha256 = null;
+  vendorHash = null;
   meta = with lib; {
     description = "fbegyn's website server";
     homepage = "https://github.com/fbegyn/website";
