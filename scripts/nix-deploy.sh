@@ -1,11 +1,10 @@
 #! /usr/bin/env bash
+set -xeuo pipefail
+
 NIX_SSHOPTS="-t"
 
 FLAKE=$1
 TARGET=$2
-
-JOBS={$3:-2}
-CORES={$4:-4}
 
 nixos-rebuild switch \
 	--fast \

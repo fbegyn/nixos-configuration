@@ -550,7 +550,7 @@ in {
   };
   ## Mastodon
   services.mastodon = {
-    enable= true;
+    enable = false;
     package = pkgs.mastodon;
     localDomain = "social.begyn.be";
     enableUnixSocket = true;
