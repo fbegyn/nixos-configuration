@@ -8,6 +8,7 @@
       stern
       kubernetes-helm
       k9s
+      click
     ];
     programs.starship.settings.kubernetes.disabled = false;
   };
