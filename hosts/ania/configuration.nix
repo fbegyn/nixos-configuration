@@ -114,7 +114,7 @@
   programs.gnupg.package = pkgs.unstable.gnupg;
   services.tailscale = {
     enable = true;
-    package = pkgs.unstable.tailscale;
+    useRoutingFeatures = "client";
   };
 
   home-manager.users.francis.home.stateVersion = "23.05";

@@ -2,6 +2,7 @@
 
 let
   cfg = config.fbegyn.services.tailscale;
+  isNetworkd = config.networking.useNetworkd;
 in
 with lib; {
   options.fbegyn.services.tailscale = {
@@ -89,12 +90,14 @@ with lib; {
       "net.ipv6.conf.all.forwarding" = mkOverride 97 true;
     };
 
+    networking.firewall.checkReversePath = mkIf (cfg.routingFeature == "client" || cfg.routingFeature == "both") "loose";
+
     systemd.services.tailscale = {
       enable = true;
       description = "Tailscale node agent";
       documentation = [ "https://tailscale.com/kb/" ];
       path = [
-	config.networking.resolvconf.package # for configuring DNS in some configs
+        config.networking.resolvconf.package # for configuring DNS in some configs
         pkgs.procps     # for collecting running services (opt-in feature)
         pkgs.glibc
       ];

@@ -98,18 +98,18 @@ in {
   };
 
   # VPN settings
-  fbegyn.services.tailscale = {
+  services.tailscale = {
     enable = true;
-    routingFeature = "server";
-    autoprovision = {
-      enable = true;
-      key = "${hosts.tailscale.tempkey}";
-      options = [
-        "--advertise-routes=${hosts.eos.tailscale.routes}"
-        "--advertise-exit-node"
-        "--advertise-tags=tag:prod,tag:dcf,tag:hass"
-      ];
-    };
+    useRoutingFeatures = "server";
+    # autoprovision = {
+    #   enable = true;
+    #   key = "${hosts.tailscale.tempkey}";
+    #   options = [
+    #     "--advertise-routes=${hosts.eos.tailscale.routes}"
+    #     "--advertise-exit-node"
+    #     "--advertise-tags=tag:prod,tag:dcf,tag:hass"
+    #   ];
+    # };
   };
 
   # Web/ingress

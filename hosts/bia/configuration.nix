@@ -105,14 +105,9 @@
   fbegyn.x.xautolock = false;
 
   # tailscale machine specific
-  fbegyn.services.tailscale = let
-    hosts = import ../../secrets/hosts.nix;
-  in {
+  services.tailscale = {
     enable = true;
-    autoprovision = {
-      enable = false;
-      key = "${hosts.bia.tailscale.oneoffkey}";
-    };
+    useRoutingFeatures = "client";
   };
 
   # configure the systems wake on lan settings
