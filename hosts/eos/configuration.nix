@@ -81,6 +81,7 @@ in {
         443 # HTTPS
         3000 # Grafana
         9090 # Prometheus
+        19090 # Prometheus-ts
         8123 # HASS
         28080
       ];
@@ -159,10 +160,12 @@ in {
     };
   };
 
-  # containers
+  # system packagesystem
   environment.systemPackages = with pkgs; [
     bluez
   ];
+
+  # containers
   services.dbus = {
     enable = true;
     implementation = "broker";
@@ -393,6 +396,51 @@ in {
       }
     ];
   };
+  systemd.services."prometheus-ts" = {
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = ''
+        /usr/local/bin/prometheus-ts \
+          --config.file /etc/prometheus/prometheus-ts.yaml \
+          --web.listen-address="0.0.0.0:19090" \
+          --log.level=debug
+      '';
+      ExecReload = "kill -SIGHUP $MAINPID";
+      User = "prometheus";
+      Restart = "always";
+      RuntimeDirectory = "prometheus";
+      RuntimeDirectoryMode = "0700";
+      WorkingDirectory = "/var/lib/prometheus-ts";
+      StateDirectory = "/var/lib/prometheus-ts";
+      StateDirectoryMode = "0700";
+      DeviceAllow = [ "/dev/null rw" ];
+      DevicePolicy = "strict";
+      LockPersonality = true;
+      MemoryDenyWriteExecute = true;
+      NoNewPrivileges = true;
+      PrivateDevices = true;
+      PrivateTmp = true;
+      PrivateUsers = true;
+      ProtectClock = true;
+      ProtectControlGroups = true;
+      ProtectHome = true;
+      ProtectHostname = true;
+      ProtectKernelLogs = true;
+      ProtectKernelModules = true;
+      ProtectKernelTunables = true;
+      ProtectProc = "invisible";
+      ProtectSystem = "full";
+      RemoveIPC = true;
+      RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
+      RestrictNamespaces = true;
+      RestrictRealtime = true;
+      RestrictSUIDSGID = true;
+      SystemCallArchitectures = "native";
+      SystemCallFilter = [ "@system-service" "~@privileged" ];
+    };
+  };
+
   ## logging
   services.promtail = {
     enable = true;
@@ -593,6 +641,9 @@ in {
   };
 
   home-manager.users.francis.home.stateVersion = "23.05";
+  home-manager.users.francis = {
+    imports = [ ../../users/francis/hm/configurations/emacs ];
+  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
