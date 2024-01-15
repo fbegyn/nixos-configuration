@@ -1,4 +1,4 @@
-;; My emacs init.el
+
 (eval-when-compile
   (require 'use-package)
   (require 'use-package-ensure)
@@ -206,7 +206,10 @@
       "ff" '(find-file :which-key "find")
       "fs" '(save-buffer :which-key "save")
 
-      "m"  '(:ignore t :which-key "mode")
+      "m" '(:ignore t :which-key "mode")
+
+      "k"   '(:ignore t :which-key "kubernetes")
+      "kk"  '(kubel t :which-key "kubel")
 
       "t"  '(:ignore t :which-key "toggle")
       "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
@@ -387,15 +390,13 @@
 		(find-file "~/.emacs.d/init.el")))
 
 (use-package kubel
-  :demand
+  :defer t
   :after (vterm)
   :config
-  (kubel-vterm-setup)
-  :general
-  (fb/leader-keys
-      "k"  '(:ignore t :which-key "kubernetes")
-      "kk"  '(:ignore t :which-key "kubel")))
-(use-package kubel-evil)
+  (kubel-vterm-setup))
+(use-package kubel-evil
+  :defer t
+  :after (evil kubel))
 
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
