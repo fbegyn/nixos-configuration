@@ -10,7 +10,7 @@ groups:
       summary: Disk space is low on {{ $labels.instance }} for {{ $labels.mountpoint }}
       description: Only {{ .Value | humanize }} space left on {{ $labels.instance }}/{{ $labels.mountpoint }}. Expecting at least 2GB of free space.
   - alert: LowBootDiskSpace
-    expr: node_filesystem_free_bytes{mountpoint="/boot"} < 100e6
+    expr: node_filesystem_free_bytes{mountpoint="/boot"} < 50e6
     for: 5m
     labels:
       severity: warning
