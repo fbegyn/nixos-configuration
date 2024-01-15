@@ -295,6 +295,8 @@
   :config
   (global-diff-hl-mode))
 
+(use-package vterm
+  :demand)
 (use-package vterm-toggle
   :general
   (fb/leader-keys
@@ -368,7 +370,7 @@
 	(fb/leader-keys
 		"e" '(:ignore true :wk "emacs")
 		"e <escape>" '(keyboard-escape-quit :wk t)
-		"e e" '(ab/edit-emacs-config :wk "edit") 
+		"e e" '(ab/edit-emacs-config :wk "edit")
 		"e R" '(restart-emacs :wk "restart")
 		"e L" '(ab/reload-emacs :wk "reload"))
 	:init
@@ -383,6 +385,17 @@
 		"Open the literate config"
 		(interactive)
 		(find-file "~/.emacs.d/init.el")))
+
+(use-package kubel
+  :demand
+  :after (vterm)
+  :config
+  (kubel-vterm-setup)
+  :general
+  (fb/leader-keys
+      "k"  '(:ignore t :which-key "kubernetes")
+      "kk"  '(:ignore t :which-key "kubel")))
+(use-package kubel-evil)
 
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
