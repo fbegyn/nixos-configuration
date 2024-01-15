@@ -20,7 +20,7 @@
     ../../common/printer.nix
     ../../common/scanner.nix
     ../../common/eid.nix
-    ../../common/rtlsdr.nix
+    # ../../common/rtlsdr.nix
     ../../common/webcam.nix
     ../../common/network-tools.nix
     ../../common/video-accel.nix
