@@ -296,33 +296,33 @@
   (magit-auto-revert-mode nil)
   (magit-save-repository-buffers 'dontask))
 (use-package diff-hl
-			 :init
-  			 (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  			 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  			 :config
-  			 (global-diff-hl-mode))
+  :init
+  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  :config
+  (global-diff-hl-mode))
 
 (use-package vterm
-			 :if (not fb/is-ipad)
-			 :demand)
+  :if (not fb/is-ipad)
+  :demand)
 (use-package vterm-toggle
-			 :if (not fb/is-ipad)
-			 :general
-			 (fb/leader-keys
-			   "'" '(vterm-toggle :which-key "terminal")))
+  :if (not fb/is-ipad)
+  :general
+  (fb/leader-keys
+    "'" '(vterm-toggle :which-key "terminal")))
 
 ;; look and feel
 (use-package doom-modeline
-			 :ensure t
-			 :init (doom-modeline-mode 1))
+  :ensure t
+  :init (doom-modeline-mode 1))
 (use-package gruvbox-theme
-			 :config (load-theme 'gruvbox-dark-hard t))
+  :config (load-theme 'gruvbox-dark-hard t))
 (use-package highlight-indent-guides
-			 :hook (prog-mode . highlight-indent-guides-mode)
-			 :init
-			 (setq highlight-indent-guides-method 'character)
-  			 (setq highlight-indent-guides-character ?|)
-  			 (setq highlight-indent-guides-responsive 'top))
+  :hook (prog-mode . highlight-indent-guides-mode)
+  :init
+  (setq highlight-indent-guides-method 'character)
+  (setq highlight-indent-guides-character ?|)
+  (setq highlight-indent-guides-responsive 'top))
 
 (use-package nerd-icons)
 (use-package all-the-icons)
@@ -453,7 +453,7 @@
   (progn
     ;; Function to customize the line prefixes (I simply indent the lines a bit)
     (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s)))
-    )
+  )
 
   (defun mhj/dwim-toggle-or-open ()
     "Toggle subtree or open the file."
