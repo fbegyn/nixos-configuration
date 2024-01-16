@@ -71,7 +71,10 @@
 
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
-  networking.useNetworkd = true;
+  networking.useNetworkd = false; # Less suited for dynamic environments, should
+  # be used for static setups:
+  # Servers/Routers
+  # Always-On VPN Tunnels
 
   # Set your time zone.
   time.timeZone = "Europe/Brussels";
