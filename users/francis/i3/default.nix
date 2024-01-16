@@ -48,6 +48,7 @@
         xdotool
         rofi-rbw
         picom
+        gamescope
         feh
         i3lock
         i3status-rust
