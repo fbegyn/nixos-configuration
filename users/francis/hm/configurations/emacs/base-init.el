@@ -124,12 +124,16 @@
   (prefer-coding-system 'utf-8)
   (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
   ;; Less noise when compiling elisp
-	(setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
-	(setq native-comp-async-report-warnings-errors nil)
-	(setq load-prefer-newer t)
-	;; Clean up the mode line
-	(display-time-mode -1)
-	(setq column-number-mode t)
+  (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
+  (setq native-comp-async-report-warnings-errors nil)
+  (setq load-prefer-newer t)
+  ;; Clean up the mode line
+  (display-time-mode -1)
+  (setq column-number-mode t)
+
+  ;; function to check iPad
+  (setq fb/is-ipad ( 	;; <
+                    > (length (shell-command-to-string "uname -a | grep iPad")) 0))
 )
 
 
@@ -292,31 +296,33 @@
   (magit-auto-revert-mode nil)
   (magit-save-repository-buffers 'dontask))
 (use-package diff-hl
-  :init
-  (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  :config
-  (global-diff-hl-mode))
+			 :init
+  			 (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
+  			 (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  			 :config
+  			 (global-diff-hl-mode))
 
 (use-package vterm
-  :demand)
+			 :if (not fb/is-ipad)
+			 :demand)
 (use-package vterm-toggle
-  :general
-  (fb/leader-keys
-    "'" '(vterm-toggle :which-key "terminal")))
+			 :if (not fb/is-ipad)
+			 :general
+			 (fb/leader-keys
+			   "'" '(vterm-toggle :which-key "terminal")))
 
 ;; look and feel
 (use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
+			 :ensure t
+			 :init (doom-modeline-mode 1))
 (use-package gruvbox-theme
-  :config (load-theme 'gruvbox-dark-hard t))
+			 :config (load-theme 'gruvbox-dark-hard t))
 (use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :init
-  (setq highlight-indent-guides-method 'character)
-  (setq highlight-indent-guides-character ?|)
-  (setq highlight-indent-guides-responsive 'top))
+			 :hook (prog-mode . highlight-indent-guides-mode)
+			 :init
+			 (setq highlight-indent-guides-method 'character)
+  			 (setq highlight-indent-guides-character ?|)
+  			 (setq highlight-indent-guides-responsive 'top))
 
 (use-package nerd-icons)
 (use-package all-the-icons)
