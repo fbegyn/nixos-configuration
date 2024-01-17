@@ -350,6 +350,8 @@
   :config
   (evil-mode 1))
 (use-package evil-collection
+  :demand
+  :ensure t
   :after (evil)
   :config
   (setq evil-collection-mode-alist (delete 'go-mode evil-collection-mode-list))
