@@ -224,7 +224,7 @@ in {
           REPORT_DB_HOST = "10.88.0.1";
           REPORT_DB_PORT = "5432";
           REPORT_DB_TYPE = "pgsql";
-          REPORT_DB_NAME = "${hosts.eos.db.dmarc_report.name}";
+          REPORT_DB_NAME = "${hosts.eos.db.dmarc_report.user}";
           REPORT_DB_USER = "${hosts.eos.db.dmarc_report.user}";
           REPORT_DB_PASS = "${hosts.eos.db.dmarc_report.pass}";
           PARSER_IMAP_SERVER = "${hosts.mail.dmarc.hostname}";
@@ -286,16 +286,16 @@ in {
     enable = true;
     ensureDatabases = [
       "nextcloud"
-      hosts.eos.db.dmarc_report.name
+      hosts.eos.db.dmarc_report.user
     ];
     ensureUsers = [
       {
         name = "nextcloud";
-        ensurePermissions."DATABASE nextcloud" = "ALL PRIVILEGES";
+        ensureDBOwnership = true;
       }
       {
         name = hosts.eos.db.dmarc_report.user;
-        ensurePermissions."DATABASE ${hosts.eos.db.dmarc_report.name}" = "ALL PRIVILEGES";
+        ensureDBOwnership = true;
       }
     ];
     enableTCPIP = true;
