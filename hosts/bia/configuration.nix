@@ -37,6 +37,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
   sound.enable = true;
