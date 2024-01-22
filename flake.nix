@@ -145,11 +145,11 @@
       erebus = mkMac [
         ./hosts/erebus/configuration.nix
         mac-app-util.darwinModules.default
-	({pkgs, config, inputs, ...}: {
-	  home-manager.users.francis.imports = [
-	    mac-app-util.homeManagerModules.default
-	  ];
-	})
+	      ({pkgs, config, inputs, ...}: {
+	        home-manager.users.francis.imports = [
+	          mac-app-util.homeManagerModules.default
+	        ];
+	      })
       ];
     };
 

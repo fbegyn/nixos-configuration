@@ -32,6 +32,7 @@
   programs.fish.enable = true;
 
   # darwin specific modules
+  # homebrew
   homebrew = {
     enable = true;
     onActivation.autoUpdate = true;
@@ -48,6 +49,18 @@
     taps = [];
     brews = [
       "htop"
+    ];
+  };
+  # launchd config
+  launchd.user.envVariables.PATH = config.environment.systemPath;
+  # darwin - emacs
+  launchd.user.agents.emacs.path = config.services.emacs.additionalPath ++ [ config.environment.systemPath ];
+  services.emacs = {
+    enable = true;
+    package = config.home-manager.users.francis.emacs.package;
+    additionalPath = [
+      "/Users/francis/.go/bin"
+      "/Users/francis/.local/bin"
     ];
   };
 

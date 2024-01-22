@@ -140,11 +140,6 @@
 (auto-compression-mode 1)
 ;;;;;;;;;;
 
-;; go
-(setenv "GOPATH" (concat (getenv "HOME") "/.go"))
-(setq gofmt-command "goimports")
-(setq frame-resize-pixelwise t)
-
 ;; bibliography listings
 (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 
