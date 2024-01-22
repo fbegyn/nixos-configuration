@@ -1,3 +1,5 @@
 .gcroots
 result
 hosts/portable.lan
+
+*flycheck*
