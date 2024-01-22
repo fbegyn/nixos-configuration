@@ -19,8 +19,10 @@
     services.xserver= {
       enable = true;
       layout = "us,us";
-      xkbVariant = "altgr-intl";
-      xkbOptions = "eurosign:5,grp:win_space_toggle";
+      xkb = {
+        variant = "altgr-intl";
+        options = "eurosign:5,grp:win_space_toggle,altwin:swap_lalt_lwin";
+      };
       libinput = {
         enable =true;
         touchpad = {
