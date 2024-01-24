@@ -89,28 +89,26 @@
   (setq-default indent-tabs-mode nil)
   (setq default-tab-width 2)
   ;; Stop emacs from littering the file system with backup files
-	(setq make-backup-files nil
-				auto-save-default nil
-				create-lockfiles nil)
-
-	;; Follow symlinks
-	(setq vc-follow-symlinks t)
+  (setq make-backup-files nil
+        auto-save-default nil
+        create-lockfiles nil)
+  
+  ;; Follow symlinks
+  (setq vc-follow-symlinks t)
   ;; correct macos modifiers
-  (defun ab/is-macos? ()
-		(eq system-type 'darwin))
-	(when (ab/is-macos?)
-		(setq mac-command-modifier 'super)   ; command as super
-		(setq mac-option-modifier 'meta)     ; alt as meta
-		(setq mac-control-modifier 'control) ; control as control
-		)
-	;; emacs-mac
-	(when (fboundp 'mac-auto-operator-composition-mode)
-		(mac-auto-operator-composition-mode) ; enables font ligatures
-		(global-set-key [(s c)] 'kill-ring-save)
-		(global-set-key [(s v)] 'yank)
-		(global-set-key [(s x)] 'kill-region)
-		(global-set-key [(s q)] 'kill-emacs)
-		)
+  (defun fb/is-macos? ()
+        (eq system-type 'darwin))
+  (when (fb/is-macos?)
+        (setq mac-command-modifier 'super)   ; command as super
+        (setq mac-option-modifier 'meta)     ; alt as meta
+        (setq mac-control-modifier 'control)) ; control as control
+  ;; emacs-mac
+  (when (fboundp 'mac-auto-operator-composition-mode)
+        (mac-auto-operator-composition-mode) ; enables font ligatures
+        (global-set-key [(s c)] 'kill-ring-save)
+        (global-set-key [(s v)] 'yank)
+        (global-set-key [(s x)] 'kill-region)
+        (global-set-key [(s q)] 'kill-emacs))
   ;; use escape to exit menus (like vim)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ;; use UTF-8
@@ -130,10 +128,6 @@
   ;; Clean up the mode line
   (display-time-mode -1)
   (setq column-number-mode t)
-
-  ;; function to check iPad
-  (setq fb/is-ipad ( 	;; <
-                    > (length (shell-command-to-string "uname -a | grep iPad")) 0))
 )
 
 
@@ -298,10 +292,8 @@
   (global-diff-hl-mode))
 
 (use-package vterm
-  :if (not fb/is-ipad)
   :demand)
 (use-package vterm-toggle
-  :if (not fb/is-ipad)
   :general
   (fb/leader-keys
     "'" '(vterm-toggle :which-key "terminal")))
