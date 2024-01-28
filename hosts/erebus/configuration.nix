@@ -65,6 +65,9 @@
   };
 
   # home-manager settings (darwin)
+  imports = [
+    ../../common/network-tools.nix
+  ];
   home-manager.users.francis = {
     home.stateVersion = "23.05";
     imports = [

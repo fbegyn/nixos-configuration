@@ -7,9 +7,6 @@
     nmap
     iperf
     socat
+    mapcidr
   ];
-
-  programs = {
-    traceroute.enable = true;
-  };
 }
