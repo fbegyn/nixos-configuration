@@ -11,6 +11,13 @@
       enable = true;
       package = pkgs.unstable.wireshark;
     };
+    firefox = {
+      enable = true;
+      package = pkgs.unstable.firefox-bin;
+      preferences = {
+        "widget.use-xdg-desktop-portal.file-picker" = 1;
+      };
+    };
   };
 
   home-manager.users.francis = {
@@ -54,7 +61,6 @@
       thunderbird
       weechat
       # Browser
-      firefox
       chromium
       # entertainement
       playerctl
