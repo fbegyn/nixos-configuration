@@ -680,9 +680,9 @@ in {
   };
 
   home-manager.users.francis.home.stateVersion = "23.05";
-  home-manager.users.francis = {
-    imports = [ ../../users/francis/hm/configurations/emacs ];
-  };
+  # home-manager.users.francis = {
+  #   imports = [ ../../users/francis/hm/configurations/emacs ];
+  # };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
