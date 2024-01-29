@@ -278,11 +278,12 @@
     "g <escape>" '(keyboard-escape-quit :which-key t)
     "g g" '(magit-status :which-key "status")
     "g l" '(magit-log :which-key "log"))
+    "g r" '(revert-buffer-quick :which-key "revert buffer"))
   (general-nmap
     "<escape>" #'transient-quit-one)
   :config
   (global-git-commit-mode 1)
-  (magit-auto-revert-mode nil)
+  ;; (magit-auto-revert-mode nil)
   (magit-save-repository-buffers 'dontask))
 (use-package diff-hl
   :init
