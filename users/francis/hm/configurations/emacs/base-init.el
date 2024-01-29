@@ -277,7 +277,7 @@
     "g" '(:ignore t :which-key "git")
     "g <escape>" '(keyboard-escape-quit :which-key t)
     "g g" '(magit-status :which-key "status")
-    "g l" '(magit-log :which-key "log"))
+    "g l" '(magit-log :which-key "log")
     "g r" '(revert-buffer-quick :which-key "revert buffer"))
   (general-nmap
     "<escape>" #'transient-quit-one)
