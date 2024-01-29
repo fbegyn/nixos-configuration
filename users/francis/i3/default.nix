@@ -21,7 +21,7 @@
       layout = "us,us";
       xkb = {
         variant = "altgr-intl";
-        options = "eurosign:5,grp:win_space_toggle,altwin:swap_lalt_lwin";
+        options = "eurosign:5";
       };
       libinput = {
         enable =true;
