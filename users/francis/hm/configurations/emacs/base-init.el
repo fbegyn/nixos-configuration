@@ -278,7 +278,8 @@
     "g <escape>" '(keyboard-escape-quit :which-key t)
     "g g" '(magit-status :which-key "status")
     "g l" '(magit-log :which-key "log")
-    "g r" '(revert-buffer-quick :which-key "revert buffer"))
+    "g r" '(revert-buffer-quick :which-key "revert buffer")
+    "g b" '(magit-branch-checkout :which-key "checkout branch"))
   (general-nmap
     "<escape>" #'transient-quit-one)
   :config
