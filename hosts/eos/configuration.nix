@@ -55,24 +55,7 @@ in {
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
     useDHCP = false;
-    defaultGateway = {
-      address = "10.5.1.1";
-      interface = "eno1";
-    };
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
-    interfaces = {
-      eno1.ipv4.addresses = [{ address = "10.5.1.10"; prefixLength = 24; }];
-      lan.ipv4.addresses = [{ address = "10.5.20.10"; prefixLength = 32; }];
-      mgmt.ipv4.addresses = [{ address = "10.5.30.10"; prefixLength = 32; }];
-      iot.ipv4.addresses = [{ address = "10.5.90.10"; prefixLength = 32; }];
-      guests.ipv4.addresses = [{ address = "10.5.100.10"; prefixLength = 32; }];
-    };
-    vlans = {
-      lan = { id = 120; interface = "eno1"; };
-      mgmt = { id = 130; interface = "eno1"; };
-      iot = { id = 190; interface = "eno1"; };
-      guests = { id = 1100; interface = "eno1"; };
-    };
     firewall = {
       enable = false;
       allowedTCPPorts = [
@@ -89,6 +72,62 @@ in {
         5514
         3478
       ];
+    };
+  };
+  systemd.network= {
+    enable = true;
+    netdevs = {
+      "120-lan" = {
+        netdevConfig = { Kind = "vlan"; Name = "lan"; };
+        vlanConfig.Id = 120;
+      };
+      "130-mgmt" = {
+        netdevConfig = { Kind = "vlan"; Name = "mgmt"; };
+        vlanConfig.Id = 130;
+      };
+      "190-lan" = {
+        netdevConfig = { Kind = "vlan"; Name = "iot"; };
+        vlanConfig.Id = 190;
+      };
+      "1100-lan" = {
+        netdevConfig = { Kind = "vlan"; Name = "guests"; };
+        vlanConfig.Id = 1100;
+      };
+    };
+    networks = {
+      "30-eno1" = {
+        matchConfig.Name = "eno1";
+        address = [ "10.5.1.10/24" ];
+        routes = [ { routeConfig.Gateway = "10.5.1.1"; } ];
+        vlan = [
+          "lan"
+          "mgmt"
+          "iot"
+          "guests"
+        ];
+        networkConfig.DHCP = "ipv6";
+        linkConfig.RequiredForOnline = "carrier";
+      };
+      "120-lan" = {
+        matchConfig.Name = "lan";
+        address = [ "10.5.20.10/24" ];
+        networkConfig.DHCP = "ipv6";
+      };
+      "130-mgmt" = {
+        matchConfig.Name = "mgmt";
+        address = [ "10.5.30.10/24" ];
+        networkConfig.DHCP = "ipv6";
+      };
+      "190-iot" = {
+        matchConfig.Name = "iot";
+        address = [ "10.5.90.10/24" ];
+        networkConfig.DHCP = "ipv6";
+      };
+      "1100-guests" = {
+        matchConfig.Name = "guests";
+        address = [ "10.5.100.10/24" ];
+        networkConfig.DHCP = "ipv6";
+      };
     };
   };
 
