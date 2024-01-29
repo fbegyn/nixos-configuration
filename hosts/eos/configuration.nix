@@ -199,6 +199,26 @@ in {
     };
   };
 
+  services.paperless = {
+    enable = true;
+    passwordFile = "${hosts.eos.paperless.passwordPath}";
+    address = "10.5.1.10";
+    extraConfig = {
+      PAPERLESS_ADMIN_USER = "${hosts.eos.paperless.adminUser}";
+      PAPERLESS_OCR_USER_ARGS = "{\"invalidate_digital_signatures\": true}";
+      PAPERLESS_URL="${hosts.eos.paperless.url}";
+      ALLOWED_HOSTS="${hosts.eos.paperless.allowedHosts}";
+    };
+  };
+  services.nginx.virtualHosts."paperless.francis.begyn.be" = {
+    forceSSL = true;
+    useACMEHost = "francis.dcf.begyn.be";
+    locations."/" = {
+      proxyPass = "http://10.5.1.10:28981$request_uri";
+      proxyWebsockets = true;
+    };
+  };
+
   # system packagesystem
   environment.systemPackages = with pkgs; [
     bluez
