@@ -61,6 +61,7 @@ in
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
       ];
     };
   };
@@ -122,7 +123,7 @@ in
 
   # for working tray applets
   environment.variables = {
-    XDG_CURRENT_DESKTOP="unity";
+    XDG_CURRENT_DESKTOP="sway";
   };
 
   # use gdm as display manager
@@ -154,7 +155,7 @@ in
     in {
       enable = true;
       xwayland = true;
-      systemdIntegration = true;
+      systemd.enable = true;
       wrapperFeatures.gtk = true;
       extraSessionCommands = ''
         export XDG_SESSION_TYPE=wayland
@@ -176,10 +177,10 @@ in
         modifier = "Mod4";
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
-            xkb_layout = "us,us";
+            xkb_layout = "us";
             xkb_variant = "altgr-intl";
             xkb_numlock = "disabled";
-            xkb_options = "grp:rctrl_rshift_toggle";
+            xkb_options = "eurosign:5,altwin:swap_lalt_lwin,grp:rctrl_rshift_toggle";
           };
           "2:10:TPPS/2_Elan_TrackPoint" = {
             pointer_accel = "-0.17";
@@ -188,11 +189,13 @@ in
             xkb_layout = "us";
             xkb_variant = "altgr-intl";
             xkb_numlock = "enabled";
+            xkb_options = "eurosign:5,altwin:swap_lalt_lwin";
           };
           "1133:49971:Logitech_Gaming_Keyboard_G610_Keyboard" = {
             xkb_layout = "us";
             xkb_variant = "altgr-intl";
             xkb_numlock = "enabled";
+            xkb_options = "eurosign:5,altwin:swap_lalt_lwin";
           };
         };
         assigns = {
@@ -253,6 +256,11 @@ in
           "${mod}+Shift+${wm.config.down}" = "move down";
           "${mod}+Shift+${wm.config.up}" = "move up";
           "${mod}+Shift+${wm.config.right}" = "move right";
+
+          "Mod1+Shift+${wm.config.left}" = "move workspace to output left";
+          "Mod1+Shift+${wm.config.down}" = "move workspace to output down";
+          "Mod1+Shift+${wm.config.up}" = "move workspace to output up";
+          "Mod1+Shift+${wm.config.right}" = "move workspace to output right";
 
           "${mod}+Shift+Left" = "move left";
           "${mod}+Shift+Down" = "move down";
@@ -338,9 +346,9 @@ in
           # {
           #   command = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=2";
           # }
-          {
-            command = "chromium-browser";
-          }
+          # {
+          #   command = "chromium-browser";
+          # }
           {
             command = "sway-statusbar.sh";
             always = true;
@@ -356,6 +364,9 @@ in
           }
           {
             command = "nm-applet --indicator";
+          }
+          {
+            command = "spotify";
           }
         ];
         window = {
