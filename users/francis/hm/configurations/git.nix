@@ -23,7 +23,8 @@
       user.inuits.email = "fbegyn@inuits.eu";
       user.inuits.signingkey = "";
       init.defaultBranch = "main";
-      pull.rebase = false;
+      pull.rebase = true;
+      push.autoSetupRemote = true;
       url."ssh://git@github.com:".insteadOf = "git://github.com";
     };
   };
