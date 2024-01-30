@@ -43,7 +43,12 @@
   networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 9100 ];
+      allowedTCPPorts = [ 22 9100 53 ];
+      allowedUDPPorts = [ 53 ];
+    };
+    "podman+" = {
+      allowedTCPPorts = [ 53 ];
+      allowedUDPPorts = [ 53 ];
     };
   };
   networking.firewall = {
@@ -58,6 +63,15 @@
       3478  # UDP port used for STUN.
       10001 # UDP port used for device discovery.
     ];
+  };
+
+  # podman config
+  virtualisation.podman = {
+    enable = true;
+    dockerSocket.enable = true;
+    defaultNetwork.settings = {
+      dns_enabled = true;
+    };
   };
 
   services.prometheus.exporters.node.enable = true;
@@ -81,34 +95,26 @@
     containers = {
       "mongodb" = {
         image = "mongo:5.0.22";
-	# ports = [
-	#   "127.0.0.1:60017:27017"
-        # ];
-	volumes = [
-	  "mongodb-data:/data/db"
-	  "/home/francis/unifi-controller/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
-	];
-	cmd = [
-	  "--auth"
-	];
+        volumes = [
+          "mongodb-data:/data/db"
+          "/home/francis/unifi-controller/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
+        ];
+        cmd = [ "--auth" ];
       };
       "unifi-controller" = {
         image = "linuxserver/unifi-network-application:8.0.7";
-	ports = [
-	  "127.0.0.1:8443:8443"
-	  "8880:8880"
-	  "8843:8843"
-
-	  # Open parts directly through DNAT firewalling
-	  "8080:8080"
-	  "3478:3478/udp"
-	  "10001:10001/udp"
-	  "6789:6789"
-	  "5514:5514/udp"
+        ports = [
+          "127.0.0.1:8443:8443"
+          "8880:8880"
+          "8843:8843"
+          # Open parts directly through DNAT firewalling
+          "8080:8080"
+          "3478:3478/udp"
+          "10001:10001/udp"
+          "6789:6789"
+          "5514:5514/udp"
         ];
-	volumes = [
-	  "/home/francis/unifi-controller/config:/config"
-	];
+        volumes = [ "/home/francis/unifi-controller/config:/config" ];
       };
     };
   };
