@@ -444,6 +444,15 @@ in {
         }];
       }
       {
+        job_name = "corerad";
+        scheme = "http";
+        static_configs = [{
+            targets = [
+              "10.5.1.5:9430"
+            ];
+        }];
+      }
+      {
         job_name = "home-assistant";
         scheme = "http";
         metrics_path = "/api/prometheus";
