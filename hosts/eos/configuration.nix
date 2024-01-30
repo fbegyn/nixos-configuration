@@ -98,7 +98,7 @@ in {
       "30-eno1" = {
         matchConfig.Name = "eno1";
         address = [ "10.5.1.10/24" ];
-        routes = [ { routeConfig.Gateway = "10.5.1.1"; } ];
+        routes = [ { routeConfig.Gateway = "10.5.1.5"; } ];
         vlan = [
           "lan"
           "mgmt"
@@ -421,6 +421,7 @@ in {
               "eos:9100"
               "mail-01:9100"
               "hosting-01:9100"
+              "10.5.1.5:9100"
             ];
         }];
       }
