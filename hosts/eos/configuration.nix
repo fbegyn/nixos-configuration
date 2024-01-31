@@ -389,6 +389,7 @@ in {
   francis.services.prometheus.retention.size = "32GB";
   services.prometheus = {
     enable = true;
+    listenAddress = "10.5.1.10";
     extraFlags = [
       "--storage.tsdb.allow-overlapping-blocks"
     ];
