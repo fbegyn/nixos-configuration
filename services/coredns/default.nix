@@ -40,7 +40,7 @@ in
         ${dnsSOA "begyn.lan" "ns1" "10.5.1.10" "admin"}
 
         ; A records
-        ${hostv4 "router" "10.5.1.1"}
+        ${hostv4 "router" "10.5.1.5"}
         ${hostv4 "eos" "10.5.1.10"}
 
         ; CNAME records
