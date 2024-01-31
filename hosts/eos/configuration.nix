@@ -421,7 +421,7 @@ in {
               "eos:9100"
               "mail-01:9100"
               "hosting-01:9100"
-              "10.5.1.5:9100"
+              "10.5.20.5:9100"
             ];
         }];
       }
@@ -449,6 +449,15 @@ in {
         static_configs = [{
             targets = [
               "10.5.1.5:9430"
+            ];
+        }];
+      }
+      {
+        job_name = "kea-exporter";
+        scheme = "http";
+        static_configs = [{
+            targets = [
+              "10.5.20.5:9547"
             ];
         }];
       }
