@@ -1,9 +1,7 @@
 { config, ... }:
 
 {
-  services.ddclient = let
-    vars = import ../../secrets/variables.nix;
-  in {
+  services.ddclient = {
     interval = "10m";
     passwordFile = "/etc/ddclient.key";
   };
