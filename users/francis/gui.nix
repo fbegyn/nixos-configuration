@@ -76,7 +76,9 @@
       sshuttle
       unzip
       #bitwarden
-      pkgs.bitwarden-cli
+      bitwarden-cli
+      bitwarden
+      rbw
       gnome.nautilus
       dmenu
       solaar

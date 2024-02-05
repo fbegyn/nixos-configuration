@@ -42,8 +42,9 @@ in
       pkgs.xdg-desktop-portal-wlr
       wl-mirror
       pipectl
-      rofi
       wofi
+      rofi
+      rofi-rbw-wayland
 
       wf-recorder
       kanshi # autorandr
@@ -488,7 +489,7 @@ in
         for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 384 px 512 px, border pixel 5
 
         # Immediately play youtube from rofi output
-        bindsym $mod+p exec rofi-pass
+        bindsym $mod+p exec rofi-rbw --clear-after 10 --action copy
 
         # Reload monitor config
         bindsym $mod+Shift+m exec --no-startup-id /home/francis/Scripts/monitor-hotplug.sh
