@@ -74,6 +74,7 @@
       bat
       tig
       sshuttle
+      unzip
       #bitwarden
       pkgs.bitwarden-cli
       gnome.nautilus
