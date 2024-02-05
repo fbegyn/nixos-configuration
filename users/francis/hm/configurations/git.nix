@@ -12,6 +12,12 @@
     };
     extraConfig = {
       core.editor = "vim";
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+      url."ssh://git@github.com:".insteadOf = "git://github.com";
+      rerere.enabled = true;
+      # identities
       user.useConfigOnly = true;
       user.personal.name = "Francis Begyn";
       user.personal.email = "francis@begyn.be";
@@ -22,10 +28,6 @@
       user.inuits.name = "Francis Begyn";
       user.inuits.email = "fbegyn@inuits.eu";
       user.inuits.signingkey = "";
-      init.defaultBranch = "main";
-      pull.rebase = true;
-      push.autoSetupRemote = true;
-      url."ssh://git@github.com:".insteadOf = "git://github.com";
     };
   };
 }
