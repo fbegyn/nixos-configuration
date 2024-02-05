@@ -27,7 +27,7 @@
         background = true;
         new_position.related = "next";
         new_position.stacking = true;
-        position = "left";
+        position = "right";
         title.alignment = "left";
         show = "multiple";
         width = "6%";
