@@ -405,6 +405,18 @@
   :defer t
   :after (evil kubel))
 
+(use-package deno-ts-mode
+  :ensure t)
+(setq treesit-language-source-alist
+      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+(setq treesit-language-source-alist
+      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
+
+(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+
+(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
 
@@ -593,7 +605,9 @@ the frame and makes it a dedicated window for that buffer."
 (use-package eglot
   :ensure t
   :config
-  :hook (python-mode . eglot-ensure)
+  :hook ((python-mode . eglot-ensure)
+         (deno-ts-mode . eglot-ensure)
+         (deno-tsx-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 50000)
