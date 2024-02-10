@@ -445,11 +445,11 @@ in {
         }];
       }
       {
-        job_name = "corerad";
+        job_name = "tc-exporter";
         scheme = "http";
         static_configs = [{
             targets = [
-              "10.5.1.5:9430"
+              "10.5.20.5:9704"
             ];
         }];
       }
