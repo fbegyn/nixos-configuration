@@ -75,6 +75,11 @@
 (require 'use-package)
 (package-initialize)
 
+;; nixos path adding
+(add-to-list 'exec-path "/home/francis/.nix-profile/bin")
+(add-to-list 'exec-path "/etc/profiles/per-user/francis/bin")
+(add-to-list 'exec-path "/run/current-system/sw/bin")
+
 ;; emacs settings
 (use-package emacs
   :defer t
@@ -92,7 +97,7 @@
   (setq make-backup-files nil
         auto-save-default nil
         create-lockfiles nil)
-  
+
   ;; Follow symlinks
   (setq vc-follow-symlinks t)
   ;; correct macos modifiers
@@ -407,17 +412,17 @@
 (use-package deno-ts-mode
   :ensure t)
 
-(use-package tramp
-  :ensure t
-  :config ((setq tramp-default-method "sshx")
-  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-  (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
-  (eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
-  (eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
-  (add-to-list 'tramp-connection-properties
-      (list ".*" "locale" "LC_ALL=C")))
 (require 'tramp)
-
+(setq tramp-default-method "sshx")
+(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(add-to-list 'tramp-remote-path "/home/francis/.nix-profile/bin")
+(add-to-list 'tramp-remote-path "/etc/profiles/per-user/francis/bin")
+(add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
+(eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
+(eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
+(add-to-list 'tramp-connection-properties
+    (list ".*" "locale" "LC_ALL=C"))
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
 
