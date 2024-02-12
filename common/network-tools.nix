@@ -8,6 +8,5 @@
     iperf
     socat
     mapcidr
-    net-snmp
   ];
 }
