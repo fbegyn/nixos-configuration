@@ -376,25 +376,24 @@
   (flycheck-emacs-lisp-load-path 'inherit))
 
 (use-package restart-emacs
-	:general
-	(fb/leader-keys
-		"e" '(:ignore true :wk "emacs")
-		"e <escape>" '(keyboard-escape-quit :wk t)
-		"e e" '(ab/edit-emacs-config :wk "edit")
-		"e R" '(restart-emacs :wk "restart")
-		"e L" '(ab/reload-emacs :wk "reload"))
-	:init
-	(defun ab/reload-emacs ()
-		"Tangle the literate config and reload"
-		(interactive)
-		(require 'org)
-		(org-babel-tangle-file "~/.emacs.d/init.el")
-		(restart-emacs)
-		)
+  :general
+  (fb/leader-keys
+      "e" '(:ignore true :wk "emacs")
+      "e <escape>" '(keyboard-escape-quit :wk t)
+      "e e" '(ab/edit-emacs-config :wk "edit")
+      "e R" '(restart-emacs :wk "restart")
+      "e L" '(ab/reload-emacs :wk "reload"))
+  :init
+  (defun ab/reload-emacs ()
+      "Tangle the literate config and reload"
+      (interactive)
+      (require 'org)
+      (org-babel-tangle-file "~/.emacs.d/init.el")
+      (restart-emacs))
   (defun ab/edit-emacs-config ()
-		"Open the literate config"
-		(interactive)
-		(find-file "~/.emacs.d/init.el")))
+      "Open the literate config"
+      (interactive)
+      (find-file "~/.emacs.d/init.el")))
 
 (use-package kubel
   :defer t
@@ -407,16 +406,18 @@
 
 (use-package deno-ts-mode
   :ensure t)
-(setq treesit-language-source-alist
-      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
-(setq treesit-language-source-alist
-      '((typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-        (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")))
 
-(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+(use-package tramp
+  :ensure t
+  :config ((setq tramp-default-method "sshx")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+  (eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
+  (eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
+  (add-to-list 'tramp-connection-properties
+      (list ".*" "locale" "LC_ALL=C")))
+(require 'tramp)
 
-(mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
 
@@ -436,14 +437,6 @@
   (company-tooltip-limit 20)
   (company-transformers '(company-sort-by-backend-importance))
   (company-minimum-prefix-length 2 "Start autocompletion after 2 characters"))
-
-(require 'tramp)
-(setq tramp-default-method "sshx")
-(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
-(eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
-(eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
-(add-to-list 'tramp-connection-properties
-                   (list ".*" "locale" "LC_ALL=C"))
 
 (require 'dired)
 (use-package dired
