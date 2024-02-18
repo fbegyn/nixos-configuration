@@ -125,6 +125,10 @@
               overlay
               emacs-overlay.overlay
             ];
+            nix = {
+              linux-builder.enable = true;
+              distributedBuilds = true;
+            };
           })
           agenix.darwinModules.age
           home-manager-unstable.darwinModules.home-manager ({config, ...}: {
