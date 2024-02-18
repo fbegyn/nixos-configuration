@@ -15,6 +15,12 @@
       init.defaultBranch = "main";
       pull.rebase = true;
       push.autoSetupRemote = true;
+      rebase.autosquash = true;
+      commit.verbose = true;
+      diff.algorithm = "histogram";
+      transfer.fsckobjects = true;
+      fetch.fsckobjects = true;
+      receive.fsckObjects = true;
       url."ssh://git@github.com:".insteadOf = "git://github.com";
       rerere.enabled = true;
       # identities
