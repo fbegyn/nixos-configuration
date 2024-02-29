@@ -1,8 +1,9 @@
+---
 name: update-flake-lock
 on:
-  workflow_dispatch: # allows manual triggering
+  workflow_dispatch:  # allows manual triggering
   schedule:
-    - cron: '0 7 * * */3' # runs weekly on Sunday at 00:00
+    - cron: '0 7 * * */3'  # runs weekly on Sunday at 00:00
 
 jobs:
   update:
@@ -16,11 +17,4 @@ jobs:
         uses: DeterminateSystems/update-flake-lock@main
         if: ${{ github.event_name != 'pull_requesst' }}
         with:
-          pr-assignees: fbegyn
-          pr-reviewers: fbegyn
-          pr-title: "Update flake.lock" # Title of PR to be created
-          pr-labels: |                  # Labels to be set on the PR
-            dependencies
-            automated
-      - name: Log generated PRs
-        run: echo Pull request number is ${{ steps.update.outputs.pull-request }}.
+          nix-options: --debug --log-format raw
