@@ -8,5 +8,5 @@
     iperf
     socat
     mapcidr
-  ];
+  ] ++ (if pkgs.stdenv.isLinux then [pkgs.unstable.net-snmp] else []);
 }
