@@ -18,3 +18,4 @@ jobs:
         if: ${{ github.event_name != 'pull_requesst' }}
         with:
           nix-options: --debug --log-format raw
+          branch: main
