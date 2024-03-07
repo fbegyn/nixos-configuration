@@ -11,14 +11,8 @@
       enable = true;
       package = pkgs.unstable.wireshark;
     };
-    firefox = {
-      enable = true;
-      package = pkgs.unstable.firefox-bin;
-      preferences = {
-        "widget.use-xdg-desktop-portal.file-picker" = 1;
-      };
-    };
   };
+  environment.systemPackages = with pkgs; [ firefox ];
 
   home-manager.users.francis = {
     imports = [
