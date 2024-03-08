@@ -161,6 +161,21 @@
   services.nix-daemon.enable = true;
   nix = {
     package = pkgs.unstable.nix;
+    linux-builder = {
+      enable = true;
+      ephemeral = true;
+      maxJobs = 4;
+      config = {
+        virtualisation = {
+          darwin-builder = {
+            diskSize = 50 * 1024;
+            memorySize = 6 * 1024;
+          };
+          cores = 4;
+        };
+      };
+    };
+    distributedBuilds = true;
     settings = {
       auto-optimise-store = false;
       sandbox = false;
@@ -175,9 +190,10 @@
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
       ];
       trusted-users = [ "root" "francis" ];
+      experimental-features = "nix-command flakes";
+      system-features = [ "big-parallel" "benchmark" "nixos-test" "apple-virt" ];
     };
     extraOptions = ''
-      experimental-features = nix-command flakes
       extra-nix-path = nixpkgs=flake:nixpkgs
       bash-prompt-prefix = (nix:$name)\040
     '';
