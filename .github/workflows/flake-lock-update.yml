@@ -1,21 +1,25 @@
 ---
 name: update-flake-lock
 on:
-  workflow_dispatch:  # allows manual triggering
   schedule:
-    - cron: '0 7 * * */3'  # runs weekly on Sunday at 00:00
+    - cron: '0 7 * * */2'
 
 jobs:
   update:
     runs-on: ubuntu-latest
+    if: github.ref == "refs/head/main"
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@main
+        uses: DeterminateSystems/nix-installer-action@v9
       - name: Update flake.lock
-        uses: DeterminateSystems/update-flake-lock@main
-        if: ${{ github.event_name != 'pull_requesst' }}
-        with:
-          nix-options: --debug --log-format raw
-          branch: main
+        shell: bash
+        env:
+          GIT_AUTHOR_NAME: "github-actions[bot]"
+          GIT_AUTHOR_EMAIL: "github-actions[bot]@users.noreply.github.com"
+          GIT_COMMITER_NAME: "github-actions[bot]"
+          GIT_COMMITER_EMAIL: "github-actions[bot]@users.noreply.github.com"
+        run: |
+          nix flake update --commit-lock-file
+          git push origin main
