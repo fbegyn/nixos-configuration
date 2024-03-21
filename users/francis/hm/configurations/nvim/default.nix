@@ -41,9 +41,6 @@ let
   };
 in
 {
-  home.packages = with pkgs.unstable; [
-    rnix-lsp
-  ];
   programs.neovim = {
     enable = true;
     vimAlias = true;
