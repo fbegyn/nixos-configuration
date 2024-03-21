@@ -19,7 +19,7 @@ in
     };
     extraPackages = with pkgs.unstable; [
       # waybar + scripts
-      waybar # status bar
+      pkgs.waybar # status bar
       waybarsh
       waybar-spotify
       waybar-storage
