@@ -198,6 +198,12 @@ in
             xkb_numlock = "enabled";
             xkb_options = "eurosign:5,altwin:swap_lalt_lwin";
           };
+          "1133:45927:MX_MCHNCL_M_Keyboard" = {
+            xkb_layout = "us";
+            xkb_variant = "altgr-intl";
+            xkb_numlock = "enabled";
+            xkb_options = "eurosign:5,altwin:swap_lalt_lwin";
+          };
         };
         assigns = {
           "1:web" = [{ class = "^chromium-browser$"; } { class = "^qutebrowser$"; }];
