@@ -16,6 +16,7 @@
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
+    defaultEditor = true;
   };
 
   home.sessionPath = [
@@ -27,7 +28,6 @@
   nixpkgs.config = {
     allowUnfree = true;
   };
-  home.sessionVariables = { EDITOR = "vim"; };
 
   home.packages = with pkgs.unstable; [
     # Utilities
@@ -41,5 +41,6 @@
     screen
     envsubst
     wget
+    curl
   ];
 }

@@ -35,12 +35,24 @@
     extraOptions = ''
       experimental-features = nix-command flakes
     '';
+    gc = {
+      dates = "daily";
+      automatic = true;
+    };
   };
 
   services.journald.extraConfig = ''
     SystemMaxUse=100M
     MaxFileSec=7day
   '';
+
+  # who uses nano anyways?
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+    viAlias = true;
+    defaultEditor = true;
+  };
 
   home-manager.users.francis.home.stateVersion = lib.mkDefault "23.11";
   system.stateVersion = lib.mkDefault "23.11";

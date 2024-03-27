@@ -5,9 +5,10 @@
   #   ".config/fish/functions/fish_prompt.fish".source = ./fish_prompt.fish;
   #   ".config/fish/functions/fish_right_prompt.fish".source = ./fish_right_prompt.fish;
   # };
+  programs.autojump.enable = true;
   programs.fish = {
     enable = true;
-    package = pkgs.unstable.fish;
+    package = pkgs.fish;
     shellAliases = {
       "gst" = "git status";
       "ga" = "git add";
