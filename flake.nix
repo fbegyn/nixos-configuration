@@ -34,7 +34,7 @@
     };
 
     nixos-mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver";
+      url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.11";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
@@ -74,8 +74,6 @@
     website,
     nixos-mailserver
   }: let
-    pkgs = nixpkgs.legacyPackages."x86_64-linux";
-
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
         system = prev.system;
@@ -134,7 +132,7 @@
         ] ++ extraModules;
       };
   in {
-    devShells.x86_64-linux.default = pkgs.mkShell {
+    devShells.x86_64-linux.default = nixpkgs.legacyPackages."x86_64-linux".mkShell {
       buildInputs = [
         agenix.packages.x86_64-linux.agenix
       ];

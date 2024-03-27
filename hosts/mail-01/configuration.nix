@@ -59,7 +59,7 @@ in {
       allowedTCPPorts = [ 25 80 143 443 465 587 993 ];
     };
   };
-  networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
+  networking.firewall.package = pkgs.iptables-nftables-compat;
 
   # networking.firewall.enable = false;
   # networking.nftables = {
@@ -89,9 +89,9 @@ in {
   # Fail2ban
   services.fail2ban = {
     enable = true;
-    package = pkgs.unstable.fail2ban;
-    packageFirewall = pkgs.unstable.iptables-nftables-compat;
-    extraPackages = [ pkgs.unstable.ipset ];
+    package = pkgs.fail2ban;
+    packageFirewall = config.networking.firewall.package;
+    extraPackages = [ pkgs.ipset ];
     maxretry = 5;
     bantime = "15m";
     ignoreIP = [
@@ -200,13 +200,13 @@ in {
     startAt = "*:0/20";
   };
 
-  home-manager.users.francis.home.stateVersion = "23.05";
+  home-manager.users.francis.home.stateVersion = "23.11";
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "20.09"; # Did you read the comment?
+  system.stateVersion = "23.11"; # Did you read the comment?
 }
 
