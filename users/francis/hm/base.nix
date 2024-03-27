@@ -29,7 +29,7 @@
     allowUnfree = true;
   };
 
-  home.packages = with pkgs.unstable; [
+  home.packages = with pkgs; [
     # Utilities
     openssl
     jq

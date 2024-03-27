@@ -40,7 +40,7 @@
       }
     ];
   };
-  networking.firewall.package = pkgs.unstable.iptables-nftables-compat;
+  networking.firewall.package = pkgs.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
       allowedTCPPorts = [ 22 9100 53 ];
@@ -149,13 +149,13 @@
   };
 
   # weechat
-  environment.systemPackages = [ pkgs.unstable.weechat ];
+  environment.systemPackages = [ pkgs.weechat ];
   systemd.services.weechat = {
     description = "weechat headless";
     serviceConfig = {
       User = "francis";
       Group = "francis";
-      ExecStart = [ "${pkgs.unstable.weechat}/bin/weechat-headless --stdout" ];
+      ExecStart = [ "${pkgs.weechat}/bin/weechat-headless --stdout" ];
     };
     wantedBy = [ "default.target" ];
   };
@@ -167,7 +167,7 @@
         proxyPass = "http://127.0.0.1:9000";
         proxyWebsockets = true;
       };
-      locations."/".root = pkgs.unstable.glowing-bear;
+      locations."/".root = pkgs.glowing-bear;
     };
   };
 
@@ -215,8 +215,8 @@
   services.postgresql.package = pkgs.postgresql_15;
   services.roundcube = {
     enable = true;
-    package = pkgs.unstable.roundcube;
-    dicts = with pkgs.unstable.aspellDicts; [en nl fr de];
+    package = pkgs.roundcube;
+    dicts = with pkgs.aspellDicts; [en nl fr de];
     hostName = "webmail.begyn.be";
     extraConfig = ''
       $config['des_key'] = 'TOEADOJDzA1CikSrPIOBVodn25fsYElV';
