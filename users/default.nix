@@ -7,6 +7,8 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOrr2D8eSb+vjbnkkGxmhj8I6hhmiJYFiLE4Xz4hjZKZ francis@eos"
   ];
 
+  programs.fish.enable = true;
+
   # user francis
   users.groups.francis.gid = 1000;
   users.users.francis = {
