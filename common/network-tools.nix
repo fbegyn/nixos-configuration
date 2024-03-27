@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  programs.mtr.enable = true;
   environment.systemPackages = with pkgs.unstable; [
     ldns
     tcpdump

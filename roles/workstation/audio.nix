@@ -1,10 +1,11 @@
-{ config, pkgs, ... }:
+{ config, pkgs, ... }: {
+  security.rtkit.enable = true;
+  sounds.enable = true;
 
-{
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs.unstable; [
     pavucontrol
   ];
-  security.rtkit.enable = true;
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -21,5 +22,14 @@
     #     #"default.clock.max-quantum" = 8192;
     #   };
     # };
+  };
+
+  hardware.pulseaudio = {
+    enable = false;
+    extraConfig = ''
+      unload-module module-role-cork
+      load-module module-raop-discover
+    '';
+    zeroconf.discovery.enable = true;
   };
 }

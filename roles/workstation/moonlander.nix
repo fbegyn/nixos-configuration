@@ -1,7 +1,5 @@
-{ pkgs, lib, writeTextFile, ... }:
-
-{
-  environment.systemPackages = with pkgs; [
+{ config, pkgs, ... }: {
+  environment.systemPackages = with pkgs.unstable; [
     wally-cli
   ];
   services.udev.extraRules = ''

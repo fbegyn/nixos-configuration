@@ -6,13 +6,22 @@ let
 in {
   options.fbegyn.machines = {
     roles = mkOption {
-      type = types.str;
+      type = types.commas;
       default = "workstation";
       example = "server,bastion";
       description = "The roles this machine should take up";
     };
   };
 
-  config = {
+  config = let
+    work = test;
+  in {
+    environment.systemPackage = mkIf (builtins.elem "workstation" cfg.roles) [
+      pkgs.hello
+    ];
+
+    fbegyn.workstation.enable = mkIf (builtins.elem "workstation" cfg.roles) true;
+    fbegyn.webhost.enable = mkIf (builtins.elem "host" cfg.roles) true;
+    fbegyn.bastion.enable = mkIf (builtins.elem "bastion" cfg.roles) true;
   };
 }
