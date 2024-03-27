@@ -79,6 +79,8 @@
 
   fbegyn.services.website = {
     enable = true;
+    useACMEHost = "begyn.be";
+    domain = "francis.begyn.be";
   };
 
   services.nginx = {
@@ -162,7 +164,7 @@
   services.nginx.virtualHosts = {
     "irc.francis.begyn.be" = {
       forceSSL = true;
-      useACMEHost = "francis.begyn.be";
+      useACMEHost = "begyn.be";
       locations."^~ /weechat" = {
         proxyPass = "http://127.0.0.1:9000";
         proxyWebsockets = true;
