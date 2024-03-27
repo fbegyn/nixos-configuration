@@ -109,7 +109,7 @@
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           })
-          ./common
+          ./common/base.nix
         ] ++ extraModules;
       };
 

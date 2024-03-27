@@ -7,10 +7,6 @@ let
   startsway = import ./startsway.nix { inherit pkgs; };
 in
 {
-  imports = [
-    ../../../common/pipewire.nix
-  ];
-
   programs.sway = {
     enable = true;
     wrapperFeatures = {

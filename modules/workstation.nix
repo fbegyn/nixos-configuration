@@ -10,7 +10,7 @@ in {
 
   config = mkIf cfg.enable {
     imports = [
-      ../common/workstion
+      ../roles/workstation
     ];
   };
 }

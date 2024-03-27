@@ -1,6 +1,5 @@
 { config, pkgs, ... }: {
   imports = [
-    ../../common/base.nix
     ../../common/bluetooth.nix
     ../../common/network-tools.nix
     ../../common/wireguard.nix
