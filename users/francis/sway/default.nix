@@ -323,6 +323,7 @@ in
             "exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'";
 
           "${mod}+r" = "mode resize";
+          "${mod}+p" = "mode present";
 
         };
         keycodebindings = { };
@@ -345,6 +346,19 @@ in
             s = "exec --no-startup-id systemctl suspend, mode default";
             r = "exec --no-startup-id systemctl reboot, mode default";
             "Shift+s" = "exec --no-startup-id systemctl poweroff -i, mode default";
+          };
+          present = {
+            Return = "mode default";
+            Escape = "mode default";
+            # command starts mirroring
+            m = "mode default; exec wl-present mirror";
+            # these commands modify an already running mirroring window
+            o = "mode default; exec wl-present set-output";
+            r = "mode default; exec wl-present set-region";
+            "Shift+f" = "mode default; exec wl-present fullscreen";
+            s = "mode default; exec wl-present set-scaling";
+            f = "mode default; exec wl-present toggle-freeze";
+            c = "mode default; exec wl-present custom";
           };
         };
         startup = [
@@ -492,8 +506,7 @@ in
         for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
         for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 384 px 512 px, border pixel 5
 
-        # Immediately play youtube from rofi output
-        bindsym $mod+p exec rofi-rbw --clear-after 10 --action copy
+        bindsym $mod+Shift+p exec rofi-rbw --clear-after 10 --action copy
 
         # Reload monitor config
         bindsym $mod+Shift+m exec --no-startup-id /home/francis/Scripts/monitor-hotplug.sh
