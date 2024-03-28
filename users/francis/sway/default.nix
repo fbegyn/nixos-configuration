@@ -51,14 +51,16 @@ in
       fuzzel
     ];
   };
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
-
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+    XDG_SESSION_TYPE = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
+  };
   xdg = {
     portal = {
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
       ];
     };
   };

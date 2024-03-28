@@ -1,5 +1,8 @@
 { config, pkgs, ... }:
-{
+let
+  waylandCfg = config.home-manager.users.francis.wayland.windowManager.sway;
+  firefoxPackage = if waylandCfg.enable then pkgs.firefox-wayland else pkgs.firefox;
+in {
   services.gvfs.enable = true;
   services.gnome.sushi.enable = true;
   programs.dconf.enable = true;
@@ -12,7 +15,7 @@
       package = pkgs.unstable.wireshark;
     };
   };
-  environment.systemPackages = with pkgs; [ firefox ];
+  environment.systemPackages = with pkgs; [ firefoxPackage ];
 
   home-manager.users.francis = {
     imports = [
