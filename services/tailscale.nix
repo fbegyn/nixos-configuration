@@ -1,11 +1,11 @@
 { config, pkgs, lib, ... }:
 
 let
-  cfg = config.fbegyn.services.tailscale;
+  cfg = config.services.fbegyn.tailscale;
   isNetworkd = config.networking.useNetworkd;
 in
 with lib; {
-  options.fbegyn.services.tailscale = {
+  options.services.fbegyn.tailscale = {
     enable = mkEnableOption "enables tailscale client services";
 
     package = mkOption {

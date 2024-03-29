@@ -77,7 +77,7 @@
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
-  fbegyn.services.website = {
+  services.fbegyn.website = {
     enable = true;
     useACMEHost = "begyn.be";
     domain = "francis.begyn.be";
@@ -196,7 +196,7 @@
   };
 
   # tailscale machine specific
-  fbegyn.services.tailscale = let
+  services.fbegyn.tailscale = let
     hosts = import ../../secrets/hosts.nix;
   in {
     enable = true;

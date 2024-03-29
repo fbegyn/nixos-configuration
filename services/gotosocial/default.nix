@@ -3,9 +3,9 @@ with lib;
 let
   serviceName = "gotosocial";
   pkg = import ../../pkgs/gotosocial.nix { inherit pkgs; };
-  cfg = config.fbegyn.services.gotosocial;
+  cfg = config.services.fbegyn.gotosocial;
 in {
-  options.fbegyn.services.gotosocial = {
+  options.services.fbegyn.gotosocial = {
     enable = mkEnableOption "enables hosting of gotosocial";
     serverName = mkOption {
       type = types.str;
