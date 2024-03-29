@@ -787,11 +787,19 @@
         ]
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1711741723,
         "narHash": "sha256-6CKB18BdjCQFERYt9gXl9ME5HEXXlxQYhp3CACfCmWU=",
         "owner": "fbegyn",
         "repo": "website",
         "rev": "2d6bdff61068e47ca58f9dbd05035074010d490d",
+=======
+        "lastModified": 1711741300,
+        "narHash": "sha256-nzWoGveZ1pUrtWdOQ2e68051WmsgoK9RDDeBB3oYHGs=",
+        "owner": "fbegyn",
+        "repo": "website",
+        "rev": "1f57c6b1b17369ee86f9ceab1c69bb41a2b458d6",
+>>>>>>> c108c96 (flake.lock: Update)
         "type": "github"
       },
       "original": {
