@@ -86,7 +86,7 @@
   networking.firewall.enable = false;
 
   # enable tailscale
-  fbegyn.services.tailscale.enable = true;
+  services.fbegyn.tailscale.enable = true;
 
   security.pki.certificateFiles = [
     "/home/francis/Documents/certs/ca.crt"

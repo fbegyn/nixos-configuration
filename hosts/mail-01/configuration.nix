@@ -71,7 +71,7 @@ in {
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   # tailscale machine specific
-  fbegyn.services.tailscale = {
+  services.fbegyn.tailscale = {
     enable = true;
     autoprovision = {
       enable = true;
