@@ -591,11 +591,19 @@
     },
     "nur": {
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1712566993,
         "narHash": "sha256-kgSEOxS5k7wNpc1I/j9YkmV6OfYe2BKk0raH201vhM0=",
         "owner": "nix-community",
         "repo": "NUR",
         "rev": "682da86ec3c67228ba4ed8e036f9fd6a2d53f172",
+=======
+        "lastModified": 1711741576,
+        "narHash": "sha256-NWhmYK2jTlDqPQIiwEfEJUYP2xNgWO6nwltor80+YGU=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "91164785f810add20b1de18354fd2ce1d8b63f9c",
+>>>>>>> eeb6e2e (flake.lock: Update)
         "type": "github"
       },
       "original": {
@@ -788,6 +796,7 @@
       },
       "locked": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "lastModified": 1711741723,
         "narHash": "sha256-6CKB18BdjCQFERYt9gXl9ME5HEXXlxQYhp3CACfCmWU=",
         "owner": "fbegyn",
@@ -800,6 +809,13 @@
         "repo": "website",
         "rev": "1f57c6b1b17369ee86f9ceab1c69bb41a2b458d6",
 >>>>>>> c108c96 (flake.lock: Update)
+=======
+        "lastModified": 1711741723,
+        "narHash": "sha256-6CKB18BdjCQFERYt9gXl9ME5HEXXlxQYhp3CACfCmWU=",
+        "owner": "fbegyn",
+        "repo": "website",
+        "rev": "2d6bdff61068e47ca58f9dbd05035074010d490d",
+>>>>>>> eeb6e2e (flake.lock: Update)
         "type": "github"
       },
       "original": {
