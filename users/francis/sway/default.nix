@@ -2,6 +2,7 @@
 
 let
   waybarsh = import ./waybar.sh.nix { inherit pkgs; };
+  kanshish = import ./kanshi.sh.nix { inherit pkgs; };
   waybar-spotify = import ./waybar-spotify.nix { inherit pkgs; };
   waybar-storage = import ./waybar-storage.nix { inherit pkgs; };
   startsway = import ./startsway.nix { inherit pkgs; };
@@ -15,7 +16,6 @@ in
     };
     extraPackages = with pkgs.unstable; [
       # waybar + scripts
-      pkgs.waybar # status bar
       waybarsh
       waybar-spotify
       waybar-storage
@@ -43,7 +43,7 @@ in
       rofi-rbw-wayland
 
       wf-recorder
-      kanshi # autorandr
+      kanshish # autorandr
       wdisplays
       brightnessctl
 
@@ -369,7 +369,7 @@ in
           #   command = "chromium-browser";
           # }
           {
-            command = "sway-statusbar.sh";
+            command = "${waybarsh}/bin/sway-statusbar.sh";
             always = true;
           }
           {
@@ -386,6 +386,10 @@ in
           }
           {
             command = "spotify";
+          }
+          {
+            command = "${kanshish}/bin/start-kanshi.sh";
+            always = true;
           }
         ];
         window = {
