@@ -18,8 +18,7 @@ let
   multicursor = builtins.readFile ./vimrc/plugins/multicursor.vim;
   vimzettel = builtins.readFile ./vimrc/plugins/vim-zettel.vim;
   goPlugin = builtins.readFile ./vimrc/plugins/go.vim;
-  in
-{
+in {
   programs.neovim = {
     enable = true;
     vimAlias = true;
