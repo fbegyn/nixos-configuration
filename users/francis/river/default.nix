@@ -8,7 +8,7 @@ let
 in
 {
   imports = [
-    ../../../common/pipewire.nix
+    ../../../roles/workstation/audio.nix
   ];
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";

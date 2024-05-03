@@ -3,7 +3,7 @@
 {
   imports = [
     ./dunst.nix
-    ../../../common/pipewire.nix
+    ../../../roles/workstation/audio.nix
   ];
 
   options.fbegyn.x.xautolock = pkgs.lib.mkOption {
