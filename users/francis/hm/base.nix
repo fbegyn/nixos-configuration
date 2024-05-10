@@ -31,6 +31,7 @@
 
   home.packages = with pkgs; [
     # Utilities
+    home-manager
     openssl
     jq
     yq
