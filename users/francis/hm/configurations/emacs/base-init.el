@@ -107,6 +107,10 @@
         (setq mac-command-modifier 'super)   ; command as super
         (setq mac-option-modifier 'meta)     ; alt as meta
         (setq mac-control-modifier 'control)) ; control as control
+        ;; Set path for darwin
+        (setenv "PATH" (concat (getenv "PATH") ":/Users/francis/.nix-profile/bin:/usr/bin:/etc/profiles/per-user/francis/bin:/run/current-system/sw/bin"))
+        (setq exec-path (append '("/Users/francis/bin" "/profile/bin" "/Users/francis/.npm-packages/bin" "/Users/francis/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin" "/Users/francis/.go/bin" "/Users/francis/.local/bin" "/Users/francis/.cargo/bin" "/etc/profiles/per-user/francis/bin" "/run/current-system/sw/bin") exec-path))
+
   ;; emacs-mac
   (when (fboundp 'mac-auto-operator-composition-mode)
         (mac-auto-operator-composition-mode) ; enables font ligatures
