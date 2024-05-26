@@ -88,11 +88,9 @@
       openscad
       # SRE - deployment
       flyctl
-      terraform
-      terraform-lsp
-      pulumi
       ansible
       # Utilities
+      kitty
       wakeonlan
       bitwarden-cli
       ripgrep
@@ -122,6 +120,7 @@
       sshuttle
       act
       nodejs
+      elixir
     ];
 
     programs.neovim = {
