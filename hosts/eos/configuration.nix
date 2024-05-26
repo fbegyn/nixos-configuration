@@ -599,6 +599,15 @@ in {
 
 
   # Web application/services
+  services.nginx.virtualHosts."files.svc.begyn.be" = {
+    forceSSL = true;
+    useACMEHost = "dcf.begyn.be";
+    locations."/" = {
+      root = "/tmp/files.svc.begyn.be/files";
+      tryFiles = "$uri =404";
+      basicAuthFile = "/tmp/files.svc.begyn.be/auth";
+    };
+  };
   ## Nextcloud
   services.nextcloud = {
     enable = false;
