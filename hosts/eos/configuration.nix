@@ -108,25 +108,36 @@ in {
         networkConfig.DHCP = "ipv6";
         linkConfig.RequiredForOnline = "carrier";
       };
+      "10-tailscale0" = {
+        matchConfig.Name = "tailscale0";
+        linkConfig = {
+	  Unmanaged = "yes";
+          RequiredForOnline = "no";
+	};
+      };
       "120-lan" = {
         matchConfig.Name = "lan";
         address = [ "10.5.20.10/24" ];
         networkConfig.DHCP = "ipv6";
+        linkConfig.RequiredForOnline = "routable";
       };
       "130-mgmt" = {
         matchConfig.Name = "mgmt";
         address = [ "10.5.30.10/24" ];
         networkConfig.DHCP = "ipv6";
+        linkConfig.RequiredForOnline = "routable";
       };
       "190-iot" = {
         matchConfig.Name = "iot";
         address = [ "10.5.90.10/24" ];
         networkConfig.DHCP = "ipv6";
+        linkConfig.RequiredForOnline = "routable";
       };
       "1100-guests" = {
         matchConfig.Name = "guests";
         address = [ "10.5.100.10/24" ];
         networkConfig.DHCP = "ipv6";
+        linkConfig.RequiredForOnline = "routable";
       };
     };
   };
@@ -244,7 +255,7 @@ in {
 	  "/sys:/sys"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2023.12";
+        image = "ghcr.io/home-assistant/home-assistant:2024.4";
         extraOptions = [
           "--network=host"
 	  "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
@@ -260,7 +271,7 @@ in {
           USERNAME = "${hosts.eos.eufy.wsAddon.username}";
           TRUSTED_DEVICE_NAME = "eos";
         };
-        image = "bropat/eufy-security-ws:1.7.1";
+        image = "bropat/eufy-security-ws:1.8.0";
         ports = [
           "13000:3000"
         ];
@@ -270,7 +281,7 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "bluenviron/mediamtx:1.3.0";
+        image = "bluenviron/mediamtx:1.6.0";
         ports = [
           "1935:1935"
           "8554:8554"
@@ -602,10 +613,18 @@ in {
   services.nginx.virtualHosts."files.svc.begyn.be" = {
     forceSSL = true;
     useACMEHost = "dcf.begyn.be";
+    root = "/var/run/files.svc.begyn.be/files";
     locations."/" = {
-      root = "/tmp/files.svc.begyn.be/files";
-      tryFiles = "$uri =404";
-      basicAuthFile = "/tmp/files.svc.begyn.be/auth";
+      tryFiles = "$uri $uri/ =404";
+      basicAuthFile = "/var/run/files.svc.begyn.be/auth";
+      extraConfig = ''
+        autoindex on;
+        sendfile on;
+	sendfile_max_chunk 2m;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+      '';
     };
   };
   ## Nextcloud
