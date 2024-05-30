@@ -34,6 +34,9 @@
       user.inuits.name = "Francis Begyn";
       user.inuits.email = "fbegyn@inuits.eu";
       user.inuits.signingkey = "";
+      user.o11y.name = "Francis Begyn";
+      user.o11y.email = "fbegyn@o11y.eu";
+      user.o11y.signingkey = "";
     };
   };
 }
