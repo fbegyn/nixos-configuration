@@ -92,7 +92,6 @@
       # Utilities
       kitty
       wakeonlan
-      bitwarden-cli
       ripgrep
       fd
       bat
