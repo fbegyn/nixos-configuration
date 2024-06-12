@@ -413,18 +413,23 @@ in
         };
         workspaceAutoBackAndForth = true;
         workspaceLayout = "default";
+        output = {
+          # "*" = {
+          #   bg = "~/Pictures/wallpapers/background.jpg fill";
+          # };
+          eDP-1 = {
+            pos = "0 0 res 1920x1080";
+          };
+        };
       };
       extraConfig =
         let
           wm = config.home-manager.users.francis.wayland.windowManager.sway;
           mod = wm.config.modifier;
+          background = builtins.readFile ./background.jpg;
       in ''
-        # set wallpaper
-        output "*" background ~/Pictures/wallpapers/background.jpg fill
-
         # monitor config
         set $laptop_display eDP-1
-        output $laptop_display pos 0 0 res 1920x1080
 
         # hide cursor after time
         seat seat0 hide_cursor 2500
