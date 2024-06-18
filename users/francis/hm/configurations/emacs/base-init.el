@@ -704,7 +704,9 @@ the frame and makes it a dedicated window for that buffer."
 (use-package dockerfile-mode)
 
 (use-package elixir-mode
-  :mode "\\.ex'")
+  :mode "\\.ex'"
+  :config
+  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh")))
 
 (require 'project)
 
@@ -758,6 +760,7 @@ the frame and makes it a dedicated window for that buffer."
   :config
   :hook ((python-mode . eglot-ensure)
          (deno-ts-mode . eglot-ensure)
+         (elixir-mode . eglot-ensure)
          (deno-tsx-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
