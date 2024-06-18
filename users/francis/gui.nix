@@ -60,7 +60,6 @@
       pulsemixer
       # Utilities
       flyctl
-      elixir
       lm_sensors
       gnumake
       ansible

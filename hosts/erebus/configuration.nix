@@ -119,7 +119,6 @@
       sshuttle
       act
       nodejs
-      elixir
     ];
 
     programs.neovim = {
