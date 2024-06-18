@@ -34,7 +34,7 @@
     };
 
     nixos-mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-23.11";
+      url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-24.05";
       inputs = {
         nixpkgs.follows = "nixpkgs";
         utils.follows = "flake-utils";
