@@ -65,7 +65,7 @@ in {
       (aspellWithDicts (dicts: with dicts; [en en-science nl]))
       # Comms
       slack
-      mattermost-desktop
+      pkgs.mattermost-desktop
       thunderbird
       weechat
       # Browser
