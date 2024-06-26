@@ -15,7 +15,19 @@ in {
       package = pkgs.unstable.wireshark;
     };
   };
-  environment.systemPackages = with pkgs; [ firefoxPackage ];
+  environment.systemPackages = with pkgs; [
+    eid-mw
+    firefoxPackage
+  ];
+
+  services.pcscd = {
+    enable = true;
+    plugins = [ pkgs.ccid ];
+  };
+
+  environment.etc."pkcs11/modules/opensc-pkcs11".text = ''
+    module: ${pkgs.opensc}/lib/opensc-pkcs11.so
+  '';
 
   home-manager.users.francis = {
     imports = [
