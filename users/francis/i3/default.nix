@@ -18,21 +18,21 @@
     # Enable the X11 windowing system.
     services.xserver= {
       enable = true;
-      layout = "us,us";
       xkb = {
+        layout = "us,us";
         variant = "altgr-intl";
         options = "eurosign:5,altwin:swap_lalt_lwin";
       };
-      libinput = {
+    };
+    services.libinput = {
         enable =true;
         touchpad = {
           tapping = false;
         };
       };
-    };
 
     services.xserver.displayManager.lightdm.enable = true;
-    services.xserver.displayManager.defaultSession = "none+i3";
+    services.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3 = {
       enable = true;
       package = pkgs.unstable.i3;

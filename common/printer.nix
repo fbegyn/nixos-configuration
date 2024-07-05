@@ -4,7 +4,7 @@
   # Enable CUPS to print documents.
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    nssmdns4 = true;
   };
   services.printing = {
     enable = true;
