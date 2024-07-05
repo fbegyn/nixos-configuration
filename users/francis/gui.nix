@@ -71,7 +71,7 @@
       bitwarden-cli
       bitwarden
       rbw
-      gnome.nautilus
+      nautilus
       dmenu
       solaar
       evince
