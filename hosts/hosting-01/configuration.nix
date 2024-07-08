@@ -173,16 +173,21 @@
     };
   };
 
-  services.oauth2_proxy = let
+  services.oauth2-proxy = let
     hosts = import ../../secrets/hosts.nix;
   in {
     enable = true;
     email.addresses = ''
       francis.begyn@gmail.com
     '';
-    nginx.virtualHosts = [
-      "irc.francis.begyn.be"
-    ];
+    nginx = {
+      domain = "francis.begyn.be";
+      virtualHosts = {
+        "irc.francis.begyn.be" = {
+          allowed_emails = [ "francis.begyn@gmail.com" ];
+        };
+      };
+    };
     google = {
       serviceAccountJSON =
         "${hosts.hosting-01.oauth2_proxy.google.serviceAccountJSON}";

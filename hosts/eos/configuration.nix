@@ -190,14 +190,19 @@ in {
       };
     };
   };
-  services.oauth2_proxy = {
+  services.oauth2-proxy = {
     enable = true;
     email.addresses = ''
       francis.begyn@gmail.com
     '';
-    nginx.virtualHosts = [
-      "news.francis.begyn.be"
-    ];
+    nginx = {
+      domain = "francis.begyn.be";
+      virtualHosts = {
+        "news.francis.begyn.be" = {
+          allowed_emails = [ "francis.begyn@gmail.com" ];
+        };
+      };
+    };
     google = {
       serviceAccountJSON =
         "${hosts.eos.oauth2_proxy.google.serviceAccountJSON}";
@@ -211,10 +216,11 @@ in {
   };
 
   services.paperless = {
-    enable = true;
+    enable = false;
+    package = pkgs.unstable.paperless-ngx;
     passwordFile = "${hosts.eos.paperless.passwordPath}";
     address = "10.5.1.10";
-    extraConfig = {
+    settings = {
       PAPERLESS_ADMIN_USER = "${hosts.eos.paperless.adminUser}";
       PAPERLESS_OCR_USER_ARGS = "{\"invalidate_digital_signatures\": true}";
       PAPERLESS_URL="${hosts.eos.paperless.url}";
@@ -586,7 +592,8 @@ in {
         chunk_idle_period = "5m";
         chunk_retain_period = "30s";
       };
-      schema_config.configs = [{
+      schema_config.configs = [
+      {
         from = "2020-05-15";
         store = "boltdb";
         object_store = "filesystem";
@@ -595,15 +602,38 @@ in {
           prefix = "index_";
           period = "168h";
         };
-      }];
+      }
+      {
+        from = "2024-07-08";
+        store = "tsdb";
+        object_store = "filesystem";
+        schema = "v13";
+        index = {
+          prefix = "index_";
+          period = "24h";
+        };
+      }
+      ];
       storage_config = {
         boltdb.directory = "/tmp/loki/index";
         filesystem.directory = "/tmp/loki/chunks";
+        tsdb_shipper = {
+          active_index_directory = "/tmp/loki/tsdb/index";
+          cache_location = "/tmp/loki/tsdb/cache";
+	};
+      };
+      compactor = {
+        working_directory = "/tmp/loki/tsdb/retention";
+        compaction_interval = "10m";
+        retention_enabled = true;
+        retention_delete_delay = "2h";
+        retention_delete_worker_count = 150;
+        delete_request_store = "filesystem";
       };
       limits_config = {
-        enforce_metric_name = false;
         reject_old_samples = true;
         reject_old_samples_max_age = "168h";
+	allow_structured_metadata = false;
       };
     };
   };
@@ -632,10 +662,11 @@ in {
     enable = false;
     package = pkgs.unstable.nextcloud25;
     hostName = "docs.begyn.be";
+    settings = {
+      overwriteprotocol = "https";
+      default_phone_region = "BE";
+    };
     config = {
-      overwriteProtocol = "https";
-      defaultPhoneRegion = "BE";
-
       adminuser = "admin";
       adminpassFile = "${pkgs.writeText "adminpass" "${hosts.eos.nextcloud.adminpass}"}";
 
