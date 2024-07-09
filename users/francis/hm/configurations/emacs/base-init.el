@@ -475,7 +475,7 @@
   :ensure t
   :init (doom-modeline-mode 1))
 (use-package gruvbox-theme
-  :config (load-theme 'gruvbox-light-medium t))
+  :config (load-theme 'gruvbox-dark-hard t))
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
   :init

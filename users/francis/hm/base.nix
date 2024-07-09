@@ -18,7 +18,7 @@
   #   });
   # in theme;
 
-  colorScheme = nix-colors.colorSchemes.base16.gruvbox-light-medium;
+  colorScheme = nix-colors.colorSchemes.base16.gruvbox-material-dark-hard;
 
   xdg.configFile = {
     "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
