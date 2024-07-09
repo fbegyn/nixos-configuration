@@ -4,7 +4,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nur.url = "github:nix-community/NUR";
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
@@ -59,7 +58,6 @@
     self,
     nixpkgs,
     nixpkgs-unstable,
-    nur,
     nixos-hardware,
     darwin,
     mac-app-util,
