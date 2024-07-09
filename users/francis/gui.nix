@@ -68,12 +68,12 @@
       sshuttle
       unzip
       #bitwarden
-      bitwarden-cli
-      bitwarden
+      pkgs.bitwarden-cli
+      pkgs.bitwarden
       rbw
       nautilus
       dmenu
-      solaar
+      pkgs.solaar
       evince
       okular
       pandoc
