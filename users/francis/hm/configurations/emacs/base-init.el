@@ -90,8 +90,9 @@
     (message ""))
   ;; switch to y/n prompts
   (defalias 'yes-or-no-p 'y-or-n-p)
-  ;; use spaces and set tab width
-  (setq-default indent-tabs-mode nil)
+  ;; tab behvaior
+  (setq-default indent-tabs-mode t)
+  (setq tab-always-indent 'complete)
   (setq default-tab-width 2)
   ;; Stop emacs from littering the file system with backup files
   (setq make-backup-files nil
@@ -176,7 +177,6 @@
 ;; highlight guides
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 
-(setq tab-always-indent 'complete)
 
 ;; rust
 (setq rust-format-on-save t)
