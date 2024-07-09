@@ -128,7 +128,7 @@
         "/" = {
           proxyPass = "https://127.0.0.1:8443$request_uri";
           extraConfig = ''
-	    client_max_body_size 15M;
+            client_max_body_size 15M;
             proxy_ssl_verify off;
             proxy_ssl_session_reuse on;
             proxy_buffering off;
