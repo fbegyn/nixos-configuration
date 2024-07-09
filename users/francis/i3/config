@@ -16,11 +16,11 @@ default_floating_border pixel 3
 hide_edge_borders smart
 
 # color scheme
-client.focused              #d75f00	#1c1b19	#ffffff	#2e9ef4	#ff8700
-client.focused_inactive	    #333333	#5f676a	#ffffff	#484e50	#5f676a
-client.unfocused	          #333333	#1c1b19	#888888	#292d2e	#222222
-client.urgent	              #f75341	#ef2f27	#1c1b19	#900000	#f75341
-client.placeholder	        #000000	#0c0c0c	#ffffff	#000000	#0c0c0c
+client.focused              #d75f00 #1c1b19 #ffffff #2e9ef4 #ff8700
+client.focused_inactive     #333333 #5f676a #ffffff #484e50 #5f676a
+client.unfocused            #333333 #1c1b19 #888888 #292d2e #222222
+client.urgent               #f75341 #ef2f27 #1c1b19 #900000 #f75341
+client.placeholder          #000000 #0c0c0c #ffffff #000000 #0c0c0c
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
