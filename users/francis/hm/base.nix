@@ -1,7 +1,8 @@
-{ config, pkgs, nix-colors, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [
+    ./colors.nix
     ./configurations/git.nix
     ./configurations/fish
     ./configurations/bash.nix
