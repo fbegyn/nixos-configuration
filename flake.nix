@@ -48,9 +48,6 @@
       };
     };
 
-    # nix-colors.url = "github:misterio77/nix-colors";
-    nix-colors.url = "github:Zh40Le1ZOOB/nix-colors";
-
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -71,7 +68,6 @@
     home-manager,
     home-manager-unstable,
     agenix,
-    nix-colors,
     devshell,
     emacs-overlay,
     vscode-server,
@@ -173,7 +169,6 @@
         nixos-hardware.nixosModules.common-pc-laptop
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
-        { home-manager.extraSpecialArgs = { inherit nix-colors; }; }
       ];
       eos = mkMachine [
         ./hosts/eos/configuration.nix

@@ -440,25 +440,6 @@
         "type": "github"
       }
     },
-    "nix-colors": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib",
-        "schemes": "schemes"
-      },
-      "locked": {
-        "lastModified": 1716489546,
-        "narHash": "sha256-r1uxF6sQfNYsarRVqxG3StU8b5LRRRzV3cuzY/d03fE=",
-        "owner": "Zh40Le1ZOOB",
-        "repo": "nix-colors",
-        "rev": "95b194675d9300fb22cd47a431fb2a443f606cd4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Zh40Le1ZOOB",
-        "repo": "nix-colors",
-        "type": "github"
-      }
-    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1720515935,
@@ -635,30 +616,12 @@
         "home-manager": "home-manager_2",
         "home-manager-unstable": "home-manager-unstable",
         "mac-app-util": "mac-app-util",
-        "nix-colors": "nix-colors",
         "nixos-hardware": "nixos-hardware",
         "nixos-mailserver": "nixos-mailserver",
         "nixpkgs": "nixpkgs_2",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "nur": "nur",
         "vscode-server": "vscode-server",
         "website": "website"
-      }
-    },
-    "schemes": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1713388094,
-        "narHash": "sha256-wcotm0Ek2ISn8iJBzEujJQdcPLKWrPAOZ/dS/DLKafw=",
-        "owner": "tinted-theming",
-        "repo": "schemes",
-        "rev": "abcf2a055ae69f1bf047463332f83db3125aa8a5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "tinted-theming",
-        "repo": "schemes",
-        "type": "github"
       }
     },
     "systems": {
