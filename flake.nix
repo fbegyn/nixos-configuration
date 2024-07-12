@@ -126,7 +126,7 @@
               emacs-overlay.overlay
             ];
           })
-          lix-module.nixosModules.default
+          # lix-module.nixosModules.default
           agenix.darwinModules.age
           home-manager-unstable.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
