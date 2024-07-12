@@ -25,7 +25,7 @@
 
     agenix = {
       url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     devshell = {
       url = "github:numtide/devshell";
@@ -46,14 +46,12 @@
     vscode-server.url = "github:nix-community/nixos-vscode-server";
     website = {
       url = "github:fbegyn/website";
-      inputs = {
-        nixpkgs.follows = "nixpkgs-unstable";
-      };
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     darwin = {
       url = "github:LnL7/nix-darwin";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util.url = "github:hraban/mac-app-util";
   };
