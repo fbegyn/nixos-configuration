@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home.packages = with pkgs.unstable; [
+  home.packages = with pkgs; [
     mpv
     python311Packages.yt-dlp
     streamlink
