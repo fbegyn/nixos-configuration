@@ -49,6 +49,7 @@
     taps = [];
     brews = [
       "htop"
+      "nmap"
     ];
   };
   # launchd config
@@ -66,7 +67,7 @@
 
   # home-manager settings (darwin)
   imports = [
-    ../../common/network-tools.nix
+    # ../../common/network-tools.nix
   ];
   home-manager.users.francis = {
     home.stateVersion = "23.05";
