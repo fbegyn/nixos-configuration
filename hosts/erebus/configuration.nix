@@ -31,11 +31,20 @@
   programs.bash = {
    enable = true;
    enableCompletion = true;
-   interactiveShellInit = ''
+   interactiveShellInit = let
+     gitPrompt = builtins.fetchurl {
+       url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
+       sha256 = "1bkdllwxfbcbflfi6w4p2ls8hvqpv2hwvqf5fw3w4zh89p2vg5ra";
+     };
+     gitCompletion = builtins.fetchurl {
+       url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
+       sha256 = "106wrn2wspci19a70006g5xsh679ap2973h2lmssf5xbl3r3lv7g";
+     };
+   in ''
      # load git-prompt script
-     . ~/.config/prompt/git-prompt.sh
+     . ${gitPrompt}
      # load git completions
-     . ~/.config/prompt/git-completion.bash
+     . ${gitCompletion}
 
      PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\] \$ '
    '';
