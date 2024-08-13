@@ -16,6 +16,7 @@
       pull.rebase = true;
       push.autoSetupRemote = true;
       rebase.autosquash = true;
+      rebase.instructionFormat = "<%an/%ad> %s - b:%d";
       commit.verbose = true;
       diff.algorithm = "histogram";
       transfer.fsckobjects = true;
