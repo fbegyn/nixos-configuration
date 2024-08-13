@@ -4,7 +4,6 @@
   imports = [
     ./colors.nix
     ./configurations/git.nix
-    ./configurations/fish
     ./configurations/bash.nix
   ];
 
@@ -17,7 +16,7 @@
     enable = true;
     vimAlias = true;
     vimdiffAlias = true;
-    defaultEditor = true;
+    defaultEditor = false;
   };
 
   home.sessionPath = [

@@ -4,6 +4,7 @@
   programs.autojump.enable = true;
   programs.bash = {
     enable = true;
+    enableCompletion = true;
     shellAliases = {
       "gst" = "git status";
       "ga" = "git add";
@@ -22,5 +23,13 @@
       MOZ_ENABLE_WAYLAND = 1;
       _JAVA_AWT_WM_NONREPARENTING = 1;
     };
+    initExtra = ''
+      # load git-prompt script
+      . ~/.config/prompt/git-prompt.sh
+      # load git completions
+      . ~/.config/prompt/git-completion.bash
+
+      PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\] \$ '
+    '';
   };
 }

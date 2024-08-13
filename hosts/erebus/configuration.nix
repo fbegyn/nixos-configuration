@@ -16,11 +16,11 @@
   users.users.francis.home = "/Users/francis";
   environment = {
     shells = with pkgs; [
+      bash
       bashInteractive
-      zsh
       fish
     ];
-    loginShell = pkgs.fish;
+    loginShell = pkgs.bashInteractive;
     systemPath = [
       "/Users/francis/.local/bin"
       "/Users/francis/.go/bin"
@@ -28,6 +28,18 @@
     ];
   };
   services.tailscale.enable = true;
+  programs.bash = {
+   enable = true;
+   enableCompletion = true;
+   interactiveShellInit = ''
+     # load git-prompt script
+     . ~/.config/prompt/git-prompt.sh
+     # load git completions
+     . ~/.config/prompt/git-completion.bash
+
+     PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\] \$ '
+   '';
+  };
   programs.fish.enable = true;
 
   # darwin specific modules
@@ -85,7 +97,7 @@
       ../../users/francis/hm/configurations/mpv
       ../../users/francis/hm/configurations/hledger.nix
       ../../users/francis/hm/configurations/direnv.nix
-      ../../users/francis/secrets/fish.nix
+      ../../users/francis/secrets/bash.nix
     ];
 
     home.enableNixpkgsReleaseCheck = false;
@@ -129,11 +141,6 @@
       nodejs
     ];
 
-    programs.neovim = {
-      enable = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-    };
     emacs.emacsPackage = pkgs.unstable.emacs29-pgtk.overrideAttrs (old: {
       patches = (old.patches or []) ++ [
         # Fix OS window role (needed for window managers like yabai)

@@ -31,7 +31,7 @@
       ./hm/configurations/tmux
       ./hm/configurations/josm.nix
       # ./hm/configurations/qutebrowser
-      ./secrets/fish.nix
+      ./secrets/bash.nix
     ];
 
     xdg.configFile = {

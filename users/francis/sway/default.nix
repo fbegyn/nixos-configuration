@@ -143,7 +143,7 @@ in
       '';
     };
 
-    programs.fish = {
+    programs.bash = {
       loginShellInit = ''
         if test -z $DISPLAY; and test $XDG_VTNR -eq 1
           exec startsway
