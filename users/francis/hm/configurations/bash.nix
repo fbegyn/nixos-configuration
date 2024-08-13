@@ -11,6 +11,7 @@
       "glg" = "git log";
       "gc" = "git commit";
       "gcmsg" = "git commit -m";
+      "ls" = "ls --color";
     };
     sessionVariables = {
       WINIT_X11_SCALE_FACTOR = "1.0";
