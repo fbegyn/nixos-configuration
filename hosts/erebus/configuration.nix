@@ -75,7 +75,7 @@
     # ../../common/network-tools.nix
   ];
   home-manager.users.francis = {
-    home.stateVersion = "23.05";
+    home.stateVersion = "24.05";
     imports = [
       ../../users/francis/hm/base.nix
       ../../users/francis/hm/go.nix
@@ -88,7 +88,10 @@
       ../../users/francis/secrets/fish.nix
     ];
 
+    home.enableNixpkgsReleaseCheck = false;
+
     home.packages = with pkgs.unstable; [
+      home-manager
       # Comms
       openscad
       # SRE - deployment
