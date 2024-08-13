@@ -50,6 +50,11 @@
     brews = [
       "htop"
       "nmap"
+      "gnupg"
+      "yubikey-personalization"
+      "ykman"
+      "pinentry-mac"
+      "wget"
     ];
   };
   # launchd config
