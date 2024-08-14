@@ -8,9 +8,6 @@
   ];
 
   programs.fish.enable = true;
-  programs.bash = {
-    enable = true;
-  };
 
   # user francis
   users.groups.francis.gid = 1000;
