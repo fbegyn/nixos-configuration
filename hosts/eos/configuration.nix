@@ -76,6 +76,16 @@ in {
   };
   systemd.network= {
     enable = true;
+    wait-online = {
+      enable = true;
+      ignoredInterfaces = [
+        "tailscale*"
+        "tailscale0"
+        "veth*"
+        "wlp*"
+        "wlp3s0"
+      ];
+    };
     netdevs = {
       "120-lan" = {
         netdevConfig = { Kind = "vlan"; Name = "lan"; };
@@ -109,7 +119,7 @@ in {
         linkConfig.RequiredForOnline = "carrier";
       };
       "10-tailscale0" = {
-        matchConfig.Name = "tailscale0";
+        matchConfig.Name = "tailscale*";
         linkConfig = {
 	  Unmanaged = "yes";
           RequiredForOnline = "no";
@@ -508,8 +518,6 @@ in {
       RuntimeDirectory = "prometheus";
       RuntimeDirectoryMode = "0700";
       WorkingDirectory = "/var/lib/prometheus-ts";
-      StateDirectory = "/var/lib/prometheus-ts";
-      StateDirectoryMode = "0700";
       DeviceAllow = [ "/dev/null rw" ];
       DevicePolicy = "strict";
       LockPersonality = true;
