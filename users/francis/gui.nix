@@ -30,6 +30,7 @@
       ./hm/configurations/hledger.nix
       ./hm/configurations/tmux
       ./hm/configurations/josm.nix
+      ./hm/configurations/redshift.nix
       # ./hm/configurations/qutebrowser
       ./secrets/bash.nix
     ];
