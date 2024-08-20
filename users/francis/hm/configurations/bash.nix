@@ -1,6 +1,13 @@
 { pkgs, ...}:
 
 {
+  home.file.".inputrc".text = ''
+    # Key bindings, up/down arrow searches through history
+    "\e[A": history-search-backward
+    "\e[B": history-search-forward
+    "\eOA": history-search-backward
+    "\eOB": history-search-forward
+  '';
   programs.autojump.enable = true;
   programs.bash = {
     enable = true;
