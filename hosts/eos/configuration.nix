@@ -67,6 +67,12 @@ in {
         19090 # Prometheus-ts
         8123 # HASS
         28080
+        # prometheus exporter ports
+        9115
+        9100
+        9134
+        9113
+        9117
       ];
       allowedUDPPorts = [
         5514
@@ -400,6 +406,11 @@ in {
   ## exporters
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
+  services.prometheus.exporters.blackbox.enable = true;
+  services.prometheus.exporters.blackbox.configFile = ./blackbox.yml;
+  services.prometheus.exporters.zfs.enable = true;
+  services.prometheus.exporters.nginx.enable = true;
+  services.prometheus.exporters.nginxlog.enable = true;
   ## grafana
   services.grafana = {
     enable = true;
