@@ -2,8 +2,8 @@
 
 {
   users.users.root.openssh.authorizedKeys.keys = [
-    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLQRocoQMC4JDWPL7fYYCfhpq5SoUfaCxUeQpgQrZ7c4Q44/YWPMjHkmGM8+7ZehfVHVxSNJ4i/Rre1n0MJcCT8= macbook-francis@secretive.erebus.local"
     "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBB0WXcYCfnVErwoM1gYZ4ue37Ao0IPTsQWJNVvv96G0bwcPdbj8Csnp0vsE2no9I/PSPIqrw/1GGUHUGCZS8VgY= macbook-francis@secretive.erebus-(4).local"
+    "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLQRocoQMC4JDWPL7fYYCfhpq5SoUfaCxUeQpgQrZ7c4Q44/YWPMjHkmGM8+7ZehfVHVxSNJ4i/Rre1n0MJcCT8= macbook-francis@secretive.erebus.local"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINK7mMVKOmELe+FVvn1oWNRwKiANgTwcnzte3vWK3nMV"
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOrr2D8eSb+vjbnkkGxmhj8I6hhmiJYFiLE4Xz4hjZKZ francis@eos"
   ];
