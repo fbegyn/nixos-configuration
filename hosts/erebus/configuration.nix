@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{config, pkgs, ... }:
 {
   # system packages to install
   environment.systemPackages = with pkgs.unstable; [
@@ -26,6 +26,9 @@
       "/Users/francis/.go/bin"
       "/opt/homebrew/bin"
     ];
+    variables = {
+      SSH_AUTH_SOCK = "/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
+    };
   };
   services.tailscale.enable = true;
   programs.bash = {
@@ -47,6 +50,8 @@
      . ${gitCompletion}
 
      PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\]> '
+
+     SSH_AUTH_SOCK=/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
    '';
   };
   programs.fish.enable = true;
