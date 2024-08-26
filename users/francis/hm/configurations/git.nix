@@ -35,6 +35,9 @@
       user.inuits.name = "Francis Begyn";
       user.inuits.email = "fbegyn@inuits.eu";
       user.inuits.signingkey = "";
+      user.vdab.name = "Francis Begyn";
+      user.vdab.email = "francis.begyn@vdab.be";
+      user.vdab.signingkey = "";
     };
   };
 }
