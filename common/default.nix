@@ -2,6 +2,10 @@
 
 {
   boot.tmp.cleanOnBoot = true;
+  boot.tmp.useTmpfs = true;
+  systemd.services.nix-daemon = {
+    environment.TMPDIR = "/var/tmp";
+  };
 
   security.polkit.enable = true;
   programs.nix-ld.enable = true;
