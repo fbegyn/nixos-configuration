@@ -107,11 +107,13 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.networkmanager.enable = true;
+  networking.networkmanager.wifi.backend = "iwd";
   # networking.interfaces.enp2s0f0.useDHCP = true;
   # networking.interfaces.enp5s0.useDHCP = true;
   # networking.interfaces.wlp3s0.useDHCP = true;
   environment.systemPackages = with pkgs; [
     steam-run
+    nixd
   ];
 
   programs.gnupg.package = pkgs.unstable.gnupg;
@@ -119,6 +121,7 @@
     enable = true;
     useRoutingFeatures = "client";
   };
+  services.irqbalance.enable = true;
 
   home-manager.users.francis.home.stateVersion = "23.05";
   # This value determines the NixOS release from which the default
