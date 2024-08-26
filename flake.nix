@@ -98,6 +98,7 @@
         system = "x86_64-linux";
         modules = [
           ({config, ...}: {
+            nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
               (import ./overlays/weechat.nix)
