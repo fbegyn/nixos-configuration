@@ -255,6 +255,7 @@ in {
   # system packagesystem
   environment.systemPackages = with pkgs; [
     bluez
+    nixd
   ];
 
   # containers
