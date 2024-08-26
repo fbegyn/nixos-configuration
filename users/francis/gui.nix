@@ -88,7 +88,6 @@
       nix-index
       # tools rewritten in rust
       hyperfine
-      pkgs.bandwhich
       # unfree packages
       spotify
       discord
