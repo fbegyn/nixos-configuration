@@ -27,7 +27,6 @@
     ../../common/eid.nix
     ../../common/rtlsdr.nix
     ../../common/network-tools.nix
-    ../../common/onedrive.nix
     ../../users
     ../../users/francis
     ../../users/francis/gui.nix
