@@ -14,7 +14,6 @@
     ../../common/moonlander.nix
     ../../common/ios.nix
     ../../common/gpg.nix
-    ../../common/office.nix
     ../../common/steam.nix
     ../../common/fonts.nix
     ../../common/printer.nix
