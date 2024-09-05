@@ -124,6 +124,9 @@
       flyctl
       ansible
       # Utilities
+      typst
+      typst-lsp
+      typst-fmt
       kitty
       wakeonlan
       ripgrep
@@ -134,7 +137,7 @@
       nfpm
       gnumake
       pandoc
-      texlive.combined.scheme-small
+      texlive.combined.scheme-medium
       yamllint
       # Databases
       pkgs.pgcli

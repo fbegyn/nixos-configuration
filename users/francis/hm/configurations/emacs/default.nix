@@ -34,7 +34,6 @@ in {
       ispell
       solargraph
       rust-analyzer
-      lua53Packages.digestif
       pyright
     ];
 
