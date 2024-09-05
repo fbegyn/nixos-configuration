@@ -263,6 +263,15 @@
 
       "q"  '(:ignore t :which-key "quit")
       "qq" '(save-buffers-kill-emacs :which-key "quit")))
+
+(use-package exec-path-from-shell
+  :demand
+  :ensure t
+  :init
+  (when (memq window-system '(mac ns x))
+    (exec-path-from-shell-initialize))
+)
+
 (use-package which-key
   :demand
   :diminish (which-key-mode)
