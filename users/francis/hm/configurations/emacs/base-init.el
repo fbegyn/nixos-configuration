@@ -1,4 +1,5 @@
-
+;;; Commentary: Emacs Startup File --- initialization for Emacs
+;;; Code:
 (eval-when-compile
   (require 'use-package)
   (require 'use-package-ensure)
@@ -16,7 +17,7 @@
 (defvar hm/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 (defun hm/restore-file-name-handler-alist ()
-  "Restores the file-name-handler-alist variable."
+  "Restore the file-name-handler-alist variable."
   (setq file-name-handler-alist hm/file-name-handler-alist)
   (makunbound 'hm/file-name-handler-alist))
 (add-hook 'emacs-startup-hook #'hm/restore-file-name-handler-alist)
