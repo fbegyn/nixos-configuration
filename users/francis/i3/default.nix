@@ -19,9 +19,9 @@
     services.xserver= {
       enable = true;
       xkb = {
-        layout = "us,us";
+        layout = "us";
         variant = "altgr-intl";
-        options = "eurosign:5,altwin:swap_lalt_lwin";
+        options = "eurosign:5";
       };
     };
     services.libinput = {
