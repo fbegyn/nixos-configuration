@@ -128,6 +128,7 @@
       typst-lsp
       typst-fmt
       typst-live
+      tree-sitter
       kitty
       wakeonlan
       ripgrep
