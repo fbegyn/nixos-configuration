@@ -883,6 +883,16 @@ the frame and makes it a dedicated window for that buffer."
 (use-package js2-mode
   :mode "\\.js\\'")
 
+;; (use-package typst-ts-mode
+;;   :mode "\\.typ\\'"
+;;   :custom
+;;   (typst-ts-watch-options "--open")
+;;   (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
+;;   (typst-ts-mode-enable-raw-blocks-highlight t)
+;;   :config
+;;   (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu)
+;; )
+
 (use-package yasnippet
   :demand t
   :config

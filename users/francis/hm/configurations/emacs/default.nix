@@ -17,14 +17,19 @@ in {
       default = [];
     };
     emacsPackage = lib.mkOption {
-      default = pkgs.emacs-pgtk;
+      default = pkgs.emacs;
     };
     package = lib.mkOption {
       default = pkgs.emacsWithPackagesFromUsePackage {
         config = cfg.fullConfig;
         package = cfg.emacsPackage;
         alwaysEnsure = true;
-        # extraEmacsPackages = epkgs: [];
+        override = epkgs: epkgs // {
+          typst-ts-mode = pkgs.callPackage ./typst-ts-mode.nix {
+            inherit (pkgs) fetchgit;
+            inherit (epkgs) trivialBuild;
+          };
+        };
       };
     };
   };
