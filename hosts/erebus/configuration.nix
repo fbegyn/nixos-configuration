@@ -127,6 +127,7 @@
       typst
       typst-lsp
       typst-fmt
+      typst-live
       kitty
       wakeonlan
       ripgrep
