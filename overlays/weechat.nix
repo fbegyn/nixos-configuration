@@ -3,7 +3,6 @@ self: super: {
     configure = { availablePlugins, ... }: {
       scripts = with super.weechatScripts; [
         multiline
-        weechat-matrix
       ];
       extraBuildInputs = [];
     };
