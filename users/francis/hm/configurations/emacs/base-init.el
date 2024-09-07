@@ -578,16 +578,22 @@
   :ensure t)
 
 (require 'tramp)
-(setq tramp-default-method "sshx")
+(setq tramp-default-method "ssh")
 (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 (add-to-list 'tramp-remote-path "/home/francis/.nix-profile/bin")
 (add-to-list 'tramp-remote-path "/etc/profiles/per-user/francis/bin")
 (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
 (eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
-(eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
+;; (eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
 (add-to-list 'tramp-connection-properties
     (list ".*" "locale" "LC_ALL=C"))
+(tramp-set-completion-function
+ "ssh" (append (tramp-get-completion-function "ssh")
+               (mapcar (lambda (file) `(tramp-parse-sconfig ,file))
+                       (directory-files
+                        "~/.ssh/conf.d/"
+                        'full directory-files-no-dot-files-regexp))))
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
 
