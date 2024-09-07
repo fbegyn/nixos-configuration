@@ -385,7 +385,7 @@ in {
 	  "/sys:/sys"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2024.4";
+        image = "ghcr.io/home-assistant/home-assistant:2024.8";
         extraOptions = [
           "--network=host"
 	  "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
@@ -411,7 +411,7 @@ in {
           TZ = "Europe/Brussels";
           COUNTRY = "BE";
         };
-        image = "bluenviron/mediamtx:1.6.0";
+        image = "bluenviron/mediamtx:1.8.5";
         ports = [
           "1935:1935"
           "8554:8554"
