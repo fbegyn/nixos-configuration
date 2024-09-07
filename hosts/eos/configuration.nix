@@ -258,12 +258,36 @@ in {
           proxyWebsockets = true;
         };
       };
-      "unifi.svc.begyn.be" = {
+      "aptly.repo.begyn.be" = {
         forceSSL = true;
-        useACMEHost = "svc-02.begyn.be";
+        useACMEHost = "dcf.begyn.be";
         locations."/" = {
-          proxyPass = "https://127.0.0.1:8443/";
-          proxyWebsockets = true;
+	  root = "/var/www/aptly.repo.begyn.be/public/";
+	  extraConfig = ''
+	    allow all;
+	    sendfile on;
+	    sendfile_max_chunk 1m;
+	    autoindex on;
+	    autoindex_exact_size off;
+	    autoindex_format html;
+	    autoindex_localtime on;
+          '';
+        };
+      };
+      "rpm.repo.begyn.be" = {
+        forceSSL = true;
+        useACMEHost = "dcf.begyn.be";
+        locations."/" = {
+	  root = "/var/www/rpm.repo.begyn.be/";
+	  extraConfig = ''
+	    allow all;
+	    sendfile on;
+	    sendfile_max_chunk 1m;
+	    autoindex on;
+	    autoindex_exact_size off;
+	    autoindex_format html;
+	    autoindex_localtime on;
+          '';
         };
       };
     };
@@ -317,7 +341,8 @@ in {
   # system packagesystem
   environment.systemPackages = with pkgs; [
     bluez
-    nixd
+    aptly
+    createrepo_c
   ];
 
   # containers
