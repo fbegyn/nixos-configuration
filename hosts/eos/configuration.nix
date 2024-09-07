@@ -66,6 +66,7 @@ in {
         9090 # Prometheus
         19090 # Prometheus-ts
         8123 # HASS
+        19925 # mealie
         28080
         # prometheus exporter ports
         9115
@@ -188,6 +189,14 @@ in {
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
     virtualHosts = {
+      "mealie.dcf.begyn.be" = {
+        forceSSL = true;
+        useACMEHost = "dcf.begyn.be";
+        locations."/" = {
+          proxyPass = "http://127.0.0.1:19925/";
+          proxyWebsockets = true;
+        };
+      };
       "hass.dcf.begyn.be" = {
         forceSSL = true;
         useACMEHost = "dcf.begyn.be";
@@ -267,6 +276,26 @@ in {
   virtualisation.oci-containers = {
     backend = "podman";
     containers = {
+      mealie = {
+        ports = [
+	  "19925:9000"
+	];
+	image = "ghcr.io/mealie-recipes/mealie:latest";
+        environment = {
+	  TZ = "Europe/Brussels";
+	  ALLOW_SIGNUP = "false";
+	  MAX_WORKERS = "1";
+	  WEB_CONCURRENCY = "1";
+	  BASE_URL = "https://mealie.dcf.begyn.be";
+	  SMTP_HOST = "mail.begyn.be";
+	  SMTP_PORT = "587";
+	  SMTP_FROM_EMAIL = "bots@begyn.be";
+	  SMTP_AUTH_STRATEGY = "TLS";
+	  SMTP_USER = "bots@begyn.be";
+	  SMTP_PASSWORD = "${hosts.mail.bots.password}";
+	};
+	volumes = ["mealie-data:/app/data/"];
+      };
       hass = {
         ports = [
 	  "8123:8123"
