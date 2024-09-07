@@ -385,7 +385,7 @@ in {
 	  "/sys:/sys"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2024.8";
+        image = "ghcr.io/home-assistant/home-assistant:2024.9";
         extraOptions = [
           "--network=host"
 	  "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
