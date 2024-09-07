@@ -12,17 +12,70 @@ in {
     ./acme.nix
 
     ../../common
+    ../../common/gpg.nix
     ../../common/network-tools.nix
     ../../common/bluetooth.nix
 
     ../../users
 
     # services
-    ../../services/coredns
+    # ../../services/coredns
     ../../services/prometheus
     ../../services/tailscale.nix
     ../../services/postgres
   ];
+
+  services.blocky = {
+    enable = true;
+    settings = {
+      ports.dns = 53;
+      ports.tls = 853;
+      ports.http = 14000;
+      log.format = "json";
+      upstreams.groups = {
+        default = [
+          "https://one.one.one.one/dns-query"
+          "1.1.1.1"
+          "8.8.8.8"
+          "10.5.10.5"
+          "10.5.20.5"
+          "10.5.30.5"
+          "10.5.90.5"
+        ];
+      };
+      bootstrapDns = [
+        { upstream = "https://one.one.one.one/dns-query"; ips = [ "1.1.1.1" "8.8.8.8" ]; }
+      ];
+      blocking = {
+        blackLists = {
+	        ads = [
+	          "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+	          "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+          ];
+	      };
+	      clientGroupsBlock = {
+	        default = [
+	          "ads"
+	        ];
+	      };
+      };
+      caching = {
+        minTime = "4h";
+	      maxTime = "48h";
+	      maxItemsCount = 5000;
+	      prefetching = true;
+	      prefetchMaxItemsCount = 300;
+      };
+      prometheus.enable = true;
+      queryLog = {
+        type = "csv";
+        target = "/var/tmp";
+        logRetentionDays = 5;
+        fields = [ "question" "duration" "responseReason" "responseAnswer"];
+        flushInterval = "30s";
+      };
+    };
+  };
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -369,7 +422,7 @@ in {
   };
 
   # network services
-  services.coredns.enable = true;
+  services.coredns.enable = false;
   services.mosquitto = {
     enable = true;
     listeners = [
@@ -504,11 +557,11 @@ in {
         }];
       }
       {
-        job_name = "coredns";
+        job_name = "blocky";
         scheme = "http";
         static_configs = [{
             targets = [
-              "10.5.1.10:9153"
+              "10.5.1.10:14000"
             ];
         }];
       }
