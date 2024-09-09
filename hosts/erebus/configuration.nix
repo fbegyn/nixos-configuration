@@ -86,7 +86,6 @@
   # launchd config
   launchd.user.envVariables.PATH = config.environment.systemPath;
   # darwin - emacs
-  launchd.user.agents.emacs.path = config.services.emacs.additionalPath ++ [ config.environment.systemPath ];
   services.emacs = {
     enable = true;
     package = config.home-manager.users.francis.emacs.package;
@@ -129,6 +128,7 @@
       typst-fmt
       typst-live
       tree-sitter
+      typescript-language-server
       kitty
       wakeonlan
       ripgrep
@@ -158,6 +158,8 @@
       sshuttle
       act
       nodejs
+      elixir_1_17
+      elixir-ls
     ];
 
     emacs.emacsPackage = pkgs.unstable.emacs29-pgtk.overrideAttrs (old: {
