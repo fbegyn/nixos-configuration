@@ -9,10 +9,6 @@
 
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
@@ -67,7 +63,6 @@
     flake-utils,
     home-manager,
     home-manager-unstable,
-    lix-module,
     agenix,
     devshell,
     emacs-overlay,
@@ -106,7 +101,6 @@
               emacs-overlay.overlay
             ];
           })
-          lix-module.nixosModules.default
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -127,7 +121,6 @@
               emacs-overlay.overlay
             ];
           })
-          # lix-module.nixosModules.default
           agenix.darwinModules.age
           home-manager-unstable.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
