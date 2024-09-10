@@ -193,7 +193,7 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
   nix = {
-    package = pkgs.unstable.nix;
+    # package = pkgs.unstable.nix;
     linux-builder = {
       enable = false;
       ephemeral = true;
@@ -221,11 +221,13 @@
         "https://fbegyn-personal.cachix.org"
         "https://nix-community.cachix.org"
         "https://cuda-maintainers.cachix.org"
+        "https://cache.lix.systems"
       ];
       trusted-public-keys = [
         "fbegyn-personal.cachix.org-1:0BEArpeI+ISsPainphPLHBozpP+zExYO6+43lLORDnI="
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+        "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       ];
       trusted-users = [ "root" "francis" ];
       experimental-features = "nix-command flakes";
