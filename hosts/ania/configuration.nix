@@ -101,6 +101,12 @@
   programs.adb.enable = true;
   services.hardware.bolt.enable = true;
 
+  # emacs
+  services.emacs = {
+    enable = true;
+    package = config.home-manager.users.francis.emacs.package;
+  };
+
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
