@@ -1,4 +1,6 @@
-;;; Commentary: Emacs Startup File --- initialization for Emacs
+;;; package --- Summary
+;;; Commentary:
+;;; Emacs Startup File --- initialization for Emacs
 ;;; Code:
 (eval-when-compile
   (require 'use-package)
@@ -13,133 +15,170 @@
 ;; For :bind in (use-package).
 (require 'bind-key)
 
-;; Avoid unnecessary regexp matching while loading .el files.
-(defvar hm/file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-(defun hm/restore-file-name-handler-alist ()
-  "Restore the file-name-handler-alist variable."
-  (setq file-name-handler-alist hm/file-name-handler-alist)
-  (makunbound 'hm/file-name-handler-alist))
-(add-hook 'emacs-startup-hook #'hm/restore-file-name-handler-alist)
-
-;; Inhibit startup screens
-(setq inhibit-startup-screen t )
-(setq inhibit-splash-screen t )
-
-;; Disable some menu elements
-(menu-bar-mode 0)
-(electric-pair-mode)
-(winner-mode 1)
-
-(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(setq recentf-max-saved-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
-
-(when window-system
-        (dolist (mode
-          '(tool-bar-mode
-            tooltip-mode
-            scroll-bar-mode
-            menu-bar-mode
-            blink-cursor-mode))
-          (funcall mode -1)))
-
-(add-hook 'text-mode-hook 'auto-fill-mode)
-
-(setq delete-old-versions -1 )
-(setq version-control t )
-(setq vc-make-backup-files t )
-(setq vc-follow-symlinks t )
-(setq ring-bell-function 'ignore )
-
-(setq backup-by-copying t)
-(make-directory "~/.emacs.d/backups/" t)
-(make-directory "~/.emacs.d/auto-save-list/" t)
-(setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)) )
-(setq backup-directory-alist `(("." . "~/.emacs.d/backups")) )
-
-(setq require-final-newline t)
-
-(setq coding-system-for-read 'utf-8 )
-(setq coding-system-for-write 'utf-8 )
-(setq sentence-end-double-space nil)
-(setq-default fill-column 81)
-(column-number-mode)
-(setq-default show-trailing-whitespace t)
-(setq-default indicate-empty-lines t)
-(setq-default indicate-buffer-boundaries 'left)
-(setq sentence-end-double-space nil)
-(setq show-paren-delay 0)
-(show-paren-mode)
-
 (require 'use-package)
 (package-initialize)
 
-;; nixos path adding
-(add-to-list 'exec-path "/home/francis/.nix-profile/bin")
-(add-to-list 'exec-path "/etc/profiles/per-user/francis/bin")
-(add-to-list 'exec-path "/run/current-system/sw/bin")
-
 ;; emacs settings
 (use-package emacs
-  :defer t
+  :ensure nil
+  :custom
+  ;; vertico
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
+  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
+  ;; useful beyond Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+
+  ;; corfu
+  ;; TAB cycle if there are only few candidates
+  ;; (completion-cycle-threshold 3)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (tab-always-indent 'complete)
+
+  ;; Emacs 30 and newer: Disable Ispell completion function. As an alternative,
+  ;; try `cape-dict'.
+  (text-mode-ispell-word-completion nil)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
+  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
+  ;; setting is useful beyond Corfu.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+
   :init
   ;; disable scratch message
   (setq initial-scratch-message nil)
-  (defun display-startup-echo-area-message ()
-    (message ""))
   ;; switch to y/n prompts
   (defalias 'yes-or-no-p 'y-or-n-p)
-  ;; tab behvaior
-  (setq-default indent-tabs-mode t)
-  (setq tab-always-indent 'complete)
-  (setq default-tab-width 2)
   ;; Stop emacs from littering the file system with backup files
   (setq make-backup-files nil
         auto-save-default nil
         create-lockfiles nil)
-
   ;; Follow symlinks
   (setq vc-follow-symlinks t)
   ;; correct macos modifiers
   (defun fb/is-macos? ()
-        (eq system-type 'darwin))
+    (eq system-type 'darwin))
   (when (fb/is-macos?)
-        (setq mac-command-modifier 'super)   ; command as super
-        (setq mac-option-modifier 'meta)     ; alt as meta
-        (setq mac-control-modifier 'control)) ; control as control
-        ;; Set path for darwin
-        (setenv "PATH" (concat (getenv "PATH") ":/Users/francis/.nix-profile/bin:/usr/bin:/etc/profiles/per-user/francis/bin:/run/current-system/sw/bin"))
-        (setq exec-path (append '("/Users/francis/bin" "/profile/bin" "/Users/francis/.npm-packages/bin" "/Users/francis/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin" "/Users/francis/.go/bin" "/Users/francis/.local/bin" "/Users/francis/.cargo/bin" "/etc/profiles/per-user/francis/bin" "/run/current-system/sw/bin") exec-path))
-
+    (setq mac-command-modifier 'super
+          mac-option-modifier 'meta
+          mac-control-modifier 'control) ; control as control
+    ;; Set path for darwin
+    (setenv "PATH" (concat (getenv "PATH") ":/Users/francis/.nix-profile/bin:/usr/bin:/etc/profiles/per-user/francis/bin:/run/current-system/sw/bin"))
+    (setq exec-path (append '("/Users/francis/bin" "/profile/bin" "/Users/francis/.npm-packages/bin" "/Users/francis/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin" "/Users/francis/.go/bin" "/Users/francis/.local/bin" "/Users/francis/.cargo/bin" "/etc/profiles/per-user/francis/bin" "/run/current-system/sw/bin") exec-path)))
   ;; emacs-mac
   (when (fboundp 'mac-auto-operator-composition-mode)
-        (mac-auto-operator-composition-mode) ; enables font ligatures
-        (global-set-key [(s c)] 'kill-ring-save)
-        (global-set-key [(s v)] 'yank)
-        (global-set-key [(s x)] 'kill-region)
-        (global-set-key [(s q)] 'kill-emacs))
+    (mac-auto-operator-composition-mode) ; enables font ligatures
+    (global-set-key [(s c)] 'kill-ring-save)
+    (global-set-key [(s v)] 'yank)
+    (global-set-key [(s x)] 'kill-region)
+    (global-set-key [(s q)] 'kill-emacs))
   ;; use escape to exit menus (like vim)
   (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
   ;; use UTF-8
   (set-charset-priority 'unicode)
   (setq locale-coding-system 'utf-8
         coding-system-for-read 'utf-8
-        coding-system-for-write 'utf-8)
+        coding-system-for-write 'utf-8
+        coding-system-for-read 'utf-8
+        coding-system-for-write 'utf-8
+        default-process-coding-system '(utf-8-unix . utf-8-unix))
   (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-selection-coding-system 'utf-8)
-  (prefer-coding-system 'utf-8)
-  (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
-  ;; Less noise when compiling elisp
-  (setq byte-compile-warnings '(not free-vars unresolved noruntime lexical make-local))
-  (setq native-comp-async-report-warnings-errors nil)
-  (setq load-prefer-newer t)
   ;; Clean up the mode line
   (display-time-mode -1)
   (setq column-number-mode t)
 
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  ;; (defun crm-indicator (args)
+  ;;   (cons (format "[CRM%s] %s"
+  ;;                 (replace-regexp-in-string
+  ;;                  "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+  ;;                  crm-separator)
+  ;;                 (car args))
+  ;;         (cdr args)))
+  ;; (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (setq enable-recursive-minibuffers t)
+
+  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
+  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
+  ;; useful beyond Vertico.
+  (setq read-extended-command-predicate #'command-completion-default-include-p)
+
+  ;; better history provision
+  (savehist-mode)
+
+  ;; Should use:
+  ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
+  ;; at least once per installation or while changing this list
+  ;; (setq treesit-language-source-alist
+  ;;  '((heex "https://github.com/phoenixframework/tree-sitter-heex")
+  ;;    (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
+  ;;    (bash "https://github.com/tree-sitter/tree-sitter-bash")
+  ;;    (cmake "https://github.com/uyha/tree-sitter-cmake")
+  ;;    (css "https://github.com/tree-sitter/tree-sitter-css")
+  ;;    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+  ;;    (go "https://github.com/tree-sitter/tree-sitter-go")
+  ;;    (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
+  ;;    (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+  ;;    (html "https://github.com/tree-sitter/tree-sitter-html")
+  ;;    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+  ;;    (json "https://github.com/tree-sitter/tree-sitter-json")
+  ;;    (make "https://github.com/alemuller/tree-sitter-make")
+  ;;    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+  ;;    (python "https://github.com/tree-sitter/tree-sitter-python")
+  ;;    (toml "https://github.com/tree-sitter/tree-sitter-toml")
+  ;;    (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+  ;;    (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+  ;;    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+
+  ;; Inhibit startup screens
+  (setq inhibit-startup-screen t
+        inhibit-splash-screen t)
+
+  ;; Disable some menu elements
+  (menu-bar-mode 0)
+  (electric-pair-mode)
+  (winner-mode 1)
+
+  (recentf-mode 1)
+  (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+  (when window-system
+    (dolist (mode '(
+                    tool-bar-mode
+                    tooltip-mode
+                    scroll-bar-mode
+                    menu-bar-mode
+                    blink-cursor-mode)
+                  )
+      (funcall mode -1)))
+
+  (add-hook 'text-mode-hook 'auto-fill-mode)
+
+  (setq require-final-newline t)
+  (setq sentence-end-double-space nil)
+  (setq-default fill-column 81)
+  (column-number-mode)
+  (setq-default show-trailing-whitespace t)
+  (setq-default indicate-empty-lines t)
+  (setq-default indicate-buffer-boundaries 'left)
+  (setq show-paren-delay 0)
+  (show-paren-mode)
+
+  ;; nixos path adding
+  (add-to-list 'exec-path "/home/francis/.nix-profile/bin")
+  (add-to-list 'exec-path "/etc/profiles/per-user/francis/bin")
+  (add-to-list 'exec-path "/run/current-system/sw/bin")
+
+  (auto-compression-mode 1)
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   (defun crm-indicator (args)
@@ -154,35 +193,11 @@
   ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+;;; end of general emacs configuration
 
-  ;; Support opening new minibuffers from inside existing minibuffers.
-  (setq enable-recursive-minibuffers t)
-
-  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
-  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
-  ;; useful beyond Vertico.
-  (setq read-extended-command-predicate #'command-completion-default-include-p)
-
-  ;; better history provision
-  (savehist-mode)
-)
-
-
-(auto-compression-mode 1)
-;;;;;;;;;;
-
-;; bibliography listings
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
-
-;; highlight guides
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-
-
-;; rust
-(setq rust-format-on-save t)
-
-; extra functions for emacs
+;;; FUNCTIONS
+;;; extra functions for emacs
 (defun chomp (str)
   "Chomp leading and tailing whitespace from STR."
   (while (string-match "\\`\n+\\|^\\s-+\\|\\s-+$\\|\n+\\'"
@@ -191,23 +206,26 @@
   str)
 
 (defun eshell/e (arg)
-  "opens a given file in emacs from eshell"
+  "Opens a given file in Emacs from eshell.
+ARG filename to open"
   (find-file arg))
 
 (defun eshell/eh (arg)
-  "opens a file in emacs from shell horizontally"
+  "Opens a file in Emacs from shell horizontally.
+ARG filename to open"
   (split-window-vertically)
   (other-window 1)
   (find-file arg))
 
 (defun eshell/ev (arg)
-  "opens a file in emacs from shell vertically"
+  "Opens a file in Emacs from shell vertically.
+ARG filename to open"
   (split-window-horizontally)
   (other-window 1)
   (find-file arg))
 
 (defun aj-toggle-fold ()
-  "Toggle fold all lines larger than indentation on current line"
+  "Toggle fold all lines larger than indentation on current line."
   (interactive)
   (let ((col 1))
     (save-excursion
@@ -216,7 +234,9 @@
       (set-selective-display
        (if selective-display nil (or col 1))))))
 
-;; ===============================================
+;;; ===============================================
+;;; packages
+;;; ===============================================
 (use-package gcmh
 	:demand
 	:config
@@ -228,10 +248,6 @@
   :config
   (general-evil-setup)
 
-  ;;(general-mmap
-  ;;  ":" 'evil-ex
-  ;;  ";" 'evil-repeat-find-char)
-
   (general-create-definer fb/leader-keys
     :states '(normal insert visual emacs)
     :keymaps 'override
@@ -239,31 +255,28 @@
     :global-prefix "C-SPC")
 
   (fb/leader-keys
-      "b"  '(:ignore t :which-key "buffer")
-      "bd" '(kill-this-buffer :which-key "kill buffer")
+    "b"  '(:ignore t :which-key "buffer")
+    "bd" '(kill-this-buffer :which-key "kill buffer")
 
-      "f"  '(:ignore t :which-key "file")
-      "ff" '(find-file :which-key "find")
-      "fs" '(save-buffer :which-key "save")
+    "f"  '(:ignore t :which-key "file")
+    "ff" '(find-file :which-key "find")
+    "fs" '(save-buffer :which-key "save")
 
-      "m" '(:ignore t :which-key "mode")
+    "s"   '(:ignore t :which-key "search")
 
-      "k"   '(:ignore t :which-key "kubernetes")
-      "kk"  '(kubel t :which-key "kubel")
+    "t"  '(:ignore t :which-key "toggle")
+    "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
+    "tt" '(treemacs :which-key "treemacs")
+    "wv" '(split-window-horizontally :which-key "split vertical")
+    "ws" '(split-window-vertically :which-key "split horizontal")
+    "wk" '(evil-window-up :which-key "up")
+    "wj" '(evil-window-down :which-key "down")
+    "wh" '(evil-window-left :which-key "left")
+    "wl" '(evil-window-right :which-key "right")
+    "wd" '(delete-window :which-key "delete")
 
-      "t"  '(:ignore t :which-key "toggle")
-      "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
-      "tt" '(treemacs :which-key "treemacs")
-      "wv" '(split-window-horizontally :which-key "split vertical")
-      "ws" '(split-window-vertically :which-key "split horizontal")
-      "wk" '(evil-window-up :which-key "up")
-      "wj" '(evil-window-down :which-key "down")
-      "wh" '(evil-window-left :which-key "left")
-      "wl" '(evil-window-right :which-key "right")
-      "wd" '(delete-window :which-key "delete")
-
-      "q"  '(:ignore t :which-key "quit")
-      "qq" '(save-buffers-kill-emacs :which-key "quit")))
+    "q"  '(:ignore t :which-key "quit")
+    "qq" '(save-buffers-kill-emacs :which-key "quit")))
 
 (use-package exec-path-from-shell
   :demand
@@ -291,8 +304,8 @@
   (projectile-mode +1)
   :config
   (progn
-    (setq projectile-enable-caching t)
-    (setq projectile-require-project-root nil)
+    (setq projectile-enable-caching t
+          projectile-require-project-root nil)
     (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
   :general
   (fb/leader-keys
@@ -308,7 +321,9 @@
     "pa" '(projectile-switch-project :which-key "add project")
     "pr" '(projectile-switch-project :which-key "remove project")))
 
+;; veritco completion
 (use-package vertico
+  :demand
   :init
   (vertico-mode)
   ;; Different scroll margin
@@ -320,12 +335,16 @@
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (setq vertico-cycle t)
 )
-
+;; Optionally use the `orderless' completion style.
 (use-package orderless
-  :ensure t
   :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
+
 
 ;; Example configuration for Consult
 (use-package consult
@@ -399,10 +418,6 @@
   ;; Optionally tweak the register preview window.
   ;; This adds thin lines, sorting and hides the mode line of the window.
   (advice-add #'register-preview :override #'consult-register-window)
-
-  ;; Use Consult to select xref locations with preview
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
 
   ;; Configure other variables and modes in the :config section,
   ;; after lazily loading the package.
@@ -496,11 +511,7 @@
 (use-package nerd-icons)
 (use-package all-the-icons)
 
-(use-package treemacs
-  :defer t
-  :init
-  (with-eval-after-load 'winum
-    (define-key winum-keymap (kbd "M-0") #'treemacs-select-window)))
+(use-package treemacs)
 (use-package treemacs-evil
   :after (treemacs evil))
 (use-package treemacs-projectile
@@ -514,8 +525,8 @@
   :demand
   :diminish (evil-collection-unimpaired-mode)
   :init
-  (setq evil-want-keybinding nil)
-  (setq evil-want-integration t)
+(setq evil-want-keybinding nil
+      evil-want-integration t)
   :config
   (evil-mode 1))
 (use-package evil-collection
@@ -523,7 +534,6 @@
   :ensure t
   :after (evil)
   :config
-  (setq evil-collection-mode-alist (delete 'go-mode evil-collection-mode-list))
   (evil-collection-init))
 (use-package evil-surround
   :ensure t
@@ -555,27 +565,18 @@
       "e L" '(ab/reload-emacs :wk "reload"))
   :init
   (defun ab/reload-emacs ()
-      "Tangle the literate config and reload"
+      "Tangle the literate config and reload."
       (interactive)
       (require 'org)
       (org-babel-tangle-file "~/.emacs.d/init.el")
       (restart-emacs))
   (defun ab/edit-emacs-config ()
-      "Open the literate config"
+      "Open the literate config."
       (interactive)
       (find-file "~/.emacs.d/init.el")))
 
-(use-package kubel
-  :defer t
-  :after (vterm)
-  :config
-  (kubel-vterm-setup))
-(use-package kubel-evil
-  :defer t
-  :after (evil kubel))
 
-(use-package deno-ts-mode
-  :ensure t)
+(use-package deno-ts-mode)
 
 (require 'tramp)
 (setq tramp-default-method "ssh")
@@ -594,25 +595,63 @@
                        (directory-files
                         "~/.ssh/conf.d/"
                         'full directory-files-no-dot-files-regexp))))
-;; ----====-----
-;; emacs config rework TODO ALL BELOW
-
-(use-package alchemist)
 
 (use-package better-defaults
   :config (ido-mode nil))
 
-(use-package company
-  :diminish (company-mode)
-  :hook (after-init . global-company-mode)
+;; ----====-----
+;; emacs config rework TODO ALL BELOW
+
+;; (use-package company
+;;   :diminish (company-mode)
+;;   :hook (after-init . global-company-mode)
+;;   :custom
+;;   (company-dabbrev-downcase nil "Don't downcase completions")
+;;   (company-dabbrev-ignore-case t "Change full casing of completion if completion has different case")
+;;   (company-idle-delay 0.2)
+;;   (comapny-tooltip-align-annotations t)
+;;   (company-tooltip-limit 20)
+;;   (company-transformers '(company-sort-by-backend-importance))
+;;   (company-minimum-prefix-length 1 "Start autocompletion after 2 characters"))
+
+(use-package corfu
+  ;; Optional customizations
   :custom
-  (company-dabbrev-downcase nil "Don't downcase completions")
-  (company-dabbrev-ignore-case t "Change full casing of completion if completion has different case")
-  (company-idle-delay 0.3)
-  (comapny-tooltip-align-annotations t)
-  (company-tooltip-limit 20)
-  (company-transformers '(company-sort-by-backend-importance))
-  (company-minimum-prefix-length 2 "Start autocompletion after 2 characters"))
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 2)
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode))
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  :ensure nil
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
 
 (require 'dired)
 (use-package dired
@@ -657,32 +696,6 @@
         (goto-char pos)
         (mhj/dwim-toggle-or-open))))))
 
-(defun mhj/toggle-project-explorer ()
-  "Toggle the project explorer window."
-  (interactive)
-  (let* ((buffer (dired-noselect (projectile-project-root)))
-    (window (get-buffer-window buffer)))
-    (if window
-      (mhj/hide-project-explorer)
-      (mhj/show-project-explorer))))
-
-(defun mhj/show-project-explorer ()
-  "Project dired buffer on the side of the frame.
-Shows the projectile root folder using dired on the left side of
-the frame and makes it a dedicated window for that buffer."
-  (let ((buffer (dired-noselect (projectile-project-root))))
-    (progn
-      (display-buffer-in-side-window buffer '((side . left) (window-width . 0.2)))
-      (set-window-dedicated-p (get-buffer-window buffer) t))))
-
-(defun mhj/hide-project-explorer ()
-  "Hide the project-explorer window."
-  (let ((buffer (dired-noselect (projectile-project-root))))
-    (progn
-      (delete-window (get-buffer-window buffer))
-      (kill-buffer buffer))))
-
-
 (use-package counsel
   :after (general)
   :diminish (counsel-mode)
@@ -699,13 +712,15 @@ the frame and makes it a dedicated window for that buffer."
   :general
   (fb/leader-keys
     "SPC" '(counsel-M-x :which-key "M-x")
-    "ff"  '(counsel-find-file :which-key "find file")
-    "s"   '(:ignore t :which-key "search")
-    "sc"  '(counsel-unicode-char :which-key "find character"))
+    "ff"  '(counsel-find-file :which-key "find file"))
   :config
   (setq counsel-switch-buffer-preview-virtual-buffers nil)
   (counsel-mode 1)
 )
+(use-package swiper
+  :general
+  (fb/leader-keys
+    "ss"  '(swiper :which-key "swiper")))
 
 (use-package cython-mode)
 
@@ -719,18 +734,26 @@ the frame and makes it a dedicated window for that buffer."
 
 (use-package dockerfile-mode)
 
-(use-package elixir-mode
-  :mode "\\.ex'"
+(use-package elixir-ts-mode
+  :mode "\\.ex\\'"
+  :mode "\\.exs\\'"
+  :mode "\\.heex\\'"
+  :mode "\\.eex\\'"
   :config
-  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+)
 
 (require 'project)
-
 (defun project-find-go-module (dir)
+  "Set the project root.
+DIR directory to search for project"
   (when-let ((root (locate-dominating-file dir "go.mod")))
     (cons 'go-module root)))
 
 (cl-defmethod project-root ((project (head go-module)))
+  "Set the project root.
+PROJECT project to handle"
   (cdr project))
 
 (add-hook 'project-find-functions #'project-find-go-module)
@@ -772,12 +795,15 @@ the frame and makes it a dedicated window for that buffer."
 )
 
 (use-package eglot
-  :ensure t
+  :ensure nil
   :config
   :hook ((python-mode . eglot-ensure)
          (deno-ts-mode . eglot-ensure)
          (elixir-mode . eglot-ensure)
-         (deno-tsx-mode . eglot-ensure))
+         (elixir-ts-mode . eglot-ensure)
+         (deno-tsx-mode . eglot-ensure)
+         (go-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure))
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 50000)
@@ -786,6 +812,13 @@ the frame and makes it a dedicated window for that buffer."
   (eldoc-echo-area-use-multiline-p nil)
   (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
 )
+
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 ;; (use-package lsp-mode
 ;;   :commands (lsp)
 ;;   :hook (go-mode . lsp)
@@ -831,16 +864,11 @@ the frame and makes it a dedicated window for that buffer."
   :mode "\\.nix\\'")
 
 (use-package org)
-
 (use-package org-download)
 (use-package org-roam)
 (use-package org-roam-ui)
-(use-package vertico)
-
 (use-package org-mime)
-
 (use-package org-pomodoro)
-
 (use-package org-projectile)
 
 (use-package protobuf-mode)
@@ -881,7 +909,6 @@ the frame and makes it a dedicated window for that buffer."
   :mode "\\.html\\'"
   :mode "\\.tmpl\\'")
 
-(use-package swiper)
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
@@ -923,28 +950,10 @@ the frame and makes it a dedicated window for that buffer."
 (setq frame-inhibit-implied-resize t)
 (setq pixel-scroll-precision-mode t)
 
-(add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
 (add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
 (setq frame-resize-pixelwise t)
 
-;; rust
-(setq rust-format-on-save t)
-
-;; refresh file with f5
- (global-set-key
-   (kbd "<f5>")
-   (lambda (&optional force-reverting)
-     "Interactive call to revert-buffer. Ignoring the auto-save
-  file and not requesting for confirmation. When the current buffer
-  is modified, the command refuses to revert it, unless you specify
-  the optional argument: force-reverting to true."
-     (interactive "P")
-     ;;(message "force-reverting value is %s" force-reverting)
-     (if (or force-reverting (not (buffer-modified-p)))
-         (revert-buffer :ignore-auto :noconfirm)
-       (error "The buffer has been modified"))))
-
-(cl-defmethod project-root ((project (head go-module)))
-  (cdr project))
-
 (add-hook 'project-find-functions #'project-find-go-module)
+
+(provide 'base-init)
+;;; base-init.el ends here
