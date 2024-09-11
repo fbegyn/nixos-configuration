@@ -23,13 +23,23 @@
         variant = "altgr-intl";
         options = "eurosign:5";
       };
+      inputClassSections = [
+        ''
+          Identifier "Built-in keyboard swap cmd/alt"
+          MatchProduct "AT Translated Set 2 keyboard"
+          MatchIsKeyboard "on"
+          Option "XkbLayout" "us"
+          Option "XkbVariant" "altgr-intl"
+          Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
+        ''
+      ];
     };
     services.libinput = {
-        enable =true;
-        touchpad = {
-          tapping = false;
-        };
+      enable =true;
+      touchpad = {
+        tapping = false;
       };
+    };
 
     services.xserver.displayManager.lightdm.enable = true;
     services.displayManager.defaultSession = "none+i3";
