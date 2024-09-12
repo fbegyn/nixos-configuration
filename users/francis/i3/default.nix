@@ -32,6 +32,14 @@
           Option "XkbVariant" "altgr-intl"
           Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
         ''
+        ''
+          Identifier "Logitech G610 keyboard swap cmd/alt"
+          MatchProduct "Logitech Gaming Keyboard G610"
+          MatchIsKeyboard "on"
+          Option "XkbLayout" "us"
+          Option "XkbVariant" "altgr-intl"
+          Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
+        ''
       ];
     };
     services.libinput = {
