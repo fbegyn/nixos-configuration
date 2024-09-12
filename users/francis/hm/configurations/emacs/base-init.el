@@ -311,15 +311,19 @@ ARG filename to open"
   (fb/leader-keys
     :states 'normal
     "pf" '(projectile-find-file :which-key "Find in project")
+    "pg" '(projectile-ripgrep :which-key "Grep in project")
     ;; Buffers
     "bb" '(projectile-switch-to-buffer :which-key "switch buffer")
-
     ;; Projects
     "p"  '(:ignore t :which-key "project")
     "p<escape>" '(keyboard-escape-quit :which-key t)
     "pp" '(projectile-switch-project :which-key "switch project")
     "pa" '(projectile-switch-project :which-key "add project")
-    "pr" '(projectile-switch-project :which-key "remove project")))
+    "pr" '(projectile-switch-project :which-key "remove project")
+    ;; run vterm
+    "pt" '(projectile-run-vterm :which-key "terminal")))
+(use-package rg)
+(use-package ripgrep)
 
 ;; veritco completion
 (use-package vertico
@@ -717,6 +721,7 @@ ARG filename to open"
   (setq counsel-switch-buffer-preview-virtual-buffers nil)
   (counsel-mode 1)
 )
+
 (use-package swiper
   :general
   (fb/leader-keys
