@@ -824,35 +824,6 @@ PROJECT project to handle"
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
   (global-treesit-auto-mode))
-;; (use-package lsp-mode
-;;   :commands (lsp)
-;;   :hook (go-mode . lsp)
-;;   :hook (rust-mode . lsp)
-;;   :hook (lsp-mode . lsp-enable-which-key-integration)
-;;   :config
-;;   (lsp-register-custom-settings
-;;     '(("gopls.importShortcut" "Definition" nil)
-;;       ("gopls.staticcheck" nil t)
-;;       ;; ("gopls.semanticTokens" t t)
-;;       ("gopls.experimentalPostfixCompletions" t t)))
-;;   :custom
-;;   (lsp-signature-render-documentation nil)
-;;   (lsp-file-watch-threshold nil)
-;;   (lsp-auto-execute-action nil)
-;;   (lsp-lens-enable t)
-;;   (lsp-go-hover-kind "FullDocumentation")
-;;   (lsp-rust-server 'rust-analyzer)
-;; )
-;; (use-package lsp-pyright
-;;   :ensure t
-;;   :hook (python-mode . (lambda ()
-;;         (require 'lsp-pyright)
-;;         (lsp)))
-;; )
-;; (use-package lsp-ui
-;;   :after (lsp)
-;;   :hook (lsp-mode . lsp-ui-mode)
-;; )
 
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
