@@ -7,6 +7,8 @@
     sshpass
   ];
 
+  system.stateVersion = 5;
+
   fonts = {
     packages = with pkgs; [
       nerdfonts
@@ -37,7 +39,7 @@
    interactiveShellInit = let
      gitPrompt = builtins.fetchurl {
        url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
-       sha256 = "1bkdllwxfbcbflfi6w4p2ls8hvqpv2hwvqf5fw3w4zh89p2vg5ra";
+       sha256 = "0fllfidrc9nj2b9mllf190y3bca1pdm95vyzgsza1l3gl3s1ixvz";
      };
      gitCompletion = builtins.fetchurl {
        url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
