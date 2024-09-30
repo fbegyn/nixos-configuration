@@ -8,8 +8,6 @@
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOrr2D8eSb+vjbnkkGxmhj8I6hhmiJYFiLE4Xz4hjZKZ francis@eos"
   ];
 
-  programs.fish.enable = true;
-
   # user francis
   users.groups.francis.gid = 1000;
   users.users.francis = {
@@ -33,7 +31,7 @@
       "usbmuxd"
     ];
     group = "francis";
-    shell = pkgs.bashInteractive;
+    shell = pkgs.fish;
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINK7mMVKOmELe+FVvn1oWNRwKiANgTwcnzte3vWK3nMV"
       "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLQRocoQMC4JDWPL7fYYCfhpq5SoUfaCxUeQpgQrZ7c4Q44/YWPMjHkmGM8+7ZehfVHVxSNJ4i/Rre1n0MJcCT8= macbook-francis@secretive.erebus.local"

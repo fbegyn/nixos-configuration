@@ -22,7 +22,7 @@
       bashInteractive
       fish
     ];
-    loginShell = pkgs.bashInteractive;
+    loginShell = pkgs.fish;
     systemPath = [
       "/Users/francis/.local/bin"
       "/Users/francis/.go/bin"
