@@ -59,6 +59,9 @@
 
   boot.supportedFilesystems = [ "ntfs" ];
 
+  # udev 250 doesn't correctly reinitialize
+  systemd.services.NetworkManager-wait-online.enable = pkgs.lib.mkForce false;
+
   nix.settings.auto-optimise-store = true;
   services.journald.extraConfig = ''
     SystemMaxUse=100M
