@@ -104,7 +104,7 @@
   home-manager.users.francis = {
     home.stateVersion = "24.05";
     imports = [
-      ../../users/francis/hm/base.nix
+      ../../users/francis/hm/colors.nix
       ../../users/francis/hm/go.nix
       ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
@@ -112,13 +112,38 @@
       ../../users/francis/hm/configurations/mpv
       ../../users/francis/hm/configurations/hledger.nix
       ../../users/francis/hm/configurations/direnv.nix
-      ../../users/francis/secrets/bash.nix
+      ../../users/francis/hm/configurations/fish.nix
+      ../../users/francis/hm/configurations/git.nix
     ];
 
-    home.enableNixpkgsReleaseCheck = false;
+    programs.home-manager.enable = true;
+    programs.neovim = {
+      enable = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      defaultEditor = false;
+    };
 
+    home.sessionPath = [
+      "$HOME/.go/bin"
+      "$HOME/.local/bin"
+      "$HOME/.cargo/bin"
+    ];
+
+    nixpkgs.config = {
+      allowUnfree = true;
+    };
+
+    home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
+      curl
+      wget
+      envsubst
+      rclone
+      rsync
       home-manager
+      yq
+      jq
       # Comms
       openscad
       # SRE - deployment
