@@ -40,6 +40,14 @@
           Option "XkbVariant" "altgr-intl"
           Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
         ''
+        ''
+          Identifier "Logitech mechanical mini swap cmd/alt"
+          MatchProduct "MX MCHNCL M Keyboard"
+          MatchIsKeyboard "on"
+          Option "XkbLayout" "us"
+          Option "XkbVariant" "altgr-intl"
+          Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
+        ''
       ];
     };
     services.libinput = {
