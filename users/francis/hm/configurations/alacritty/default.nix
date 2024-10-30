@@ -5,7 +5,7 @@
     enable = true;
     package = pkgs.unstable.alacritty;
     settings = {
-      live_config_reload = true;
+      general.live_config_reload = true;
       bell.duration = 0;
       cursor.unfocused_hollow = true;
       env.TERM = "xterm-256color";
