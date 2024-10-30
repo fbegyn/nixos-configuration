@@ -31,9 +31,7 @@
   };
 
   home.packages = with pkgs.unstable; [
-    typst
-    typst-lsp
-    typst-fmt
+    findutils
     # Utilities
     openssl
     jq

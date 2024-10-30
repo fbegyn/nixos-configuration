@@ -41,6 +41,9 @@
     };
 
     home.packages = with pkgs.unstable; [
+      typst
+      typst-fmt
+      typst-lsp
       ripgrep
       fd
       inetutils
