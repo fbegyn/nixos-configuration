@@ -191,15 +191,18 @@ in
           };
         };
         assigns = {
-          "1:web" = [{ class = "^chromium-browser$"; } { class = "^qutebrowser$"; }];
-          "2:comms" = [
-            { class = "^Slack$"; }
-            { class = "^Mattermost$"; }
-            { class = "^Telegram$"; }
-            { class = "^Caprine$"; }
+          "1:web" = [
+            { app_id = "^chromium-browser$"; }
+            { app_id = "^qutebrowser$"; }
+            { app_id = "^firefox$"; }
           ];
-          "3:mail" = [{ class = "^Thunderbird$"; }];
-          "4:music" = [{ class = "^Spotify"; }];
+          "2:comms" = [
+            { app_id = "^Slack$"; }
+            { app_id = "^Mattermost$"; }
+            { app_id = "^Telegram$"; }
+          ];
+          "3:mail" = [{ app_id = "^thunderbird$"; }];
+          "4:music" = [{ class = "^Spotify$"; }];
         };
         bars = [];
         floating = {
@@ -366,15 +369,19 @@ in
           commands = [
             {
                 command = "move to workspace 4:music";
-                criteria = { app_id = "Spotify"; };
+                criteria = { class = "^Spotify"; };
             }
             {
                 command = "inhibit_idle visible";
-                criteria = { app_id = "mpv"; };
+                criteria = { app_id = "^mpv"; };
             }
             {
                 command = "floating enable";
-                criteria = { app_id = "pavucontrol"; };
+                criteria = { app_id = "^pavucontrol"; };
+            }
+            {
+                command = "floating enable";
+                criteria = { app_id = "^nm-openconnect-auth-dialog$"; };
             }
           ];
           hideEdgeBorders = "none";
