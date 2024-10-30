@@ -64,48 +64,10 @@ in
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
       ];
-      wlr = {
-        enable = true;
-        settings = {
-          screencast = {
-            max_fps = 30;
-            chooser_type = "simple";
-            chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o";
-          };
-        };
-      };
     };
   };
 
-  # fix clipboard for wayland
-  nixpkgs.overlays = [
-    (self: super: {
-      wl-clipboard-x11 = super.stdenv.mkDerivation rec {
-      pname = "wl-clipboard-x11";
-      version = "5";
-
-      src = super.fetchFromGitHub {
-        owner = "brunelli";
-        repo = "wl-clipboard-x11";
-        rev = "v${version}";
-        sha256 = "1y7jv7rps0sdzmm859wn2l8q4pg2x35smcrm7mbfxn5vrga0bslb";
-      };
-
-      dontBuild = true;
-      dontConfigure = true;
-      propagatedBuildInputs = [ super.wl-clipboard ];
-      makeFlags = [ "PREFIX=$(out)" ];
-      };
-
-      xsel = self.wl-clipboard-x11;
-      xclip = self.wl-clipboard-x11;
-    })
-  ];
-
   environment.systemPackages = with pkgs; [
-    sway
-    wofi
-    jq
     startsway
     wl-clipboard
     # polkit for the sway environment
@@ -124,9 +86,7 @@ in
     unstable.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
-
   services.gnome.at-spi2-core.enable = true;
-
   services.dbus.enable = true;
 
   # more theming
@@ -153,6 +113,12 @@ in
       "waybar/style.css".source = ./waybar-style.css;
       "chromium-flags.conf".text = ''
         --ozone-platform=wayland
+      '';
+      "wlr-config.ini".text = ''
+        [screencast]
+        chooser_cmd=swaymsg -t get_outputs | jq '.[] | .name' | sed 's/"//g' | wofi -d
+        chooser_type=dmenu
+        max_fps=30
       '';
     };
 
@@ -481,14 +447,17 @@ in
         set $mode_system System (l)lock,(e)logout,(s)suspend,(r)reboot,(Shift+s)shutdown
         bindsym $mod+Pause mode "$mode_system"
 
+        exec ${pkgs.xdg-desktop-portal-wlr}/libexec/xdg-desktop-portal-wlr \
+          --config ~/.config/wlr-config.ini
+
         # idle config
         # Idle configuration
         exec swayidle -w \
-            timeout 60 'exec $locker -f' \
-            timeout 120 'swaymsg "output dpms * off"' \
-              resume 'swaymsg "output * dpms on"' \
-            before-sleep 'exec $locker -f' \
-            after-resume 'swaymsg "output * dpms on"'
+          timeout 60 'exec $locker -f' \
+          timeout 120 'swaymsg "output dpms * off"' \
+            resume 'swaymsg "output * dpms on"' \
+          before-sleep 'exec $locker -f' \
+          after-resume 'swaymsg "output * dpms on"'
 
         # disable laptop output on lid close
         # enabling this, then I should disabl the logind handlers
