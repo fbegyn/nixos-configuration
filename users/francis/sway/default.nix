@@ -64,6 +64,16 @@ in
         xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
       ];
+      wlr = {
+        enable = true;
+        settings = {
+          screencast = {
+            max_fps = 30;
+            chooser_type = "simple";
+            chooser_cmd = "${pkgs.slurp}/bin/slurp -f %o";
+          };
+        };
+      };
     };
   };
 
@@ -93,6 +103,9 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
+    sway
+    wofi
+    jq
     startsway
     wl-clipboard
     # polkit for the sway environment
@@ -104,11 +117,11 @@ in
     unstable.gsettings-desktop-schemas
     unstable.lxappearance
     unstable.glib
-    unstable.gnome.adwaita-icon-theme
+    unstable.adwaita-icon-theme
     unstable.libappindicator-gtk3
   ];
   services.udev.packages = with pkgs; [
-    unstable.gnome.gnome-settings-daemon
+    unstable.gnome-settings-daemon
   ];
   security.pam.services.swaylock = {};
 
@@ -143,7 +156,7 @@ in
       '';
     };
 
-    programs.bash = {
+    programs.fish = {
       loginShellInit = ''
         if test -z $DISPLAY; and test $XDG_VTNR -eq 1
           exec startsway
@@ -176,6 +189,12 @@ in
         terminal = "${pkgs.unstable.foot}/bin/foot";
         menu = "${pkgs.unstable.fuzzel}/bin/fuzzel";
         modifier = "Mod4";
+        output = {
+          "HEADLESS-1" = {
+            resolution = "1920x1080 position 0,1080";
+            bg = "\"#220900\" solid_color";
+          };
+        };
         input = {
           "1:1:AT_Translated_Set_2_keyboard" = {
             xkb_layout = "us";
@@ -404,7 +423,7 @@ in
           mod = wm.config.modifier;
       in ''
         # set wallpaper
-        output "*" background ~/Pictures/wallpapers/background.jpg fill
+        # output "*" background ~/Pictures/wallpapers/background.jpg fill
 
         # monitor config
         set $laptop_display eDP-1
@@ -433,6 +452,12 @@ in
 
         # Set terminal
         set $terminal foot
+
+        # Do the following command in a terminal emulator when you need the virtual output:
+        # swaymsg create_output
+        workspace 0 output HEADLESS-1
+        bindsym $mod+0 workspace number 0
+        bindsym $mod+Shift+0 move container to workspace number 0
 
         # split the window
         # change container layout (stacked, tabbed, toggle split)
