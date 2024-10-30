@@ -35,7 +35,7 @@
   services.tailscale.enable = true;
   programs.bash = {
    enable = true;
-   enableCompletion = true;
+   completion.enable = true;
    interactiveShellInit = let
      gitPrompt = builtins.fetchurl {
        url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
@@ -62,7 +62,9 @@
   # homebrew
   homebrew = {
     enable = true;
-    onActivation.autoUpdate = true;
+    onActivation = {
+      autoUpdate = false;
+    };
     global.brewfile = true;
     casks = [
       "docker"
@@ -73,16 +75,20 @@
       "libreoffice"
       "tunnelblick"
       "secretive"
+      "mpv"
     ];
     taps = [];
     brews = [
       "htop"
+      "streamlink"
       "nmap"
       "gnupg"
       "yubikey-personalization"
       "ykman"
       "pinentry-mac"
       "wget"
+      "yabai"
+      "skhd"
     ];
   };
   # launchd config
@@ -109,7 +115,6 @@
       ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs
-      ../../users/francis/hm/configurations/mpv
       ../../users/francis/hm/configurations/hledger.nix
       ../../users/francis/hm/configurations/direnv.nix
       ../../users/francis/hm/configurations/fish.nix
