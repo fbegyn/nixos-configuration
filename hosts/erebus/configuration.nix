@@ -121,6 +121,7 @@
       ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs
+      ../../users/francis/hm/configurations/nvim
       ../../users/francis/hm/configurations/hledger.nix
       ../../users/francis/hm/configurations/direnv.nix
       ../../users/francis/hm/configurations/fish.nix
