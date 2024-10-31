@@ -16,7 +16,7 @@
 
   home-manager.users.francis = {
     imports = [
-      ./hm/configurations/nvim/default.nix
+      ./hm/configurations/nvim
       ./hm/configurations/fzf.nix
       ./hm/go.nix
       ./hm/python.nix
