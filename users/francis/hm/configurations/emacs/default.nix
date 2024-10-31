@@ -40,6 +40,7 @@ in {
       solargraph
       rust-analyzer
       pyright
+      nil
     ];
 
     home.file = {

@@ -744,9 +744,6 @@ ARG filename to open"
   :mode "\\.exs\\'"
   :mode "\\.heex\\'"
   :mode "\\.eex\\'"
-  :config
-  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
-  (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
 )
 
 (require 'project)
@@ -804,9 +801,10 @@ PROJECT project to handle"
   :config
   :hook ((python-mode . eglot-ensure)
          (deno-ts-mode . eglot-ensure)
+         (deno-tsx-mode . eglot-ensure)
          (elixir-mode . eglot-ensure)
          (elixir-ts-mode . eglot-ensure)
-         (deno-tsx-mode . eglot-ensure)
+         (nix-mode . eglot-ensure)
          (go-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure))
   :custom
@@ -816,6 +814,9 @@ PROJECT project to handle"
   (flymake-no-changes-timeout 5)
   (eldoc-echo-area-use-multiline-p nil)
   (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
 )
 
 (use-package treesit-auto
