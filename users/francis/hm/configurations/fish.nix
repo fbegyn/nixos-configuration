@@ -12,7 +12,7 @@
       "gch" = "git checkout";
       "k" = "kubectl";
     };
-    loginShellInit = ''
+    interactiveShellInit = ''
       set -Ux BROWSER chromium-browser
       # wayland variables
       set -Uxa XDG_SESSION_TYPE wayland
@@ -33,5 +33,8 @@
         function fish_title; end
       end
     '';
+    plugins = with pkgs.unstable.fishPlugins; [
+      { name = "fzf.fish"; src = fzf-fish.src; }
+    ];
   };
 }
