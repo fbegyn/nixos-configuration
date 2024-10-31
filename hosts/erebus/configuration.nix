@@ -22,7 +22,7 @@
       bashInteractive
       fish
     ];
-    loginShell = pkgs.fish;
+    loginShell = pkgs.bash;
     systemPath = [
       "/Users/francis/.local/bin"
       "/Users/francis/.go/bin"
@@ -46,6 +46,12 @@
        sha256 = "106wrn2wspci19a70006g5xsh679ap2973h2lmssf5xbl3r3lv7g";
      };
    in ''
+     if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
+       then
+          shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
+          exec ${config.home-manager.users.francis.programs.fish.package}/bin/fish $LOGIN_OPTION
+     fi
+
      # load git-prompt script
      . ${gitPrompt}
      # load git completions
