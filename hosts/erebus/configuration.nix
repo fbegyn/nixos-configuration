@@ -87,8 +87,8 @@
       "ykman"
       "pinentry-mac"
       "wget"
-      "yabai"
-      "skhd"
+      "koekeishiya/formulae/yabai"
+      "koekeishiya/formulae/skhd"
     ];
   };
   # launchd config
