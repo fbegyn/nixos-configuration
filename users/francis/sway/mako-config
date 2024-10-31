@@ -24,3 +24,5 @@ default-timeout=7000
 [urgency="high"]
 default-timeout=12000
 
+[mode=paused]
+invisible=1
