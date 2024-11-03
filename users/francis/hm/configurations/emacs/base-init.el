@@ -765,8 +765,8 @@ PROJECT project to handle"
   (go-mode . (lambda ()
     (lsp)
     ;; (lsp-semantic-tokens-mode)
-    ;; (add-hook 'before-save-hook 'lsp-organize-imports t t)
-    ;; (add-hook 'before-save-hook 'lsp-format-buffer t t)
+    (add-hook 'before-save-hook 'lsp-organize-imports t t)
+    (add-hook 'before-save-hook 'lsp-format-buffer t t)
     (subword-mode 1)
     (define-key evil-motion-state-local-map (kbd "gsff") #'go-goto-function)
     (define-key evil-motion-state-local-map (kbd "gsfa") #'go-goto-arguments)
@@ -835,8 +835,6 @@ PROJECT project to handle"
 (use-package neotree)
 (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
 
-(use-package neuron-mode)
-
 (use-package nix-mode
   :mode "\\.nix\\'")
 
@@ -868,10 +866,6 @@ PROJECT project to handle"
   :defer t
   :mode "\\.json\\'")
 
-(use-package jsonnet-mode
-  :defer t
-  :mode "\\.jsonnet\\'")
-
 (use-package nov
   :defer t
   :mode "\\.epub\\'")
@@ -885,7 +879,6 @@ PROJECT project to handle"
 (use-package web-mode
   :mode "\\.html\\'"
   :mode "\\.tmpl\\'")
-
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
