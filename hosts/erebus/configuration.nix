@@ -82,6 +82,7 @@
       "tunnelblick"
       "secretive"
       "mpv"
+      "nikitabobko/tap/aerospace" # TODO: evaluate the i3 layout and workflow for macos
     ];
     taps = [];
     brews = [
@@ -93,8 +94,6 @@
       "ykman"
       "pinentry-mac"
       "wget"
-      "koekeishiya/formulae/yabai"
-      "koekeishiya/formulae/skhd"
     ];
   };
   # launchd config
