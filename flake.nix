@@ -33,7 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     emacs-overlay = {
-      url = "github:nix-community/emacs-overlay/87bfbcd248f3f17040db47b2cc8542033b12d051";
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
