@@ -46,7 +46,7 @@ in
       rofi
       rofi-rbw-wayland
 
-      wf-recorder
+      # wf-recorder TODO: check when to fix
       kanshi # autorandr
       wdisplays
       brightnessctl
