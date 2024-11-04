@@ -32,6 +32,7 @@
 
   home.packages = with pkgs.unstable; [
     findutils
+    home-manager
     # Utilities
     openssl
     jq
