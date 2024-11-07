@@ -2,7 +2,7 @@
 
 {
   mkCloudBox = hostname: {
-    system ? "x86_64-system",
+    system ? "x86_64-linux",
     timeZone ? "Europe/Brussels",
     extraModules,
     tailscale ? {
@@ -13,7 +13,7 @@
       ];
     }
   }: nixpkgs.lib.nixosSystem rec {
-    system = "${system}";
+    inherit system;
     modules = [
       ({config, ...}: {
         # configure boot through systemd-boot
