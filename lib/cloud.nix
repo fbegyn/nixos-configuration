@@ -13,7 +13,7 @@
       ];
     }
   }: nixpkgs.lib.nixosSystem rec {
-    system = system;
+    system = "x86_64-system";
     modules = [
       ({config, ...}: {
         # configure boot through systemd-boot
