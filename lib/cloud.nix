@@ -13,7 +13,7 @@
       ];
     }
   }: nixpkgs.lib.nixosSystem rec {
-    inherit system;
+    system = system;
     modules = [
       ({config, ...}: {
         # configure boot through systemd-boot
