@@ -1,4 +1,4 @@
-{nixpkgs, ... }:
+{ nixpkgs, ... }:
 
 {
   mkCloudBox = hostname: {
@@ -13,7 +13,7 @@
       ];
     }
   }: nixpkgs.lib.nixosSystem rec {
-    system = "x86_64-system";
+    system = "${system}";
     modules = [
       ({config, ...}: {
         # configure boot through systemd-boot
