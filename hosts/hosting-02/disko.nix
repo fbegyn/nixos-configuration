@@ -2,7 +2,7 @@
   disko.devices = {
     disk = {
       type = "disk";
-      device = "dev/sda";
+      device = "/dev/sda";
       partitions = {
         boot = { size = "16M"; type = "EF20"; priority = 1; };
         ESP = {

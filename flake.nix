@@ -194,6 +194,7 @@
       };
       hosting-02 = cloud.mkCloudBox "hosting-02" {
         extraModules = [
+          disko.nixosModules.disko
           ./lib/hosting.nix
           ./hosts/hosting-02/disko.nix
           website.nixosModules.x86_64-linux.website
