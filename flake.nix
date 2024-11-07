@@ -107,7 +107,7 @@
               emacs-overlay.overlay
             ];
           })
-	  lix-module.nixosModules.default
+	        lix-module.nixosModules.default
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -129,7 +129,7 @@
             ];
           })
           agenix.nixosModules.age
-	  lix-module.nixosModules.default
+	        lix-module.nixosModules.default
           home-manager-unstable.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -156,6 +156,7 @@
     };
 
     nixosConfigurations = {
+      imports = [ ./lib/cloud.nix ];
       horme = mkMachine [
         ./hosts/horme/configuration.nix
         nixos-hardware.nixosModules.common-pc-laptop
@@ -181,10 +182,18 @@
         nixos-hardware.nixosModules.common-cpu-intel
         vscode-server.nixosModules.default
       ];
-      hosting-01 = mkMachine [
-        ./hosts/hosting-01/configuration.nix
-        website.nixosModules.x86_64-linux.website
-      ];
+      hosting-01 = mkCloudBox "hosting-01" {
+        extraModules = [
+          ./hosts/hosting-01/configuration.nix
+          website.nixosModules.x86_64-linux.website
+        ];
+      };
+      hosting-02 = mkCloudBox "hosting-02" {
+        extraModules = [
+          ./lib/hosting.nix
+          website.nixosModules.x86_64-linux.website
+        ];
+      };
       router-01 = mkMachine [
         ./hosts/router-01/configuration.nix
       ];
