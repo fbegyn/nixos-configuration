@@ -55,10 +55,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     mac-app-util.url = "github:hraban/mac-app-util";
+
+    disko.url = "github:nix-community/disko";
   };
 
   outputs = inputs@{
     self,
+    disko,
     nixpkgs,
     nixpkgs-unstable,
     nixos-hardware,
@@ -155,8 +158,9 @@
       ];
     };
 
-    nixosConfigurations = {
-      imports = [ ./lib/cloud.nix ];
+    nixosConfigurations = let
+      cloud = import ./lib/cloud.nix {nixpkgs = nixpkgs;};
+    in {
       horme = mkMachine [
         ./hosts/horme/configuration.nix
         nixos-hardware.nixosModules.common-pc-laptop
@@ -182,15 +186,16 @@
         nixos-hardware.nixosModules.common-cpu-intel
         vscode-server.nixosModules.default
       ];
-      hosting-01 = mkCloudBox "hosting-01" {
+      hosting-01 = cloud.mkCloudBox "hosting-01" {
         extraModules = [
           ./hosts/hosting-01/configuration.nix
           website.nixosModules.x86_64-linux.website
         ];
       };
-      hosting-02 = mkCloudBox "hosting-02" {
+      hosting-02 = cloud.mkCloudBox "hosting-02" {
         extraModules = [
           ./lib/hosting.nix
+          ./hosts/hosting-02/disko.nix
           website.nixosModules.x86_64-linux.website
         ];
       };
