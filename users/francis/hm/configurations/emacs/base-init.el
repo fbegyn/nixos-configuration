@@ -322,8 +322,13 @@ ARG filename to open"
     "pr" '(projectile-switch-project :which-key "remove project")
     ;; run vterm
     "pt" '(projectile-run-vterm :which-key "terminal")))
-(use-package rg)
-(use-package ripgrep)
+
+(use-package rg
+  :general
+  (fb/leader-keys
+    "sr"  '(rg :which-key "rg")
+    "sm"  '(rg-menu :which-key "rg-menu"))
+  )
 
 ;; veritco completion
 (use-package vertico

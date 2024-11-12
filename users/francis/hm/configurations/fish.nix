@@ -20,6 +20,7 @@
       set -Uxa QT_AUTO_SCREEN_SCALE_FACTOR 0
       set -Uxa QT_SCALE_FACTOR 1
       set -Uxa GDK_SCALE 1
+      set -Uxa TERM xterm-256color
       set -Uxa GDK_DPI_SCALE 1
       set -Uxa MOZ_ENABLE_WAYLAND 1
       set -Uxa _JAVA_AWT_WM_NONREPARENTING 1
