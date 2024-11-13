@@ -16,6 +16,7 @@
   };
 
   users.users.francis.home = "/Users/francis";
+  users.users.francis.shell = pkgs.fish;
   environment = {
     shells = with pkgs; [
       bash
@@ -90,14 +91,14 @@
       "gnupg"
       "yubikey-personalization"
       "ykman"
+      "librsvg"
+      "texlive"
       "pinentry-mac"
       "wget"
-      "koekeishiya/formulae/yabai"
-      "koekeishiya/formulae/skhd"
     ];
   };
   # launchd config
-  launchd.user.envVariables.PATH = config.environment.systemPath;
+  # launchd.user.envVariables.PATH = config.environment.systemPath;
   # darwin - emacs
   services.emacs = {
     enable = true;
@@ -177,12 +178,12 @@
       nfpm
       gnumake
       pandoc
-      texlive.combined.scheme-medium
+      # texlive.combined.scheme-medium
       yamllint
       # Databases
-      pkgs.pgcli
-      pkgs.mycli
-      pkgs.litecli
+      # pkgs.pgcli
+      # pkgs.mycli
+      # pkgs.litecli
       sqlite
       # cachix
       cachix
