@@ -110,7 +110,7 @@
               emacs-overlay.overlay
             ];
           })
-	        lix-module.nixosModules.default
+	  lix-module.nixosModules.default
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -132,7 +132,7 @@
             ];
           })
           agenix.nixosModules.age
-	        lix-module.nixosModules.default
+	  lix-module.nixosModules.default
           home-manager-unstable.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
