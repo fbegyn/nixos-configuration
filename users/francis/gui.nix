@@ -45,6 +45,7 @@
       typst-fmt
       typst-lsp
       ripgrep
+      projecteur
       fd
       inetutils
       pciutils
