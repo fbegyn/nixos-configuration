@@ -40,6 +40,5 @@ pkgs: rec {
   fbegyn = {
     website = pkgs.callPackage ./fbegyn/website.nix {};
     f1multiviewer = pkgs.callPackage ./fbegyn/f1multiviewer.nix {};
-    brother-hll2375dw-driver = pkgs.callPackage ./brother/drivers/hll2375dw-cups.nix {};
   };
 }
