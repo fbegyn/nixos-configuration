@@ -81,7 +81,7 @@
       "libreoffice"
       "tunnelblick"
       "secretive"
-      "mpv"
+      "nikitabobko/tap/aerospace"
     ];
     taps = [];
     brews = [
