@@ -361,6 +361,9 @@ in
             command = "mako";
           }
           {
+            command = "kanshi";
+          }
+          {
             command = "nm-applet --indicator";
           }
           {
