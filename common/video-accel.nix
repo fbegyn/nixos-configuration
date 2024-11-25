@@ -2,7 +2,7 @@
 
 {
   # enable video acceleration
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
@@ -10,7 +10,7 @@
       vaapiVdpau
       libvdpau-va-gl
     ];
-    driSupport32Bit = true;
+    enable32Bit = true;
   };
 }
 

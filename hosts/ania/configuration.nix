@@ -118,7 +118,6 @@
   # networking.interfaces.wlp3s0.useDHCP = true;
   environment.systemPackages = with pkgs; [
     steam-run
-    nixd
   ];
 
   programs.gnupg.package = pkgs.unstable.gnupg;
