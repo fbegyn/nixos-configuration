@@ -39,6 +39,6 @@
   };
 
   home-manager.users = {
-    francis = (import ./francis/hm/base.nix);
+    francis = (import ./francis/home.nix);
   };
 }
