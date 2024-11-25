@@ -81,7 +81,6 @@ in {
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
   systemd.services.zfs-mount.enable = false;

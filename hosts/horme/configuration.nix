@@ -39,7 +39,6 @@
   services.nfs.server.enable = true;
 
   # Use the systemd-boot EFI boot loader.
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

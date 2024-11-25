@@ -20,7 +20,6 @@
         boot.loader.grub.enable = false;
         boot.loader.systemd-boot.enable = true;
         boot.loader.efi.canTouchEfiVariables = true;
-        boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
 
         # set the hostname for the cloud box
         networking.hostname = "${hostname}";

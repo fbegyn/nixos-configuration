@@ -42,7 +42,6 @@
   ];
 
   # Use the systemd-boot EFI boot loader.
-  boot.kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
   boot.kernelParams = [ "i915.force_probe=46a8" ];
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
   boot.loader.efi.canTouchEfiVariables = false;
@@ -68,8 +67,6 @@
     MaxFileSec=7day
   '';
   services.nfs.server.enable = true;
-
-  sound.enable = true;
 
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
