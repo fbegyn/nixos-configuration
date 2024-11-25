@@ -13,12 +13,15 @@
     enable = true;
     enableCompletion = true;
     shellAliases = {
+      "vim" = "nvim";
       "gst" = "git status";
       "ga" = "git add";
       "glg" = "git log";
       "gc" = "git commit";
       "gcmsg" = "git commit -m";
       "ls" = "ls --color";
+      "gitr" = "git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5";
+      "dgitr" = "bash -c 'for d in ./*/; do (echo $d && cd $d && git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5); done'";
     };
     sessionVariables = {
       WINIT_X11_SCALE_FACTOR = "1.0";

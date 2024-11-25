@@ -4,6 +4,7 @@
     enable = true;
     package = pkgs.fish;
     shellAliases = {
+      "vim" = "nvim";
       "gst" = "git status";
       "ga" = "git add";
       "glg" = "git log";
@@ -11,6 +12,8 @@
       "gcmsg" = "git commit -m";
       "gch" = "git checkout";
       "k" = "kubectl";
+      "gitr" = "git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5";
+      "dgitr" = "bash -c 'for d in ./*/; do (echo $d && cd $d && git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5); done'";
     };
     interactiveShellInit = ''
       set -Ux BROWSER chromium-browser
