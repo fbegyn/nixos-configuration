@@ -9,7 +9,7 @@
   ];
 
   xdg.configFile = {
-    "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
+    "nixpkgs/config.nix".source = ./hm/configurations/nixpkgs-config.nix;
   };
 
   programs.home-manager.enable = true;
