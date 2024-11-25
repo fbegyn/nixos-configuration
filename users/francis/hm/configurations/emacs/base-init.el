@@ -732,8 +732,6 @@ ARG filename to open"
   (fb/leader-keys
     "ss"  '(swiper :which-key "swiper")))
 
-(use-package cython-mode)
-
 (use-package dhall-mode
   :mode "\\.dhall\\'")
 
@@ -837,9 +835,6 @@ PROJECT project to handle"
   :mode ("\\.md\\'" . markdown-mode)
   :mode ("\\.markdown\\'" . markdown-mode))
 
-(use-package neotree)
-(setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-
 (use-package nix-mode
   :mode "\\.nix\\'")
 
@@ -891,16 +886,6 @@ PROJECT project to handle"
 
 (use-package js2-mode
   :mode "\\.js\\'")
-
-;; (use-package typst-ts-mode
-;;   :mode "\\.typ\\'"
-;;   :custom
-;;   (typst-ts-watch-options "--open")
-;;   (typst-ts-mode-grammar-location (expand-file-name "tree-sitter/libtree-sitter-typst.so" user-emacs-directory))
-;;   (typst-ts-mode-enable-raw-blocks-highlight t)
-;;   :config
-;;   (keymap-set typst-ts-mode-map "C-c C-c" #'typst-ts-tmenu)
-;; )
 
 (use-package yasnippet
   :demand t
