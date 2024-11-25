@@ -15,6 +15,8 @@
     ];
   };
 
+  security.pam.enableSudoTouchIdAuth = true;
+
   users.users.francis.home = "/Users/francis";
   users.users.francis.shell = pkgs.fish;
   environment = {
@@ -110,9 +112,6 @@
   };
 
   # home-manager settings (darwin)
-  imports = [
-    # ../../common/network-tools.nix
-  ];
   home-manager.users.francis = {
     home.stateVersion = "24.05";
     imports = [
@@ -202,7 +201,7 @@
     ];
 
     # emacs.emacsPackage = pkgs.unstable.emacs-macport;
-    emacs.emacsPackage = pkgs.emacs29;
+    emacs.emacsPackage = pkgs.emacs30;
     # emacs.emacsPackage = pkgs.unstable.emacs30;
     # emacs.emacsPackage = pkgs.emacs29.overrideAttrs (old: {
     #   patches = (old.patches or []) ++ [
