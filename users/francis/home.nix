@@ -2,10 +2,10 @@
 
 {
   imports = [
-    ./colors.nix
-    ./configurations/git.nix
-    ./configurations/bash.nix
-    ./configurations/fish.nix
+    ./hm/colors.nix
+    ./hm/configurations/git.nix
+    ./hm/configurations/bash.nix
+    ./hm/configurations/fish.nix
   ];
 
   xdg.configFile = {
