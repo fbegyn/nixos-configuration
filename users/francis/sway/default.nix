@@ -355,7 +355,7 @@ in
             command = "gammastep -l 51.038292:3.712173";
           }
           {
-            command = "autotiling";
+            command = "autotiling -l 2 -sr 1.61";
           }
           {
             command = "mako";
@@ -375,7 +375,7 @@ in
           commands = [
             {
                 command = "move to workspace 4:music";
-                criteria = { class = "^Spotify"; };
+                criteria = { app_id = "^spotify"; };
             }
             {
                 command = "inhibit_idle visible";
