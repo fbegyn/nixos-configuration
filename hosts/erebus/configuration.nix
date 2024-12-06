@@ -201,7 +201,7 @@
     ];
 
     # emacs.emacsPackage = pkgs.unstable.emacs-macport;
-    emacs.emacsPackage = pkgs.emacs30;
+    emacs.emacsPackage = pkgs.emacs29;
     # emacs.emacsPackage = pkgs.unstable.emacs30;
     # emacs.emacsPackage = pkgs.emacs29.overrideAttrs (old: {
     #   patches = (old.patches or []) ++ [
