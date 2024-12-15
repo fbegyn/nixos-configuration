@@ -17,6 +17,7 @@ in {
     ../../common/bluetooth.nix
 
     ../../users
+    ../../users/francis
 
     # services
     # ../../services/coredns
@@ -167,7 +168,7 @@ in {
       "30-eno1" = {
         matchConfig.Name = "eno1";
         address = [ "10.5.1.10/24" ];
-        routes = [ { routeConfig.Gateway = "10.5.1.5"; } ];
+        routes = [ { Gateway = "10.5.1.5"; } ];
         vlan = [
           "lan"
           "mgmt"
