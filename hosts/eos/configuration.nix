@@ -117,7 +117,7 @@ in {
         443 # HTTPS
         3000 # Grafana
         9090 # Prometheus
-        19090 # Prometheus-ts
+        19090 # tailfire
         8123 # HASS
         19925 # mealie
         28080
@@ -563,14 +563,26 @@ in {
       {
         job_name = "node-exporter";
         scheme = "http";
-        static_configs = [{
-            targets = [
-              "eos:9100"
-              "mail-01:9100"
-              "hosting-01:9100"
-              "10.5.20.5:9100"
-            ];
-        }];
+	http_sd_configs = [{
+	  url = "http://localhost:19090/prometheus/targets";
+	}];
+	relabel_configs = [
+	  {
+            source_labels = ["__meta_tailscale_device_hostname"];
+            target_label = "instance";
+	  }
+	  {
+	    source_labels = ["__address__"];
+	    target_label = "__address__";
+	    replacement = "$1:9100";
+	  }
+	  {
+            source_labels = ["__meta_tailscale_device_tags"];
+            action = "keep";
+            regex = ".*,tag:node,.*";
+            separator = ",";
+	  }
+	];
       }
       {
         job_name = "website";
@@ -621,22 +633,22 @@ in {
       }
     ];
   };
-  systemd.services."prometheus-ts" = {
+  systemd.services."tailfire" = {
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
     serviceConfig = {
       ExecStart = ''
-        /usr/local/bin/prometheus-ts \
-          --config.file /etc/prometheus/prometheus-ts.yaml \
-          --web.listen-address="0.0.0.0:19090" \
-          --log.level=debug
+        /usr/local/bin/tailfire serve \
+          --port 19090 \
+          --config.file /etc/tailfire/config.yaml
       '';
       ExecReload = "kill -SIGHUP $MAINPID";
       User = "prometheus";
       Restart = "always";
+      ReadOnlyPaths = [ "/etc/tailfire" ];
       RuntimeDirectory = "prometheus";
       RuntimeDirectoryMode = "0700";
-      WorkingDirectory = "/var/lib/prometheus-ts";
+      WorkingDirectory = "/var/lib/tailfire";
       DeviceAllow = [ "/dev/null rw" ];
       DevicePolicy = "strict";
       LockPersonality = true;
