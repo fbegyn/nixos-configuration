@@ -917,9 +917,40 @@ in {
     '';
   };
 
+  # arr-suite
+  service.transmission = {
+    enable = true;
+    home = "/storage/transmission";
+    performanceNetParameters = true;
+    openRPCPort = true;
+  };
+  services.jackett = {
+    enable = true;
+    dataDir = "/storage/jackett/.config/Jackett";
+  };
+  services.sonarr = {
+    enable = true;
+    dataDir = "/storage/sonarr";
+    openFirewall = true;
+  };
+  services.radarr = {
+    enable = true;
+    dataDir = "/storage/radarr";
+    openFirewall = true;
+  };
+  services.jellyfin = {
+    enable = true;
+    dataDir = "/storage/jellyfin";
+    openFirewall = true;
+  };
+
   home-manager.users.francis.home.stateVersion = "23.05";
   home-manager.users.francis = {
-    imports = [ ../../users/francis/hm/go.nix ];
+    imports = [
+      ../../users/francis/hm/go.nix
+      ../../users/francis/hm/configurations/fish.nix
+      ../../users/francis/hm/configurations/bash.nix
+    ];
   };
 
   # This value determines the NixOS release from which the default
