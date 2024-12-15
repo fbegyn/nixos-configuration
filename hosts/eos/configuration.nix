@@ -358,7 +358,7 @@ in {
         ports = [
 	  "19925:9000"
 	];
-	image = "ghcr.io/mealie-recipes/mealie:latest";
+	image = "ghcr.io/mealie-recipes/mealie:v2.4.0";
         environment = {
 	  TZ = "Europe/Brussels";
 	  ALLOW_SIGNUP = "false";
@@ -385,7 +385,7 @@ in {
 	  "/sys:/sys"
         ];
         environment.TZ = "Europe/Brussels";
-        image = "ghcr.io/home-assistant/home-assistant:2024.9";
+        image = "ghcr.io/home-assistant/home-assistant:2024.11";
         extraOptions = [
           "--network=host"
 	  "--cap-add=CAP_NET_RAW,CAP_NET_BIND_SERVICE"
