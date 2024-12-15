@@ -38,7 +38,6 @@
   boot.kernelParams = [ "nvidia-drm.modeset=1" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
-  sound.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = false;
