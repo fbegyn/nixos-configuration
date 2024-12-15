@@ -866,9 +866,9 @@ PROJECT project to handle"
   :defer t
   :mode "\\.json\\'")
 
-(use-package nov
-  :defer t
-  :mode "\\.epub\\'")
+;; (use-package nov
+;;   :defer t
+;;   :mode "\\.epub\\'")
 
 (use-package terraform-mode
   :defer t
