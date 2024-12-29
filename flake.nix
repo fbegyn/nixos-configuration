@@ -32,6 +32,9 @@
       url = "github:numtide/devshell";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+    };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -74,6 +77,7 @@
     lix-module,
     agenix,
     devshell,
+    ghostty,
     emacs-overlay,
     vscode-server,
     website,
@@ -108,6 +112,7 @@
               (import ./overlays/weechat.nix)
               overlay
               emacs-overlay.overlay
+              ghostty.overlays.default
             ];
           })
           lix-module.nixosModules.default
@@ -129,6 +134,7 @@
             nixpkgs.overlays = [
               overlay
               emacs-overlay.overlay
+              ghostty.overlays.default
             ];
           })
           agenix.nixosModules.age
