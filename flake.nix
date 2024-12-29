@@ -134,7 +134,6 @@
             nixpkgs.overlays = [
               overlay
               emacs-overlay.overlay
-              ghostty.overlays.default
             ];
           })
           agenix.nixosModules.age
