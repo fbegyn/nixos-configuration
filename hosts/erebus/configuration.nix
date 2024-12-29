@@ -88,7 +88,6 @@
     taps = [];
     brews = [
       "htop"
-      "streamlink"
       "nmap"
       "gnupg"
       "yubikey-personalization"
@@ -145,6 +144,15 @@
       allowUnfree = true;
     };
 
+    programs.mpv = {
+      enable = true;
+      package = pkgs.unstable.mpv;
+      config = {
+        force-window = true;
+        ytdl-format = "bestvideo+bestaudio";
+      };
+    };
+
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
       curl
@@ -156,18 +164,20 @@
       yq
       jq
       # Comms
-      openscad
+      pkgs.openscad
       # SRE - deployment
       flyctl
       ansible
       # Utilities
+      yt-dlp
+      mpv
+      streamlink
       typst
       typst-lsp
       typst-fmt
       typst-live
       tree-sitter
       typescript-language-server
-      kitty
       wakeonlan
       ripgrep
       fd
