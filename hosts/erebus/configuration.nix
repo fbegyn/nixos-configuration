@@ -148,8 +148,10 @@
       enable = true;
       package = pkgs.unstable.mpv;
       config = {
+        idle = true;
+        cache = true;
         force-window = true;
-        ytdl-format = "bestvideo+bestaudio";
+        ytdl-format = "bestvideo[heigh<=?1080]+bestaudio/best";
       };
     };
 
