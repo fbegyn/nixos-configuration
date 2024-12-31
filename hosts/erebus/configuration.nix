@@ -124,6 +124,7 @@
       ../../users/francis/hm/configurations/direnv.nix
       ../../users/francis/hm/configurations/fish.nix
       ../../users/francis/hm/configurations/git.nix
+      ../../users/francis/hm/configurations/mpv
     ];
 
     programs.home-manager.enable = true;
@@ -144,17 +145,6 @@
       allowUnfree = true;
     };
 
-    programs.mpv = {
-      enable = true;
-      package = pkgs.unstable.mpv;
-      config = {
-        idle = true;
-        cache = true;
-        force-window = true;
-        ytdl-format = "bestvideo[heigh<=?1080]+bestaudio/best";
-      };
-    };
-
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
       curl
@@ -171,9 +161,6 @@
       flyctl
       ansible
       # Utilities
-      yt-dlp
-      mpv
-      streamlink
       typst
       typst-lsp
       typst-fmt
