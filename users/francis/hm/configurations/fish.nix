@@ -16,7 +16,7 @@
       "dgitr" = "bash -c 'for d in ./*/; do (echo $d && cd $d && git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5); done'";
     };
     interactiveShellInit = ''
-      set -Ux BROWSER chromium-browser
+      set -Ux BROWSER firefox
       # wayland variables
       set -Uxa XDG_SESSION_TYPE wayland
       set -Uxa QT_WAYLAND_DISABLE_WINDOWDECORATION 1
