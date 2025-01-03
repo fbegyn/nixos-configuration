@@ -124,7 +124,6 @@
       ../../users/francis/hm/configurations/direnv.nix
       ../../users/francis/hm/configurations/fish.nix
       ../../users/francis/hm/configurations/git.nix
-      ../../users/francis/hm/configurations/mpv
     ];
 
     programs.home-manager.enable = true;
@@ -161,6 +160,9 @@
       flyctl
       ansible
       # Utilities
+      yt-dlp
+      mpv
+      open-in-mpv
       typst
       typst-lsp
       typst-fmt
