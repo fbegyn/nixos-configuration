@@ -80,6 +80,7 @@
       "google-chrome"
       "visual-studio-code"
       "orbstack"
+      "freecad"
       "libreoffice"
       "tunnelblick"
       "secretive"
