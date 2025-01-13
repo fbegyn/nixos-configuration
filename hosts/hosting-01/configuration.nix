@@ -14,18 +14,6 @@
     ../../services/tailscale.nix
   ];
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-
-  networking.hostName = "hosting-01"; # Define your hostname.
-  time.timeZone = "Europe/Brussels"; # Set your time zone.
-
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
   networking.interfaces.ens10.useDHCP = true;
   networking.interfaces.ens3.useDHCP = true;
   networking.defaultGateway6 = {
@@ -204,7 +192,7 @@
   services.fbegyn.tailscale = let
     hosts = import ../../secrets/hosts.nix;
   in {
-    enable = true;
+    enable = false;
     autoprovision = {
       enable = true;
       key = "${hosts.tailscale.tempkey}";
@@ -269,15 +257,5 @@
       useACMEHost = "begyn.be";
     };
   };
-
-  home-manager.users.francis.home.stateVersion = "23.11";
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
-
 }
 

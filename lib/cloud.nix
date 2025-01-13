@@ -9,7 +9,7 @@
       enable = true;
       routingMode = "client";
       extraUpFlags = [
-        "--advertise-tags=tag:prod,tag:hetzner,tag:cloud"
+        "--advertise-tags=tag:prod,tag:cloud"
       ];
     }
   }: nixpkgs.lib.nixosSystem rec {
@@ -22,12 +22,12 @@
         boot.loader.efi.canTouchEfiVariables = true;
 
         # set the hostname for the cloud box
-        networking.hostname = "${hostname}";
+        networking.hostName = "${hostname}";
         networking.useDHCP = false;
         time.timeZone = "${timeZone}";
 
         # enable tailscale by default in client mode
-        service.tailscale = {
+        services.tailscale = {
           enable = tailscale.enable;
           openFirewall = false;
           useRoutingFeatures = "${tailscale.routingMode}";
@@ -51,7 +51,7 @@
         nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
         nixpkgs.config.allowUnfree = true;
 
-        home-manager.users.francis.home.stateVersion = "24.05";
+        home-manager.users.francis.home.stateVersion = "24.11";
         system.stateVersion = "24.05"; # Did you read the comment?
       })
     ] ++ extraModules;

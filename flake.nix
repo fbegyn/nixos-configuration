@@ -195,6 +195,16 @@
         extraModules = [
           ./hosts/hosting-01/configuration.nix
           website.nixosModules.x86_64-linux.website
+          home-manager.nixosModules.home-manager ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          })
+          ({config, ...}: {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              overlay
+            ];
+          })
         ];
       };
       hosting-02 = cloud.mkCloudBox "hosting-02" {
