@@ -500,7 +500,7 @@ in
         # bindswitch --reload lid:off output $laptop_display enable
 
         # Screenshot menu
-        set $screen_grab Enter flameshot, s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
+        set $screen_grab Enter flameshot, s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder, p present, c create output
         mode "$screen_grab" {
             bindsym Return exec 'flameshot gui', mode "default"
             bindsym s exec 'grim -t png -g "$(slurp -d)" - | wl-copy -t image/png', mode "default"
@@ -510,6 +510,9 @@ in
             bindsym Shift+f exec 'grim -t png ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
             bindsym Mod1+f exec 'grim -t png - | ~/Scripts/imgur.sh', mode "default"
             bindsym m exec 'wf-recorder -g $(slurp -d) -f ~/Videos/Captures/$(date +%Y-%m-%d-%H:%M:%S).mp4', mode "default"
+            bindsym p exec '$HOME/.local/bin/select-present.sh', mode "default"
+            bindsym l exec 'wl-present set-region', mode "default"
+            bindsym c exec 'swaymsg \"create_output\"', mode "default"
             # back to normal: Enter or Escape
             bindsym Escape mode "default"
         }
