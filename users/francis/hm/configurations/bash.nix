@@ -37,11 +37,11 @@
     initExtra = let
       gitPrompt = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
-        sha256 = "1bkdllwxfbcbflfi6w4p2ls8hvqpv2hwvqf5fw3w4zh89p2vg5ra";
+        hash = "sha256-f/cY9KBv0KC+ft/vkmq7QbE1PEjBUVrTEtImllt0lDo=";
       };
       gitCompletion = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
-        sha256 = "106wrn2wspci19a70006g5xsh679ap2973h2lmssf5xbl3r3lv7g";
+        hash = "sha256-OUXPfDdrZDWr3gBJPsxLmC4D/jCAYPwxx9jgTdpJ7dg=";
       };
     in ''
       if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
