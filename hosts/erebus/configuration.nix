@@ -1,4 +1,4 @@
-{config, pkgs, ... }:
+{config, pkgs, lib, ... }:
 {
   # system packages to install
   environment.systemPackages = with pkgs.unstable; [
@@ -12,6 +12,7 @@
   fonts = {
     packages = with pkgs; [
       nerdfonts
+      terminus-nerdfont
     ];
   };
 
@@ -238,9 +239,12 @@
   nixpkgs.hostPlatform = "aarch64-darwin";
   services.nix-daemon.enable = true;
   nix = {
+    useDaemon = true;
     # package = pkgs.unstable.nix;
     linux-builder = {
-      enable = false;
+      enable = true;
+      package = pkgs.darwin.linux-builder-x86_64;
+      systems = [ "x86_64-linux" "aarch64-linux" ];
       ephemeral = true;
       maxJobs = 4;
       config = {
@@ -259,8 +263,8 @@
       interval = { Weekday = 0; Hour = 0; Minute = 0; };
       options = "--delete-older-than 30d";
     };
+    optimise.automatic = true;
     settings = {
-      auto-optimise-store = false;
       sandbox = false;
       substituters = [
         "https://fbegyn-personal.cachix.org"
@@ -274,13 +278,16 @@
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
         "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       ];
-      trusted-users = [ "root" "francis" ];
+      trusted-users = [ "root" "francis" "@admin" ];
       experimental-features = "nix-command flakes";
       system-features = [ "big-parallel" "benchmark" "nixos-test" "apple-virt" ];
     };
     extraOptions = ''
       extra-nix-path = nixpkgs=flake:nixpkgs
       bash-prompt-prefix = (nix:$name)\040
+    '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+      extra-platforms = x86_64-darwin x86_64-linux aarch64-linux
+      always-allow-substitutes = true
     '';
   };
 }

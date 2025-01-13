@@ -21,8 +21,8 @@
   };
 
   nix = {
+    optimise.automatic = true;
     settings = {
-      auto-optimise-store = true;
       sandbox = true;
       substituters = [
         "https://fbegyn-personal.cachix.org"
@@ -40,6 +40,8 @@
     };
     extraOptions = ''
       experimental-features = nix-command flakes
+    '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
+      extra-platforms = x86_64-darwin aarch64-darwin
     '';
     gc = {
       dates = "daily";
