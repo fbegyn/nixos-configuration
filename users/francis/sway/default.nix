@@ -30,6 +30,7 @@ in
       slurp
       grim
       imv
+      flameshot
 
       foot
 
@@ -101,6 +102,16 @@ in
   # for working tray applets
   environment.variables = {
     XDG_CURRENT_DESKTOP="sway";
+    XDG_SESSION_DESKTOP="sway";
+    XDG_SESSION_TYPE = "wayland";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "0";
+    QT_QPA_PLATFORM = "wayland";
+    QT_SCALE_FACTOR = "1";
+    GDK_SCALE = "1";
+    GDK_DPI_SCALE = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
   };
 
   # use gdm as display manager
@@ -118,6 +129,13 @@ in
         --ozone-platform=wayland
       '';
       "wlr-config.ini".text = ''
+        [preferred]
+        # use xdg-desktop-portal-gtk for every portal interface
+        default=gtk
+        # except for the xdg-desktop-portal-wlr supplied interfaces
+        org.freedesktop.impl.portal.Screencast=wlr
+        org.freedesktop.impl.portal.Screenshot=wlr
+
         [screencast]
         chooser_cmd=swaymsg -t get_outputs | jq '.[] | .name' | sed 's/"//g' | wofi -d
         chooser_type=dmenu
@@ -144,6 +162,7 @@ in
         export XDG_SESSION_TYPE=wayland
         export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
         export QT_AUTO_SCREEN_SCALE_FACTOR=0
+        export QT_QPA_PLATFORM=wayland
         export QT_SCALE_FACTOR=1
         export GDK_SCALE=1
         export GDK_DPI_SCALE=1
@@ -369,6 +388,9 @@ in
           {
             command = "spotify";
           }
+          {
+            command = "flameshot";
+          }
         ];
         window = {
           border = 2;
@@ -478,8 +500,9 @@ in
         # bindswitch --reload lid:off output $laptop_display enable
 
         # Screenshot menu
-        set $screen_grab s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
+        set $screen_grab Enter flameshot, s/f clipboard, Shift+s/f local, Alt+s/f Imgur, m recorder
         mode "$screen_grab" {
+            bindsym Return exec 'flameshot gui', mode "default"
             bindsym s exec 'grim -t png -g "$(slurp -d)" - | wl-copy -t image/png', mode "default"
             bindsym Shift+s exec 'grim -t png -g "$(slurp -d)" ~/Pictures/Screenshots/$(date +%F-%T).png', mode "default"
             bindsym Mod1+s exec 'grim -t png -g "$(slurp -d)" - | ~/Scripts/imgur.sh', mode "default"
@@ -488,7 +511,6 @@ in
             bindsym Mod1+f exec 'grim -t png - | ~/Scripts/imgur.sh', mode "default"
             bindsym m exec 'wf-recorder -g $(slurp -d) -f ~/Videos/Captures/$(date +%Y-%m-%d-%H:%M:%S).mp4', mode "default"
             # back to normal: Enter or Escape
-            bindsym Return mode "default"
             bindsym Escape mode "default"
         }
         bindsym $mod+grave mode "$screen_grab"
@@ -500,6 +522,7 @@ in
         bindsym $mod+y floating toggle; resize set 424 212; sticky toggle; move window to position 1490 5;
         for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
         for_window [app_id="^launcher$"] floating enable, sticky enable, resize set 384 px 512 px, border pixel 5
+        for_window [app_id="flameshot"] border pixel 0, floating enable, fullscreen disable, move absolute position 0 0
 
         # Immediately play youtube from rofi output
         bindsym $mod+p exec rofi-rbw --clear-after 10 --action copy

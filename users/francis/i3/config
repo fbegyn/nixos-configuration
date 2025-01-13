@@ -215,7 +215,7 @@ bindsym $mod+Shift+s sticky toggle
 
 # Tiny sticky window
 bindsym $mod+y floating toggle; resize set 424 212; sticky toggle; move window to position 1490 5;
-for_window [title="yt-player"] floating_minimum_size 320x200; floating_maximum_size 320x200;
+for_window [title="yt-player"] floating_minimum_size 320x200;
 
 # Volume control
 bindsym XF86AudioLowerVolume exec pulsemixer --change-volume -2
@@ -239,6 +239,7 @@ exec --no-startup-id nm-applet
 #exec --no-startup-id telegram-desktop
 #exec --no-startup-id thunderbird
 #exec --no-startup-id spotify
+#exec --no-startup-id flameshot
 
 # Asign programs to workspaces
 assign [class="Hamsket"] $workspace2

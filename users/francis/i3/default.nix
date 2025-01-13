@@ -71,6 +71,7 @@
         xclip
         arandr
         autorandr
+        flameshot
         rofi
         rofi-rbw
         xdotool
