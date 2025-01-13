@@ -37,31 +37,9 @@
   };
   services.tailscale.enable = true;
   programs.bash = {
-   enable = true;
-   completion.enable = true;
-   interactiveShellInit = let
-     gitPrompt = pkgs.fetchurl {
-       url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
-       sha256 = "0fllfidrc9nj2b9mllf190y3bca1pdm95vyzgsza1l3gl3s1ixvz";
-     };
-     gitCompletion = pkgs.fetchurl {
-       url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
-       sha256 = "106wrn2wspci19a70006g5xsh679ap2973h2lmssf5xbl3r3lv7g";
-     };
-   in ''
-     if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
-       then
-          shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-          exec ${config.home-manager.users.francis.programs.fish.package}/bin/fish $LOGIN_OPTION
-     fi
-
-     # load git-prompt script
-     . ${gitPrompt}
-     # load git completions
-     . ${gitCompletion}
-
-     PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\]> '
-
+    enable = true;
+    completion.enable = true;
+    interactiveShellInit = ''
      SSH_AUTH_SOCK=/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
    '';
   };
@@ -124,6 +102,7 @@
       ../../users/francis/hm/configurations/nvim
       ../../users/francis/hm/configurations/hledger.nix
       ../../users/francis/hm/configurations/direnv.nix
+      ../../users/francis/hm/configurations/bash.nix
       ../../users/francis/hm/configurations/fish.nix
       ../../users/francis/hm/configurations/git.nix
     ];
