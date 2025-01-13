@@ -35,11 +35,11 @@
       _JAVA_AWT_WM_NONREPARENTING = 1;
     };
     initExtra = let
-      gitPrompt = builtins.fetchurl {
+      gitPrompt = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
         sha256 = "1bkdllwxfbcbflfi6w4p2ls8hvqpv2hwvqf5fw3w4zh89p2vg5ra";
       };
-      gitCompletion = builtins.fetchurl {
+      gitCompletion = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
         sha256 = "106wrn2wspci19a70006g5xsh679ap2973h2lmssf5xbl3r3lv7g";
       };

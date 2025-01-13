@@ -40,11 +40,11 @@
    enable = true;
    completion.enable = true;
    interactiveShellInit = let
-     gitPrompt = builtins.fetchurl {
+     gitPrompt = pkgs.fetchurl {
        url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh";
        sha256 = "0fllfidrc9nj2b9mllf190y3bca1pdm95vyzgsza1l3gl3s1ixvz";
      };
-     gitCompletion = builtins.fetchurl {
+     gitCompletion = pkgs.fetchurl {
        url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
        sha256 = "106wrn2wspci19a70006g5xsh679ap2973h2lmssf5xbl3r3lv7g";
      };
