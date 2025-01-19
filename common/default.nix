@@ -25,10 +25,10 @@
     settings = {
       sandbox = true;
       substituters = [
-        "https://fbegyn-personal.cachix.org"
-        "https://nix-community.cachix.org"
-        "https://cuda-maintainers.cachix.org"
-        "https://cache.lix.systems"
+        "https://fbegyn-personal.cachix.org/"
+        "https://nix-community.cachix.org/"
+        "https://cuda-maintainers.cachix.org/"
+        "https://cache.lix.systems/"
       ];
       trusted-public-keys = [
         "fbegyn-personal.cachix.org-1:0BEArpeI+ISsPainphPLHBozpP+zExYO6+43lLORDnI="
