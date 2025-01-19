@@ -63,7 +63,6 @@
   };
 
   services.prometheus.exporters.node.enable = true;
-  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   services.fbegyn.website = {
     enable = true;
@@ -196,7 +195,7 @@
     autoprovision = {
       enable = true;
       key = "${hosts.tailscale.tempkey}";
-      options = [ "--advertise-tags=tag:prod,tag:hetzner" ];
+      options = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
     };
   };
 

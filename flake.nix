@@ -191,7 +191,7 @@
         nixos-hardware.nixosModules.common-cpu-intel
         vscode-server.nixosModules.default
       ];
-      hosting-01 = cloud.mkCloudBox "hosting-01" {
+      hosting-01 = cloud.mkCloudGrub "hosting-01" {
         extraModules = [
           ./hosts/hosting-01/configuration.nix
           website.nixosModules.x86_64-linux.website
@@ -207,7 +207,7 @@
           })
         ];
       };
-      hosting-02 = cloud.mkCloudBox "hosting-02" {
+      hosting-02 = cloud.mkCloudGrub "hosting-02" {
         extraModules = [
           disko.nixosModules.disko
           ./lib/hosting.nix
@@ -221,10 +221,22 @@
       zima432 = mkMachine [
         ./hosts/zima432/configuration.nix
       ];
-      mail-01 = mkMachine [
-        ./hosts/mail-01/configuration.nix
-        nixos-mailserver.nixosModules.mailserver
-      ];
+      mail-01 = cloud.mkCloudGrub "mail-01" {
+        extraModules = [
+          ./hosts/mail-01/configuration.nix
+          nixos-mailserver.nixosModules.mailserver
+          home-manager.nixosModules.home-manager ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          })
+          ({config, ...}: {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              overlay
+            ];
+          })
+        ];
+      };
       lan-app-01 = mkMachine [
         ./hosts/lan-party/app-01/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd

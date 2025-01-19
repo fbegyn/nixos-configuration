@@ -16,28 +16,11 @@ in {
     ../../services/tailscale.nix
   ];
 
-  # Use the GRUB 2 boot loader.
-  boot.loader.grub.enable = true;
-  boot.loader.grub.efiSupport = true;
-  boot.loader.grub.efiInstallAsRemovable = true;
-  boot.loader.efi.efiSysMountPoint = "/boot/efi";
-  # Define on which hard drive you want to install Grub.
-  boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
-
   boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
   boot.supportedFilesystems = [ "zfs" ];
 
-  networking.hostName = "mail-01"; # Define your hostname.
   networking.hostId = vars.hostId;
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
-
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = false;
   networking.interfaces.ens3.useDHCP = true;
   networking.interfaces.ens3.ipv6 = {
     addresses = [
@@ -68,15 +51,13 @@ in {
   # };
 
   services.prometheus.exporters.node.enable = true;
-  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
   # tailscale machine specific
   services.fbegyn.tailscale = {
-    enable = true;
     autoprovision = {
       enable = true;
       key = "${hosts.tailscale.tempkey}";
-      options = [ "--advertise-tags=tag:prod,tag:hetzner" ];
+      options = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
     };
   };
 
@@ -199,14 +180,4 @@ in {
     compression = "auto,lzma";
     startAt = "*:0/20";
   };
-
-  home-manager.users.francis.home.stateVersion = "23.11";
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
 }
-
