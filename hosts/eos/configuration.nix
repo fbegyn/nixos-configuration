@@ -351,6 +351,16 @@ in {
     implementation = "broker";
     packages = [ pkgs.bluez ];
   };
+  virtualisation.podman = {
+    enable = true;
+    dockerSocket.enable = true;
+    defaultNetwork.settings = {
+      dns_enabled = true;
+    };
+  };
+  virtualisation.oci-containers = {
+    backend = "podman";
+  };
 
   # network services
   services.coredns.enable = false;
@@ -404,7 +414,7 @@ in {
         ensureDBOwnership = true;
       }
     ];
-    enableTCPIP = true;
+    enableTCPIP = false;
     authentication = ''
       local all all trust
       host all all 0.0.0.0/0 md5
@@ -824,29 +834,26 @@ in {
   };
 
   # arr-suite
-  service.transmission = {
+  services.transmission = {
     enable = true;
-    home = "/storage/transmission";
+    home = "/var/lib/transmission";
     performanceNetParameters = true;
     openRPCPort = true;
-  };
-  services.jackett = {
-    enable = true;
-    dataDir = "/storage/jackett/.config/Jackett";
-  };
-  services.sonarr = {
-    enable = true;
-    dataDir = "/storage/sonarr";
-    openFirewall = true;
-  };
-  services.radarr = {
-    enable = true;
-    dataDir = "/storage/radarr";
-    openFirewall = true;
+    downloadDirPermissions = "775";
+    settings = {
+      download-dir = "/storage/downloads/torrents";
+      bind-address-ipv4 = "0.0.0.0";
+      bind-address-ipv6 = "::";
+      rpc-bind-address = "0.0.0.0";
+      rpc-whitelist = "127.0.0.1,::1,10.5.20.*,10.5.1.*,10.5.30.*,10.88.*.*";
+      rpc-password = "{243ebd27fb1c15ed4f697f12f351d245103ec33azhmve5t0";
+      rpc-username = "fbegyn";
+      umask = 2;
+    };
   };
   services.jellyfin = {
     enable = true;
-    dataDir = "/storage/jellyfin";
+    dataDir = "/var/lib/jellyfin";
     openFirewall = true;
   };
 
