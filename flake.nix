@@ -33,7 +33,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     ghostty = {
-      url = "github:ghostty-org/ghostty";
+      url = "github:ghostty-org/ghostty/3f7c3afaf947280bd2852626ff4599c02d9fb07e";
     };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";

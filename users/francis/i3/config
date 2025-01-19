@@ -34,7 +34,7 @@ font pango:DejaVu Sans Mono 6.5
 floating_modifier $mod
 
 # Set terminal
-set $terminal ghostty
+set $terminal alacritty
 
 # start dmenu (a program launcher)
 bindsym $mod+d exec rofi -show drun

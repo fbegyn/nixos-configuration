@@ -63,7 +63,6 @@
       enable = true;
       package = pkgs.unstable.i3;
       extraPackages = with pkgs.unstable; [
-        pkgs.ghostty
         alacritty
         maim
         pkg-config
