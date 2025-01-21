@@ -1,5 +1,7 @@
 {config, pkgs, lib, ... }:
-{
+let
+  vars = (import ../../secrets/hosts.nix).erebus;
+in {
   # system packages to install
   environment.systemPackages = with pkgs.unstable; [
     tmux
@@ -32,7 +34,7 @@
       "/opt/homebrew/bin"
     ];
     variables = {
-      SSH_AUTH_SOCK = "/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
+      SSH_AUTH_SOCK = "${vars.francis.sshAuthSock}";
     };
   };
   services.tailscale.enable = true;
@@ -40,13 +42,13 @@
     enable = true;
     completion.enable = true;
     interactiveShellInit = ''
-     SSH_AUTH_SOCK=/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+     SSH_AUTH_SOCK=${vars.francis.sshAuthSock}
    '';
   };
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-     SSH_AUTH_SOCK=/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+     set SSH_AUTH_SOCK ${vars.francis.sshAuthSock}
    '';
   };
 
