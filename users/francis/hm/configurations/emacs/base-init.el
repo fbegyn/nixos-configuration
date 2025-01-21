@@ -276,7 +276,9 @@ ARG filename to open"
     "wd" '(delete-window :which-key "delete")
 
     "q"  '(:ignore t :which-key "quit")
-    "qq" '(save-buffers-kill-emacs :which-key "quit")))
+    "qq" '(save-buffers-kill-emacs :which-key "quit"))
+
+)
 
 (use-package exec-path-from-shell
   :demand
@@ -520,9 +522,15 @@ ARG filename to open"
 (use-package nerd-icons)
 (use-package all-the-icons)
 
-(use-package treemacs)
+(use-package treemacs
+  :config
+  (define-key treemacs-mode-map [drag-mouse-1] nil)
+)
 (use-package treemacs-evil
-  :after (treemacs evil))
+  :after (treemacs evil)
+  :config
+  (evil-define-key 'treemacs treemacs-mode-map [drag-mouse-1] nil)
+)
 (use-package treemacs-projectile
   :after (treemacs projectile))
 (use-package treemacs-magit
@@ -537,7 +545,8 @@ ARG filename to open"
 (setq evil-want-keybinding nil
       evil-want-integration t)
   :config
-  (evil-mode 1))
+  (evil-mode 1)
+)
 (use-package evil-collection
   :demand
   :ensure t
@@ -751,14 +760,12 @@ ARG filename to open"
 
 (require 'project)
 (defun project-find-go-module (dir)
-  "Set the project root.
-DIR directory to search for project"
+  "Set the project root. DIR directory to search for project"
   (when-let ((root (locate-dominating-file dir "go.mod")))
     (cons 'go-module root)))
 
 (cl-defmethod project-root ((project (head go-module)))
-  "Set the project root.
-PROJECT project to handle"
+  "Set the project root. PROJECT project to handle"
   (cdr project))
 
 (add-hook 'project-find-functions #'project-find-go-module)
@@ -768,8 +775,10 @@ PROJECT project to handle"
   (go-mode . (lambda ()
     (lsp)
     ;; (lsp-semantic-tokens-mode)
-    (add-hook 'before-save-hook 'lsp-organize-imports t t)
-    (add-hook 'before-save-hook 'lsp-format-buffer t t)
+    (add-hook 'before-save-hook
+    (lambda ()
+        (call-interactively 'eglot-code-action-organize-imports))
+    nil t)
     (subword-mode 1)
     (define-key evil-motion-state-local-map (kbd "gsff") #'go-goto-function)
     (define-key evil-motion-state-local-map (kbd "gsfa") #'go-goto-arguments)
@@ -778,6 +787,7 @@ PROJECT project to handle"
     (define-key evil-motion-state-local-map (kbd "gsfv") #'go-goto-return-values)
     (define-key evil-motion-state-local-map (kbd "gsd")  #'go-goto-docstring)
     (define-key evil-motion-state-local-map (kbd "gsi")  #'go-goto-imports)
+    (add-hook 'go-mode-hook #'eglot-ensure)
   ))
   :config
   (evil-add-command-properties #'go-goto-arguments :jump t :repeat 'motion :type 'exclusive)
@@ -820,7 +830,18 @@ PROJECT project to handle"
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
   (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  (setq-default eglot-workspace-configuration
+    '((:gopls .
+        ((staticcheck . t)
+         (matcher . "CaseSensitive")))))
 )
+
+;; Optional: install eglot-format-buffer as a save hook.
+;; The depth of -10 places this before eglot's willSave notification,
+;; so that that notification reports the actual contents that will be saved.
+(defun eglot-format-buffer-before-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
 
 (use-package treesit-auto
   :custom
