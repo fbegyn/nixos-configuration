@@ -271,7 +271,6 @@
       bash-prompt-prefix = (nix:$name)\040
     '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
       extra-platforms = x86_64-darwin x86_64-linux aarch64-linux
-      always-allow-substitutes = true
     '';
   };
 }
