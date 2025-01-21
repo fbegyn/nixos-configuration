@@ -160,6 +160,12 @@
     };
   };
 
+  services.nginx.virtualHosts = {
+    "oauth2.svc-01.begyn.be" = {
+      forceSSL = true;
+      useACMEHost = "svc-01.begyn.be";
+    };
+  };
   services.oauth2-proxy = let
     hosts = import ../../secrets/hosts.nix;
   in {
@@ -167,8 +173,13 @@
     email.addresses = ''
       francis.begyn@gmail.com
     '';
+    extraConfig = {
+      whitelist-domain = ".begyn.be";
+      cookie-csrf-expire = "6h";
+      cookie-csrf-per-request = true;
+    };
     nginx = {
-      domain = "francis.begyn.be";
+      domain = "oauth2.svc-01.begyn.be";
       virtualHosts = {
         "irc.francis.begyn.be" = {
           allowed_emails = [ "francis.begyn@gmail.com" ];
@@ -182,8 +193,10 @@
     clientID = "${hosts.hosting-01.oauth2_proxy.clientID}";
     keyFile = "${hosts.hosting-01.oauth2_proxy.keyFile}";
     cookie = {
+      domain = ".begyn.be";
       secret = "${hosts.hosting-01.oauth2_proxy.cookie.secret}";
       expire = "12h0m0s";
+      refresh = "11h30m0s";
     };
   };
 
