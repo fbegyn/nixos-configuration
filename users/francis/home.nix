@@ -34,6 +34,7 @@
     findutils
     home-manager
     # Utilities
+    jujutsu
     openssl
     jq
     yq

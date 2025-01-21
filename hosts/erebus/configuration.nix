@@ -134,6 +134,7 @@ in {
 
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
+      jujutsu
       curl
       wget
       envsubst
