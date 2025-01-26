@@ -144,17 +144,25 @@
     serviceConfig = {
       User = "francis";
       Group = "francis";
-      ExecStart = [ "${pkgs.weechat}/bin/weechat-headless --stdout" ];
+      ExecStart = [ "${pkgs.weechat}/bin/weechat-headless -d /var/lib/weechat --stdout" ];
+      WorkingDirectory = "/var/lib/weechat";
     };
     wantedBy = [ "default.target" ];
   };
+  services.nginx.commonHttpConfig = ''
+    limit_req_zone $binary_remote_addr zone=weechat:10m rate=5r/m;
+  '';
   services.nginx.virtualHosts = {
     "irc.francis.begyn.be" = {
       forceSSL = true;
       useACMEHost = "begyn.be";
       locations."^~ /weechat" = {
-        proxyPass = "http://127.0.0.1:9000";
+        proxyPass = "http://100.93.146.4:9001";
         proxyWebsockets = true;
+	extraConfig = ''
+	  proxy_read_timeout 4h;
+	  limit_req zone=weechat burst=1 nodelay;
+	'';
       };
       locations."/".root = pkgs.glowing-bear;
     };

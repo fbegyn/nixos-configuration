@@ -134,6 +134,7 @@ in {
 
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
+      pkgs.weechat
       jujutsu
       curl
       wget

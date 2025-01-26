@@ -41,6 +41,7 @@
     };
 
     home.packages = with pkgs.unstable; [
+      weechat
       typst
       typst-fmt
       typst-lsp
