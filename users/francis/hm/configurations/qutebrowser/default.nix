@@ -19,7 +19,7 @@
         tls.certificate_errors = "ask-block-thirdparty";
       };
       downloads = {
-        location.directory = "/home/francis/Downloads";
+        location.directory = "~/Downloads";
         remove_finished = 60000;
       };
       scrolling.smooth = true;
