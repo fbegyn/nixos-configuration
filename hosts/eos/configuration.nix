@@ -859,6 +859,36 @@ in {
     openFirewall = true;
   };
 
+  # gitea server
+  services.gitea = {
+    enable = true;
+    settings = {
+      service.DISABLE_REGISTRATION = true;
+      server = {
+        SSH_PORT = 22222;
+	PROTOCOL = "http+unix";
+	HTTP_ADDR = "/run/gitea/gitea.sock";
+	ROOT_URL = "https://gitea.francis.begyn.be";
+      };
+    };
+    database = {
+      type = "postgres";
+      createDatabase = true;
+    };
+  };
+  services.nginx.virtualHosts."gitea.francis.begyn.be" = {
+    forceSSL = true;
+    useACMEHost = "francis.dcf.begyn.be";
+
+    locations."/" = {
+      proxyPass = "http://unix:/run/gitea/gitea.sock";
+      proxyWebsockets = true;
+    };
+    extraConfig = ''
+      client_max_body_size 2M;
+    '';
+  };
+
   home-manager.users.francis.home.stateVersion = "23.05";
   home-manager.users.francis = {
     imports = [
