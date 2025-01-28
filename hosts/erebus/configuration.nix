@@ -122,6 +122,10 @@ in {
       defaultEditor = false;
     };
 
+    programs.mpv = {
+      enable = true;
+    };
+
     home.sessionPath = [
       "$HOME/.go/bin"
       "$HOME/.local/bin"
@@ -150,9 +154,8 @@ in {
       flyctl
       ansible
       # Utilities
-      yt-dlp
-      mpv
       open-in-mpv
+      yt-dlp
       typst
       typst-lsp
       typst-fmt
