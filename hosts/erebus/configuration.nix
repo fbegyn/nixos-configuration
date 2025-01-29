@@ -77,7 +77,7 @@ in {
       "nikitabobko/tap/aerospace"
       "discord"
       "openzfs"
-      "stolendata-mpv"
+      "iina"
     ];
     taps = [ "nikitabobko/tap" ];
     brews = [
