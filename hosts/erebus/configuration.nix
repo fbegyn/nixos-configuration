@@ -58,8 +58,12 @@ in {
     enable = true;
     onActivation = {
       autoUpdate = false;
+      cleanup = "uninstall";
+      upgrade = true;
     };
-    global.brewfile = true;
+    global = {
+      brewfile = true;
+    };
     casks = [
       "docker"
       "telegram"
@@ -71,9 +75,13 @@ in {
       "tunnelblick"
       "secretive"
       "nikitabobko/tap/aerospace"
+      "discord"
+      "openzfs"
+      "stolendata-mpv"
     ];
-    taps = [];
+    taps = [ "nikitabobko/tap" ];
     brews = [
+      "yt-dlp"
       "htop"
       "nmap"
       "gnupg"
@@ -122,10 +130,6 @@ in {
       defaultEditor = false;
     };
 
-    programs.mpv = {
-      enable = true;
-    };
-
     home.sessionPath = [
       "$HOME/.go/bin"
       "$HOME/.local/bin"
@@ -154,8 +158,6 @@ in {
       flyctl
       ansible
       # Utilities
-      open-in-mpv
-      yt-dlp
       typst
       typst-lsp
       typst-fmt
