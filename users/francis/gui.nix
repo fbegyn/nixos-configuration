@@ -44,7 +44,7 @@
       weechat
       typst
       typst-fmt
-      typst-lsp
+      tinymist
       ripgrep
       projecteur
       fd

@@ -81,6 +81,7 @@ in {
     ];
     taps = [ "nikitabobko/tap" ];
     brews = [
+      "ffmpeg"
       "yt-dlp"
       "htop"
       "nmap"
@@ -159,7 +160,7 @@ in {
       ansible
       # Utilities
       typst
-      typst-lsp
+      tinymist
       typst-fmt
       typst-live
       tree-sitter
