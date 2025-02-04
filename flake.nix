@@ -19,6 +19,10 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    flox = {
+      url = "github:flox/flox/v1.3.11";
+    };
+
     lix-module = {
       url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -69,6 +73,7 @@
     nixpkgs-unstable,
     nixos-hardware,
     darwin,
+    flox,
     mac-app-util,
     flake-utils-plus,
     flake-utils,
@@ -156,6 +161,9 @@
         ./hosts/erebus/configuration.nix
         mac-app-util.darwinModules.default
 	      ({pkgs, config, inputs, ...}: {
+            environment.systemPackages = [
+              flox.packages.${pkgs.system}.default
+            ];
 	        home-manager.users.francis.imports = [
 	          mac-app-util.homeManagerModules.default
 	        ];
