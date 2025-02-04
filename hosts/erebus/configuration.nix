@@ -81,6 +81,7 @@ in {
     ];
     taps = [ "nikitabobko/tap" ];
     brews = [
+      "podman"
       "ffmpeg"
       "yt-dlp"
       "htop"
