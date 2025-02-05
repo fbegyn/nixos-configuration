@@ -79,8 +79,12 @@ in {
       "openzfs"
       "iina"
     ];
-    taps = [ "nikitabobko/tap" ];
+    taps = [
+      "nikitabobko/tap"
+      "FelixKratz/formulae"
+    ];
     brews = [
+      "FelixKratz/formulae/borders"
       "podman"
       "ffmpeg"
       "yt-dlp"
@@ -122,6 +126,7 @@ in {
       ../../users/francis/hm/configurations/bash.nix
       ../../users/francis/hm/configurations/fish.nix
       ../../users/francis/hm/configurations/git.nix
+      # ../../users/francis/hm/configurations/qutebrowser
     ];
 
     programs.home-manager.enable = true;
@@ -160,6 +165,7 @@ in {
       flyctl
       ansible
       # Utilities
+      sketchybar
       typst
       tinymist
       typst-fmt
@@ -237,7 +243,7 @@ in {
     useDaemon = true;
     # package = pkgs.unstable.nix;
     linux-builder = {
-      enable = true;
+      enable = false;
       package = pkgs.darwin.linux-builder-x86_64;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       ephemeral = true;
