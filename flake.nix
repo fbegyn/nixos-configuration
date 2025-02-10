@@ -110,7 +110,7 @@
       nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         modules = [
-          ({config, ...}: {
+          ({config, pkgs, ...}: {
             nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
@@ -118,6 +118,9 @@
               overlay
               emacs-overlay.overlay
               ghostty.overlays.default
+            ];
+            environment.systemPackages = [
+              flox.packages.${pkgs.system}.default
             ];
           })
           lix-module.nixosModules.default
@@ -139,6 +142,9 @@
             nixpkgs.overlays = [
               overlay
               emacs-overlay.overlay
+            ];
+            environment.systemPackages = [
+              flox.packages.${pkgs.system}.default
             ];
           })
           agenix.nixosModules.age
