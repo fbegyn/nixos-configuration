@@ -137,7 +137,7 @@
       darwin.lib.darwinSystem rec {
         system = "aarch64-darwin";
         modules = [
-          ({config, ...}: {
+          ({config, pkgs, ...}: {
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
               overlay
