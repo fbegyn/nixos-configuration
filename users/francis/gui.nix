@@ -76,6 +76,7 @@
       #bitwarden
       pkgs.bitwarden-cli
       pkgs.bitwarden
+      keepassxc
       rbw
       nautilus
       dmenu
