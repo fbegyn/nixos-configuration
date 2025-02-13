@@ -35,6 +35,8 @@ in {
     ];
     variables = {
       SSH_AUTH_SOCK = "${vars.francis.sshAuthSock}";
+      PAGER = "less";
+      EDITOR = "nvim";
     };
   };
   services.tailscale.enable = true;
