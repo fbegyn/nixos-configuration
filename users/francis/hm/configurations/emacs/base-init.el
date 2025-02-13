@@ -847,7 +847,9 @@ ARG filename to open"
   (setq-default eglot-workspace-configuration
     '((:gopls .
         ((staticcheck . t)
-         (matcher . "CaseSensitive")))))
+         (matcher . "CaseSensitive")
+         (analyzer.fillstruct . t)
+  ))))
 )
 
 ;; Optional: install eglot-format-buffer as a save hook.
