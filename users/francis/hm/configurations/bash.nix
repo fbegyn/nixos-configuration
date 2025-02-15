@@ -45,10 +45,10 @@
       };
     in ''
       TEMPPID=$(echo $PPID)
-      TEMPPROC=$(/nix/store/9g3abncbpgqgd4anvsdndwxjfnv9pc0w-procps-1003.1-2008/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
+      TEMPPROC=$(${pkgs.procps}/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
       if [[ "''${TEMPPROC##*/}" != "fish" && -z ''${BASH_EXECUTION_STRING} ]] then
           shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-          exec /nix/store/il77gfxyvmc6kiw2fs8860qi64h47bkw-fish-3.7.1/bin/fish $LOGIN_OPTION
+          exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
       else
           # load git-prompt script
           . ${gitPrompt}
