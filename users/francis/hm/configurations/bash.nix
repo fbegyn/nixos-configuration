@@ -49,14 +49,14 @@
       if [[ "''${TEMPPROC##*/}" != "fish" && -z ''${BASH_EXECUTION_STRING} ]] then
           shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
           exec /nix/store/il77gfxyvmc6kiw2fs8860qi64h47bkw-fish-3.7.1/bin/fish $LOGIN_OPTION
+      else
+          # load git-prompt script
+          . ${gitPrompt}
+          # load git completions
+          . ${gitCompletion}
+
+          PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\]> '
       fi
-
-      # load git-prompt script
-      . ${gitPrompt}
-      # load git completions
-      . ${gitCompletion}
-
-      PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\]> '
     '';
   };
 }
