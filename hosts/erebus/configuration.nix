@@ -21,7 +21,7 @@ in {
   security.pam.enableSudoTouchIdAuth = true;
 
   users.users.francis.home = "/Users/francis";
-  users.users.francis.shell = pkgs.fish;
+  users.users.francis.shell = pkgs.bashInteractive;
   environment = {
     shells = with pkgs; [
       bash
