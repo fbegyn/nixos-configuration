@@ -20,11 +20,14 @@ in {
 
   security.pam.enableSudoTouchIdAuth = true;
 
-  users.users.francis.home = "/Users/francis";
-  users.users.francis.shell = pkgs.bashInteractive;
+  users.users.francis = {
+    uid = 501;
+    home = "/Users/francis";
+    shell = pkgs.bashInteractive;
+  };
+  users.knownUsers = [ "francis" ];
   environment = {
     shells = with pkgs; [
-      bash
       bashInteractive
       fish
     ];
@@ -152,7 +155,7 @@ in {
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
       pkgs.weechat
-      jujutsu
+      pkgs.jujutsu
       curl
       wget
       envsubst

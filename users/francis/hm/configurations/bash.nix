@@ -44,10 +44,11 @@
         hash = "sha256-OUXPfDdrZDWr3gBJPsxLmC4D/jCAYPwxx9jgTdpJ7dg=";
       };
     in ''
-      if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
-        then
+      TEMPPID=$(echo $PPID)
+      TEMPPROC=$(/nix/store/9g3abncbpgqgd4anvsdndwxjfnv9pc0w-procps-1003.1-2008/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
+      if [[ "''${TEMPPROC##*/}" != "fish" && -z ''${BASH_EXECUTION_STRING} ]] then
           shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
-          exec ${config.programs.fish.package}/bin/fish $LOGIN_OPTION
+          exec /nix/store/il77gfxyvmc6kiw2fs8860qi64h47bkw-fish-3.7.1/bin/fish $LOGIN_OPTION
       fi
 
       # load git-prompt script
