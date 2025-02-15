@@ -481,26 +481,24 @@ in {
       {
         job_name = "node-exporter";
         scheme = "http";
-	http_sd_configs = [{
-	  url = "http://localhost:19090/prometheus/targets";
-	}];
-	relabel_configs = [
-	  {
+        http_sd_configs = [{ url = "http://localhost:19090/prometheus/targets";}];
+        relabel_configs = [
+          {
             source_labels = ["__meta_tailscale_device_hostname"];
             target_label = "instance";
-	  }
-	  {
-	    source_labels = ["__address__"];
-	    target_label = "__address__";
-	    replacement = "$1:9100";
-	  }
-	  {
+          }
+          {
+            source_labels = ["__address__"];
+            target_label = "__address__";
+            replacement = "$1:9100";
+          }
+          {
             source_labels = ["__meta_tailscale_device_tags"];
             action = "keep";
             regex = ".*,tag:node,.*";
             separator = ",";
-	  }
-	];
+          }
+        ];
       }
       {
         job_name = "website";
@@ -519,6 +517,39 @@ in {
               "10.5.1.10:14000"
             ];
         }];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "ip";
+            regex = "(.*):(.*)";
+            replacement = "$1";
+          }
+          {
+            target_label = "instance";
+            replacement = "eos";
+          }
+        ];
+      }
+      {
+        job_name = "smokeping";
+        scheme = "http";
+        static_configs = [{
+          targets = [
+            "10.5.20.10:9374"
+          ];
+        }];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "ip";
+            regex = "(.*):(.*)";
+            replacement = "$1";
+          }
+          {
+            target_label = "instance";
+            replacement = "eos";
+          }
+        ];
       }
       {
         job_name = "tc-exporter";
@@ -528,6 +559,18 @@ in {
               "10.5.20.5:9704"
             ];
         }];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "ip";
+            regex = "(.*):(.*)";
+            replacement = "$1";
+          }
+          {
+            target_label = "instance";
+            replacement = "eos";
+          }
+        ];
       }
       {
         job_name = "kea-exporter";
@@ -537,9 +580,21 @@ in {
               "10.5.20.5:9547"
             ];
         }];
+        relabel_configs = [
+          {
+            source_labels = [ "__address__" ];
+            target_label = "ip";
+            regex = "(.*):(.*)";
+            replacement = "$1";
+          }
+          {
+            target_label = "instance";
+            replacement = "eos";
+          }
+        ];
       }
       {
-        job_name = "home-assistant";
+        job_name = "hass";
         scheme = "http";
         metrics_path = "/api/prometheus";
         bearer_token = "${hosts.eos.prometheus.hass.token}";
@@ -547,6 +602,25 @@ in {
             targets = [
               "10.5.1.10:8123"
             ];
+        }];
+        relabel_configs = [{
+          target_label = "instance";
+          replacement = "hass-dvm16";
+        }];
+      }
+      {
+        job_name = "hass-ouders";
+        scheme = "http";
+        metrics_path = "/api/prometheus";
+        bearer_token = "${hosts.ouders.prometheus.hass.token}";
+        static_configs = [{
+            targets = [
+              "100.91.181.26:8123"
+            ];
+        }];
+        relabel_configs = [{
+          target_label = "instance";
+          replacement = "hass-ouders";
         }];
       }
     ];
