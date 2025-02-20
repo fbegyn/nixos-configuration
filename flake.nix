@@ -177,6 +177,24 @@
       ];
     };
 
+    homeConfigurations = {
+      "fbegyn" = home-manager.lib.homeManagerConfiguration {
+        pkgs = nixpkgs.legacyPackages."x86_64-linux";
+        extraSpecialArgs = { inherit nixpkgs; };
+        modules = [
+          ({config, ...}: {
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              overlay
+              emacs-overlay.overlay
+              ghostty.overlays.default
+            ];
+          })
+          ./users/francis/home.nix
+        ];
+      };
+    };
+
     nixosConfigurations = let
       cloud = import ./lib/cloud.nix {nixpkgs = nixpkgs;};
     in {
