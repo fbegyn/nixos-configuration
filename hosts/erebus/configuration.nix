@@ -148,10 +148,6 @@ in {
       "$HOME/.cargo/bin"
     ];
 
-    nixpkgs.config = {
-      allowUnfree = true;
-    };
-
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
       pkgs.weechat

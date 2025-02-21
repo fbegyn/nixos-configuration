@@ -8,10 +8,6 @@
     ./configurations/fish.nix
   ];
 
-  xdg.configFile = {
-    "nixpkgs/config.nix".source = ./configurations/nixpkgs-config.nix;
-  };
-
   programs.home-manager.enable = true;
   programs.neovim = {
     enable = true;
@@ -25,10 +21,6 @@
     "$HOME/.local/bin"
     "$HOME/.cargo/bin"
   ];
-
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
 
   home.packages = with pkgs.unstable; [
     findutils
