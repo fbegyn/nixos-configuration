@@ -189,6 +189,8 @@
               emacs-overlay.overlay
               ghostty.overlays.default
             ];
+            home.username = "fbegyn";
+            home.homeDirectory = "/home/fbegyn";
           })
           ./users/francis/home.nix
         ];
