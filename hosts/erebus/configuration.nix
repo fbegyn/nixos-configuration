@@ -118,7 +118,7 @@ in {
 
   # home-manager settings (darwin)
   home-manager.users.francis = {
-    home.stateVersion = "24.05";
+    home.stateVersion = "24.11";
     imports = [
       ../../users/francis/hm/colors.nix
       ../../users/francis/hm/go.nix

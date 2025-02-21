@@ -127,7 +127,6 @@
   };
   services.irqbalance.enable = true;
 
-  home-manager.users.francis.home.stateVersion = "24.05";
   home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs30-gtk3;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

@@ -963,7 +963,6 @@ in {
     '';
   };
 
-  home-manager.users.francis.home.stateVersion = "23.05";
   home-manager.users.francis = {
     imports = [
       ../../users/francis/hm/go.nix
