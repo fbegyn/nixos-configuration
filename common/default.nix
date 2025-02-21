@@ -64,6 +64,6 @@
     defaultEditor = true;
   };
 
-  home-manager.users.francis.home.stateVersion = lib.mkDefault "23.11";
-  system.stateVersion = lib.mkDefault "23.11";
+  home-manager.users.francis.home.stateVersion = lib.mkDefault "24.11";
+  system.stateVersion = lib.mkDefault "24.11";
 }
