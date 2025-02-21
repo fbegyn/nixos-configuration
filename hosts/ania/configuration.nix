@@ -32,6 +32,7 @@
     ../../common/virt.nix
 
     ../../users
+    ../../users/hm.nix
     ../../users/francis
     ../../users/francis/yubikey.nix
     ../../users/francis/gui.nix

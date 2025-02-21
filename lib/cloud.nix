@@ -52,7 +52,7 @@
         nixpkgs.config.allowUnfree = true;
 
         home-manager.users.francis.home.stateVersion = "24.11";
-        system.stateVersion = "24.05"; # Did you read the comment?
+        system.stateVersion = "24.11"; # Did you read the comment?
       })
     ] ++ extraModules;
   };
@@ -111,7 +111,7 @@
         nixpkgs.config.allowUnfree = true;
 
         home-manager.users.francis.home.stateVersion = "24.11";
-        system.stateVersion = "24.05"; # Did you read the comment?
+        system.stateVersion = "24.11"; # Did you read the comment?
       })
     ] ++ extraModules;
   };

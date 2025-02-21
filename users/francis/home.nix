@@ -94,7 +94,6 @@
   ];
 
   nix = {
-    package = pkgs.nix;
     settings = {
       sandbox = true;
       substituters = [

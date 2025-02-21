@@ -25,6 +25,7 @@
     ../../common/video-accel.nix
 
     ../../users
+    ../../users/hm.nix
     ../../users/francis
     ../../users/francis/gui.nix
     ../../users/francis/i3
