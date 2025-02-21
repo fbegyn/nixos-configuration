@@ -1,8 +1,8 @@
 { config, pkgs, ... }:
 
 {
-  home.username = "fbegyn";
-  home.homeDirectory = "/home/fbegyn";
+  home.username = "francis";
+  home.homeDirectory = "/home/francis";
   home.stateVersion = "24.11";
 
   programs.ghostty = {
