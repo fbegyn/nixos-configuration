@@ -68,6 +68,11 @@
     enable = true;
     useACMEHost = "begyn.be";
     domain = "francis.begyn.be";
+    multiplex = {
+      enable = true;
+      location = "= /-/multiplex/socket";
+      command = "${pkgs.deno}/bin/deno serve --allow-read server.ts";
+    };
   };
 
   services.nginx = {
