@@ -73,10 +73,10 @@
       ({config, pkgs, ...}: {
         # configure boot through systemd-boot
         boot.loader.grub.enable = true;
-        boot.loader.grub.efiSupport = true;
+        boot.loader.grub.efiSupport = false;
         boot.loader.grub.device = "/dev/sda";
         boot.loader.efi.efiSysMountPoint = "/boot";
-        boot.loader.efi.canTouchEfiVariables = true;
+        boot.loader.efi.canTouchEfiVariables = false;
 
         environment.systemPackages = with pkgs; [ efibootmgr os-prober ];
 
