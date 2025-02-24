@@ -31,8 +31,8 @@
   networking.firewall.package = pkgs.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 9100 53 ];
-      allowedUDPPorts = [ 53 ];
+      allowedTCPPorts = [ 22 9100 53 8000 ];
+      allowedUDPPorts = [ 53 8000 ];
     };
     "podman+" = {
       allowedTCPPorts = [ 53 ];
@@ -70,8 +70,11 @@
     domain = "francis.begyn.be";
     multiplex = {
       enable = true;
-      location = "= /-/multiplex/socket";
-      command = "${pkgs.deno}/bin/deno serve --allow-read server.ts";
+      location = "^~ /-/multiplex/socket";
+      proxyPass = "http://127.0.0.1:8000";
+      # command =
+      #   "${pkgs.deno}/bin/deno run --allow-net --allow-read server.ts";
+      command = "${pkgs.nodejs}/bin/node ./";
     };
   };
 
