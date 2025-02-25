@@ -1,5 +1,7 @@
 { pkgs, ... }:
 
+# sources:
+# - https://blog.gitbutler.com/how-git-core-devs-configure-git/
 {
   home.packages = with pkgs; [ git-crypt gh ];
   programs.git = {
@@ -11,19 +13,49 @@
       sync = "git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5";
     };
     extraConfig = {
-      core.editor = "vim";
+      # clearly better
+      branch.sort = "-committerdate";
+      column.ui = "auto";
+      tag.sort = "version:refname";
       init.defaultBranch = "main";
-      pull.rebase = true;
-      push.autoSetupRemote = true;
-      rebase.autosquash = true;
-      rebase.instructionFormat = "<%an/%ad> %s - b:%d";
+      diff = {
+        algorithm = "histogram";
+        colorMoved = "plain";
+        mnemonicPrefix = true;
+        renames = true;
+      };
+      push = {
+        default = "simple";
+        autoSetupRemote = true;
+        followTags = true;
+      };
+      fetch = {
+        prune = true;
+        pruneTage = true;
+        all = true;
+        fsckobjects = true;
+      };
+      # why not?
+      help.autocorrect = true;
       commit.verbose = true;
-      diff.algorithm = "histogram";
-      transfer.fsckobjects = true;
-      fetch.fsckobjects = true;
+      rerere = {
+        enabled = true;
+        autoupdate = true;
+      };
+      root.excludesfile = "~/.gitignore";
+      rebase = {
+        autoSquash = true;
+        autoStash = true;
+        updaterefs = true;
+        instructionFormat = "<%an/%ad> %s - b:%d";
+      };
+      # basic
+      core.editor = "nvim";
+      merge.conflictstyle = "zdiff3";
+      pull.rebase = true;
       receive.fsckObjects = true;
+      transfer.fsckobjects = true;
       url."ssh://git@github.com:".insteadOf = "git://github.com";
-      rerere.enabled = true;
       # identities
       user.useConfigOnly = true;
       user.personal.name = "Francis Begyn";
