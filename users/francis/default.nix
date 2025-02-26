@@ -11,4 +11,5 @@
   environment.systemPackages = with pkgs; [
     exfat
   ];
+  home-manager.users.francis.imports = [ ./hm/base.nix ];
 }
