@@ -61,6 +61,9 @@
 
   # udev 250 doesn't correctly reinitialize
   systemd.services.NetworkManager-wait-online.enable = pkgs.lib.mkForce false;
+  services.resolved = {
+    enable = true;
+  };
 
   nix.settings.auto-optimise-store = true;
   services.journald.extraConfig = ''
@@ -72,6 +75,7 @@
   networking.hostName = "ania"; # Define your hostname.
   networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.useNetworkd = false; # Less suited for dynamic environments, should
+  networking.firewall.allowedTCPPorts = [ 8000 ];
   # be used for static setups:
   # Servers/Routers
   # Always-On VPN Tunnels
