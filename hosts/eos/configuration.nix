@@ -455,7 +455,6 @@ in {
     enable = true;
     listenAddress = "10.5.1.10";
     extraFlags = [
-      "--storage.tsdb.allow-overlapping-blocks"
     ];
     ruleFiles = [
       ../../services/prometheus/rules/eos/node.rules
@@ -469,9 +468,7 @@ in {
       receiver = "default";
     };
     alertmanagers = [{
-      static_configs = [{
-        targets = ["localhost:9093"];
-      }];
+      static_configs = [{ targets = ["localhost:9093"]; }];
     }];
     globalConfig = {
       scrape_interval = "10s";
@@ -482,6 +479,7 @@ in {
         job_name = "node-exporter";
         scheme = "http";
         http_sd_configs = [{ url = "http://localhost:19090/prometheus/targets";}];
+        static_configs = [{ targets = [ "10.5.30.5:9100" ]; }];
         relabel_configs = [
           {
             source_labels = ["__meta_tailscale_device_hostname"];
@@ -503,20 +501,12 @@ in {
       {
         job_name = "website";
         scheme = "https";
-        static_configs = [{
-            targets = [
-              "francis.begyn.be"
-            ];
-        }];
+        static_configs = [{ targets = [ "francis.begyn.be" ]; }];
       }
       {
         job_name = "blocky";
         scheme = "http";
-        static_configs = [{
-            targets = [
-              "10.5.1.10:14000"
-            ];
-        }];
+        static_configs = [{ targets = [ "10.5.1.10:14000" ]; }];
         relabel_configs = [
           {
             source_labels = [ "__address__" ];
@@ -533,11 +523,7 @@ in {
       {
         job_name = "smokeping";
         scheme = "http";
-        static_configs = [{
-          targets = [
-            "10.5.20.10:9374"
-          ];
-        }];
+        static_configs = [{ targets = [ "10.5.20.10:9374" ]; }];
         relabel_configs = [
           {
             source_labels = [ "__address__" ];
@@ -554,11 +540,7 @@ in {
       {
         job_name = "tc-exporter";
         scheme = "http";
-        static_configs = [{
-            targets = [
-              "10.5.20.5:9704"
-            ];
-        }];
+        static_configs = [{ targets = [ "10.5.20.5:9704" ]; }];
         relabel_configs = [
           {
             source_labels = [ "__address__" ];
@@ -568,18 +550,14 @@ in {
           }
           {
             target_label = "instance";
-            replacement = "eos";
+            replacement = "router-01";
           }
         ];
       }
       {
         job_name = "kea-exporter";
         scheme = "http";
-        static_configs = [{
-            targets = [
-              "10.5.20.5:9547"
-            ];
-        }];
+        static_configs = [{ targets = [ "10.5.20.5:9547" ]; }];
         relabel_configs = [
           {
             source_labels = [ "__address__" ];
@@ -589,7 +567,7 @@ in {
           }
           {
             target_label = "instance";
-            replacement = "eos";
+            replacement = "router-o1";
           }
         ];
       }
@@ -598,11 +576,7 @@ in {
         scheme = "http";
         metrics_path = "/api/prometheus";
         bearer_token = "${hosts.eos.prometheus.hass.token}";
-        static_configs = [{
-            targets = [
-              "10.5.1.10:8123"
-            ];
-        }];
+        static_configs = [{ targets = [ "10.5.1.10:8123" ]; }];
         relabel_configs = [{
           target_label = "instance";
           replacement = "hass-dvm16";
@@ -613,11 +587,7 @@ in {
         scheme = "http";
         metrics_path = "/api/prometheus";
         bearer_token = "${hosts.ouders.prometheus.hass.token}";
-        static_configs = [{
-            targets = [
-              "100.91.181.26:8123"
-            ];
-        }];
+        static_configs = [{ targets = [ "100.91.181.26:8123" ]; }];
         relabel_configs = [{
           target_label = "instance";
           replacement = "hass-ouders";
