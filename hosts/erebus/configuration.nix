@@ -102,6 +102,7 @@ in {
       "texlive"
       "pinentry-mac"
       "wget"
+      "icann-rdap"
     ];
   };
   # launchd config
