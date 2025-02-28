@@ -6,6 +6,7 @@
     ./configurations/git.nix
     ./configurations/bash.nix
     ./configurations/fish.nix
+    ./configurations/fzf.nix
   ];
 
   programs.home-manager.enable = true;
@@ -25,6 +26,8 @@
   home.packages = with pkgs.unstable; [
     findutils
     # Utilities
+    fd
+    ripgrep
     openssl
     jq
     yq
