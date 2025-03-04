@@ -17,7 +17,7 @@ in {
       default = [];
     };
     emacsPackage = lib.mkOption {
-      default = pkgs.unstable.emacs29-gtk3;
+      default = pkgs.unstable.emacs30-gtk3;
     };
     package = lib.mkOption {
       default = pkgs.emacsWithPackagesFromUsePackage {
