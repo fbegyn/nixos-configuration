@@ -834,6 +834,9 @@ ARG filename to open"
          (nix-mode . eglot-ensure)
          (go-mode . eglot-ensure)
          (go-ts-mode . eglot-ensure))
+  :general
+  (fb/leader-keys
+    "c a" '(eglot-code-actions :which-key "eglot code actions"))
   :custom
   (eglot-autoshutdown t)
   (eglot-events-buffer-size 50000)
