@@ -1070,11 +1070,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1740418917,
-        "narHash": "sha256-Bzk7fG36XgNnIKeFLkojm9mlA81GTvQlF7v+LSNKPJM=",
+        "lastModified": 1741197254,
+        "narHash": "sha256-gjeUD818hANoox5KDmsMAj525kuyL26Z0Js8SPVhM3E=",
         "owner": "fbegyn",
         "repo": "website",
-        "rev": "2c29b791f6b5156da85f2932b30daf2e2368f6fd",
+        "rev": "46a8209c453e577a6b7f912b46d515c823f63053",
         "type": "github"
       },
       "original": {
