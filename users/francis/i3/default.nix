@@ -77,7 +77,7 @@
         picom
         feh
         i3lock
-        i3status-rust
+        pkgs.i3status-rust
         xkb-switch
         betterlockscreen
         brightnessctl
