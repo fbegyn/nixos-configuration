@@ -82,7 +82,7 @@
       dmenu
       pkgs.solaar
       evince
-      okular
+      kdePackages.okular
       pandoc
       texlive.combined.scheme-small
       pkgs.pgcli

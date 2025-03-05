@@ -58,15 +58,7 @@
     tig
     sshuttle
     unzip
-    pkgs.bitwarden-cli
-    pkgs.bitwarden
-    keepassxc
-    rbw
-    nautilus
     dmenu
-    pkgs.solaar
-    evince
-    okular
     pandoc
     texlive.combined.scheme-small
     pkgs.pgcli
@@ -76,20 +68,5 @@
     nix-index
     # tools rewritten in rust
     hyperfine
-    # unfree packages
-    spotify
-    (vscode-with-extensions.override {
-      vscodeExtensions = with vscode-extensions; [
-        bbenoist.nix
-        vscodevim.vim
-        elixir-lsp.vscode-elixir-ls
-        ms-vscode-remote.remote-ssh
-        ms-azuretools.vscode-docker
-        ms-vsliveshare.vsliveshare
-        golang.go
-        coolbear.systemd-unit-file
-        redhat.vscode-yaml
-      ];
-    })
   ];
 }
