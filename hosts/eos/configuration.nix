@@ -479,8 +479,12 @@ in {
         job_name = "node-exporter";
         scheme = "http";
         http_sd_configs = [{ url = "http://localhost:19090/prometheus/targets";}];
-        static_configs = [{	targets = [ "10.5.30.5:9100" ];
-        labels = { __meta_tailscale_device_tags = ",tag:node,"; };
+        static_configs = [
+          {
+            targets = [ "10.5.30.5:9100" ];
+            labels = { __meta_tailscale_device_tags = ",tag:node,"; };
+          }
+        ];
         relabel_configs = [
           {
             source_labels = ["__meta_tailscale_device_hostname"];
