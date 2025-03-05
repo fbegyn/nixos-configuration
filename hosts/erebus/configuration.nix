@@ -124,6 +124,7 @@ in {
     imports = [
       ../../users/francis/hm/colors.nix
       ../../users/francis/hm/go.nix
+      ../../users/francis/hm/gui.nix
       ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs
@@ -208,7 +209,7 @@ in {
     ];
 
     # emacs.emacsPackage = pkgs.unstable.emacs-macport;
-    emacs.emacsPackage = pkgs.emacs29;
+    emacs.emacsPackage = pkgs.emacs30;
     # emacs.emacsPackage = pkgs.unstable.emacs30;
     # emacs.emacsPackage = pkgs.emacs29.overrideAttrs (old: {
     #   patches = (old.patches or []) ++ [
