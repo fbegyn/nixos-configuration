@@ -118,13 +118,14 @@ in {
     ];
   };
 
+
   # home-manager settings (darwin)
   home-manager.users.francis = {
     home.stateVersion = "24.11";
     imports = [
       ../../users/francis/hm/colors.nix
-      ../../users/francis/hm/go.nix
       ../../users/francis/hm/gui.nix
+      ../../users/francis/hm/go.nix
       ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs

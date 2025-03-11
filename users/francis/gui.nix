@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 {
   services.gvfs.enable = true;
   services.gnome.sushi.enable = true;
@@ -12,6 +12,7 @@
       package = pkgs.unstable.wireshark;
     };
   };
+
   environment.systemPackages = with pkgs; [
     firefox
     solaar
@@ -20,26 +21,7 @@
   ];
 
   home-manager.users.francis = {
-    imports = [
-      ./hm/configurations/nvim
-      ./hm/configurations/fzf.nix
-      ./hm/go.nix
-      ./hm/python.nix
-      ./hm/configurations/mpv
-      ./hm/configurations/emacs
-      ./hm/configurations/newsboat.nix
-      ./hm/configurations/direnv.nix
-      ./hm/configurations/zathura.nix
-      ./hm/configurations/udiskie.nix
-      ./hm/configurations/alacritty
-      ./hm/configurations/hledger.nix
-      ./hm/configurations/tmux
-      ./hm/configurations/josm.nix
-      ./hm/configurations/redshift.nix
-      ./hm/configurations/qutebrowser
-      ./secrets/bash.nix
-    ];
-
+    imports = [ ./hm/gui.nix ];
     xdg.configFile = {
       "qutebrowser/css/solarized-dark-all-sites.css".source =
         ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
