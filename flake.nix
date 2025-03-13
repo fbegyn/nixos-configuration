@@ -7,6 +7,11 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
+    nixos-generators = {
+      url = "github:nix-community/nixos-generators";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
@@ -72,6 +77,7 @@
     nixpkgs,
     nixpkgs-unstable,
     nixos-hardware,
+    nixos-generators,
     darwin,
     flox,
     mac-app-util,
@@ -122,6 +128,34 @@
             environment.systemPackages = [
               flox.packages.${pkgs.system}.default
             ];
+          })
+          lix-module.nixosModules.default
+          agenix.nixosModules.age
+          home-manager.nixosModules.home-manager ({config, ...}: {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+          })
+          ./common
+        ] ++ extraModules;
+      };
+
+    mkProxmoxLXC = extraModules:
+      nixos-generators.nixosGenerate rec {
+        system = "x86_64-linux";
+        format = "proxmox-lxc";
+        modules = [
+          ({config, pkgs, ...}: {
+            nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+            nixpkgs.config.allowUnfree = true;
+            nixpkgs.overlays = [
+              overlay
+            ];
+            proxmoxLXC = {
+              enable = true;
+              privileged = true;
+              manageNetwork = false;
+              manageHostName = true;
+            };
           })
           lix-module.nixosModules.default
           agenix.nixosModules.age
@@ -273,6 +307,16 @@
       };
       lan-app-01 = mkMachine [
         ./hosts/lan-party/app-01/configuration.nix
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+      ];
+      selene = mkMachine [
+        ./hosts/selene/configuration.nix
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+      ];
+      lxc-template = mkProxmoxLXC [
+        ./hosts/proxmox-ct-template/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
       ];
