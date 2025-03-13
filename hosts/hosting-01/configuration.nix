@@ -91,7 +91,7 @@
     backend = "podman";
     containers = {
       "mongodb" = {
-        image = "mongo:5.0.22";
+        image = "mongo:5.0.31";
         volumes = [
           "mongodb-data:/data/db"
           "/home/francis/unifi-controller/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro"
@@ -99,7 +99,7 @@
         cmd = [ "--auth" ];
       };
       "unifi-controller" = {
-        image = "linuxserver/unifi-network-application:8.0.7";
+        image = "linuxserver/unifi-network-application:9.0.114";
         ports = [
           "127.0.0.1:8443:8443"
           "8880:8880"
