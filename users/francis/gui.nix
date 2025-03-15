@@ -12,7 +12,12 @@
       package = pkgs.unstable.wireshark;
     };
   };
-  environment.systemPackages = with pkgs; [ firefox ];
+  environment.systemPackages = with pkgs; [
+    firefox
+    solaar
+    logitech-udev-rules
+    ltunify
+  ];
 
   home-manager.users.francis = {
     imports = [
@@ -80,7 +85,6 @@
       rbw
       nautilus
       dmenu
-      pkgs.solaar
       evince
       kdePackages.okular
       pandoc
