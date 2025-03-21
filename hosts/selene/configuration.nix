@@ -70,6 +70,9 @@ in {
       ];
     };
   };
+  services.resolved.extraConfig = ''
+    DNSStubListener=no
+  '';
   systemd.network= {
     enable = true;
     wait-online = {
@@ -148,6 +151,10 @@ in {
     };
   };
 
+  systemd.services.zfs-mount.enable = false;
+  systemd.services.zfs-share.enable = false;
+  systemd.services.zfs-zed.enable = false;
+
   services.blocky = {
     enable = true;
     settings = {
@@ -224,7 +231,7 @@ in {
     virtualHosts = {
       "hass.dcf.begyn.be" = {
         forceSSL = true;
-        useACMEHost = "dcf.begyn.be";
+        useACMEHost = "selene.dcf.begyn.be";
         locations."/" = {
           proxyPass = "http://127.0.0.1:8123/";
           proxyWebsockets = true;
@@ -270,70 +277,16 @@ in {
     ];
   };
 
-  # storage and databases
-  services.consul = {
-    enable = false;
-    package = pkgs.unstable.consul;
-    webUi = true;
-    interface = {
-      bind = "eno1";
-    };
-    extraConfig = {
-      server = true;
-      bootstrap_expect = 1;
-      datacenter = "app-01";
-      bind_addr = "10.5.1.21";
-      client_addr = "10.5.1.21";
-      enable_script_checks = true;
-    };
-  };
-  services.minio = {
-    enable = false;
-    rootCredentialsFile = "${hosts.eos.minio.rootCredentialsFile}";
-    package = pkgs.unstable.minio;
-    region = "eu-west-1";
-  };
-  services.postgresql = {
-    enable = true;
-    ensureDatabases = [
-      "nextcloud"
-      hosts.eos.db.dmarc_report.user
-    ];
-    ensureUsers = [
-      {
-        name = "nextcloud";
-        ensureDBOwnership = true;
-      }
-      {
-        name = hosts.eos.db.dmarc_report.user;
-        ensureDBOwnership = true;
-      }
-    ];
-    enableTCPIP = false;
-    authentication = ''
-      local all all trust
-      host all all 0.0.0.0/0 md5
-      host all all 10.88.0.1/16 md5
-    '';
-  };
-  services.postgresqlBackup = {
-    enable = true;
-    databases = [ "mastodon" ];
-  };
-
-  users.users.root.password = "";
-
   # monitoring applications
   ## exporters
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
-  services.prometheus.exporters.blackbox.enable = false;
-  services.prometheus.exporters.blackbox.configFile = ./blackbox.yml;
-  services.prometheus.exporters.zfs.enable = true;
   services.prometheus.exporters.nginx.enable = true;
   services.prometheus.exporters.nginxlog.enable = true;
+
   # tailfire for tailnet service discovery
   systemd.services."tailfire" = {
+    enable = false;
     wantedBy = [ "multi-user.target" ];
     after = [ "network.target" ];
     serviceConfig = {
@@ -376,25 +329,6 @@ in {
     };
   };
 
-  # Web application/services
-  services.nginx.virtualHosts."files.svc.begyn.be" = {
-    forceSSL = true;
-    useACMEHost = "dcf.begyn.be";
-    root = "/var/run/files.svc.begyn.be/files";
-    locations."/" = {
-      tryFiles = "$uri $uri/ =404";
-      basicAuthFile = "/var/run/files.svc.begyn.be/auth";
-      extraConfig = ''
-        autoindex on;
-        sendfile on;
-        sendfile_max_chunk 2m;
-        tcp_nopush on;
-        tcp_nodelay on;
-        keepalive_timeout 65;
-      '';
-    };
-  };
-
   ## tt-rss RSS feed reader
   services.tt-rss = {
     enable = true;
@@ -423,7 +357,7 @@ in {
   in {
     root = "${cfg.root}/www";
     forceSSL = true;
-    useACMEHost = "francis.dcf.begyn.be";
+    useACMEHost = "selene.dcf.begyn.be";
 
     locations."/" = {
       index = "index.php";
@@ -459,7 +393,7 @@ in {
   };
   services.nginx.virtualHosts."gitea.francis.begyn.be" = {
     forceSSL = true;
-    useACMEHost = "francis.dcf.begyn.be";
+    useACMEHost = "selene.dcf.begyn.be";
 
     locations."/" = {
       proxyPass = "http://unix:/run/gitea/gitea.sock";
