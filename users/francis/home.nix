@@ -54,6 +54,7 @@
     lm_sensors
     gnumake
     ansible
+    sshpass
     bat
     tig
     sshuttle
