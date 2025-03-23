@@ -1,29 +1,24 @@
 { pkgs, ... }:
 {
   imports = [
-    ./hm/configurations/nvim
-    ./hm/configurations/fzf.nix
-    ./hm/go.nix
-    ./hm/python.nix
-    ./hm/configurations/mpv
-    ./hm/configurations/emacs
-    ./hm/configurations/newsboat.nix
-    ./hm/configurations/direnv.nix
-    ./hm/configurations/zathura.nix
-    ./hm/configurations/udiskie.nix
-    ./hm/configurations/alacritty
-    ./hm/configurations/hledger.nix
-    ./hm/configurations/tmux
-    ./hm/configurations/josm.nix
-    ./hm/configurations/redshift.nix
-    ./hm/configurations/qutebrowser
-    ./secrets/bash.nix
+    ./configurations/nvim
+    ./configurations/fzf.nix
+    ./go.nix
+    ./python.nix
+    ./configurations/mpv
+    ./configurations/emacs
+    ./configurations/newsboat.nix
+    ./configurations/direnv.nix
+    ./configurations/zathura.nix
+    ./configurations/udiskie.nix
+    ./configurations/alacritty
+    ./configurations/hledger.nix
+    ./configurations/tmux
+    ./configurations/josm.nix
+    ./configurations/redshift.nix
+    ./configurations/qutebrowser
+    ../secrets/bash.nix
   ];
-
-  xdg.configFile = {
-    "qutebrowser/css/solarized-dark-all-sites.css".source =
-      ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
-  };
 
   home.packages = with pkgs.unstable; [
     weechat
