@@ -124,7 +124,7 @@ in {
     home.stateVersion = "24.11";
     imports = [
       ../../users/francis/hm/colors.nix
-      ../../users/francis/hm/gui.nix
+      # ../../users/francis/hm/gui.nix
       ../../users/francis/hm/go.nix
       ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
