@@ -312,13 +312,12 @@
       ];
       selene = mkMachine [
         ./hosts/selene/configuration.nix
-        nixos-hardware.nixosModules.common-pc-ssd
-        nixos-hardware.nixosModules.common-cpu-intel
+      ];
+      nix-builder-01 = mkMachine [
+        ./hosts/nix-builder-01/configuration.nix
       ];
       lxc-template = mkProxmoxLXC [
         ./hosts/proxmox-ct-template/configuration.nix
-        nixos-hardware.nixosModules.common-pc-ssd
-        nixos-hardware.nixosModules.common-cpu-intel
       ];
     };
   };
