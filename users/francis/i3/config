@@ -240,6 +240,7 @@ exec --no-startup-id nm-applet
 #exec --no-startup-id thunderbird
 #exec --no-startup-id spotify
 #exec --no-startup-id flameshot
+exec --no-startup-id autorandr --change
 
 # Asign programs to workspaces
 assign [class="Hamsket"] $workspace2
