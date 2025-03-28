@@ -55,6 +55,7 @@
     gnumake
     ansible
     sshpass
+    talosctl
     bat
     tig
     sshuttle
