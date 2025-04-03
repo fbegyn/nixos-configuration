@@ -26,6 +26,7 @@
     typst-fmt
     tinymist
     ripgrep
+    ranger
     projecteur
     fd
     inetutils
