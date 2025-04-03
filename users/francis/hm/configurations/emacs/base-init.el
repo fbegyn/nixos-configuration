@@ -21,6 +21,7 @@
 ;; emacs settings
 (use-package emacs
   :ensure nil
+  :demand t
   :custom
   ;; vertico
   ;; Support opening new minibuffers from inside existing minibuffers.
@@ -252,7 +253,7 @@ ARG filename to open"
 
 ;; For :general in (use-package).
 (use-package general
-  :demand ;; no lazy loading
+  :demand t ;; no lazy loading
   :config
   (general-evil-setup)
 
@@ -289,7 +290,7 @@ ARG filename to open"
 )
 
 (use-package exec-path-from-shell
-  :demand
+  :demand t
   :ensure t
   :init
   (when (memq window-system '(mac ns x))
@@ -303,7 +304,7 @@ ARG filename to open"
 )
 
 (use-package which-key
-  :demand
+  :demand t
   :diminish (which-key-mode)
   :init
   (setq which-key-sort-order 'which-key-key-order-alpha
@@ -314,7 +315,7 @@ ARG filename to open"
   (which-key-setup-side-window-right-bottom)
 
 (use-package projectile
-  :demand
+  :demand t
   :after (general)
   :init
   (projectile-mode +1)
@@ -346,9 +347,11 @@ ARG filename to open"
     "sm"  '(rg-menu :which-key "rg-menu"))
   )
 
-;; veritco completion
+;; completion
+;; frontend setup
+;; veritco
 (use-package vertico
-  :demand
+  :demand t
   :init
   (vertico-mode)
   ;; Different scroll margin
@@ -370,8 +373,7 @@ ARG filename to open"
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
 
-
-;; Example configuration for Consult
+;; consult backend completion
 (use-package consult
   ;; Replace bindings. Lazily loaded due by `use-package'.
   :bind (;; C-c bindings in `mode-specific-map'
@@ -487,6 +489,119 @@ ARG filename to open"
   ;; (setq consult-project-function nil)
 )
 
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  ;; Show the Embark target at point via Eldoc. You may adjust the
+  ;; Eldoc strategy, if you want to see the documentation from
+  ;; multiple providers. Beware that using this can be a little
+  ;; jarring since the message shown in the minibuffer can be more
+  ;; than one line, causing the modeline to move up and down:
+
+  ;; (add-hook 'eldoc-documentation-functions #'embark-eldoc-first-target)
+  ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t ; only need to install it, embark loads it after consult if found
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+
+(use-package corfu
+  ;; Optional customizations
+  :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 2)
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode))
+
+;; Add extensions
+(use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
+  :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  ;; (add-hook 'completion-at-point-functions #'cape-history)
+  ;; ...
+)
+
+;; Use Dabbrev with Corfu!
+(use-package dabbrev
+  :ensure nil
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
 (use-package vundo)
 
 ;; git stuff
@@ -553,7 +668,7 @@ ARG filename to open"
   :after treemacs)
 
 (use-package evil
-  :demand
+  :demand t
   :diminish (evil-collection-unimpaired-mode)
   :init
 (setq evil-want-keybinding nil
@@ -562,7 +677,7 @@ ARG filename to open"
   (evil-mode 1)
 )
 (use-package evil-collection
-  :demand
+  :demand t
   :ensure t
   :after (evil)
   :config
