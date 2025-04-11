@@ -26,6 +26,7 @@
     typst-fmt
     tinymist
     ripgrep
+    jujutsu
     ranger
     projecteur
     fd
@@ -78,8 +79,9 @@
     # unfree packages
     spotify
     discord
+    ollama
     (vscode-with-extensions.override {
-      vscodeExtensions = with vscode-extensions; [
+      vscodeExtensions = with pkgs.unstable.vscode-extensions; [
         bbenoist.nix
         vscodevim.vim
         elixir-lsp.vscode-elixir-ls
@@ -89,6 +91,7 @@
         golang.go
         coolbear.systemd-unit-file
         redhat.vscode-yaml
+        github.copilot
       ];
     })
   ];
