@@ -41,6 +41,7 @@
       trusted-users = [ "francis" ];
     };
     extraOptions = ''
+      builders-use-substitutes = true
       experimental-features = nix-command flakes
     '' + lib.optionalString (pkgs.system == "aarch64-darwin") ''
       extra-platforms = x86_64-darwin aarch64-darwin
@@ -49,6 +50,15 @@
       dates = "daily";
       automatic = true;
     };
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        system = "x86_64-linux";
+        hostName = "10.5.1.22";
+        maxJobs = 4;
+        sshUser = "francis";
+      }
+    ];
   };
 
   services.journald.extraConfig = ''
