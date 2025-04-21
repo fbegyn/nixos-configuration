@@ -6,4 +6,6 @@ go install -v golang.org/x/tools/gopls@latest
 go install -v golang.org/x/tools/cmd/goimports@latest
 go install -v github.com/goreleaser/goreleaser@latest
 go install -v mvdan.cc/gofumpt@latest
+go install -v github.com/jondot/goweight@latest
+go install -v github.com/Zxilly/go-size-analyzer/cmd/gsa@latest
 
