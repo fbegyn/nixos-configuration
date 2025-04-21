@@ -2,16 +2,20 @@
 
 {
   fileSystems = {
-    "/" = {
-      device = "rpool/data/subvol-202-disk-0";
+    "/nix/store" = {
+      device = "dpool/nix/subvol-202-disk-0";
       fsType = "zfs";
     };
-    "/nix" = {
-      device = "dpool/nix/subvol-202-disk-0";
+    "/var/log" = {
+      device = "dpool/var/log/subvol-202-disk-0";
       fsType = "zfs";
     };
     "/var" = {
       device = "dpool/var/subvol-202-disk-0";
+      fsType = "zfs";
+    };
+    "/" = {
+      device = "rpool/data/subvol-202-disk-0";
       fsType = "zfs";
     };
   };
