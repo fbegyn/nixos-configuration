@@ -76,4 +76,8 @@
 
   home-manager.users.francis.home.stateVersion = lib.mkDefault "24.11";
   system.stateVersion = lib.mkDefault "24.11";
+
+  age.secrets = {
+    "secrets/api/cf".file = ../secrets/api/cf.age;
+  };
 }
