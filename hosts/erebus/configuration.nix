@@ -80,17 +80,14 @@ in {
       "libreoffice"
       "tunnelblick"
       "secretive"
-      "nikitabobko/tap/aerospace"
+      "josm"
       "discord"
       "openzfs"
       "iina"
     ];
     taps = [
-      "nikitabobko/tap"
-      "FelixKratz/formulae"
     ];
     brews = [
-      "FelixKratz/formulae/borders"
       "podman"
       "ffmpeg"
       "yt-dlp"
