@@ -76,7 +76,7 @@
   system.stateVersion = lib.mkDefault "24.11";
 
   age.secrets = {
-    "secrets/passwords/mail/francsi".file = ../secrets/passwords/mail/francis.age;
+    "secrets/passwords/mail/francis".file = ../secrets/passwords/mail/francis.age;
     "secrets/passwords/mail/marc".file = ../secrets/passwords/mail/marc.age;
     "secrets/passwords/mail/dmarc".file = ../secrets/passwords/mail/dmarc.age;
     "secrets/passwords/mail/bots".file = ../secrets/passwords/mail/bots.age;
