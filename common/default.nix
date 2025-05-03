@@ -78,6 +78,20 @@
   system.stateVersion = lib.mkDefault "24.11";
 
   age.secrets = {
+    "secrets/passwords/mail/francsi".file = ../secrets/passwords/mail/francis.age;
+    "secrets/passwords/mail/marc".file = ../secrets/passwords/mail/marc.age;
+    "secrets/passwords/mail/dmarc".file = ../secrets/passwords/mail/dmarc.age;
+    "secrets/passwords/mail/bots".file = ../secrets/passwords/mail/bots.age;
+    "secrets/passwords/mail/robot".file = ../secrets/passwords/mail/robot.age;
+    "secrets/passwords/mqtt/hass".file = ../secrets/services/mosquitto/hass.age;
+    "secrets/passwords/mqtt/shelly".file = ../secrets/services/mosquitto/shelly.age;
+
     "secrets/api/cf".file = ../secrets/api/cf.age;
+    "secrets/api/tailscale-temp".file = ../secrets/api/tailscale-temp.age;
+
+    "secrets/services/alertmanager-env".file = ../secrets/services/alertmanager-env.age;
+
+    "secrets/data/borgbase/key".file = ../secrets/data/borgbase/key.age;
+    "secrets/data/borgbase/ssh".file = ../secrets/data/borgbase/ssh.age;
   };
 }
