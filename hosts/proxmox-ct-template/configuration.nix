@@ -3,9 +3,7 @@
 
 { config, pkgs, ... }:
 
-let
-    hosts = import ../../secrets/hosts.nix;
-in {
+{
   imports = [
     ../../common
     ../../common/gpg.nix

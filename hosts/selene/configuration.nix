@@ -271,8 +271,8 @@ in {
     listeners = [
       {
         address = "10.5.90.21";
-        users.shelly.password = "${hosts.eos.hass.mqtt.shelly.password}";
-        users.hass.password = "${hosts.eos.hass.mqtt.hass.password}";
+        users.shelly.passwordFile = config.age.secrets."secrets/passwords/mqtt/shelly.age";
+        users.hass.passwordFile = config.age.secrets."secrets/passwords/mqtt/hass.age";
       }
     ];
   };

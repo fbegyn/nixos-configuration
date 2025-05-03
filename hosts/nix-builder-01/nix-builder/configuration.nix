@@ -3,9 +3,7 @@
 
 { config, pkgs, modulesPath, ... }:
 
-let
-    hosts = import ../../secrets/hosts.nix;
-in {
+{
   imports = [
     # Include the results of the hardware scan.
     (modulesPath+"/profiles/qemu-guest.nix")

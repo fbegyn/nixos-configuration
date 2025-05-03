@@ -35,7 +35,6 @@ with lib; {
     };
   };
   config.services.prometheus = let
-    vars = import ../../secrets/hosts.nix;
     cfg = config.francis.services.prometheus;
   in {
     extraFlags = [
@@ -45,13 +44,14 @@ with lib; {
       "--web.enable-lifecycle"
     ];
     alertmanager = {
+      environmentFile = config.age.secrets."secrets/services/alertmanager-env".path;
       configuration = {
         global = {
-          smtp_from = "monitoring@begyn.be";
-          smtp_smarthost = "mail.begyn.be:587";
-          smtp_hello = "eos.begyn.be";
-          smtp_auth_username = "bots@begyn.be";
-          smtp_auth_password = "${vars.mail-01.mailserver.botsPass}";
+          smtp_from = "$SMTP_FROM";
+          smtp_smarthost = "$SMTP_HOST";
+          smtp_hello = "$SMTP_HELLO";
+          smtp_auth_username = "$SMTP_USERNAME";
+          smtp_auth_password = "$SMTP_PASSWORD";
         };
         receivers = [{
           name = "default";

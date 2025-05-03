@@ -266,6 +266,14 @@ in {
       options = "--delete-older-than 30d";
     };
     optimise.automatic = true;
+    buildMachines = [
+      {
+        system = "x86_64-linux";
+        hostName = "10.5.1.22";
+        maxJobs = 4;
+        sshUser = "francis";
+      }
+    ];
     settings = {
       sandbox = false;
       substituters = [

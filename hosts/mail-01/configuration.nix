@@ -5,8 +5,7 @@
 { config, pkgs, ... }:
 
 let
-    hosts = import ../../secrets/hosts.nix;
-    vars = hosts.mail-01;
+    vars = import ../../secrets/services/mail.nix;
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -19,7 +18,7 @@ in {
   boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs
   boot.supportedFilesystems = [ "zfs" ];
 
-  networking.hostId = vars.hostId;
+  networking.hostId = "21c69462";
 
   networking.interfaces.ens3.useDHCP = true;
   networking.interfaces.ens3.ipv6 = {
@@ -56,9 +55,14 @@ in {
   services.fbegyn.tailscale = {
     autoprovision = {
       enable = true;
-      key = "${hosts.tailscale.tempkey}";
       options = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
     };
+  };
+  services.tailscale = {
+    enable = true;
+    authKeyFile = config.age.secrets."secrets/api/tailscale-temp".path;
+    extraSetFlags = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
+    extraUpFlags = [ "--operator=francis" ];
   };
 
   # Enable the OpenSSH daemon.
@@ -124,15 +128,15 @@ in {
 
   mailserver = {
     enable = true;
-    fqdn = vars.mailserver.fqdn;
-    domains = vars.mailserver.domains;
-    loginAccounts = vars.mailserver.accounts;
+    fqdn = vars.fqdn;
+    domains = vars.domains;
+    loginAccounts = vars.accounts;
     certificateScheme = "acme-nginx";
-    certificateDomains = vars.mailserver.certificateDomains;
+    certificateDomains = vars.certificateDomains;
     virusScanning = false;
     monitoring = {
       enable = false;
-      alertAddress = vars.mailserver.alertAddress;
+      alertAddress = vars.alertAddress;
     };
   };
   services.nginx.virtualHosts."autoconfig.begyn.be" = {
@@ -165,10 +169,10 @@ in {
       "/var/vmail"
       "/var/dkim"
     ];
-    repo = vars.mailserver.backups.borgbase.repo;
+    repo = "uszi0k1s@uszi0k1s.repo.borgbase.com:repo";
     encryption = {
       mode = "repokey-blake2";
-      passCommand = vars.mailserver.backups.borgbase.key;
+      passCommand = "cat ${config.age.secrets."secrets/data/borgbase/key".path}";
     };
     prune.keep = {
       within = "3d";
@@ -176,7 +180,7 @@ in {
       weekly = 2;
       monthly = 5;
     };
-    environment.BORG_RSH = vars.mailserver.backups.borgbase.ssh;
+    environment.BORG_RSH = "ssh -i ${config.age.secrets."secrets/data/borgbase/ssh".path}";
     compression = "auto,lzma";
     startAt = "*:0/20";
   };
