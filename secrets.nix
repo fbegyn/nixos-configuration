@@ -5,7 +5,9 @@ let
 
   bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIErnN3QEyNE0JMsNLKKfRHck+Z3gJ43uYoQKHbM6jyas";
   selene = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB9nISfOAr6o/O9xLlmxeQHA0Q+Az7T+S+AQnNOTy1Jl";
-  systems = [ bia selene ];
+  hosting-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPPxGLkIK1dVPcOyppsOk6im9qKwh3qKgv52Hhl4xdeT";
+  mail-01 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILG/9d08f6x5F2Ub0KmooXoDJ2fWGN0UjhVDke0GcmN3";
+  systems = [ bia selene hosting-01 mail-01 ];
 in
 {
   "secrets/wireless.age".publicKeys = users ++ systems;
