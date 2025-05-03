@@ -123,7 +123,6 @@ in {
       ../../users/francis/hm/colors.nix
       # ../../users/francis/hm/gui.nix
       ../../users/francis/hm/go.nix
-      ../../users/francis/hm/configurations/josm.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs
       ../../users/francis/hm/configurations/nvim
@@ -152,7 +151,7 @@ in {
     home.enableNixpkgsReleaseCheck = false;
     home.packages = with pkgs.unstable; [
       pkgs.weechat
-      pkgs.jujutsu
+      jujutsu
       curl
       wget
       envsubst
@@ -165,7 +164,7 @@ in {
       pkgs.openscad
       # SRE - deployment
       flyctl
-      ansible
+      # pkgs.ansible
       # Utilities
       sketchybar
       typst
@@ -201,7 +200,7 @@ in {
       tig
       sshuttle
       act
-      nodejs
+      # nodejs
       elixir_1_17
       elixir-ls
     ];
