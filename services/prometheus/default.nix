@@ -34,6 +34,9 @@ with lib; {
       };
     };
   };
+  config.age.secrets = {
+    "secrets/services/alertmanager-env".file = ../../secrets/services/alertmanager-env.age;
+  };
   config.services.prometheus = let
     cfg = config.francis.services.prometheus;
   in {

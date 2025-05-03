@@ -153,6 +153,11 @@
   systemd.services.zfs-share.enable = false;
   systemd.services.zfs-zed.enable = false;
 
+  age.secrets = {
+    "secrets/passwords/mqtt/hass".file = ../../secrets/passwords/mqtt/hass.age;
+    "secrets/passwords/mqtt/shelly".file = ../../secrets/passwords/mqtt/shelly.age;
+  };
+
   services.blocky = {
     enable = true;
     settings = {

@@ -26,6 +26,11 @@ in {
     ../../services/postgres
   ];
 
+  age.secrets = {
+    "secrets/services/hass-dcf".file = ../secrets/services/hass-dcf.age;
+    "secrets/services/hass-dco".file = ../secrets/services/hass-dco.age;
+  };
+
   services.blocky = {
     enable = true;
     settings = {
@@ -222,15 +227,6 @@ in {
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "server";
-    # autoprovision = {
-    #   enable = true;
-    #   key = "${hosts.tailscale.tempkey}";
-    #   options = [
-    #     "--advertise-routes=${hosts.eos.tailscale.routes}"
-    #     "--advertise-exit-node"
-    #     "--advertise-tags=tag:prod,tag:dcf,tag:hass"
-    #   ];
-    # };
   };
 
   # Web/ingress
