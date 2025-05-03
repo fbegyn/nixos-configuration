@@ -3,10 +3,8 @@ let
   francis_bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINK7mMVKOmELe+FVvn1oWNRwKiANgTwcnzte3vWK3nMV";
   users = [ francis_mac francis_bia ];
 
-  erebus = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPJDyIr/FSz1cJdcoW69R+NrWzwGK/+3gJpqD1t8L2zE";
-  bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzxQgondgEYcLpcPdJLrTdNgZ2gznOHCAxMdaceTUT1";
-  selene = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKzxQgondgEYcLpcPdJLrTdNgZ2gznOHCAxMdaceTUT1";
-  systems = [ erebus bia selene ];
+  bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIErnN3QEyNE0JMsNLKKfRHck+Z3gJ43uYoQKHbM6jyas";
+  systems = [ bia ];
 in
 {
   "secrets/wireless.age".publicKeys = users ++ systems;
@@ -23,6 +21,8 @@ in
   "secrets/passwords/mqtt/shelly.age".publicKeys = users ++ systems;
 
   "secrets/services/alertmanager-env.age".publicKeys = users ++ systems;
+  "secrets/services/hass-dcf.age".publicKeys = users ++ systems;
+  "secrets/services/hass-dco.age".publicKeys = users ++ systems;
 
   "secrets/data/borgbase/key.age".publicKeys = users ++ systems;
   "secrets/data/borgbase/ssh.age".publicKeys = users ++ systems;
