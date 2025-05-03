@@ -5,7 +5,7 @@
 { config, pkgs, ... }:
 
 let
-    vars = import ../../secrets/services/mail.nix;
+    vars = import ../../secrets/services/mail.nix { inherit config; };
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -51,18 +51,52 @@ in {
 
   services.prometheus.exporters.node.enable = true;
 
-  # tailscale machine specific
-  services.fbegyn.tailscale = {
-    autoprovision = {
-      enable = true;
-      options = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
+  age.secrets = {
+    "secrets/passwords/mail/francis" = {
+      file = ../../secrets/passwords/mail/francis.age;
+      mode = "0644";
+      owner = "virtualMail";
+      group = "virtualMail";
     };
+    "secrets/passwords/mail/marc" = {
+      file = ../../secrets/passwords/mail/marc.age;
+      mode = "0644";
+      owner = "virtualMail";
+      group = "virtualMail";
+    };
+    "secrets/passwords/mail/dmarc" = {
+      file = ../../secrets/passwords/mail/dmarc.age;
+      mode = "0644";
+      owner = "virtualMail";
+      group = "virtualMail";
+    };
+    "secrets/passwords/mail/bots" = {
+      file = ../../secrets/passwords/mail/bots.age;
+      mode = "0644";
+      owner = "virtualMail";
+      group = "virtualMail";
+    };
+    "secrets/passwords/mail/robot" = {
+      file = ../../secrets/passwords/mail/robot.age;
+      mode = "0644";
+      owner = "virtualMail";
+      group = "virtualMail";
+    };
+
+    "secrets/api/cf".file = ../../secrets/api/cf.age;
+    "secrets/api/tailscale-temp".file = ../../secrets/api/tailscale-temp.age;
+
+    "secrets/data/borgbase/key".file = ../../secrets/data/borgbase/key.age;
+    "secrets/data/borgbase/ssh".file = ../../secrets/data/borgbase/ssh.age;
   };
+
   services.tailscale = {
     enable = true;
     authKeyFile = config.age.secrets."secrets/api/tailscale-temp".path;
-    extraSetFlags = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
-    extraUpFlags = [ "--operator=francis" ];
+    extraUpFlags = [
+      "--operator=francis"
+      "--advertise-tags=tag:prod,tag:hetzner,tag:cloud"
+    ];
   };
 
   # Enable the OpenSSH daemon.

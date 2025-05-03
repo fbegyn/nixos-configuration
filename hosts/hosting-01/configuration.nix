@@ -217,18 +217,13 @@
   };
 
   # tailscale machine specific
-  services.fbegyn.tailscale = {
-    enable = false;
-    autoprovision = {
-      enable = true;
-      options = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
-    };
-  };
   services.tailscale = {
     enable = true;
     authKeyFile = config.age.secrets."secrets/api/tailscale-temp".path;
-    extraSetFlags = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
-    extraUpFlags = [ "--operator=francis" ];
+    extraUpFlags = [
+      "--operator=francis"
+      "--advertise-tags=tag:prod,tag:hetzner,tag:cloud"
+    ];
   };
 
   # Enable the OpenSSH daemon.
