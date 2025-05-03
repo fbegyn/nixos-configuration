@@ -580,7 +580,7 @@ in {
         job_name = "hass";
         scheme = "http";
         metrics_path = "/api/prometheus";
-        bearer_token = "${hosts.eos.prometheus.hass.token}";
+        bearer_token_file = config.age.secrets."secrets/services/hass-dcf".path;
         static_configs = [{ targets = [ "10.5.1.10:8123" ]; }];
         relabel_configs = [{
           target_label = "instance";
@@ -591,7 +591,7 @@ in {
         job_name = "hass-ouders";
         scheme = "http";
         metrics_path = "/api/prometheus";
-        bearer_token = "${hosts.ouders.prometheus.hass.token}";
+        bearer_token_file = config.age.secrets."secrets/services/hass-dco".path;
         static_configs = [{ targets = [ "100.91.181.26:8123" ]; }];
         relabel_configs = [{
           target_label = "instance";
