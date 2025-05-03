@@ -23,7 +23,6 @@
   nix = {
     optimise.automatic = true;
     settings = {
-      sandbox = true;
       substituters = [
         "https://fbegyn-personal.cachix.org/"
         "https://nix-community.cachix.org/"
@@ -54,9 +53,8 @@
     buildMachines = [
       {
         system = "x86_64-linux";
-        hostName = "10.5.1.22";
+        hostName = "nix-builder-01";
         maxJobs = 4;
-        sshUser = "francis";
       }
     ];
   };
@@ -83,8 +81,8 @@
     "secrets/passwords/mail/dmarc".file = ../secrets/passwords/mail/dmarc.age;
     "secrets/passwords/mail/bots".file = ../secrets/passwords/mail/bots.age;
     "secrets/passwords/mail/robot".file = ../secrets/passwords/mail/robot.age;
-    "secrets/passwords/mqtt/hass".file = ../secrets/services/mosquitto/hass.age;
-    "secrets/passwords/mqtt/shelly".file = ../secrets/services/mosquitto/shelly.age;
+    "secrets/passwords/mqtt/hass".file = ../secrets/passwords/mqtt/hass.age;
+    "secrets/passwords/mqtt/shelly".file = ../secrets/passwords/mqtt/shelly.age;
 
     "secrets/api/cf".file = ../secrets/api/cf.age;
     "secrets/api/tailscale-temp".file = ../secrets/api/tailscale-temp.age;

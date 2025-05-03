@@ -40,7 +40,7 @@
     inetutils
     pciutils
     usbutils
-    nodejs
+    # nodejs
     gcc
     (aspellWithDicts (dicts: with dicts; [en en-science nl]))
     thunderbird

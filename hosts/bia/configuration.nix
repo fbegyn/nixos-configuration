@@ -90,7 +90,7 @@
   services.vscode-server = {
     enable = true;
     enableFHS = true;
-    nodejsPackage = pkgs.unstable.nodejs_18;
+    nodejsPackage = pkgs.unstable.nodejs_20;
   };
 
   # Open ports in the firewall.
