@@ -183,7 +183,7 @@
           })
           agenix.nixosModules.age
           lix-module.nixosModules.default
-          home-manager-unstable.darwinModules.home-manager ({config, ...}: {
+          home-manager.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
           })
