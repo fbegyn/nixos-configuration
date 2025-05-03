@@ -265,6 +265,7 @@
         extraModules = [
           ./hosts/hosting-01/configuration.nix
           website.nixosModules.x86_64-linux.website
+          agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -280,6 +281,7 @@
       hosting-02 = cloud.mkCloudGrub "hosting-02" {
         extraModules = [
           disko.nixosModules.disko
+          agenix.nixosModules.age
           ./lib/hosting.nix
           ./hosts/hosting-02/disko.nix
           website.nixosModules.x86_64-linux.website
@@ -295,6 +297,7 @@
         extraModules = [
           ./hosts/mail-01/configuration.nix
           nixos-mailserver.nixosModules.mailserver
+          agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
