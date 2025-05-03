@@ -3,9 +3,7 @@
 
 { config, pkgs, modulesPath, ... }:
 
-let
-    hosts = import ../../secrets/hosts.nix;
-in {
+{
   imports = [
     # Include the results of the hardware scan.
     (modulesPath+"/profiles/qemu-guest.nix")
@@ -271,8 +269,8 @@ in {
     listeners = [
       {
         address = "10.5.90.21";
-        users.shelly.passwordFile = config.age.secrets."secrets/passwords/mqtt/shelly.age";
-        users.hass.passwordFile = config.age.secrets."secrets/passwords/mqtt/hass.age";
+        users.shelly.passwordFile = config.age.secrets."secrets/passwords/mqtt/shelly".path;
+        users.hass.passwordFile = config.age.secrets."secrets/passwords/mqtt/hass".path;
       }
     ];
   };
@@ -326,51 +324,6 @@ in {
       RestrictSUIDSGID = true;
       SystemCallArchitectures = "native";
       SystemCallFilter = [ "@system-service" "~@privileged" ];
-    };
-  };
-
-  ## tt-rss RSS feed reader
-  services.tt-rss = {
-    enable = true;
-    virtualHost = null;
-    selfUrlPath = "https://news.francis.begyn.be";
-    database = {
-      createLocally = true;
-      passwordFile = "/var/lib/tt-rss/db-password";
-    };
-    email = {
-      server = "mail.begyn.be:587";
-      login = "bots";
-      password = "${hosts.mail.bots.password}";
-      security = "tls";
-      fromAddress = "bots@begyn.be";
-    };
-    singleUserMode = true;
-    auth = {
-      autoCreate = false;
-      autoLogin = false;
-    };
-    logDestination = "syslog";
-  };
-  services.nginx.virtualHosts."news.francis.begyn.be" = let
-    cfg = config.services.tt-rss;
-  in {
-    root = "${cfg.root}/www";
-    forceSSL = true;
-    useACMEHost = "selene.dcf.begyn.be";
-
-    locations."/" = {
-      index = "index.php";
-    };
-    locations."^~ /feed-icons" = {
-      root = "${cfg.root}";
-    };
-    locations."~ \\.php$" = {
-      extraConfig = ''
-        fastcgi_split_path_info ^(.+\.php)(/.+)$;
-        fastcgi_pass unix:${config.services.phpfpm.pools.tt-rss.socket};
-        fastcgi_index index.php;
-      '';
     };
   };
 

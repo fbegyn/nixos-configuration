@@ -4,7 +4,8 @@ let
   users = [ francis_mac francis_bia ];
 
   bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIErnN3QEyNE0JMsNLKKfRHck+Z3gJ43uYoQKHbM6jyas";
-  systems = [ bia ];
+  selene = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB9nISfOAr6o/O9xLlmxeQHA0Q+Az7T+S+AQnNOTy1Jl";
+  systems = [ bia selene ];
 in
 {
   "secrets/wireless.age".publicKeys = users ++ systems;

@@ -88,8 +88,8 @@
     "secrets/api/tailscale-temp".file = ../secrets/api/tailscale-temp.age;
 
     "secrets/services/alertmanager-env".file = ../secrets/services/alertmanager-env.age;
-    "secrets/services/hass-dcf".file = ../secrets/services/alertmanager-env.age;
-    "secrets/services/hass-dco".file = ../secrets/services/alertmanager-env.age;
+    "secrets/services/hass-dcf".file = ../secrets/services/hass-dcf.age;
+    "secrets/services/hass-dco".file = ../secrets/services/hass-dco.age;
 
     "secrets/data/borgbase/key".file = ../secrets/data/borgbase/key.age;
     "secrets/data/borgbase/ssh".file = ../secrets/data/borgbase/ssh.age;
