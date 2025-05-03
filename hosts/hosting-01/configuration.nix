@@ -183,7 +183,7 @@
     };
   };
   services.oauth2-proxy = let
-    hosts = import ../../secrets/hosts.nix;
+    hosts = import ../../secrets/hosts.nix { inherit config; };
   in {
     enable = true;
     email.addresses = ''
@@ -217,15 +217,18 @@
   };
 
   # tailscale machine specific
-  services.fbegyn.tailscale = let
-    hosts = import ../../secrets/hosts.nix;
-  in {
+  services.fbegyn.tailscale = {
     enable = false;
     autoprovision = {
       enable = true;
-      key = "${hosts.tailscale.tempkey}";
       options = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
     };
+  };
+  services.tailscale = {
+    enable = true;
+    authKeyFile = config.age.secrets."secrets/api/tailscale-temp".path;
+    extraSetFlags = [ "--advertise-tags=tag:prod,tag:hetzner,tag:cloud" ];
+    extraUpFlags = [ "--operator=francis" ];
   };
 
   # Enable the OpenSSH daemon.
