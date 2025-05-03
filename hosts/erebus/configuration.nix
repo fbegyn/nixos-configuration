@@ -1,6 +1,6 @@
 {config, pkgs, lib, ... }:
 let
-  vars = (import ../../secrets/hosts.nix).erebus;
+  sshAuthSock = "/Users/francis/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
 in {
   # system packages to install
   environment.systemPackages = with pkgs.unstable; [
@@ -38,7 +38,7 @@ in {
       "/opt/homebrew/bin"
     ];
     variables = {
-      SSH_AUTH_SOCK = "${vars.francis.sshAuthSock}";
+      SSH_AUTH_SOCK = "${sshAuthSock}";
       PAGER = "less";
       EDITOR = "nvim";
     };
@@ -48,13 +48,13 @@ in {
     enable = true;
     completion.enable = true;
     interactiveShellInit = ''
-     SSH_AUTH_SOCK=${vars.francis.sshAuthSock}
+     SSH_AUTH_SOCK=${sshAuthSock}
    '';
   };
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-     set SSH_AUTH_SOCK ${vars.francis.sshAuthSock}
+     set SSH_AUTH_SOCK ${sshAuthSock}
    '';
   };
 
