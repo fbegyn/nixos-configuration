@@ -127,6 +127,7 @@
             ];
             environment.systemPackages = [
               flox.packages.${pkgs.system}.default
+              agenix.packages.${pkgs.system}.default
             ];
           })
           lix-module.nixosModules.default
@@ -179,6 +180,7 @@
             ];
             environment.systemPackages = [
               flox.packages.${pkgs.system}.default
+              agenix.packages.${pkgs.system}.default
             ];
           })
           agenix.nixosModules.age
