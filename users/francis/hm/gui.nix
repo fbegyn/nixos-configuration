@@ -7,7 +7,6 @@
     ./python.nix
     ./configurations/mpv
     ./configurations/emacs
-    ./configurations/newsboat.nix
     ./configurations/direnv.nix
     ./configurations/zathura.nix
     ./configurations/udiskie.nix
