@@ -132,6 +132,12 @@
   };
   services.irqbalance.enable = true;
 
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri;
+  };
+  age.identityPaths = [ "/home/francis/.ssh/inuits-se" ];
+
   home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs30-gtk3;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
