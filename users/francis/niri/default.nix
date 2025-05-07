@@ -37,6 +37,7 @@ in {
     waybar-storage
     swaylock # lockscreen
     swayidle
+    swaybg
     mako # notification daemon
     slurp
     grim

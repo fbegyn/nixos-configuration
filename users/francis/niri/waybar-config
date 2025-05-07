@@ -4,8 +4,8 @@
     "height": 30,
 
     "modules-left": ["niri/workspaces", "wlr/taskbar"],
-    "modules-center": ["niri/window", "clock", "pulseaudio", "backlight", "niri/language"],
-    "modules-right": ["tray", "custom/spotify", "custom/storage",  "custom/bluetooth", "network", "idle_inhibitor", "battery"],
+    "modules-center": ["clock", "pulseaudio", "backlight", "niri/language"],
+    "modules-right": ["niri/window", "tray", "custom/spotify", "custom/storage",  "custom/bluetooth", "network", "idle_inhibitor", "battery"],
     "niri/workspaces": {
         "format": "{value}/{output}",
         "format-icons": {
@@ -26,8 +26,7 @@
     "niri/window": {
     	"format": "{}",
     	"rewrite": {
-    		"(.*) - Mozilla Firefox": "🌎 $1",
-    		"(.*) - zsh": "> [$1]"
+    		"(.*) -- Mozilla Firefox": "🌎 $1"
     	}
     },
     "clock": {
