@@ -37,7 +37,7 @@
     ../../users/francis/yubikey.nix
     ../../users/francis/gui.nix
     ../../users/francis/inuits.nix
-    ../../users/francis/sway
+    ../../users/francis/niri
 
     ../../services/tailscale.nix
   ];
@@ -132,13 +132,9 @@
   };
   services.irqbalance.enable = true;
 
-  programs.niri = {
-    enable = true;
-    package = pkgs.niri;
-  };
   age.identityPaths = [ "/home/francis/.ssh/inuits-se" ];
 
-  home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs30-gtk3;
+  home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs30-pgtk;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
