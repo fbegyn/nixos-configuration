@@ -746,59 +746,11 @@ ARG filename to open"
 (use-package better-defaults
   :config (ido-mode nil))
 
+(use-package groovy-mode)
+(use-package jenkinsfile-mode)
+
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
-
-;; (use-package company
-;;   :diminish (company-mode)
-;;   :hook (after-init . global-company-mode)
-;;   :custom
-;;   (company-dabbrev-downcase nil "Don't downcase completions")
-;;   (company-dabbrev-ignore-case t "Change full casing of completion if completion has different case")
-;;   (company-idle-delay 0.2)
-;;   (comapny-tooltip-align-annotations t)
-;;   (company-tooltip-limit 20)
-;;   (company-transformers '(company-sort-by-backend-importance))
-;;   (company-minimum-prefix-length 1 "Start autocompletion after 2 characters"))
-
-(use-package corfu
-  ;; Optional customizations
-  :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-auto-delay 0.1)
-  (corfu-auto-prefix 2)
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
-  ;; be used globally (M-/).  See also the customization variable
-  ;; `global-corfu-modes' to exclude certain modes.
-  :init
-  (global-corfu-mode))
-;; Use Dabbrev with Corfu!
-(use-package dabbrev
-  :ensure nil
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
-  :config
-  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
-  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
-  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
-  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
-  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
-
 
 (require 'dired)
 (use-package dired
