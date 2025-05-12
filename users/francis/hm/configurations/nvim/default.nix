@@ -40,8 +40,6 @@ let
       vimtex
       vim-go
       The_NERD_tree
-      #nerdtree-git-plugin
-      coc-nvim
       vim-ledger
       vim-nix
     ];
