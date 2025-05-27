@@ -14,10 +14,8 @@
       montserrat
       dina-font
       symbola
-      (nerdfonts.override { fonts = [
-        "FiraCode"
-        "DejaVuSansMono"
-      ];})
+      nerd-fonts.fira-code
+      nerd-fonts.dejavu-sans-mono
     ];
     fontconfig = {
       enable = true;
