@@ -6,7 +6,6 @@
     paperkey
     yubico-pam
     yubikey-manager
-    yubikey-manager-qt
     yubikey-personalization
     yubikey-personalization-gui
   ];
