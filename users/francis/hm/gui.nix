@@ -79,6 +79,7 @@
     spotify
     discord
     ollama
+    zed-editor
     (vscode-with-extensions.override {
       vscodeExtensions = with pkgs.unstable.vscode-extensions; [
         bbenoist.nix
