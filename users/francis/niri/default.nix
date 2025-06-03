@@ -42,7 +42,7 @@ in {
     slurp
     grim
     imv
-    flameshot
+    # unstable.flameshot.override { enableWlrSupport = true; }
     foot
     xdg-utils
     wl-clipboard
@@ -145,6 +145,12 @@ in {
       niriwaybarsh
     ];
     services.gnome-keyring.enable = true;
+
+    services.flameshot = {
+      enable = true;
+      package = pkgs.unstable.flameshot.override { enableWlrSupport = true; };
+    };
+
     xdg.configFile = {
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
