@@ -37,6 +37,8 @@
     ripgrep
     projecteur
     fd
+    difftastic
+    mergiraf
     inetutils
     pciutils
     usbutils
