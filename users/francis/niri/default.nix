@@ -32,6 +32,7 @@ in {
   environment.systemPackages = with pkgs; [
     xdg-utils
     niri
+    catppuccin-cursors.mochaMauve
     pkgs.waybar # status bar
     waybar-spotify
     waybar-storage
