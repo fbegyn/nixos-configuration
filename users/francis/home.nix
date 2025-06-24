@@ -25,7 +25,7 @@
     ./hm/configurations/alacritty
     ./hm/configurations/tmux
     ./hm/configurations/redshift.nix
-    ./hm/configurations/qutebrowser
+    # ./hm/configurations/qutebrowser
   ];
 
   xdg.configFile = {

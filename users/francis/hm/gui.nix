@@ -15,7 +15,7 @@
     ./configurations/tmux
     ./configurations/josm.nix
     ./configurations/redshift.nix
-    ./configurations/qutebrowser
+    # ./configurations/qutebrowser
     ../secrets/bash.nix
   ];
 
