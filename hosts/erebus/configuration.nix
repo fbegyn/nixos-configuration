@@ -73,11 +73,11 @@ in {
       brewfile = true;
     };
     casks = [
-      "docker"
       "telegram"
       "google-chrome"
       "visual-studio-code"
       "orbstack"
+      "docker"
       "freecad"
       "libreoffice"
       "tunnelblick"
@@ -86,6 +86,7 @@ in {
       "discord"
       "openzfs"
       "iina"
+      "finch"
     ];
     taps = [
     ];
@@ -103,6 +104,7 @@ in {
       "pinentry-mac"
       "wget"
       "icann-rdap"
+      "git-crypt"
     ];
   };
   # launchd config
@@ -120,7 +122,7 @@ in {
 
   # home-manager settings (darwin)
   home-manager.users.francis = {
-    home.stateVersion = "24.11";
+    home.stateVersion = "25.05";
     imports = [
       ../../users/francis/hm/colors.nix
       # ../../users/francis/hm/gui.nix
@@ -159,7 +161,7 @@ in {
       envsubst
       rclone
       rsync
-      home-manager
+      pkgs.home-manager
       yq
       jq
       # Comms
@@ -192,10 +194,6 @@ in {
       # pkgs.mycli
       # pkgs.litecli
       sqlite
-      # cachix
-      cachix
-      nix-index
-      nixos-rebuild
       # tools rewritten in rust
       hyperfine
       bandwhich
@@ -245,7 +243,7 @@ in {
   # services.nix-daemon.enable = true;
   nix = {
     # useDaemon = true;
-    # package = pkgs.unstable.nix;
+    # package = pkgs.nixVersions.nix_2_29;
     linux-builder = {
       enable = false;
       package = pkgs.darwin.linux-builder-x86_64;

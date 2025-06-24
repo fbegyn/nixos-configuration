@@ -182,7 +182,7 @@
               agenix.packages.${pkgs.system}.default
             ];
           })
-          agenix.nixosModules.age
+          agenix.darwinModules.age
           lix-module.nixosModules.default
           home-manager.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
