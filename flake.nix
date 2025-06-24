@@ -25,11 +25,11 @@
     };
 
     flox = {
-      url = "github:flox/flox/v1.3.11";
+      url = "github:flox/flox/v1.4.4";
     };
 
     lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -42,7 +42,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     ghostty = {
-      url = "github:ghostty-org/ghostty/3f7c3afaf947280bd2852626ff4599c02d9fb07e";
+      url = "github:ghostty-org/ghostty";
     };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
