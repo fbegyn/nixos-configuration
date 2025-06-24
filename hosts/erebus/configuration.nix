@@ -14,13 +14,15 @@ in {
 
   fonts = {
     packages = with pkgs; [
-      nerdfonts
-      terminus-nerdfont
+      nerd-fonts.dejavu-sans-mono
+      nerd-fonts.fira-code
+      nerd-fonts.terminess-ttf
     ];
   };
 
-  security.pam.enableSudoTouchIdAuth = true;
+  security.pam.services.sudo_local.touchIdAuth = true;
 
+  system.primaryUser = "francis";
   users.users.francis = {
     uid = 501;
     home = "/Users/francis";
@@ -176,6 +178,7 @@ in {
       wakeonlan
       ripgrep
       fd
+      zed-editor
       bat
       discord
       inetutils
@@ -239,9 +242,9 @@ in {
 
   # nix settings
   nixpkgs.hostPlatform = "aarch64-darwin";
-  services.nix-daemon.enable = true;
+  # services.nix-daemon.enable = true;
   nix = {
-    useDaemon = true;
+    # useDaemon = true;
     # package = pkgs.unstable.nix;
     linux-builder = {
       enable = false;
