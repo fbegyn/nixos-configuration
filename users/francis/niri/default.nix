@@ -152,6 +152,13 @@ in {
       package = pkgs.unstable.flameshot.override { enableWlrSupport = true; };
     };
 
+    programs.waybar = {
+      enable = true;
+      systemd = {
+        enable = true;
+      };
+    };
+
     xdg.configFile = {
       "waybar/config".source = ./waybar-config;
       "waybar/style.css".source = ./waybar-style.css;
