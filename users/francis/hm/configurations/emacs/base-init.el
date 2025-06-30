@@ -629,7 +629,11 @@ ARG filename to open"
   (global-diff-hl-mode))
 
 (use-package vterm
-  :demand)
+  :demand
+  :config
+  (add-hook
+	'term-mode-hook
+	(lambda() (setq show-trailing-whitespace nil))))
 (use-package vterm-toggle
   :general
   (fb/leader-keys
@@ -725,8 +729,9 @@ ARG filename to open"
 
 (use-package deno-ts-mode)
 
+;; TRAMP settings
 (require 'tramp)
-(setq tramp-default-method "ssh")
+;; (setq tramp-default-method "scp")
 (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
 (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
 (add-to-list 'tramp-remote-path "/home/francis/.nix-profile/bin")
@@ -742,6 +747,41 @@ ARG filename to open"
                        (directory-files
                         "~/.ssh/conf.d/"
                         'full directory-files-no-dot-files-regexp))))
+;; making TRAMP go brrrr
+(setq remote-file-name-inhibit-locks t
+      tramp-use-scp-direct-remote-copying t
+      remote-file-name-inhibit-auto-save-visited t)
+
+(setq tramp-copy-size-limit (* 1024 1024) ;; 1MB
+      tramp-verbose 2)
+
+(connection-local-set-profile-variables
+ 'remote-direct-async-process
+ '((tramp-direct-async-process . t)))
+
+(connection-local-set-profiles
+ '(:application tramp :protocol "scp")
+ 'remote-direct-async-process)
+
+(setq magit-tramp-pipe-stty-settings 'pty)
+
+(with-eval-after-load 'tramp
+  (with-eval-after-load 'compile
+    (remove-hook 'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
+
+;; MAGIT tramp
+;; don't show the diff by default in the commit buffer. Use `C-c C-d' to display it
+(setq magit-commit-show-diff nil)
+;; don't show git variables in magit branch
+(setq magit-branch-direct-configure nil)
+;; don't automatically refresh the status buffer after running a git command
+(setq magit-refresh-status-buffer nil)
+
+(defun $lsp-unless-remote ()
+  (if (file-remote-p buffer-file-name)
+      (progn (eldoc-mode -1)
+             (setq-local completion-at-point-functions nil))
+    (lsp)))
 
 (use-package better-defaults
   :config (ido-mode nil))
