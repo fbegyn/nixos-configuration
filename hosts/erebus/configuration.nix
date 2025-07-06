@@ -180,7 +180,7 @@ in {
       wakeonlan
       ripgrep
       fd
-      zed-editor
+      # zed-editor
       bat
       discord
       inetutils
