@@ -117,7 +117,11 @@
   # replicates the default behaviour.
   networking.useDHCP = false;
   networking.networkmanager.enable = true;
-  networking.networkmanager.wifi.backend = "iwd";
+  networking.networkmanager.wifi.backend = "wpa_supplicant";
+  # systemd.services.iwd.serviceConfig.ReadWritePaths = [
+  #   "+/var/lib/vdab"
+  #   "-/etc/resolv.conf"
+  # ];
   # networking.interfaces.enp2s0f0.useDHCP = true;
   # networking.interfaces.enp5s0.useDHCP = true;
   # networking.interfaces.wlp3s0.useDHCP = true;

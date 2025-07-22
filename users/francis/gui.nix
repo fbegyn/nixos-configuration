@@ -13,6 +13,11 @@
     };
   };
 
+  programs.projecteur = {
+    enable = true;
+    package = pkgs.unstable.projecteur;
+  };
+
   environment.systemPackages = with pkgs; [
     firefox
     solaar
