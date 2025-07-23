@@ -91,6 +91,10 @@
   (display-time-mode -1)
   (setq column-number-mode t)
 
+  (setq which-key-show-early-on-C-h t
+      which-key-idle-delay 1e6 ; 11 days
+      which-key-idle-secondary-delay 0.05)
+
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
   ;; (defun crm-indicator (args)
@@ -346,6 +350,13 @@ ARG filename to open"
     "sr"  '(rg :which-key "rg")
     "sm"  '(rg-menu :which-key "rg-menu"))
   )
+
+(use-package embark
+  :config
+  (setq prefix-help-command #'embark-prefix-help)
+  (vertico-multiform-mode)
+  (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
+)
 
 ;; completion
 ;; frontend setup
