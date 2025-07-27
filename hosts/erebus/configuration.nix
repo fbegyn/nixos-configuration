@@ -87,6 +87,7 @@ in {
       "openzfs"
       "iina"
       "finch"
+      "wireshark-app"
     ];
     taps = [
     ];
@@ -245,7 +246,7 @@ in {
     # useDaemon = true;
     # package = pkgs.nixVersions.nix_2_29;
     linux-builder = {
-      enable = false;
+      enable = true;
       package = pkgs.darwin.linux-builder-x86_64;
       systems = [ "x86_64-linux" "aarch64-linux" ];
       ephemeral = true;
