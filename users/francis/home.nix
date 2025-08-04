@@ -48,7 +48,7 @@
     thunderbird
     # Browser
     chromium
-    firefox
+    pkgs.firefox
     # entertainement
     playerctl
     pulsemixer

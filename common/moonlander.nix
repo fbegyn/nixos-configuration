@@ -3,7 +3,7 @@
 {
   environment.systemPackages = with pkgs; [
     wally-cli
-    keymapp
+    # keymapp
   ];
   services.udev.extraRules = ''
     # Rules for Oryx web flashing and live training
