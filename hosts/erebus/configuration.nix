@@ -271,9 +271,23 @@ in {
     buildMachines = [
       {
         system = "x86_64-linux";
-        hostName = "10.5.1.22";
+        hostName = "100.114.137.72";
         maxJobs = 4;
+        speedFactor = 5;
         sshUser = "francis";
+      }
+      {
+        system = "x86_64-linux";
+        hostName = "100.119.147.7";
+        maxJobs = 4;
+        speedFactor = 10;
+        sshUser = "francis";
+      }
+      {
+        system = "aarch64-linux";
+        hostName = "linux-builder";
+        speedFactor = 1;
+        maxJobs = 4;
       }
     ];
     settings = {
