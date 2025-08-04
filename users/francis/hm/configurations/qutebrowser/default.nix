@@ -3,7 +3,7 @@
 {
   programs.qutebrowser = {
     enable = true;
-    package = pkgs.unstable.qutebrowser;
+    package = pkgs.qutebrowser;
     aliases = {
       w = "session-save";
       q = "quit";
