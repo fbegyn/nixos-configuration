@@ -50,13 +50,6 @@
       automatic = true;
     };
     distributedBuilds = true;
-    buildMachines = [
-      {
-        system = "x86_64-linux";
-        hostName = "nix-builder-01";
-        maxJobs = 4;
-      }
-    ];
   };
 
   services.journald.extraConfig = ''
