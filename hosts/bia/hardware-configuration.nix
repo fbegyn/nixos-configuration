@@ -13,39 +13,41 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "SystemPool/root";
-      fsType = "zfs"; options = [ "zfsutil" ];
-    };
+  fileSystems."/" = {
+    device = "SystemPool/root";
+    fsType = "zfs"; options = [ "zfsutil" ];
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/BD77-EA55";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/BD77-EA55";
+    fsType = "vfat";
+  };
 
-  fileSystems."/nix" =
-    { device = "SystemPool/nix";
-      fsType = "zfs"; options = [ "zfsutil" ];
-    };
+  fileSystems."/nix" = {
+    device = "SystemPool/nix";
+    fsType = "zfs"; options = [ "zfsutil" ];
+  };
 
-  fileSystems."/home/francis" =
-    { device = "SlowStoragePool/francis/home";
-      fsType = "zfs"; options = [ "zfsutil" ];
-    };
+  fileSystems."/home/francis" = {
+    device = "SlowStoragePool/francis/home";
+    fsType = "zfs"; options = [ "zfsutil" ];
+  };
 
-  fileSystems."/home/francis/.games" =
-    { device = "StoragePool/francis/games";
-      fsType = "zfs"; options = [ "zfsutil" ];
-    };
+  fileSystems."/home/francis/.games" ={
+    depends = [ "/home/francis" ];
+    device = "StoragePool/francis/games";
+    fsType = "zfs"; options = [ "zfsutil" ];
+  };
 
-  fileSystems."/home/francis/Documents" =
-    { device = "StoragePool/francis/docs";
-      fsType = "zfs"; options = [ "zfsutil" ];
-    };
+  fileSystems."/home/francis/Documents" = {
+    depends = [ "/home/francis" ];
+    device = "StoragePool/francis/docs";
+    fsType = "zfs"; options = [ "zfsutil" ];
+  };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/e543ec3e-4552-4315-a970-e98ebed98750"; }
-    ];
+  swapDevices = [
+    { device = "/dev/disk/by-uuid/e543ec3e-4552-4315-a970-e98ebed98750"; }
+  ];
 
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
