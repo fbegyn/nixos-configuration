@@ -58,7 +58,6 @@ in
   };
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
-    TERM = "xterm-256color"; #TODO: fix when switching to ghotty
   };
 
   xdg = {
