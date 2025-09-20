@@ -46,6 +46,16 @@
     nvidiaSettings = true;
   };
 
+  services.desktopManager.plasma6 = {
+    enable = true;
+  };
+
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    plasma-browser-integration
+    konsole
+    elisa
+  ];
+
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 

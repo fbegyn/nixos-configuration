@@ -4,7 +4,7 @@
   home.stateVersion = "24.11";
 
   programs.ghostty = {
-    enable = false;
+    enable = true;
   };
 
   imports = [

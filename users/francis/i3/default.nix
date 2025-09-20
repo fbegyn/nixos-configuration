@@ -48,6 +48,14 @@
           Option "XkbVariant" "altgr-intl"
           Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
         ''
+        ''
+          Identifier "Keychron K2 swap cmd/alt"
+          MatchProduct "Keychron K2 Max Keyboard"
+          MatchIsKeyboard "on"
+          Option "XkbLayout" "us"
+          Option "XkbVariant" "altgr-intl"
+          Option "XkbOptions" "eurosign:5,altwin:swap_alt_win"
+        ''
       ];
     };
     services.libinput = {
