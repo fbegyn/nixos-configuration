@@ -65,10 +65,10 @@
       };
     };
 
-    services.xserver.displayManager.lightdm.enable = true;
-    services.displayManager.defaultSession = "none+i3";
+    services.xserver.displayManager.lightdm.enable = false;
+    # services.displayManager.defaultSession = "none+i3";
     services.xserver.windowManager.i3 = {
-      enable = true;
+      enable = false;
       package = pkgs.unstable.i3;
       extraPackages = with pkgs.unstable; [
         alacritty
