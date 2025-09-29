@@ -77,7 +77,6 @@ in {
       "google-chrome"
       "visual-studio-code"
       "orbstack"
-      "docker"
       "freecad"
       "libreoffice"
       "tunnelblick"
