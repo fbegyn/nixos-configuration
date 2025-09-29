@@ -73,6 +73,7 @@
     # cachix
     cachix
     nix-index
+    nixos-generators
     # tools rewritten in rust
     hyperfine
     # unfree packages
