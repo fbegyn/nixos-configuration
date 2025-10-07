@@ -639,6 +639,18 @@ ARG filename to open"
   :config
   (global-diff-hl-mode))
 
+(use-package jj-mode
+  :vc (:url "https://github.com/bolivier/jj-mode.el")
+  :general
+  (fb/leader-keys
+    "j" '(:ignore t :which-key "jujutsu")
+    "j <escape>" '(keyboard-escape-quit :which-key t)
+    "j l" '(jj-log :which-key "log")
+    "j r" '(jj-log-refresh :which-key "refresh jj log")
+    "j b" '(magit-branch-checkout :which-key "checkout branch"))
+  (general-nmap
+    "<escape>" #'transient-quit-one))
+
 (use-package vterm
   :demand
   :config
@@ -1042,6 +1054,15 @@ ARG filename to open"
   :mode "\\.yml\\'"
   :mode "\\.yaml\\'")
 
+(use-package jinja2-mode
+  :mode "\\.j2\\'")
+
+(use-package flymake-ansible-lint
+  :ensure t
+  :commands flymake-ansible-lint-setup
+  :hook (((yaml-ts-mode yaml-mode) . flymake-ansible-lint-setup)
+         ((yaml-ts-mode yaml-mode) . flymake-mode)))
+
 (use-package js2-mode
   :mode "\\.js\\'")
 
@@ -1054,6 +1075,19 @@ ARG filename to open"
   ("TAB" . nil)
   ("M-TAB" . "yas-expand"))
 )
+
+(use-package pyvenv
+  :ensure t
+  :config
+  (pyvenv-mode t)
+
+  ;; Set correct Python interpreter
+  (setq pyvenv-post-activate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
+  (setq pyvenv-post-deactivate-hooks
+        (list (lambda ()
+                (setq python-shell-interpreter "python")))))
 
 (setq read-process-output-max (* 1024 1024))
 (setq initial-scratch-message "coi")
