@@ -100,7 +100,7 @@ in {
       "yubikey-personalization"
       "ykman"
       "librsvg"
-      "texlive"
+      # "texlive"
       "pinentry-mac"
       "wget"
       "icann-rdap"
