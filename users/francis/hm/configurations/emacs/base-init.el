@@ -639,18 +639,6 @@ ARG filename to open"
   :config
   (global-diff-hl-mode))
 
-(use-package jj-mode
-  :vc (:url "https://github.com/bolivier/jj-mode.el")
-  :general
-  (fb/leader-keys
-    "j" '(:ignore t :which-key "jujutsu")
-    "j <escape>" '(keyboard-escape-quit :which-key t)
-    "j l" '(jj-log :which-key "log")
-    "j r" '(jj-log-refresh :which-key "refresh jj log")
-    "j b" '(magit-branch-checkout :which-key "checkout branch"))
-  (general-nmap
-    "<escape>" #'transient-quit-one))
-
 (use-package vterm
   :demand
   :config
