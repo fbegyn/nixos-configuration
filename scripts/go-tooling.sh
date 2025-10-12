@@ -8,4 +8,5 @@ go install -v github.com/goreleaser/goreleaser@latest
 go install -v mvdan.cc/gofumpt@latest
 go install -v github.com/jondot/goweight@latest
 go install -v github.com/Zxilly/go-size-analyzer/cmd/gsa@latest
+go install -v github.com/idursun/jjui/cmd/jjui@latest
 

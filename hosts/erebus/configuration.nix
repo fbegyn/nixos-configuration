@@ -119,6 +119,9 @@ in {
     ];
   };
 
+  imports = [
+    ../../users/francis/variables.nix
+  ];
 
   # home-manager settings (darwin)
   home-manager.users.francis = {
