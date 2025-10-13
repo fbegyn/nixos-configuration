@@ -73,6 +73,7 @@
     # cachix
     cachix
     nix-index
+    meld
     nixos-generators
     # tools rewritten in rust
     hyperfine
