@@ -93,6 +93,7 @@
     website,
     nixos-mailserver
   }: let
+    lib = nixpkgs.lib;
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
         system = prev.system;
@@ -144,18 +145,29 @@
         system = "x86_64-linux";
         format = "proxmox-lxc";
         modules = [
-          ({config, pkgs, ...}: {
+          ({config, pkgs, modulesPath, ...}: {
+            imports = [
+              (modulesPath+"/profiles/qemu-guest.nix")
+              (modulesPath+"/virtualisation/proxmox-lxc.nix")
+            ];
             nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-            nixpkgs.config.allowUnfree = true;
+            nixpkgs.config.allowUnfree = lib.mkDefault true;
             nixpkgs.overlays = [
               overlay
             ];
             proxmoxLXC = {
-              enable = true;
-              privileged = true;
-              manageNetwork = false;
-              manageHostName = true;
+              enable = lib.mkDefault true;
+              privileged = lib.mkDefault true;
+              manageNetwork = lib.mkDefault false;
+              manageHostName = lib.mkDefault true;
             };
+            boot.isContainer = lib.mkDefault true;
+            boot.growPartition = lib.mkDefault true;
+            i18n.defaultLocale = "en_US.UTF-8";
+            time.timeZone = lib.mkDefault "Europe/Brussels";
+            systemd.services.zfs-mount.enable = false;
+            systemd.services.zfs-share.enable = false;
+            systemd.services.zfs-zed.enable = false;
           })
           lix-module.nixosModules.default
           agenix.nixosModules.age
@@ -320,8 +332,13 @@
       nix-builder-01 = mkMachine [
         ./hosts/nix-builder-01/configuration.nix
       ];
+    };
+    packages.x86_64-linux = {
       lxc-template = mkProxmoxLXC [
         ./hosts/proxmox-ct-template/configuration.nix
+      ];
+      ingress-01 = mkProxmoxLXC [
+        ./hosts/homelab/ingress-01/configuration.nix
       ];
     };
   };
