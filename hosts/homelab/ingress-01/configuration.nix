@@ -108,9 +108,9 @@
   users.users.root.password = "foobar";
   home-manager.users.francis = {
     imports = [
-      ../../users/francis/hm/go.nix
-      ../../users/francis/hm/configurations/fish.nix
-      ../../users/francis/hm/configurations/bash.nix
+      ../../../users/francis/hm/go.nix
+      ../../../users/francis/hm/configurations/fish.nix
+      ../../../users/francis/hm/configurations/bash.nix
     ];
   };
   system.stateVersion = "25.05"; # Did you read the comment?
