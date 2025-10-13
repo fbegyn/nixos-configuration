@@ -36,7 +36,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelParams = [ "nvidia-drm.modeset=1" ];
+  boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=1" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
 
   services.xserver.videoDrivers = [ "nvidia" ];
