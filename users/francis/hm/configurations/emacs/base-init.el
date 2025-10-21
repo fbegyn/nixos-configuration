@@ -11,7 +11,7 @@
 ;; For :general in (use-package)
 (require 'general)
 ;; For :diminish in (use-package).
-(use-package diminish)
+(use-package diminish :ensure t)
 ;; For :bind in (use-package).
 (require 'bind-key)
 
@@ -88,7 +88,7 @@
         default-process-coding-system '(utf-8-unix . utf-8-unix))
   (set-terminal-coding-system 'utf-8)
   ;; Clean up the mode line
-  (display-time-mode -1)
+  (display-time-mode 1)
   (setq column-number-mode t)
 
   (setq which-key-show-early-on-C-h t
@@ -996,7 +996,23 @@ ARG filename to open"
 (use-package nix-mode
   :mode "\\.nix\\'")
 
-(use-package org)
+(use-package org
+  :init
+  (setq org-default-notes-file "~/org/inbox.org")
+  :config
+  (fb/leader-keys
+    "c c"  '(org-capture :which-key "org-capture")))
+  (add-to-list 'org-capture-templates
+             '("s" "Standup"  entry
+               (file "~/org/work/standup.org")
+               "* STANDUP %?" :empty-lines 1)
+             '("n" "Work note"  entry
+               (file "~/org/work/notes.org")
+               "* NOTE %?" :empty-lines 1)
+             '("w" "Work task"  entry
+               (file "~/org/work/tasks.org")
+               "* TODO %?" :empty-lines 1)
+             )
 (use-package org-download)
 (use-package org-roam)
 (use-package org-roam-ui)
