@@ -999,20 +999,15 @@ ARG filename to open"
 (use-package org
   :init
   (setq org-default-notes-file "~/org/inbox.org")
+  (setq org-capture-templates
+      '(
+		("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("s" "Standup" entry (file+datetree "~/org/standup.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
   :config
   (fb/leader-keys
     "c c"  '(org-capture :which-key "org-capture")))
-  (add-to-list 'org-capture-templates
-             '("s" "Standup"  entry
-               (file "~/org/work/standup.org")
-               "* STANDUP %?" :empty-lines 1)
-             '("n" "Work note"  entry
-               (file "~/org/work/notes.org")
-               "* NOTE %?" :empty-lines 1)
-             '("w" "Work task"  entry
-               (file "~/org/work/tasks.org")
-               "* TODO %?" :empty-lines 1)
-             )
 (use-package org-download)
 (use-package org-roam)
 (use-package org-roam-ui)
