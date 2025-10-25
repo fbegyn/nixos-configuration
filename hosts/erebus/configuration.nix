@@ -9,6 +9,7 @@ in {
     sshpass
     openssh
     nixos-generators
+    mosh
   ];
 
   system.stateVersion = 5;
