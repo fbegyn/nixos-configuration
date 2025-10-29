@@ -10,6 +10,7 @@
     # <nixos-hardware/common/cpu/amd>
     ./hardware-configuration.nix
     ../../common
+    ../../common/nvidia.nix
     ../../common/bluetooth.nix
     ../../common/moonlander.nix
     ../../common/ios.nix
@@ -36,15 +37,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.kernelParams = [ "nvidia-drm.modeset=1" "nvidia-drm.fbdev=1" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
-
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware.nvidia = {
-    modesetting.enable = false;
-    open = false;
-    nvidiaSettings = true;
-  };
 
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
