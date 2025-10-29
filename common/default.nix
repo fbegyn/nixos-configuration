@@ -52,6 +52,13 @@
     distributedBuilds = true;
   };
 
+  documentation.man = {
+    enable = true;
+    mandoc.enable = true;
+    man-db.enable = false;
+    generateCaches = false;
+  };
+
   services.journald.extraConfig = ''
     SystemMaxUse=100M
     MaxFileSec=7day
