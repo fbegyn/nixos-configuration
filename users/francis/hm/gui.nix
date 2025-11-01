@@ -22,7 +22,7 @@
   home.packages = with pkgs.unstable; [
     weechat
     typst
-    typst-fmt
+    typstfmt
     tinymist
     ripgrep
     jujutsu

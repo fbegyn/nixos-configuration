@@ -178,7 +178,7 @@ in {
       sketchybar
       typst
       tinymist
-      typst-fmt
+      typstfmt
       typst-live
       tree-sitter
       typescript-language-server
