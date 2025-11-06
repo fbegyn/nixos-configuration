@@ -86,14 +86,18 @@ in {
       "josm"
       "discord"
       "openzfs"
-      "iina"
+      "mpv"
       "finch"
       "wireshark-app"
+      "nikitabobko/tap/aerospace"
     ];
     taps = [
+      "nikitabobko/tap"
+      "felixkratz/formulae"
     ];
     brews = [
       "podman"
+      "mpv"
       "ffmpeg"
       "yt-dlp"
       "htop"
@@ -107,6 +111,7 @@ in {
       "wget"
       "icann-rdap"
       "git-crypt"
+      "borders"
     ];
   };
   # launchd config
