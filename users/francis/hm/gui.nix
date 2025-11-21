@@ -22,9 +22,9 @@
   home.packages = with pkgs.unstable; [
     weechat
     typst
-    typstfmt
     tinymist
     ripgrep
+    opentofu
     jujutsu
     ranger
     projecteur
