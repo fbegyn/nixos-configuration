@@ -329,6 +329,9 @@
       selene = mkMachine [
         ./hosts/selene/configuration.nix
       ];
+      infra-01 = mkMachine [
+        ./hosts/infra-01/configuration.nix
+      ];
       proxy-01 = mkMachine [
         ./hosts/proxy-01/configuration.nix
       ];
