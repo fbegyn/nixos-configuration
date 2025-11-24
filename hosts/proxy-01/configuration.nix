@@ -44,7 +44,23 @@
     useDHCP = false;
     nameservers = [ "1.1.1.1" "8.8.8.8" ];
     firewall = {
-      enable = false;
+      enable = true;
+      interfaces = {
+        veth0 = {
+          allowedTCPPorts = [
+            2022
+            80
+            443
+          ];
+        };
+        mgmt = {
+          allowedTCPPorts = [
+            22
+            8404
+            8405
+          ];
+        };
+      };
       allowedTCPPorts = [
         22 # ssh
         80 # HTTP
@@ -76,8 +92,10 @@
     networks = {
       "30-veth0" = {
         matchConfig.Name = "veth0";
-        # address = [ "10.5.1.102/24" ];
-        # routes = [ { Gateway = "10.5.1.5"; } ];
+        address = [ "10.5.1.102/24" ];
+        routes = [
+          { Gateway = "10.5.1.5"; }
+        ];
         vlan = [
           "mgmt"
         ];
@@ -94,8 +112,31 @@
       "130-mgmt" = {
         matchConfig.Name = "mgmt";
         address = [ "10.5.30.102/24" ];
-        routes = [ { Gateway = "10.5.30.5"; } ];
+        routes = [
+          {
+            Gateway = "10.5.30.5";
+            Destination = "10.5.20.0/24";
+            PreferredSource = "10.5.30.102";
+            Table = "130";
+          }
+          {
+            Destination = "10.5.30.0/24";
+            Table = "130";
+          }
+        ];
         networkConfig.DHCP = "ipv6";
+        routingPolicyRules = [
+          {
+            Family = "both";
+            IncomingInterface = "mgmt";
+            Table = "130";
+          }
+          {
+            Family = "both";
+            OutgoingInterface = "mgmt";
+            Table = "130";
+          }
+        ];
         linkConfig.RequiredForOnline = "routable";
       };
     };
@@ -134,19 +175,39 @@
         mode http
         balance roundrobin
 
+      frontend stats
+        bind 10.5.30.102:8404
+        stats enable
+        stats uri /stats
+        stats refresh 10s
+        stats admin if TRUE
+
+      frontend metrics
+        bind 10.5.30.102:8405
+        mode http
+        http-request use-service prometheus-exporter if { path /metrics }
+        no log
+
       frontend http
-        bind :80
-        default_backend app-http
+        bind 10.5.1.102:80
+        default_backend app
 
       frontend https
-        bind :443
-        default_backend app-https
+        bind 10.5.1.102:443
+        acl git_https_traffic hdr(host) -i git.begyn.be
+        use_backend infra if git_https_traffic
+        default_backend app
 
-      backend app-http
-        server app-01 10.5.30.103
+      frontend ssh
+        bind 10.5.1.102:2022
+        acl git_ssh_traffic hdr(host) -i git.begyn.be
+        use_backend infra if git_ssh_traffic
 
-      backend app-https
-        server app-01 10.5.30.103
+      backend infra
+        server infra-01 10.5.1.101
+
+      backend app
+        server app-01 10.5.1.103
     '';
   };
 
