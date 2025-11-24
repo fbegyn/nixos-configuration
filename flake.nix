@@ -335,6 +335,9 @@
       proxy-01 = mkMachine [
         ./hosts/proxy-01/configuration.nix
       ];
+      app-01 = mkMachine [
+        ./hosts/app-01/configuration.nix
+      ];
       nix-builder-01 = mkMachine [
         ./hosts/nix-builder-01/configuration.nix
       ];
