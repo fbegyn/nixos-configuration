@@ -25,7 +25,11 @@
   ];
 
   # no EFI partition on containers
-  proxmoxLXC.enable = true;
+  proxmoxLXC = {
+    privileged = true;
+    manageNetwork = false;
+    manageHostName = false;
+  };
   boot.isContainer = true;
 
   # Select internationalisation properties.
@@ -49,6 +53,10 @@
         22 # ssh
         80 # HTTP
         443 # HTTPS
+
+        8123 # hass
+        1883 # mqqt
+        5683 # CoIoT
       ];
     };
   };
@@ -72,30 +80,66 @@
         netdevConfig = { Kind = "vlan"; Name = "mgmt"; };
         vlanConfig.Id = 130;
       };
+      "190-iot" = {
+        netdevConfig = { Kind = "vlan"; Name = "iot"; };
+        vlanConfig.Id = 190;
+      };
     };
     networks = {
       "30-veth0" = {
         matchConfig.Name = "veth0";
-        # address = [ "10.5.1.103/24" ];
-        # routes = [ { Gateway = "10.5.1.5"; } ];
+        address = [ "10.5.1.103/24" ];
+        routes = [
+          { Gateway = "10.5.1.5"; }
+        ];
         vlan = [
           "mgmt"
+          "iot"
         ];
         networkConfig.DHCP = "ipv6";
         linkConfig.RequiredForOnline = "carrier";
       };
-      # "10-tailscale0" = {
-      #   matchConfig.Name = "tailscale*";
-      #   linkConfig = {
-	  #       Unmanaged = "yes";
-      #     RequiredForOnline = "no";
-      #   };
-      # };
+      "10-tailscale0" = {
+        matchConfig.Name = "tailscale*";
+        linkConfig = {
+	        Unmanaged = "yes";
+          RequiredForOnline = "no";
+        };
+      };
       "130-mgmt" = {
         matchConfig.Name = "mgmt";
         address = [ "10.5.30.103/24" ];
-        routes = [ { Gateway = "10.5.30.5"; } ];
+        routes = [
+          {
+            Destination = "10.5.30.0/24";
+            Table = "130";
+          }
+        ];
         networkConfig.DHCP = "ipv6";
+        routingPolicyRules = [
+          {
+            To = "10.5.30.0/24";
+            Table = "130";
+          }
+        ];
+        linkConfig.RequiredForOnline = "routable";
+      };
+      "190-iot" = {
+        matchConfig.Name = "mgmt";
+        address = [ "10.5.90.103/24" ];
+        routes = [
+          {
+            Destination = "10.5.90.0/24";
+            Table = "190";
+          }
+        ];
+        networkConfig.DHCP = "ipv6";
+        routingPolicyRules = [
+          {
+            To = "10.5.90.0/24";
+            Table = "190";
+          }
+        ];
         linkConfig.RequiredForOnline = "routable";
       };
     };

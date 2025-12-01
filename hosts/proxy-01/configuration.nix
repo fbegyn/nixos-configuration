@@ -102,23 +102,17 @@
         networkConfig.DHCP = "ipv6";
         linkConfig.RequiredForOnline = "carrier";
       };
-      # "10-tailscale0" = {
-      #   matchConfig.Name = "tailscale*";
-      #   linkConfig = {
-	  #       Unmanaged = "yes";
-      #     RequiredForOnline = "no";
-      #   };
-      # };
+      "10-tailscale0" = {
+        matchConfig.Name = "tailscale*";
+        linkConfig = {
+	        Unmanaged = "yes";
+          RequiredForOnline = "no";
+        };
+      };
       "130-mgmt" = {
         matchConfig.Name = "mgmt";
         address = [ "10.5.30.102/24" ];
         routes = [
-          {
-            Gateway = "10.5.30.5";
-            Destination = "10.5.20.0/24";
-            PreferredSource = "10.5.30.102";
-            Table = "130";
-          }
           {
             Destination = "10.5.30.0/24";
             Table = "130";
@@ -127,13 +121,7 @@
         networkConfig.DHCP = "ipv6";
         routingPolicyRules = [
           {
-            Family = "both";
-            IncomingInterface = "mgmt";
-            Table = "130";
-          }
-          {
-            Family = "both";
-            OutgoingInterface = "mgmt";
+            To = "10.5.30.0/24";
             Table = "130";
           }
         ];

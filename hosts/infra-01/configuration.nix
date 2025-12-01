@@ -72,6 +72,10 @@
         netdevConfig = { Kind = "vlan"; Name = "mgmt"; };
         vlanConfig.Id = 130;
       };
+      "190-iot" = {
+        netdevConfig = { Kind = "vlan"; Name = "iot"; };
+        vlanConfig.Id = 190;
+      };
     };
     networks = {
       "30-veth0" = {
@@ -80,22 +84,52 @@
         # routes = [ { Gateway = "10.5.1.5"; } ];
         vlan = [
           "mgmt"
+          "iot"
         ];
         networkConfig.DHCP = "ipv6";
         linkConfig.RequiredForOnline = "carrier";
       };
-      # "10-tailscale0" = {
-      #   matchConfig.Name = "tailscale*";
-      #   linkConfig = {
-	  #       Unmanaged = "yes";
-      #     RequiredForOnline = "no";
-      #   };
-      # };
+      "10-tailscale0" = {
+        matchConfig.Name = "tailscale*";
+        linkConfig = {
+	        Unmanaged = "yes";
+          RequiredForOnline = "no";
+        };
+      };
       "130-mgmt" = {
         matchConfig.Name = "mgmt";
         address = [ "10.5.30.101/24" ];
-        routes = [ { Gateway = "10.5.30.5"; } ];
+        routes = [
+          {
+            Destination = "10.5.30.0/24";
+            Table = "130";
+          }
+        ];
         networkConfig.DHCP = "ipv6";
+        routingPolicyRules = [
+          {
+            To = "10.5.30.0/24";
+            Table = "130";
+          }
+        ];
+        linkConfig.RequiredForOnline = "routable";
+      };
+      "190-iot" = {
+        matchConfig.Name = "mgmt";
+        address = [ "10.5.90.101/24" ];
+        routes = [
+          {
+            Destination = "10.5.90.0/24";
+            Table = "190";
+          }
+        ];
+        networkConfig.DHCP = "ipv6";
+        routingPolicyRules = [
+          {
+            To = "10.5.90.0/24";
+            Table = "190";
+          }
+        ];
         linkConfig.RequiredForOnline = "routable";
       };
     };
@@ -248,7 +282,7 @@
 
   # gitea server
   services.gitea = {
-    enable = true;
+    enable = false;
     settings = {
       service.DISABLE_REGISTRATION = true;
       server = {
