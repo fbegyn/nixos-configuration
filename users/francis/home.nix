@@ -61,6 +61,7 @@
     fd
     difftastic
     mergiraf
+    pkgs.weechat
     inetutils
     pciutils
     usbutils
