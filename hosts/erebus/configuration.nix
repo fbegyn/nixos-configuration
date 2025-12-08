@@ -86,7 +86,6 @@ in {
       "josm"
       "discord"
       "openzfs"
-      "mpv"
       "finch"
       "wireshark-app"
       "nikitabobko/tap/aerospace"
@@ -97,7 +96,6 @@ in {
     ];
     brews = [
       "podman"
-      "mpv"
       "ffmpeg"
       "yt-dlp"
       "htop"
@@ -169,6 +167,7 @@ in {
       curl
       wget
       envsubst
+      aerc
       rclone
       rsync
       pkgs.home-manager
