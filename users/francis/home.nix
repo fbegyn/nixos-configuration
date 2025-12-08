@@ -1,11 +1,12 @@
 { config, pkgs, ... }:
 
 {
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.11";
 
-  programs.ghostty = {
-    enable = true;
-  };
+  # TODO: not darwin compatible
+  # programs.ghostty = {
+  #   enable = true;
+  # };
 
   imports = [
     ./hm/base.nix
@@ -18,24 +19,47 @@
     ./hm/configurations/fzf.nix
     ./hm/configurations/emacs
     ./hm/configurations/nvim
-    ./hm/configurations/mpv
+    # ./hm/configurations/mpv TODO: not needed in base home-manager
     ./hm/configurations/direnv.nix
-    ./hm/configurations/zathura.nix
-    ./hm/configurations/udiskie.nix
-    ./hm/configurations/alacritty
-    ./hm/configurations/tmux
-    ./hm/configurations/redshift.nix
-    # ./hm/configurations/qutebrowser
+    # ./hm/configurations/zathura.nix TODO: I don't think I need this everywhere
+    # ./hm/configurations/udiskie.nix TODO: not mac compatible
+    # ./hm/configurations/alacritty # TODO: still needed?
+    # ./hm/configurations/tmux TODO: still needed? Not used in a long time
+    # ./hm/configurations/redshift.nix # TODO: not mac compatible
   ];
 
   xdg.configFile = {
     "qutebrowser/css/solarized-dark-all-sites.css".source =
       ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
+    "home-manager/home.nix".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-configuration/users/francis/home.nix";
+    "home-manager/flake.nix".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-configuration/flake.nix";
+  };
+
+  programs.neovim = {
+    enable = true;
+    vimAlias = true;
+    vimdiffAlias = true;
+    defaultEditor = false;
+  };
+
+  home.sessionPath = [
+    "$HOME/.go/bin"
+    "$HOME/.local/bin"
+    "$HOME/.cargo/bin"
+  ];
+
+  home.enableNixpkgsReleaseCheck = false;
+  programs.home-manager = {
+    enable = true;
+    package = pkgs.unstable.home-manager;
   };
 
   home.packages = with pkgs.unstable; [
+    pkgs.unstable.home-manager
     ripgrep
-    projecteur
+    # projecteur - TODO:not mac compatible
     fd
     difftastic
     mergiraf
@@ -45,32 +69,34 @@
     # nodejs
     gcc
     (aspellWithDicts (dicts: with dicts; [en en-science nl]))
-    thunderbird
+    pkgs.thunderbird
     # Browser
-    chromium
     pkgs.firefox
     # entertainement
-    playerctl
+    # playerctl TODO: not mac compatible
     pulsemixer
     # Utilities
-    lm_sensors
+    # lm_sensors TODO: not mac compatible
     gnumake
-    ansible
-    sshpass
-    talosctl
-    bat
     tig
     sshuttle
     unzip
-    dmenu
     pandoc
-    texlive.combined.scheme-small
     pkgs.pgcli
     pkgs.mycli
     pkgs.litecli
     sqlite
     nix-index
     # tools rewritten in rust
-    hyperfine
+    jujutsu
+    curl
+    wget
+    envsubst
+    aerc
+    rclone
+    rsync
+    yq
+    jq
+    tree-sitter
   ];
 }

@@ -128,88 +128,8 @@ in {
 
   # home-manager settings (darwin)
   home-manager.users.francis = {
-    home.stateVersion = "25.05";
     imports = [
-      ../../users/francis/hm/colors.nix
-      # ../../users/francis/hm/gui.nix
-      ../../users/francis/hm/go.nix
-      ../../users/francis/hm/python.nix
-      ../../users/francis/hm/configurations/fzf.nix
-      ../../users/francis/hm/configurations/emacs
-      ../../users/francis/hm/configurations/nvim
-      ../../users/francis/hm/configurations/hledger.nix
-      ../../users/francis/hm/configurations/direnv.nix
-      ../../users/francis/hm/configurations/bash.nix
-      ../../users/francis/hm/configurations/fish.nix
-      ../../users/francis/hm/configurations/git.nix
-      # ../../users/francis/hm/configurations/qutebrowser
-    ];
-
-    programs.home-manager.enable = true;
-    programs.neovim = {
-      enable = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      defaultEditor = false;
-    };
-
-    home.sessionPath = [
-      "$HOME/.go/bin"
-      "$HOME/.local/bin"
-      "$HOME/.cargo/bin"
-    ];
-
-    home.enableNixpkgsReleaseCheck = false;
-    home.packages = with pkgs.unstable; [
-      pkgs.weechat
-      jujutsu
-      curl
-      wget
-      envsubst
-      aerc
-      rclone
-      rsync
-      pkgs.home-manager
-      yq
-      jq
-      # Comms
-      pkgs.openscad
-      # SRE - deployment
-      flyctl
-      # pkgs.ansible
-      # Utilities
-      sketchybar
-      typst
-      tinymist
-      tree-sitter
-      typescript-language-server
-      wakeonlan
-      ripgrep
-      fd
-      # zed-editor
-      bat
-      discord
-      inetutils
-      nfpm
-      gnumake
-      pandoc
-      # texlive.combined.scheme-medium
-      yamllint
-      # Databases
-      # pkgs.pgcli
-      # pkgs.mycli
-      # pkgs.litecli
-      sqlite
-      # tools rewritten in rust
-      hyperfine
-      bandwhich
-      # development
-      tig
-      sshuttle
-      act
-      # nodejs
-      elixir_1_17
-      elixir-ls
+      ../../users/francis/home.nix
     ];
 
     # emacs.emacsPackage = pkgs.unstable.emacs-macport;

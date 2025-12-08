@@ -202,6 +202,25 @@
           })
         ] ++ extraModules;
       };
+
+      mkHome = homeSystem: username: homeDir: extraModules:
+        home-manager.lib.homeManagerConfiguration rec {
+          pkgs = nixpkgs.legacyPackages."${homeSystem}";
+          extraSpecialArgs = { inherit nixpkgs; };
+          modules = [
+            ({config, ...}: {
+              nixpkgs.config.allowUnfree = true;
+              nixpkgs.overlays = [
+                overlay
+                emacs-overlay.overlay
+                ghostty.overlays.default
+              ];
+              home.username = "${username}";
+              home.homeDirectory = "${homeDir}";
+            })
+            ./users/francis/home.nix
+          ];
+        };
   in {
     devShells.x86_64-linux.default = nixpkgs.legacyPackages."x86_64-linux".mkShell {
       buildInputs = [
@@ -225,23 +244,9 @@
     };
 
     homeConfigurations = {
-      "fbegyn" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages."x86_64-linux";
-        extraSpecialArgs = { inherit nixpkgs; };
-        modules = [
-          ({config, ...}: {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = [
-              overlay
-              emacs-overlay.overlay
-              ghostty.overlays.default
-            ];
-            home.username = "fbegyn";
-            home.homeDirectory = "/home/fbegyn";
-          })
-          ./users/francis/home.nix
-        ];
-      };
+      "francis-linux" = mkHome "x86_64-linux" "francis" "/home/francis" [];
+      "francis-mac" = mkHome "aarch64-darwin" "francis" "/Users/francis" [];
+      "vib-mac" = mkHome "aarch64-darwin" "francis.begyn" "/Users/francis.begyn" [];
     };
 
     nixosConfigurations = let
