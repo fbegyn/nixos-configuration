@@ -133,6 +133,7 @@ in {
       ../../users/francis/hm/colors.nix
       # ../../users/francis/hm/gui.nix
       ../../users/francis/hm/go.nix
+      ../../users/francis/hm/python.nix
       ../../users/francis/hm/configurations/fzf.nix
       ../../users/francis/hm/configurations/emacs
       ../../users/francis/hm/configurations/nvim
@@ -179,7 +180,6 @@ in {
       # Utilities
       sketchybar
       typst
-      uv
       tinymist
       tree-sitter
       typescript-language-server

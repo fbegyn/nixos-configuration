@@ -3,13 +3,14 @@
 {
   home.packages = with pkgs.unstable;
     [
-      (python311.withPackages
+      (python313.withPackages
       (ps: with ps; [
         neovim
         yarp
         pip
         setuptools
         virtualenv
+        uv
         jedi
         requests
       ]))
