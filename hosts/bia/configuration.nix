@@ -29,10 +29,18 @@
     ../../users/hm.nix
     ../../users/francis
     ../../users/francis/gui.nix
-    ../../users/francis/i3
+    ../../users/francis/niri
     ../../services/tailscale.nix
   ];
-
+  home-manager.users.francis= {
+    imports = [
+      ../../users/francis/hm/configurations/udiskie.nix
+      ../../users/francis/hm/configurations/redshift.nix
+    ];
+    programs.ghostty = {
+      enable = true;
+    };
+  };
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -106,8 +114,6 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
   programs.steam.remotePlay.openFirewall = true;
-
-  fbegyn.x.xautolock = false;
 
   # tailscale machine specific
   services.tailscale = {

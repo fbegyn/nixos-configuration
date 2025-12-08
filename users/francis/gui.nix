@@ -5,6 +5,7 @@
   programs.dconf.enable = true;
   services.dbus.packages = with pkgs; [ dconf ];
   services.gnome.gnome-keyring.enable = true;
+  services.gnome.gcr-ssh-agent.enable = false;
 
   programs = {
     wireshark = {

@@ -54,9 +54,6 @@
     tig
     sshuttle
     unzip
-    #bitwarden
-    pkgs.bitwarden-cli
-    pkgs.bitwarden
     keepassxc
     rbw
     nautilus

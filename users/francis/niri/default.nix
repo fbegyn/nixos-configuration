@@ -109,6 +109,7 @@ in {
   hardware.graphics.enable = true;
 
   services.gnome.gnome-keyring.enable = true;
+  services.gnome.gcr-ssh-agent.enable = false;
   systemd.user.services.niri-flake-polkit = {
     description = "PolicyKit Authentication Agent provided by niri-flake";
     wantedBy = ["niri.service"];
@@ -116,7 +117,7 @@ in {
     partOf = ["graphical-session.target"];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.libsForQt5.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+      ExecStart = "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1";
       Restart = "on-failure";
       RestartSec = 1;
       TimeoutStopSec = 10;
