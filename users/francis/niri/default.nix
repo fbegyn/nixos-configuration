@@ -32,6 +32,7 @@ in {
   environment.systemPackages = with pkgs; [
     xdg-utils
     niri
+    xwayland-satellite
     catppuccin-cursors.mochaMauve
     pkgs.waybar # status bar
     waybar-spotify
@@ -44,7 +45,6 @@ in {
     grim
     imv
     # unstable.flameshot.override { enableWlrSupport = true; }
-    foot
     xdg-utils
     wl-clipboard
     ydotool
