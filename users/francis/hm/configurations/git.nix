@@ -5,9 +5,9 @@
 {
   home.packages = with pkgs; [ git-crypt gh ];
   programs.git = {
-    package = pkgs.gitAndTools.gitFull;
+    package = pkgs.gitFull;
     enable = true;
-    aliases = {
+    settings.aliases = {
       identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; git config user.signingkey \"$(git config user.$1.signingkey)\"; :";
       wip = "for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads";
       sync = "git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5";

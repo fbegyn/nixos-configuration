@@ -85,9 +85,7 @@ in {
       "secretive"
       "josm"
       "discord"
-      "openzfs"
       "finch"
-      "wireshark-app"
       "nikitabobko/tap/aerospace"
     ];
     taps = [
@@ -101,7 +99,7 @@ in {
       "htop"
       "nmap"
       "gnupg"
-      "yubikey-personalization"
+      # "yubikey-personalization"
       "ykman"
       "librsvg"
       # "texlive"
@@ -181,9 +179,8 @@ in {
       # Utilities
       sketchybar
       typst
+      uv
       tinymist
-      typstfmt
-      typst-live
       tree-sitter
       typescript-language-server
       wakeonlan
