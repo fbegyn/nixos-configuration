@@ -40,6 +40,9 @@
     programs.ghostty = {
       enable = true;
     };
+    home.packages = with pkgs.unstable; [
+      home-manager
+    ];
   };
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
