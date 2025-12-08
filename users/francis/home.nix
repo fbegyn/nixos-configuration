@@ -53,11 +53,9 @@
   home.enableNixpkgsReleaseCheck = false;
   programs.home-manager = {
     enable = true;
-    package = pkgs.unstable.home-manager;
   };
 
   home.packages = with pkgs.unstable; [
-    pkgs.unstable.home-manager
     ripgrep
     # projecteur - TODO:not mac compatible
     fd

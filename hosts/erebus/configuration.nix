@@ -132,6 +132,10 @@ in {
       ../../users/francis/home.nix
     ];
 
+    home.packages = with pkgs.unstable; [
+      home-manager
+    ];
+
     # emacs.emacsPackage = pkgs.unstable.emacs-macport;
     emacs.emacsPackage = pkgs.emacs30;
     # emacs.emacsPackage = pkgs.unstable.emacs30;
