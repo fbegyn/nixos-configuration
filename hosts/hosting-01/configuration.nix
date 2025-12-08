@@ -31,8 +31,8 @@
   networking.firewall.package = pkgs.iptables-nftables-compat;
   networking.firewall.interfaces = {
     "tailscale0" = {
-      allowedTCPPorts = [ 22 9100 53 8000 ];
-      allowedUDPPorts = [ 53 8000 ];
+      allowedTCPPorts = [ 22 9100 53 8000 19000 9001 ];
+      allowedUDPPorts = [ 53 8000 19000 9001 ];
     };
     "podman+" = {
       allowedTCPPorts = [ 53 ];
@@ -146,6 +146,9 @@
   };
 
   # weechat
+  age.secrets = {
+    "secrets/services/weechat-relay".file = ../../secrets/services/weechat-relay.age;
+  };
   environment.systemPackages = [ pkgs.weechat ];
   systemd.services.weechat = {
     description = "weechat headless";
@@ -164,13 +167,14 @@
     "irc.francis.begyn.be" = {
       forceSSL = true;
       useACMEHost = "begyn.be";
-      locations."^~ /weechat" = {
-        proxyPass = "http://100.93.146.4:9001";
+      locations."= /weechat" = {
+        proxyPass = "http://100.93.146.4:9001/weechat";
         proxyWebsockets = true;
-	extraConfig = ''
-	  proxy_read_timeout 4h;
-	  limit_req zone=weechat burst=1 nodelay;
-	'';
+        extraConfig = ''
+          proxy_set_header X-Real-IP $remote_addr;
+	        proxy_read_timeout 4h;
+	        limit_req zone=weechat burst=1 nodelay;
+	      '';
       };
       locations."/".root = pkgs.glowing-bear;
     };
@@ -217,6 +221,9 @@
   };
 
   # tailscale machine specific
+  age.secrets = {
+    "secrets/api/tailscale-temp".file = ../../secrets/api/tailscale-temp.age;
+  };
   services.tailscale = {
     enable = true;
     authKeyFile = config.age.secrets."secrets/api/tailscale-temp".path;

@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 set -xeo pipefail
 
-NIX_SSHOPTS="-t"
+# NIX_SSHOPTS="-t"
 
 FLAKE=$1
 TARGET=$2

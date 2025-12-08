@@ -29,6 +29,7 @@ in
   "secrets/services/alertmanager-env.age".publicKeys = users ++ systems;
   "secrets/services/hass-dcf.age".publicKeys = users ++ systems;
   "secrets/services/hass-dco.age".publicKeys = users ++ systems;
+  "secrets/services/weechat-relay.age".publicKeys = users ++ systems;
 
   "secrets/data/borgbase/key.age".publicKeys = users ++ systems;
   "secrets/data/borgbase/ssh.age".publicKeys = users ++ systems;
