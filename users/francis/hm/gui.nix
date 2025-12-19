@@ -20,65 +20,13 @@
   ];
 
   home.packages = with pkgs.unstable; [
-    weechat
-    typst
-    tinymist
-    ripgrep
-    opentofu
-    jujutsu
-    ranger
-    projecteur
-    fd
-    inetutils
-    pciutils
-    usbutils
-    # nodejs
-    gcc
-    (aspellWithDicts (dicts: with dicts; [en en-science nl]))
-    # Comms
     slack
     mattermost-desktop
-    thunderbird
-    weechat
-    # Browser
-    chromium
-    # entertainement
-    playerctl
-    pulsemixer
-    # Utilities
-    flyctl
-    lm_sensors
-    gnumake
-    ansible
-    bat
-    tig
-    sshuttle
-    unzip
-    keepassxc
-    rbw
-    nautilus
-    dmenu
-    pkgs.solaar
-    evince
-    kdePackages.okular
-    pandoc
-    texlive.combined.scheme-small
-    pkgs.pgcli
-    pkgs.mycli
-    pkgs.litecli
-    sqlite
-    # cachix
-    cachix
-    nix-index
-    meld
-    nixos-generators
-    # tools rewritten in rust
-    hyperfine
-    # unfree packages
-    spotify
     discord
-    ollama
-    zed-editor
+    spotify
+    meld
+    cachix
+    projecteur
     (vscode-with-extensions.override {
       vscodeExtensions = with pkgs.unstable.vscode-extensions; [
         bbenoist.nix
