@@ -62,6 +62,9 @@
     difftastic
     mergiraf
     pkgs.weechat
+    age
+    vdirsyncer
+    khard
     inetutils
     pciutils
     usbutils

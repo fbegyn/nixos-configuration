@@ -27,6 +27,8 @@
     meld
     cachix
     projecteur
+    vdirsyncer
+    khard
     (vscode-with-extensions.override {
       vscodeExtensions = with pkgs.unstable.vscode-extensions; [
         bbenoist.nix
