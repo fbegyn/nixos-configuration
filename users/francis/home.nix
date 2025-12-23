@@ -66,6 +66,8 @@
     vdirsyncer
     khard
     inetutils
+    hledger
+    ledger
     pciutils
     usbutils
     # nodejs
