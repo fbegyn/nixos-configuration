@@ -89,17 +89,23 @@ in {
 
   # for working tray applets
   environment.variables = {
-    XDG_CURRENT_DESKTOP="sway";
-    XDG_SESSION_DESKTOP="sway";
+    XDG_CURRENT_DESKTOP="niri";
+    XDG_SESSION_DESKTOP="niri";
     XDG_SESSION_TYPE = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "0";
-    QT_QPA_PLATFORM = "wayland";
+    # QT_QPA_PLATFORM = "wayland";
     QT_SCALE_FACTOR = "1";
     GDK_SCALE = "1";
     GDK_DPI_SCALE = "1";
     MOZ_ENABLE_WAYLAND = "1";
     _JAVA_AWT_WM_NONREPARENTING = "1";
+
+    GDK_BACKEND = "wayland,x11";
+    QT_QPA_PLATFORM = "wayland;xcb";
+    #SDL_VIDEODRIVER = "x11";
+    CLUTTER_BACKEND = "wayland";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
   # polkit for the sway environment

@@ -1,0 +1,126 @@
+[Unit]
+Description=Eufy RTSP addon for home assistant
+
+[Container]
+Image=bluenviron/mediamtx:1.15.1
+Volume=/etc/localtime:/etc/localtime:ro,z
+EnvironmentFile=/var/lib/eufy-rtsp/env
+Pod=hass.pod
+
+[Install]
+WantedBy=default.target
+[Unit]
+Description=Eufy security ws addon for home assistant
+
+[Container]
+Image=bropat/eufy-security-ws:1.9.3
+Volume=/etc/localtime:/etc/localtime:ro,z
+EnvironmentFile=/var/lib/eufy-security-ws/env
+Pod=hass.pod
+Secret=eufy_username,type=env,target=USERNAME
+Secret=eufy_password,type=env,target=PASSWORD
+
+[Install]
+WantedBy=default.target
+[Unit]
+Description=Home assistent container
+
+[Container]
+Image=ghcr.io/home-assistant/home-assistant:2025.11.3
+Volume=/sys/fs/cgroup:/sys/fs/cgroup:ro,z
+Volume=/etc/localtime:/etc/localtime:ro,z
+Volume=/sys:/sys:z
+Volume=/opt/hass/container:/config:Z
+Volume=/run/dbus:/run/dbus:z
+EnvironmentFile=/opt/hass/env
+UserNS=keep-id
+AddCapability=CAP_NET_RAW,CAP_NET_BIND_SERVICE
+Pod=hass.pod
+
+# Self-configuration for dashboard
+Label=traefik.enable=true
+Label=traefik.http.routers.hass.rule=Host(`hass.dcf.begyn.be`)
+Label=traefik.http.routers.hass.entrypoints=https
+Label=traefik.http.routers.hass.service=hass
+Label=traefik.http.routers.hass.tls=true
+Label=traefik.http.routers.hass.tls.certresolver=letsencryptDNS-staging
+Label=traefik.http.services.hass.loadbalancer.server.port=8123
+
+[Install]
+WantedBy=default.target
+[Unit]
+Description=Hass container network
+
+[Network]
+NetworkName=hass
+Subnet=10.89.1.0/24
+Gateway=10.89.1.1
+
+[Install]
+WantedBy=default.target
+[Unit]
+Description=hass pod
+
+[Pod]
+PodName=hass
+Network=hass.network
+Network=traefik-public.network
+PublishPort=0.0.0.0:8123:8123
+# PublishPort=10.5.90.21:5683:5683/udp
+PublishPort=127.0.0.1:1935:1935
+PublishPort=127.0.0.1:8554:8554
+PublishPort=127.0.0.1:13000:3000
+[Container]
+ContainerName=traefik
+Image=docker.io/traefik:latest
+AutoUpdate=registry
+
+# Required for binding to privileged ports
+AddCapability=CAP_NET_BIND_SERVICE
+
+# Frontend network only
+Network=traefik-public.network
+
+# Port exposure
+PublishPort=80:80
+PublishPort=443:443
+
+# Security hardening
+NoNewPrivileges=true
+SecurityLabelType=container_runtime_t
+
+# Configuration and state
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/run/podman/podman.sock:/var/run/docker.sock:ro
+Volume=/opt/traefik/traefik.yml:/etc/traefik/traefik.yml:z,ro
+Volume=/opt/traefik/config.yml:/etc/traefik/config.yml:z,ro
+Volume=/opt/traefik/letsencrypt:/letsencrypt:z
+
+Secret=cf_credentials,type=env,target=CF_DNS_API_TOKEN
+Secret=cf_credentials,type=env,target=CF_ZONE_API_TOKEN
+
+# Self-configuration for dashboard
+Label=traefik.enable=true
+Label=traefik.http.routers.dashboard.rule=Host(`traefik.dcf.begyn.be`)
+Label=traefik.http.routers.dashboard.entrypoints=https
+Label=traefik.http.routers.dashboard.service=api@internal
+Label=traefik.http.routers.dashboard.tls=true
+Label=traefik.http.routers.dashboard.tls.certresolver=letsencryptDNS-staging
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=default.target
+
+[Unit]
+Description=Traefik podman network
+
+[Network]
+Driver=bridge
+NetworkName=traefik-public
+Subnet=10.89.0.0/24
+Gateway=10.89.0.1
+
+[Install]
+WantedBy=default.target

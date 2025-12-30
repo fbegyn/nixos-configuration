@@ -17,6 +17,7 @@
     ./hm/configurations/bash.nix
     ./hm/configurations/fish.nix
     ./hm/configurations/fzf.nix
+    ./hm/configurations/hledger.nix
     ./hm/configurations/emacs
     ./hm/configurations/nvim
     # ./hm/configurations/mpv TODO: not needed in base home-manager
@@ -66,8 +67,6 @@
     vdirsyncer
     khard
     inetutils
-    hledger
-    ledger
     pciutils
     usbutils
     # nodejs
@@ -96,6 +95,7 @@
     curl
     wget
     envsubst
+    keepassxc
     aerc
     rclone
     rsync
