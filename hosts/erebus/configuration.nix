@@ -132,6 +132,8 @@ in {
       ../../users/francis/home.nix
     ];
 
+    programs.go.env.GOPATH = "/Users/francis/.go";
+
     home.packages = with pkgs.unstable; [
       home-manager
     ];
