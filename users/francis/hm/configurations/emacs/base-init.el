@@ -170,7 +170,7 @@
 
   (setq require-final-newline t)
   (setq sentence-end-double-space nil)
-  (setq-default fill-column 81)
+  (setq-default fill-column 101)
   (column-number-mode)
   (setq-default show-trailing-whitespace t)
   (setq-default indicate-empty-lines t)

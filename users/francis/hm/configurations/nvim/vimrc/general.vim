@@ -10,8 +10,8 @@ set showmatch
 set nobackup            " Do not keep backup files
 set nowritebackup       " Do not keep backup files
 set updatetime=750      " Based on https://github.com/airblade/vim-gitgutter#when-are-the-signs-updated
-set colorcolumn=80     " Show column at n characters
-set textwidth=81      " Linebreak at n characters
+set colorcolumn=101     " Show column at n characters
+set textwidth=102      " Linebreak at n characters
 set linebreak
 set wrap
 
