@@ -102,6 +102,7 @@
         overlays = [
           (import ./overlays/weechat.nix)
           (import ./overlays/browser-eid.nix)
+          lix-overlay
         ];
       };
       fbegyn = {
@@ -110,6 +111,13 @@
         f1multiviewer = nixpkgs.callPackage ./fbegyn/f1multiviewer.nix {};
         brother-hll2375dw-driver = nixpkgs.callPackage ./brother/drivers/hll2375dw-cups.nix {};
       };
+    };
+    lix-overlay = final: prev: {
+      inherit (prev.lixPackageSets.stable)
+      nixpkgs-review
+      nix-eval-jobs
+      nix-fast-build
+      colmena;
     };
 
     mkMachine = extraModules:
@@ -122,6 +130,7 @@
             nixpkgs.overlays = [
               (import ./overlays/weechat.nix)
               overlay
+              lix-overlay
               emacs-overlay.overlay
               ghostty.overlays.default
             ];
@@ -130,7 +139,7 @@
               agenix.packages.${pkgs.system}.default
             ];
           })
-          lix-module.nixosModules.default
+          # lix-module.nixosModules.default
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -169,7 +178,7 @@
             systemd.services.zfs-share.enable = false;
             systemd.services.zfs-zed.enable = false;
           })
-          lix-module.nixosModules.default
+          # lix-module.nixosModules.default
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -187,6 +196,7 @@
             nixpkgs.config.allowUnfree = true;
             nixpkgs.overlays = [
               overlay
+              lix-overlay
               emacs-overlay.overlay
             ];
             environment.systemPackages = [
@@ -195,7 +205,7 @@
             ];
           })
           agenix.darwinModules.age
-          lix-module.nixosModules.default
+          # lix-module.nixosModules.default
           home-manager.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -212,6 +222,7 @@
               nixpkgs.config.allowUnfree = true;
               nixpkgs.overlays = [
                 overlay
+                lix-overlay
                 emacs-overlay.overlay
                 ghostty.overlays.default
               ];

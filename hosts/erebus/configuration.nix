@@ -179,6 +179,7 @@ in {
   nix = {
     # useDaemon = true;
     # package = pkgs.nixVersions.nix_2_29;
+    package = pkgs.unstable.lixPackageSets.latest.lix;
     linux-builder = {
       enable = true;
       package = pkgs.darwin.linux-builder-x86_64;
