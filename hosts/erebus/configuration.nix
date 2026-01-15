@@ -87,10 +87,13 @@ in {
       "discord"
       "finch"
       "nikitabobko/tap/aerospace"
+      "dagger/tap/container-use"
+      "claude-code"
     ];
     taps = [
       "nikitabobko/tap"
       "felixkratz/formulae"
+      "dagger/tap"
     ];
     brews = [
       "podman"
