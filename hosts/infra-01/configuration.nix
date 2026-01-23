@@ -64,13 +64,13 @@ in {
       ignoredInterfaces = [
         "tailscale*"
         "tailscale0"
-        "veth*"
+        "eth*"
         "wlp*"
         "wlp3s0"
       ];
     };
-    netdevs = proxFunc.mkContainerNetdevs;
-    networks = proxFunc.mkContainerNetworks 101;
+    # netdevs = proxFunc.mkContainerNetdevs;
+    networks = proxFunc.mkContainerNetworks "101";
   };
 
   systemd.services.zfs-mount.enable = false;

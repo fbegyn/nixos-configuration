@@ -1,28 +1,23 @@
-{ nixpkgs, ... }:
-
 {
   mkContainerNetworks = ip: {
     "10-tailscale0" = {
       matchConfig.Name = "tailscale*";
       linkConfig = {
-	      Unmanaged = "yes";
+        Unmanaged = "yes";
         RequiredForOnline = "no";
       };
     };
-    "30-veth0" = {
-      matchConfig.Name = "veth0";
+    "30-eth0" = {
+      matchConfig.Name = "eth0";
       address = [ "10.5.1.${ip}/24" ];
       routes = [
         { Gateway = "10.5.1.5"; }
-      ];
-      vlan = [
-        "iot"
       ];
       networkConfig.DHCP = "ipv6";
       linkConfig.RequiredForOnline = "carrier";
     };
     "190-iot" = {
-      matchConfig.Name = "mgmt";
+      matchConfig.Name = "iot";
       address = [ "10.5.90.${ip}/24" ];
       routes = [
         {

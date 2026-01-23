@@ -4,7 +4,7 @@
 { config, pkgs, modulesPath, ... }:
 
 let
-  proxFunc = import ../../lib/proxmox.nix;
+  proxFunc = (import ../../lib/proxmox.nix);
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -72,13 +72,13 @@ in {
       ignoredInterfaces = [
         "tailscale*"
         "tailscale0"
-        "veth*"
+        "eth*"
         "wlp*"
         "wlp3s0"
       ];
     };
-    netdevs = proxFunc.mkContainerNetdevs;
-    networks = proxFunc.mkContainerNetworks 103;
+    # netdevs = proxFunc.mkContainerNetdevs;
+    networks = proxFunc.mkContainerNetworks "103";
   };
 
   systemd.services.zfs-mount.enable = false;

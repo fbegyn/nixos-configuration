@@ -48,7 +48,7 @@ in {
     firewall = {
       enable = true;
       interfaces = {
-        veth0 = {
+        eth0 = {
           allowedTCPPorts = [
             2022
             80
@@ -80,13 +80,13 @@ in {
       ignoredInterfaces = [
         "tailscale*"
         "tailscale0"
-        "veth*"
+        "eth*"
         "wlp*"
         "wlp3s0"
       ];
     };
-    netdevs = proxFunc.mkContainerNetdevs;
-    networks = proxFunc.mkContainerNetworks 102;
+    # netdevs = proxFunc.mkContainerNetdevs;
+    networks = proxFunc.mkContainerNetworks "102";
   };
 
   systemd.services.zfs-mount.enable = false;
