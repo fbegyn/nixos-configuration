@@ -3,7 +3,9 @@
 
 { config, pkgs, modulesPath, ... }:
 
-{
+let
+  proxFunc = import ../../lib/proxmox.nix;
+in {
   imports = [
     # Include the results of the hardware scan.
     (modulesPath+"/profiles/qemu-guest.nix")
@@ -83,51 +85,8 @@
         "wlp3s0"
       ];
     };
-    netdevs = {
-      "130-mgmt" = {
-        netdevConfig = { Kind = "vlan"; Name = "mgmt"; };
-        vlanConfig.Id = 130;
-      };
-    };
-    networks = {
-      "30-veth0" = {
-        matchConfig.Name = "veth0";
-        address = [ "10.5.1.102/24" ];
-        routes = [
-          { Gateway = "10.5.1.5"; }
-        ];
-        vlan = [
-          "mgmt"
-        ];
-        networkConfig.DHCP = "ipv6";
-        linkConfig.RequiredForOnline = "carrier";
-      };
-      "10-tailscale0" = {
-        matchConfig.Name = "tailscale*";
-        linkConfig = {
-	        Unmanaged = "yes";
-          RequiredForOnline = "no";
-        };
-      };
-      "130-mgmt" = {
-        matchConfig.Name = "mgmt";
-        address = [ "10.5.30.102/24" ];
-        routes = [
-          {
-            Destination = "10.5.30.0/24";
-            Table = "130";
-          }
-        ];
-        networkConfig.DHCP = "ipv6";
-        routingPolicyRules = [
-          {
-            To = "10.5.30.0/24";
-            Table = "130";
-          }
-        ];
-        linkConfig.RequiredForOnline = "routable";
-      };
-    };
+    netdevs = proxFunc.mkContainerNetdevs;
+    networks = proxFunc.mkContainerNetworks 102;
   };
 
   systemd.services.zfs-mount.enable = false;
@@ -149,7 +108,7 @@
   # Web/ingress
   services.nginx = {
     enable = true;
-    defaultListenAddresses = [ "10.5.30.102" ];
+    defaultListenAddresses = [ "10.5.1.102" ];
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
@@ -164,14 +123,14 @@
         balance roundrobin
 
       frontend stats
-        bind 10.5.30.102:8404
+        bind 10.5.1.102:8404
         stats enable
         stats uri /stats
         stats refresh 10s
         stats admin if TRUE
 
       frontend metrics
-        bind 10.5.30.102:8405
+        bind 10.5.1.102:8405
         mode http
         http-request use-service prometheus-exporter if { path /metrics }
         no log
@@ -236,5 +195,5 @@
       ../../users/francis/hm/configurations/bash.nix
     ];
   };
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }

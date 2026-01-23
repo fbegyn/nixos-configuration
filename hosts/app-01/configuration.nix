@@ -3,7 +3,9 @@
 
 { config, pkgs, modulesPath, ... }:
 
-{
+let
+  proxFunc = import ../../lib/proxmox.nix;
+in {
   imports = [
     # Include the results of the hardware scan.
     (modulesPath+"/profiles/qemu-guest.nix")
@@ -75,74 +77,8 @@
         "wlp3s0"
       ];
     };
-    netdevs = {
-      "130-mgmt" = {
-        netdevConfig = { Kind = "vlan"; Name = "mgmt"; };
-        vlanConfig.Id = 130;
-      };
-      "190-iot" = {
-        netdevConfig = { Kind = "vlan"; Name = "iot"; };
-        vlanConfig.Id = 190;
-      };
-    };
-    networks = {
-      "30-veth0" = {
-        matchConfig.Name = "veth0";
-        address = [ "10.5.1.103/24" ];
-        routes = [
-          { Gateway = "10.5.1.5"; }
-        ];
-        vlan = [
-          "mgmt"
-          "iot"
-        ];
-        networkConfig.DHCP = "ipv6";
-        linkConfig.RequiredForOnline = "carrier";
-      };
-      "10-tailscale0" = {
-        matchConfig.Name = "tailscale*";
-        linkConfig = {
-	        Unmanaged = "yes";
-          RequiredForOnline = "no";
-        };
-      };
-      "130-mgmt" = {
-        matchConfig.Name = "mgmt";
-        address = [ "10.5.30.103/24" ];
-        routes = [
-          {
-            Destination = "10.5.30.0/24";
-            Table = "130";
-          }
-        ];
-        networkConfig.DHCP = "ipv6";
-        routingPolicyRules = [
-          {
-            To = "10.5.30.0/24";
-            Table = "130";
-          }
-        ];
-        linkConfig.RequiredForOnline = "routable";
-      };
-      "190-iot" = {
-        matchConfig.Name = "mgmt";
-        address = [ "10.5.90.103/24" ];
-        routes = [
-          {
-            Destination = "10.5.90.0/24";
-            Table = "190";
-          }
-        ];
-        networkConfig.DHCP = "ipv6";
-        routingPolicyRules = [
-          {
-            To = "10.5.90.0/24";
-            Table = "190";
-          }
-        ];
-        linkConfig.RequiredForOnline = "routable";
-      };
-    };
+    netdevs = proxFunc.mkContainerNetdevs;
+    networks = proxFunc.mkContainerNetworks 103;
   };
 
   systemd.services.zfs-mount.enable = false;
@@ -164,7 +100,7 @@
   # Web/ingress
   services.nginx = {
     enable = true;
-    defaultListenAddresses = [ "10.5.30.103" ];
+    defaultListenAddresses = [ "10.5.1.103" ];
     recommendedGzipSettings = true;
     recommendedOptimisation = true;
     recommendedProxySettings = true;
@@ -208,5 +144,5 @@
       ../../users/francis/hm/configurations/bash.nix
     ];
   };
-  system.stateVersion = "24.11"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }
