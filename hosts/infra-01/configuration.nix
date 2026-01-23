@@ -123,9 +123,6 @@ in {
           "1.1.1.1"
           "8.8.8.8"
           "10.5.10.5"
-          "10.5.20.5"
-          "10.5.30.5"
-          "10.5.90.5"
         ];
       };
       bootstrapDns = [
@@ -133,23 +130,23 @@ in {
       ];
       blocking = {
         blackLists = {
-	        ads = [
-	          "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
-	          "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
+          ads = [
+            "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
+            "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
           ];
-	      };
-	      clientGroupsBlock = {
-	        default = [
-	          "ads"
-	        ];
-	      };
+        };
+        clientGroupsBlock = {
+          default = [
+            "ads"
+          ];
+        };
       };
       caching = {
         minTime = "4h";
-	      maxTime = "48h";
-	      maxItemsCount = 5000;
-	      prefetching = true;
-	      prefetchMaxItemsCount = 300;
+        maxTime = "48h";
+        maxItemsCount = 5000;
+        prefetching = true;
+        prefetchMaxItemsCount = 300;
       };
       prometheus.enable = true;
       queryLog = {
@@ -220,7 +217,7 @@ in {
 
   # gitea server
   services.gitea = {
-    enable = false;
+    enable = true;
     settings = {
       service.DISABLE_REGISTRATION = true;
       server = {
@@ -235,7 +232,7 @@ in {
       createDatabase = true;
     };
   };
-  services.nginx.virtualHosts."gitea.francis.begyn.be" = {
+  services.nginx.virtualHosts."git.svc.begyn.be" = {
     forceSSL = true;
     useACMEHost = "infra-01.dcf.begyn.be";
 

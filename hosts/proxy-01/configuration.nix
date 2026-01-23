@@ -164,23 +164,6 @@ in {
     createrepo_c
   ];
 
-  # containers
-  services.dbus = {
-    enable = true;
-    implementation = "broker";
-    packages = [ pkgs.bluez ];
-  };
-  virtualisation.podman = {
-    enable = true;
-    dockerSocket.enable = true;
-    defaultNetwork.settings = {
-      dns_enabled = true;
-    };
-  };
-  virtualisation.oci-containers = {
-    backend = "podman";
-  };
-
   # monitoring applications
   ## exporters
   services.prometheus.exporters.node.enable = true;
