@@ -27,11 +27,7 @@ in {
   ];
 
   # no EFI partition on containers
-  proxmoxLXC = {
-    privileged = true;
-    manageNetwork = false;
-    manageHostName = false;
-  };
+  proxmoxLXC.enable = true;
   boot.isContainer = true;
 
   # Select internationalisation properties.
