@@ -44,7 +44,8 @@ in {
     # Per-interface useDHCP will be mandatory in the future, so this generated config
     # replicates the default behaviour.
     useDHCP = false;
-    nameservers = [ "1.1.1.1" "8.8.8.8" ];
+    nameservers = [ "10.5.1.5" "1.1.1.1" "8.8.8.8" ];
+    search = [ "lan" "begyn.lan" ];
     firewall = {
       enable = false;
       allowedTCPPorts = [
@@ -89,8 +90,31 @@ in {
 
   # VPN settings
   services.tailscale = {
-    enable = false;
+    enable = true;
     useRoutingFeatures = "server";
+  };
+
+  services.postgresql = {
+    enable = true;
+    package = pkgs.postgresql_17;
+    enableTCPIP = true;
+    port = 5432;
+    authentication = pkgs.lib.mkOverride 10 ''
+      local  all  all  trust
+      host   all  all  127.0.0.1/32 scram-sha-256
+      host   all  all  10.89.0.1/24 scram-sha-256
+    '';
+    ensureDatabases = [
+      "gitea"
+      "forgejo"
+      "hass"
+    ];
+    ensureUsers = [
+      {
+        name = "hass";
+        ensureDBOwnership = true;
+      }
+    ];
   };
 
   # Web/ingress
