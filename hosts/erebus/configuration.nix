@@ -180,22 +180,6 @@ in {
     # useDaemon = true;
     # package = pkgs.nixVersions.nix_2_29;
     package = pkgs.unstable.lixPackageSets.latest.lix;
-    linux-builder = {
-      enable = true;
-      package = pkgs.darwin.linux-builder-x86_64;
-      systems = [ "x86_64-linux" "aarch64-linux" ];
-      ephemeral = true;
-      maxJobs = 4;
-      config = {
-        virtualisation = {
-          darwin-builder = {
-            diskSize = 50 * 1024;
-            memorySize = 6 * 1024;
-          };
-          cores = 4;
-        };
-      };
-    };
     distributedBuilds = true;
     gc = {
       automatic = true;
