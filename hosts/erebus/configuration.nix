@@ -89,6 +89,7 @@ in {
       "nikitabobko/tap/aerospace"
       "dagger/tap/container-use"
       "claude-code"
+      "meld"
     ];
     taps = [
       "nikitabobko/tap"
@@ -96,6 +97,7 @@ in {
       "dagger/tap"
     ];
     brews = [
+      "mr"
       "podman"
       "ffmpeg"
       "yt-dlp"
