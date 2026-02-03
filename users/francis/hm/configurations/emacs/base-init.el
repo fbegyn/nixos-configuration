@@ -612,6 +612,26 @@ ARG filename to open"
          (conf-mode . diff-hl-mode)
          (dired-mode . diff-hl-dired-mode)))
 
+;; jujutsu (jj) version control
+(use-package vc-jj
+  :after (general)
+  :general
+  (fb/leader-keys
+    "j"  '(:ignore t :which-key "jujutsu")
+    "j <escape>" '(keyboard-escape-quit :which-key t)
+    "j s" '(vc-dir :which-key "status")
+    "j l" '(vc-print-log :which-key "log")
+    "j d" '(vc-diff :which-key "diff")
+    "j a" '(vc-annotate :which-key "annotate")))
+
+(use-package majutsu
+  :after (general)
+  :commands (majutsu majutsu-status majutsu-log)
+  :general
+  (fb/leader-keys
+    "j j" '(majutsu :which-key "majutsu")
+    "j L" '(majutsu-log :which-key "log (majutsu)")))
+
 (use-package vterm
   :commands (vterm vterm-other-window)
   :config
