@@ -24,12 +24,19 @@ in {
         config = cfg.fullConfig;
         package = cfg.emacsPackage;
         alwaysEnsure = true;
-        # override = epkgs: epkgs // {
-        #   typst-ts-mode = pkgs.callPackage ./typst-ts-mode.nix {
-        #     inherit (pkgs) fetchgit;
-        #     inherit (epkgs) trivialBuild;
-        #   };
-        # };
+        override = epkgs: epkgs // {
+          majutsu = epkgs.trivialBuild {
+            pname = "majutsu";
+            version = "0.5.0";
+            src = pkgs.fetchFromGitHub {
+              owner = "0WD0";
+              repo = "majutsu";
+              rev = "v0.5.0";
+              hash = "sha256-tssXhZ16ucTgzC5zTJL7daJ/wPnv2qZejA/QLz93fxQ=";
+            };
+            packageRequires = with epkgs; [ transient with-editor magit ];
+          };
+        };
       };
     };
   };
