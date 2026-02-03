@@ -8,15 +8,10 @@
   (setq use-package-verbose nil)
   (setq use-package-always-ensure t))
 
-;; For :general in (use-package)
-(require 'general)
 ;; For :diminish in (use-package).
 (use-package diminish :ensure t)
 ;; For :bind in (use-package).
 (require 'bind-key)
-
-(require 'use-package)
-(package-initialize)
 
 ;; emacs settings
 (use-package emacs
@@ -31,10 +26,6 @@
   ;; useful beyond Vertico.
   (read-extended-command-predicate #'command-completion-default-include-p)
 
-  ;; corfu
-  ;; TAB cycle if there are only few candidates
-  ;; (completion-cycle-threshold 3)
-
   ;; Enable indentation+completion using the TAB key.
   ;; `completion-at-point' is often bound to M-TAB.
   (tab-always-indent 'complete)
@@ -43,14 +34,9 @@
   ;; try `cape-dict'.
   (text-mode-ispell-word-completion nil)
 
-  ;; Emacs 28 and newer: Hide commands in M-x which do not apply to the current
-  ;; mode.  Corfu commands are hidden, since they are not used via M-x. This
-  ;; setting is useful beyond Corfu.
-  (read-extended-command-predicate #'command-completion-default-include-p)
-
   :init
-  ;; disable scratch message
-  (setq initial-scratch-message nil)
+  ;; set scratch message
+  (setq initial-scratch-message "coi")
   ;; switch to y/n prompts
   (defalias 'yes-or-no-p 'y-or-n-p)
   ;; Stop emacs from littering the file system with backup files
@@ -83,17 +69,11 @@
   (setq locale-coding-system 'utf-8
         coding-system-for-read 'utf-8
         coding-system-for-write 'utf-8
-        coding-system-for-read 'utf-8
-        coding-system-for-write 'utf-8
         default-process-coding-system '(utf-8-unix . utf-8-unix))
   (set-terminal-coding-system 'utf-8)
   ;; Clean up the mode line
   (display-time-mode 1)
   (setq column-number-mode t)
-
-  (setq which-key-show-early-on-C-h t
-      which-key-idle-delay 1e6 ; 11 days
-      which-key-idle-secondary-delay 0.05)
 
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -109,14 +89,6 @@
   ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-
-  ;; Support opening new minibuffers from inside existing minibuffers.
-  (setq enable-recursive-minibuffers t)
-
-  ;; Emacs 28 and newer: Hide commands in M-x which do not work in the current
-  ;; mode.  Vertico commands are hidden in normal buffers. This setting is
-  ;; useful beyond Vertico.
-  (setq read-extended-command-predicate #'command-completion-default-include-p)
 
   ;; better history provision
   (savehist-mode)
@@ -157,13 +129,11 @@
   (recentf-mode 1)
   (global-set-key "\C-x\ \C-r" 'recentf-open-files)
   (when window-system
-    (dolist (mode '(
-                    tool-bar-mode
+    (dolist (mode '(tool-bar-mode
                     tooltip-mode
                     scroll-bar-mode
                     menu-bar-mode
-                    blink-cursor-mode)
-                  )
+                    blink-cursor-mode))
       (funcall mode -1)))
 
   (add-hook 'text-mode-hook 'auto-fill-mode)
@@ -195,18 +165,17 @@
           (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-  (require 'exec-path-from-shell)
-  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
-    (add-to-list 'exec-path-from-shell-variables var))
-  (when (memq window-system '(mac ns x))
-      (exec-path-from-shell-initialize))
-  (when (daemonp)
-      (exec-path-from-shell-initialize))
+  ;; line numbers
+  (when (version<= "26.0.50" emacs-version)
+    (global-display-line-numbers-mode))
 
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+  ;; tweak some parameters
+  (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
+  (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
+  (setq frame-inhibit-implied-resize t)
+  (setq pixel-scroll-precision-mode t)
+  (setq frame-resize-pixelwise t)
+  (setq read-process-output-max (* 1024 1024)))
 ;;; end of general emacs configuration
 
 ;;; FUNCTIONS
@@ -268,6 +237,8 @@ ARG filename to open"
     :global-prefix "C-SPC")
 
   (fb/leader-keys
+    "SPC" '(execute-extended-command :which-key "M-x")
+
     "b"  '(:ignore t :which-key "buffer")
     "bd" '(kill-this-buffer :which-key "kill buffer")
 
@@ -276,6 +247,7 @@ ARG filename to open"
     "fs" '(save-buffer :which-key "save")
 
     "s"   '(:ignore t :which-key "search")
+    "ss"  '(consult-line :which-key "search line")
 
     "t"  '(:ignore t :which-key "toggle")
     "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
@@ -289,23 +261,19 @@ ARG filename to open"
     "wd" '(delete-window :which-key "delete")
 
     "q"  '(:ignore t :which-key "quit")
-    "qq" '(save-buffers-kill-emacs :which-key "quit"))
-
-)
+    "qq" '(save-buffers-kill-emacs :which-key "quit")))
 
 (use-package exec-path-from-shell
   :demand t
   :ensure t
-  :init
+  :config
+  (require 'exec-path-from-shell)
+  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+    (add-to-list 'exec-path-from-shell-variables var))
   (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize))
   (when (daemonp)
-    (exec-path-from-shell-initialize))
-  :general
-  (require 'exec-path-from-shell)
-  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
-  (add-to-list 'exec-path-from-shell-variables var))
-)
+    (exec-path-from-shell-initialize)))
 
 (use-package which-key
   :demand t
@@ -313,10 +281,12 @@ ARG filename to open"
   :init
   (setq which-key-sort-order 'which-key-key-order-alpha
         which-key-side-window-max-width 0.33
-        which-key-idle-delay 0.25))
+        which-key-idle-delay 0.25
+        which-key-show-early-on-C-h t
+        which-key-idle-secondary-delay 0.05)
   :config
   (which-key-mode)
-  (which-key-setup-side-window-right-bottom)
+  (which-key-setup-side-window-right-bottom))
 
 (use-package projectile
   :demand t
@@ -348,19 +318,11 @@ ARG filename to open"
   :general
   (fb/leader-keys
     "sr"  '(rg :which-key "rg")
-    "sm"  '(rg-menu :which-key "rg-menu"))
-  )
-
-(use-package embark
-  :config
-  (setq prefix-help-command #'embark-prefix-help)
-  (vertico-multiform-mode)
-  (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
-)
+    "sm"  '(rg-menu :which-key "rg-menu")))
 
 ;; completion
 ;; frontend setup
-;; veritco
+;; vertico
 (use-package vertico
   :demand t
   :init
@@ -423,7 +385,7 @@ ARG filename to open"
          ("M-s c" . consult-locate)
          ("M-s g" . consult-grep)
          ("M-s G" . consult-git-grep)
-         ("M-s r" . consult-ripgrjp)
+         ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
          ("M-s k" . consult-keep-lines)
@@ -539,6 +501,9 @@ ARG filename to open"
   ;; (setq eldoc-documentation-strategy #'eldoc-documentation-compose-eagerly)
 
   :config
+
+  (vertico-multiform-mode)
+  (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
 
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
@@ -668,13 +633,11 @@ ARG filename to open"
 
 (use-package treemacs
   :config
-  (define-key treemacs-mode-map [drag-mouse-1] nil)
-)
+  (define-key treemacs-mode-map [drag-mouse-1] nil))
 (use-package treemacs-evil
   :after (treemacs evil)
   :config
-  (evil-define-key 'treemacs treemacs-mode-map [drag-mouse-1] nil)
-)
+  (evil-define-key 'treemacs treemacs-mode-map [drag-mouse-1] nil))
 (use-package treemacs-projectile
   :after (treemacs projectile))
 (use-package treemacs-magit
@@ -686,11 +649,10 @@ ARG filename to open"
   :demand t
   :diminish (evil-collection-unimpaired-mode)
   :init
-(setq evil-want-keybinding nil
-      evil-want-integration t)
+  (setq evil-want-keybinding nil
+        evil-want-integration t)
   :config
-  (evil-mode 1)
-)
+  (evil-mode 1))
 (use-package evil-collection
   :demand t
   :ensure t
@@ -816,15 +778,14 @@ ARG filename to open"
   :demand
   :bind
   (:map dired-mode-map
-    ("<enter>" ."mhj/dwim-toggle-or-open")
-    ("<return>" . "mhj/dwim-toggle-or-open")
-    ("<tab>" . "mhj/dwim-toggle-or-open")
-    ("<down-mouse-1>" . "mhj/mouse-dwim-to-toggle-or-open"))
+    ("<enter>" . mhj/dwim-toggle-or-open)
+    ("<return>" . mhj/dwim-toggle-or-open)
+    ("<tab>" . mhj/dwim-toggle-or-open)
+    ("<down-mouse-1>" . mhj/mouse-dwim-to-toggle-or-open))
   :config
   (progn
     ;; Function to customize the line prefixes (I simply indent the lines a bit)
-    (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s)))
-  )
+    (setq dired-subtree-line-prefix (lambda (depth) (make-string (* 2 depth) ?\s))))
 
   (defun mhj/dwim-toggle-or-open ()
     "Toggle subtree or open the file."
@@ -846,40 +807,12 @@ ARG filename to open"
         (goto-char pos)
         (mhj/dwim-toggle-or-open))))))
 
-(use-package counsel
-  :after (general)
-  :diminish (counsel-mode)
-  :bind* (
-    ("C-c /" . counsel-rg)
-    ("C-c f" . counsel-git)
-    ("C-c l" . counsel-locate)
-    ("C-c s" . counsel-git-grep)
-    ("C-x C-f" . counsel-find-file)
-    ("C-x C-r" . counsel-recentf)
-    ("M-x" . counsel-M-x)
-    ("M-y" . counsel-yank-pop)
-  )
-  :general
-  (fb/leader-keys
-    "SPC" '(counsel-M-x :which-key "M-x")
-    "ff"  '(counsel-find-file :which-key "find file"))
-  :config
-  (setq counsel-switch-buffer-preview-virtual-buffers nil)
-  (counsel-mode 1)
-)
-
-(use-package swiper
-  :general
-  (fb/leader-keys
-    "ss"  '(swiper :which-key "swiper")))
-
 (use-package dhall-mode
   :mode "\\.dhall\\'")
 
 (use-package direnv
   :config
-  (direnv-mode)
-)
+  (direnv-mode))
 
 (use-package dockerfile-mode)
 
@@ -887,8 +820,7 @@ ARG filename to open"
   :mode "\\.ex\\'"
   :mode "\\.exs\\'"
   :mode "\\.heex\\'"
-  :mode "\\.eex\\'"
-)
+  :mode "\\.eex\\'")
 
 (require 'project)
 (defun project-find-go-module (dir)
@@ -919,7 +851,6 @@ ARG filename to open"
     (define-key evil-motion-state-local-map (kbd "gsfv") #'go-goto-return-values)
     (define-key evil-motion-state-local-map (kbd "gsd")  #'go-goto-docstring)
     (define-key evil-motion-state-local-map (kbd "gsi")  #'go-goto-imports)
-    (add-hook 'go-mode-hook #'eglot-ensure)
   ))
   :config
   (evil-add-command-properties #'go-goto-arguments :jump t :repeat 'motion :type 'exclusive)
@@ -932,18 +863,15 @@ ARG filename to open"
   :custom
   (godoc-at-point-function 'godoc-gogetdoc)
   (gofmt-command "goimports")
-  (gofmt-show-errors 'buffer)
-)
+  (gofmt-show-errors 'buffer))
 
 (use-package ledger-mode
   :mode "\\.journal\\'"
   :config
-  (setq ledger-reconcile-default-commodity "€")
-)
+  (setq ledger-reconcile-default-commodity "€"))
 
 (use-package eglot
   :ensure nil
-  :config
   :hook ((python-mode . eglot-ensure)
          (deno-ts-mode . eglot-ensure)
          (deno-tsx-mode . eglot-ensure)
@@ -961,6 +889,7 @@ ARG filename to open"
   (eglot-send-changes-idle-time 3)
   (flymake-no-changes-timeout 5)
   (eldoc-echo-area-use-multiline-p nil)
+  :config
   (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
@@ -969,9 +898,7 @@ ARG filename to open"
     '((:gopls .
         ((staticcheck . t)
          (matcher . "CaseSensitive")
-         (analyzer.fillstruct . t)
-  ))))
-)
+         (analyzer.fillstruct . t))))))
 
 ;; Optional: install eglot-format-buffer as a save hook.
 ;; The depth of -10 places this before eglot's willSave notification,
@@ -1072,8 +999,7 @@ ARG filename to open"
   :bind (
   ("<tab>" . nil)
   ("TAB" . nil)
-  ("M-TAB" . "yas-expand"))
-)
+  ("M-TAB" . yas-expand)))
 
 (use-package pyvenv
   :ensure t
@@ -1087,24 +1013,6 @@ ARG filename to open"
   (setq pyvenv-post-deactivate-hooks
         (list (lambda ()
                 (setq python-shell-interpreter "python")))))
-
-(setq read-process-output-max (* 1024 1024))
-(setq initial-scratch-message "coi")
-
-;; line numbers
-(when (version<= "26.0.50" emacs-version )
-    (global-display-line-numbers-mode))
-
-;; tweak some parameters
-(set-frame-parameter (selected-frame) 'alpha '(100 . 90))
-(add-to-list 'default-frame-alist '(alpha . (100 . 90)))
-(setq frame-inhibit-implied-resize t)
-(setq pixel-scroll-precision-mode t)
-
-(add-hook 'prog-mode-hook 'highlight-indent-guides-mode)
-(setq frame-resize-pixelwise t)
-
-(add-hook 'project-find-functions #'project-find-go-module)
 
 (provide 'base-init)
 ;;; base-init.el ends here
