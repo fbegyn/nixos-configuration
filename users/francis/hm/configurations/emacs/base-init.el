@@ -8,6 +8,10 @@
   (setq use-package-verbose nil)
   (setq use-package-always-ensure t))
 
+(require 'general)
+(require 'use-package)
+(package-initialize)
+
 ;; For :diminish in (use-package).
 (use-package diminish :ensure t)
 ;; For :bind in (use-package).
@@ -73,7 +77,6 @@
   (set-terminal-coding-system 'utf-8)
   ;; Clean up the mode line
   (display-time-mode 1)
-  (setq column-number-mode t)
 
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -91,6 +94,7 @@
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
   ;; better history provision
+  (setq history-length 100)
   (savehist-mode)
 
   ;; Should use:
@@ -126,6 +130,7 @@
   (electric-pair-mode)
   (winner-mode 1)
 
+  (setq recentf-max-saved-items 100)
   (recentf-mode 1)
   (global-set-key "\C-x\ \C-r" 'recentf-open-files)
   (when window-system
@@ -165,9 +170,10 @@
           (cdr args)))
   (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
 
-  ;; line numbers
-  (when (version<= "26.0.50" emacs-version)
-    (global-display-line-numbers-mode))
+  ;; line numbers - scoped to relevant modes instead of global
+  (add-hook 'prog-mode-hook #'display-line-numbers-mode)
+  (add-hook 'text-mode-hook #'display-line-numbers-mode)
+  (add-hook 'conf-mode-hook #'display-line-numbers-mode)
 
   ;; tweak some parameters
   (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
@@ -267,7 +273,6 @@ ARG filename to open"
   :demand t
   :ensure t
   :config
-  (require 'exec-path-from-shell)
   (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
     (add-to-list 'exec-path-from-shell-variables var))
   (when (memq window-system '(mac ns x))
@@ -325,16 +330,17 @@ ARG filename to open"
 ;; vertico
 (use-package vertico
   :demand t
+  ;; :custom
+  ;; Different scroll margin
+  ;; (vertico-scroll-margin 0)
+  ;; Show more candidates
+  ;; (vertico-count 20)
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-resize t)
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  ;; (vertico-cycle t)
   :init
   (vertico-mode)
-  ;; Different scroll margin
-  ;; (setq vertico-scroll-margin 0)
-  ;; Show more candidates
-  ;; (setq vertico-count 20)
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (setq vertico-resize t)
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  ;; (setq vertico-cycle t)
 )
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
@@ -601,11 +607,13 @@ ARG filename to open"
   :init
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  :config
-  (global-diff-hl-mode))
+  :hook ((prog-mode . diff-hl-mode)
+         (text-mode . diff-hl-mode)
+         (conf-mode . diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode)))
 
 (use-package vterm
-  :demand
+  :commands (vterm vterm-other-window)
   :config
   (add-hook
 	'term-mode-hook
@@ -619,6 +627,47 @@ ARG filename to open"
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
+
+;; (defvar fbegyn:dark-theme 'gruvbox-dark-hard
+;;   "Default dark theme.")
+;; 
+;; (defvar fbegyn:light-theme 'gruvbox-light-hard
+;;   "Default light theme.")
+;; 
+;; (defun fbegyn:theme-from-dbus (value)
+;;   "Change the theme based on a D-Bus property.
+;; 
+;; VALUE should be an integer or an arbitrarily nested list that
+;; contains an integer.  When VALUE is equal to 2 then a light theme
+;; will be selected, otherwise a dark theme will be selected."
+;;   (load-theme (if (= 2 (car (flatten-list value)))
+;;                   fbegyn:light-theme
+;;                 fbegyn:dark-theme)
+;;               t))
+;; 
+;; (require 'dbus)
+;; 
+;; ;; Set the current theme based on what the system theme is right now:
+;; (dbus-call-method-asynchronously
+;;    :session "org.freedesktop.portal.Desktop"
+;;    "/org/freedesktop/portal/desktop"
+;;    "org.freedesktop.portal.Settings"
+;;    "Read"
+;;    #'fbegyn:theme-from-dbus
+;;    "org.freedesktop.appearance"
+;;    "color-scheme")
+;; 
+;; ;; Register to be notified when the system theme changes:
+;; (dbus-register-signal
+;;    :session "org.freedesktop.portal.Desktop"
+;;    "/org/freedesktop/portal/desktop"
+;;    "org.freedesktop.portal.Settings"
+;;    "SettingChanged"
+;;    (lambda (path var value)
+;;      (when (and (string-equal path "org.freedesktop.appearance")
+;;                 (string-equal var "color-scheme"))
+;;        (fbegyn:theme-from-dbus value))))
+
 (use-package gruvbox-theme
   :config (load-theme 'gruvbox-dark-hard t))
 (use-package highlight-indent-guides
@@ -671,7 +720,6 @@ ARG filename to open"
 (use-package flycheck
   :diminish (flycheck-mode)
   :hook (prog-mode . flycheck-mode)
-  :config (global-flycheck-mode)
   :custom
   (flycheck-display-errors-function 'ignore)
   (flycheck-highlighting-mode nil)
@@ -775,7 +823,6 @@ ARG filename to open"
     (add-hook 'dired-mode-hook 'dired-omit-mode)
     (add-hook 'dired-mode-hook 'dired-hide-details-mode)))
 (use-package dired-subtree
-  :demand
   :bind
   (:map dired-mode-map
     ("<enter>" . mhj/dwim-toggle-or-open)
@@ -837,8 +884,6 @@ ARG filename to open"
 (use-package go-mode
   :hook
   (go-mode . (lambda ()
-    (lsp)
-    ;; (lsp-semantic-tokens-mode)
     (add-hook 'before-save-hook
     (lambda ()
         (call-interactively 'eglot-code-action-organize-imports))
