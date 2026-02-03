@@ -24,12 +24,12 @@ in {
         config = cfg.fullConfig;
         package = cfg.emacsPackage;
         alwaysEnsure = true;
-        override = epkgs: epkgs // {
-          typst-ts-mode = pkgs.callPackage ./typst-ts-mode.nix {
-            inherit (pkgs) fetchgit;
-            inherit (epkgs) trivialBuild;
-          };
-        };
+        # override = epkgs: epkgs // {
+        #   typst-ts-mode = pkgs.callPackage ./typst-ts-mode.nix {
+        #     inherit (pkgs) fetchgit;
+        #     inherit (epkgs) trivialBuild;
+        #   };
+        # };
       };
     };
   };
