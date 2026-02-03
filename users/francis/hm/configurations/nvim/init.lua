@@ -1,0 +1,16 @@
+-- Neovim configuration entry point
+require("options")
+require("keymaps")
+require("autocmds")
+
+-- Plugins (configured after loading via Nix)
+require("plugins.ui")
+require("plugins.telescope")
+require("plugins.cmp")
+require("plugins.lsp")
+require("plugins.treesitter")
+require("plugins.git")
+require("plugins.tree")
+require("plugins.editing")
+require("plugins.terminal")
+require("plugins.org")

@@ -1,66 +1,109 @@
-{ pkgs, stdenv, ... }:
+{ pkgs, ... }:
 let
-  general     = builtins.readFile ./vimrc/general.vim;
-  movements     = builtins.readFile ./vimrc/movements.vim;
-  tabsbufs     = builtins.readFile ./vimrc/tabsbuffers.vim;
-  colors     = builtins.readFile ./vimrc/colors.vim;
-  srcry = builtins.readFile ./vimrc/srcery.vim;
-
-  go     = builtins.readFile ./vimrc/languages/go.vim;
-  rust     = builtins.readFile ./vimrc/languages/rust.vim;
-
-  goplugin = builtins.readFile ./vimrc/plugins/go.vim;
-
-  ctrlp = builtins.readFile ./vimrc/plugins/ctrlp.vim;
-  nerdtree = builtins.readFile ./vimrc/plugins/nerdtree.vim;
-  indentline = builtins.readFile ./vimrc/plugins/indentline.vim;
-  goyo = builtins.readFile ./vimrc/plugins/goyo.vim;
-  multicursor = builtins.readFile ./vimrc/plugins/multicursor.vim;
-  vimzettel = builtins.readFile ./vimrc/plugins/vim-zettel.vim;
-  goPlugin = builtins.readFile ./vimrc/plugins/go.vim;
-  in
+  treesitterWithGrammars = pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
+    p.bash
+    p.c
+    p.css
+    p.dockerfile
+    p.elixir
+    p.go
+    p.gomod
+    p.gosum
+    p.heex
+    p.html
+    p.javascript
+    p.json
+    p.lua
+    p.make
+    p.markdown
+    p.markdown_inline
+    p.nix
+    p.python
+    p.rust
+    p.toml
+    p.tsx
+    p.typescript
+    p.vimdoc
+    p.yaml
+  ]);
+in
 {
+  xdg.configFile."nvim/lua" = {
+    source = ./lua;
+    recursive = true;
+  };
+
   programs.neovim = {
-    enable = true;
     vimAlias = true;
     vimdiffAlias = true;
+
+    extraLuaConfig = builtins.readFile ./init.lua;
+
     plugins = with pkgs.vimPlugins; [
-      limelight-vim
+      # UI
+      gruvbox-nvim
+      lualine-nvim
+      indent-blankline-nvim
+      which-key-nvim
+      nvim-web-devicons
+
+      # Telescope
+      telescope-nvim
+      telescope-fzf-native-nvim
+
+      # Completion
+      nvim-cmp
+      cmp-nvim-lsp
+      cmp-buffer
+      cmp-path
+      cmp-cmdline
+      luasnip
+      cmp_luasnip
+      friendly-snippets
+
+      # LSP
+      nvim-lspconfig
+      fidget-nvim
+
+      # Treesitter
+      treesitterWithGrammars
+
+      # Git
       fugitive
-      gitgutter
-      multiple-cursors
-      fzf-vim
-      airline
-      surround
-      vim-better-whitespace
-      auto-pairs
-      indentLine
-      tmux-navigator
-      goyo-vim
-      vimtex
-      vim-go
-      The_NERD_tree
-      vim-ledger
-      vim-nix
+      gitsigns-nvim
+
+      # File tree
+      nvim-tree-lua
+
+      # Editing
+      nvim-surround
+      comment-nvim
+      nvim-autopairs
+      undotree
+
+      # Terminal
+      toggleterm-nvim
+
+      # Org
+      orgmode
+
+      # Misc
+      direnv-vim
     ];
-    extraConfig = ''
-      ${general}
-      ${srcry}
-      ${colors}
-      ${movements}
-      ${tabsbufs}
 
-      ${go}
-      ${rust}
+    extraPackages = with pkgs; [
+      # LSP servers
+      gopls
+      rust-analyzer
+      nil
+      elixir-ls
+      pyright
+      deno
+      lua-language-server
 
-      ${nerdtree}
-      ${ctrlp}
-      ${indentline}
-      ${multicursor}
-      ${goyo}
-      ${vimzettel}
-
-      ${goplugin}
-    '';
+      # Tools used by telescope / plugins
+      ripgrep
+      fd
+    ];
   };
 }

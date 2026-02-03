@@ -12,8 +12,6 @@
   programs.home-manager.enable = true;
   programs.neovim = {
     enable = true;
-    vimAlias = true;
-    vimdiffAlias = true;
     defaultEditor = false;
   };
 
