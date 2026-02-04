@@ -22,6 +22,7 @@
   home.packages = with pkgs.unstable; [
     slack
     mattermost-desktop
+    cue
     discord
     spotify
     meld
