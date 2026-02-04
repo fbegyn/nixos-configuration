@@ -48,6 +48,33 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   end,
 })
 
+-- Rust: format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("RustFormatOnSave", { clear = true }),
+  pattern = "*.rs",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
+-- Elixir: format on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("ElixirFormatOnSave", { clear = true }),
+  pattern = { "*.ex", "*.exs" },
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
+-- Python: format on save (via ruff)
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = vim.api.nvim_create_augroup("PythonFormatOnSave", { clear = true }),
+  pattern = "*.py",
+  callback = function()
+    vim.lsp.buf.format({ async = false })
+  end,
+})
+
 -- Apply capabilities to all servers
 vim.lsp.config("*", {
   capabilities = capabilities,
@@ -66,6 +93,12 @@ vim.lsp.config("gopls", {
 })
 
 vim.lsp.config("rust_analyzer", {})
+
+vim.lsp.config("bashls", {})
+
+vim.lsp.config("ansiblels", {})
+
+vim.lsp.config("ruff", {})
 
 vim.lsp.config("nil_ls", {})
 
@@ -100,4 +133,7 @@ vim.lsp.enable({
   "pyright",
   "denols",
   "lua_ls",
+  "bashls",
+  "ansiblels",
+  "ruff",
 })
