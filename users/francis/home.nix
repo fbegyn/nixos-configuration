@@ -62,6 +62,7 @@
     fd
     envconsul
     cue
+    vault-bin
     age
     difftastic
     mergiraf
