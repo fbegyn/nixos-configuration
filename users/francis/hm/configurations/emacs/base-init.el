@@ -603,13 +603,18 @@ ARG filename to open"
   (global-git-commit-mode 1)
   ;; (magit-auto-revert-mode nil)
   (magit-save-repository-buffers 'dontask))
+(defun fb/diff-hl-unless-remote ()
+  "Enable diff-hl-mode unless the file is remote."
+  (unless (file-remote-p default-directory)
+    (diff-hl-mode)))
+
 (use-package diff-hl
   :init
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  :hook ((prog-mode . diff-hl-mode)
-         (text-mode . diff-hl-mode)
-         (conf-mode . diff-hl-mode)
+  :hook ((prog-mode . fb/diff-hl-unless-remote)
+         (text-mode . fb/diff-hl-unless-remote)
+         (conf-mode . fb/diff-hl-unless-remote)
          (dired-mode . diff-hl-dired-mode)))
 
 ;; jujutsu (jj) version control
@@ -693,8 +698,7 @@ ARG filename to open"
 (use-package highlight-indent-guides
   :hook (prog-mode . highlight-indent-guides-mode)
   :init
-  (setq highlight-indent-guides-method 'character)
-  (setq highlight-indent-guides-character ?|)
+  (setq highlight-indent-guides-method 'bitmap)
   (setq highlight-indent-guides-responsive 'top))
 
 (use-package nerd-icons)
@@ -818,11 +822,6 @@ ARG filename to open"
 ;; don't automatically refresh the status buffer after running a git command
 (setq magit-refresh-status-buffer nil)
 
-(defun $lsp-unless-remote ()
-  (if (file-remote-p buffer-file-name)
-      (progn (eldoc-mode -1)
-             (setq-local completion-at-point-functions nil))
-    (lsp)))
 
 (use-package better-defaults
   :config (ido-mode nil))
@@ -935,18 +934,26 @@ ARG filename to open"
   :config
   (setq ledger-reconcile-default-commodity "€"))
 
+(defun fb/eglot-ensure-maybe ()
+  "Start eglot after idle delay, skipping remote files."
+  (unless (file-remote-p buffer-file-name)
+    (run-with-idle-timer 1 nil (lambda ()
+      (when (buffer-live-p (current-buffer))
+        (with-current-buffer (current-buffer)
+          (eglot-ensure)))))))
+
 (use-package eglot
   :ensure nil
-  :hook ((python-mode . eglot-ensure)
-         (deno-ts-mode . eglot-ensure)
-         (deno-tsx-mode . eglot-ensure)
-         (elixir-mode . eglot-ensure)
-         (elixir-ts-mode . eglot-ensure)
-         (nix-mode . eglot-ensure)
-         (go-mode . eglot-ensure)
-         (go-ts-mode . eglot-ensure)
-         (rust-mode . eglot-ensure)
-         (sh-mode . eglot-ensure))
+  :hook ((python-mode . fb/eglot-ensure-maybe)
+         (deno-ts-mode . fb/eglot-ensure-maybe)
+         (deno-tsx-mode . fb/eglot-ensure-maybe)
+         (elixir-mode . fb/eglot-ensure-maybe)
+         (elixir-ts-mode . fb/eglot-ensure-maybe)
+         (nix-mode . fb/eglot-ensure-maybe)
+         (go-mode . fb/eglot-ensure-maybe)
+         (go-ts-mode . fb/eglot-ensure-maybe)
+         (rust-mode . fb/eglot-ensure-maybe)
+         (sh-mode . fb/eglot-ensure-maybe))
   :general
   (fb/leader-keys
     "c a" '(eglot-code-actions :which-key "eglot code actions"))
@@ -966,8 +973,8 @@ ARG filename to open"
   (setq-default eglot-workspace-configuration
     '((:gopls .
         ((staticcheck . t)
-         (matcher . "CaseSensitive")
-         (analyzer.fillstruct . t))))))
+         (matcher . "CaseSensitive"))))))
+         ;; (analyzer.fillstruct . t))))))
 
 ;; Optional: install eglot-format-buffer as a save hook.
 ;; The depth of -10 places this before eglot's willSave notification,
