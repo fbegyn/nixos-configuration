@@ -101,7 +101,7 @@ in
       deno
       lua-language-server
       nodePackages.bash-language-server
-      ansible-language-server
+      # ansible-language-server
       ansible-lint
       ruff
 
