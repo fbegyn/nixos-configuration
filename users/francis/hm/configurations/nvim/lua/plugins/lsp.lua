@@ -96,7 +96,7 @@ vim.lsp.config("rust_analyzer", {})
 
 vim.lsp.config("bashls", {})
 
-vim.lsp.config("ansiblels", {})
+-- vim.lsp.config("ansiblels", {})
 
 vim.lsp.config("ruff", {})
 
@@ -134,6 +134,6 @@ vim.lsp.enable({
   "denols",
   "lua_ls",
   "bashls",
-  "ansiblels",
+  -- "ansiblels",
   "ruff",
 })

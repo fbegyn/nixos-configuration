@@ -650,13 +650,13 @@ ARG filename to open"
 
 ;; (defvar fbegyn:dark-theme 'gruvbox-dark-hard
 ;;   "Default dark theme.")
-;; 
+;;
 ;; (defvar fbegyn:light-theme 'gruvbox-light-hard
 ;;   "Default light theme.")
-;; 
+;;
 ;; (defun fbegyn:theme-from-dbus (value)
 ;;   "Change the theme based on a D-Bus property.
-;; 
+;;
 ;; VALUE should be an integer or an arbitrarily nested list that
 ;; contains an integer.  When VALUE is equal to 2 then a light theme
 ;; will be selected, otherwise a dark theme will be selected."
@@ -664,9 +664,9 @@ ARG filename to open"
 ;;                   fbegyn:light-theme
 ;;                 fbegyn:dark-theme)
 ;;               t))
-;; 
+;;
 ;; (require 'dbus)
-;; 
+;;
 ;; ;; Set the current theme based on what the system theme is right now:
 ;; (dbus-call-method-asynchronously
 ;;    :session "org.freedesktop.portal.Desktop"
@@ -676,7 +676,7 @@ ARG filename to open"
 ;;    #'fbegyn:theme-from-dbus
 ;;    "org.freedesktop.appearance"
 ;;    "color-scheme")
-;; 
+;;
 ;; ;; Register to be notified when the system theme changes:
 ;; (dbus-register-signal
 ;;    :session "org.freedesktop.portal.Desktop"
@@ -944,7 +944,9 @@ ARG filename to open"
          (elixir-ts-mode . eglot-ensure)
          (nix-mode . eglot-ensure)
          (go-mode . eglot-ensure)
-         (go-ts-mode . eglot-ensure))
+         (go-ts-mode . eglot-ensure)
+         (rust-mode . eglot-ensure)
+         (sh-mode . eglot-ensure))
   :general
   (fb/leader-keys
     "c a" '(eglot-code-actions :which-key "eglot code actions"))
@@ -959,6 +961,8 @@ ARG filename to open"
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
   (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  ;; (add-to-list 'eglot-server-programs '(yaml-mode . ("ansible-language-server" "--stdio")))
+  ;; (add-to-list 'eglot-server-programs '(yaml-ts-mode . ("ansible-language-server" "--stdio")))
   (setq-default eglot-workspace-configuration
     '((:gopls .
         ((staticcheck . t)
@@ -971,6 +975,10 @@ ARG filename to open"
 (defun eglot-format-buffer-before-save ()
   (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
 (add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'rust-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'elixir-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'elixir-ts-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'python-mode-hook #'eglot-format-buffer-before-save)
 
 (use-package treesit-auto
   :custom

@@ -47,6 +47,9 @@ in {
       solargraph
       rust-analyzer
       pyright
+      nodePackages.bash-language-server
+      # ansible-language-server
+      ruff
       # nil
     ];
 
