@@ -60,6 +60,9 @@
     ripgrep
     # projecteur - TODO:not mac compatible
     fd
+    envconsul
+    cue
+    age
     difftastic
     mergiraf
     pkgs.weechat
