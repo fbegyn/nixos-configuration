@@ -228,6 +228,7 @@
               ];
               home.username = "${username}";
               home.homeDirectory = "${homeDir}";
+              programs.go.env.GOPATH = "${homeDir}/.go";
             })
             ./users/francis/home.nix
           ];
