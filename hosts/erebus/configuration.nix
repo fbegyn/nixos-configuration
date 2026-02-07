@@ -19,6 +19,7 @@ in {
       nerd-fonts.dejavu-sans-mono
       nerd-fonts.fira-code
       nerd-fonts.terminess-ttf
+      terminus_font_ttf
     ];
   };
 

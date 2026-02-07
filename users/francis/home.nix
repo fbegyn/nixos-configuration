@@ -106,5 +106,10 @@
     yq
     jq
     tree-sitter
+    # fonts
+    pkgs.nerd-fonts.dejavu-sans-mono
+    pkgs.nerd-fonts.fira-code
+    pkgs.nerd-fonts.terminess-ttf
+    pkgs.terminus_font_ttf
   ];
 }
