@@ -96,9 +96,11 @@ in {
       "nikitabobko/tap"
       "felixkratz/formulae"
       "dagger/tap"
+      "lukehinds/nono"
     ];
     brews = [
       "mr"
+      "lukehinds/nono/nono"
       "podman"
       "ffmpeg"
       "yt-dlp"
