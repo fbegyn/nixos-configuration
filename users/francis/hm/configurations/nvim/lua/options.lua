@@ -22,10 +22,10 @@ opt.colorcolumn = "101"
 opt.signcolumn = "yes"
 opt.wrap = false
 
--- Indentation: 4-space tabs
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.softtabstop = 4
+-- Indentation: 2-space tabs
+opt.tabstop = 2
+opt.shiftwidth = 2
+opt.softtabstop = 2
 opt.expandtab = true
 opt.smartindent = true
 
