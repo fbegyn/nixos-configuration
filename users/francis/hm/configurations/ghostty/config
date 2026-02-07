@@ -1,1 +1,15 @@
-shell-integration-features = sudo,title,ssh-env
+confirm-close-surface = false
+macos-option-as-alt = left
+shell-integration-features = ssh-env,title
+shell-integration = fish
+# font-family = IosevkaTerm NFM
+# font-family-bold = IosevkaTerm NFM Bold
+# font-family-italic = IosevkaTerm NFM Italic
+# font-family-bold-italic = IosevkaTerm NFM Bold Italic
+font-family = Terminess Nerd Font Mono NFM
+font-family-bold = Terminess Nerd Font Mono Bold
+font-family-italic = Terminess Nerd Font Mono Italic
+font-family-bold-italic = Terminess Nerd Font Mono Bold Italic
+font-size = 16
+keybind = global:cmd+grave_accent=toggle_quick_terminal
+quick-terminal-position = bottom
