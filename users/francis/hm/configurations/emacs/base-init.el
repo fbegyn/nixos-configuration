@@ -817,6 +817,44 @@ ARG filename to open"
   (with-eval-after-load 'compile
     (remove-hook 'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
 
+;;; TRAMP leader key bindings
+(defun fb/tramp-open-remote-file ()
+  "Open a file on a remote host via SSH."
+  (interactive)
+  (let ((host (read-string "SSH host: ")))
+    (find-file (concat "/ssh:" host ":~/"))))
+
+(defun fb/tramp-open-remote-dir ()
+  "Open a directory on a remote host via SSH in dired."
+  (interactive)
+  (let ((host (read-string "SSH host: ")))
+    (dired (concat "/ssh:" host ":~/"))))
+
+(defun fb/tramp-open-remote-sudo-dir ()
+  "Open a directory on a remote host as sudo via SSH in dired."
+  (interactive)
+  (let ((host (read-string "SSH host: ")))
+    (dired (concat "/ssh:" host "|sudo:" host ":/"))))
+
+(defun fb/tramp-open-recent ()
+  "Open a recent TRAMP connection."
+  (interactive)
+  (let* ((recent-files (seq-filter
+                        (lambda (f) (file-remote-p f))
+                        recentf-list))
+         (selected (completing-read "Recent remote: " recent-files nil t)))
+    (find-file selected)))
+
+(fb/leader-keys
+  "r"   '(:ignore t :which-key "remote")
+  "r <escape>" '(keyboard-escape-quit :which-key t)
+  "rf"  '(fb/tramp-open-remote-file :which-key "open file")
+  "rd"  '(fb/tramp-open-remote-dir :which-key "open dir")
+  "rs"  '(fb/tramp-open-remote-sudo-dir :which-key "sudo dir")
+  "rr"  '(fb/tramp-open-recent :which-key "recent")
+  "rc"  '(tramp-cleanup-all-connections :which-key "cleanup all")
+  "rC"  '(tramp-cleanup-connection :which-key "cleanup one"))
+
 ;; MAGIT tramp
 ;; don't show the diff by default in the commit buffer. Use `C-c C-d' to display it
 (setq magit-commit-show-diff nil)
