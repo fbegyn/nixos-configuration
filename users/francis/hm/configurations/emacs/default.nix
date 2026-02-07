@@ -32,7 +32,9 @@ in {
               owner = "0WD0";
               repo = "majutsu";
               rev = "v0.5.0";
-              hash = "sha256-tssXhZ16ucTgzC5zTJL7daJ/wPnv2qZejA/QLz93fxQ=";
+              hash = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
+              then "sha256-tssXhZ16ucTgzC5zTJL7daJ/wPnv2qZejA/QLz93fxQ="
+              else "sha256-iWJKWhX2wH2EmdOlXH+Bz4oR08n5bpNX1bQjXKNBRMM=";
             };
             packageRequires = with epkgs; [ transient with-editor magit ];
           };
