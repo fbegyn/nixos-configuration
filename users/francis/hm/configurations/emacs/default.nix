@@ -24,6 +24,9 @@ in {
         config = cfg.fullConfig;
         package = cfg.emacsPackage;
         alwaysEnsure = true;
+        extraEmacsPackages = epkgs: [
+          epkgs.majutsu
+        ];
         override = epkgs: epkgs // {
           majutsu = epkgs.trivialBuild {
             pname = "majutsu";

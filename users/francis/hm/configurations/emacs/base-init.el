@@ -634,6 +634,7 @@ ARG filename to open"
 
 (use-package majutsu
   :after (general)
+  :ensure nil
   :commands (majutsu majutsu-status majutsu-log)
   :general
   (fb/leader-keys
