@@ -29,13 +29,16 @@
     # ./hm/configurations/redshift.nix # TODO: not mac compatible
   ];
 
-  xdg.configFile = {
-    "qutebrowser/css/solarized-dark-all-sites.css".source =
-      ./hm/configurations/qutebrowser/solarized-dark-all-sites.css;
-    "home-manager/home.nix".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-configuration/users/francis/home.nix";
-    "home-manager/flake.nix".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/nixos-configuration/flake.nix";
+  xdg.configFile = let
+        symLink = config.lib.file.mkOutOfStoreSymlink;
+        symLinkHome = path: symLink "${config.home.homeDirectory}/${path}";
+        symLinkHM = path: symLink "${config.home.homeDirectory}/nixos-configuration/users/francis/hm/${path}";
+  in {
+    "home-manager/home.nix".source = symLinkHome "nixos-configuration/users/francis/home.nix";
+    "home-manager/flake.nix".source = symLinkHome "nixos-configuration/flake.nix";
+    "nvim/init.lua".source = symLinkHM "configurations/nvim/init.lua";
+    "nvim/lua".source = symLinkHM "configurations/nvim/lua";
+    "ghostty/config".source = symLinkHM "configurations/ghostty/config";
   };
 
   programs.neovim = {
@@ -112,4 +115,5 @@
     pkgs.nerd-fonts.terminess-ttf
     pkgs.terminus_font_ttf
   ];
+
 }
