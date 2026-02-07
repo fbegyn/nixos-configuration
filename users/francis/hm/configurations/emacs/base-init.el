@@ -1052,7 +1052,7 @@ ARG filename to open"
       '(
 		("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
          "* TODO %?\n  %i\n  %a")
-        ("s" "Standup" entry (file+datetree "~/org/standup.org")
+        ("s" "Standup" entry (file+olp+datetree "~/org/standup.org")
          "* %?\nEntered on %U\n  %i\n  %a")))
   :config
   (fb/leader-keys
