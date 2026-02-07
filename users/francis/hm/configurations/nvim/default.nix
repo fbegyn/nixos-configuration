@@ -28,16 +28,11 @@ let
   ]);
 in
 {
-  xdg.configFile."nvim/lua" = {
-    source = ./lua;
-    recursive = true;
-  };
-
   programs.neovim = {
     vimAlias = true;
     vimdiffAlias = true;
 
-    extraLuaConfig = builtins.readFile ./init.lua;
+    # extraLuaConfig = builtins.readFile ./init.lua;
 
     plugins = with pkgs.vimPlugins; [
       # UI
