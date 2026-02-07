@@ -1,6 +1,9 @@
 -- General vim options
 local opt = vim.opt
 
+-- Font
+opt.guifont = "Terminess Nerd Font Mono:h17:#h-slight"
+
 -- Encoding
 opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
