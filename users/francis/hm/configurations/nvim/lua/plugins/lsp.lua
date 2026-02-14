@@ -100,7 +100,31 @@ vim.lsp.config("bashls", {})
 
 vim.lsp.config("ruff", {})
 
-vim.lsp.config("nil_ls", {})
+local nil_auto_eval = false
+
+vim.lsp.config("nil_ls", {
+  settings = {
+    ["nil"] = {
+      nix = {
+        flake = {
+          autoEvalInputs = nil_auto_eval,
+        },
+      },
+    },
+  },
+})
+
+vim.keymap.set("n", "<leader>cn", function()
+  nil_auto_eval = not nil_auto_eval
+  local clients = vim.lsp.get_clients({ name = "nil_ls" })
+  for _, client in ipairs(clients) do
+    client.settings = {
+      ["nil"] = { nix = { flake = { autoEvalInputs = nil_auto_eval } } },
+    }
+    client:notify("workspace/didChangeConfiguration", { settings = client.settings })
+  end
+  vim.notify("nil autoEvalInputs: " .. tostring(nil_auto_eval))
+end, { desc = "Toggle nil autoEvalInputs" })
 
 vim.lsp.config("elixirls", {
   cmd = { "elixir-ls" },
