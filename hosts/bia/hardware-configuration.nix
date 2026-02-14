@@ -12,42 +12,69 @@
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-
-  fileSystems."/" = {
-    device = "SystemPool/root";
-    fsType = "zfs"; options = [ "zfsutil" ];
+  boot.zfs.extraPools = [ "SystemPool" "StoragePool" "SlowStoragePool"];
+  boot.loader.grub = {
+    enable = true;
+    zfsSupport = true;
+    efiSupport = true;
+    efiInstallAsRemovable = true;
+    mirroredBoots = [
+      { devices = ["nodev"]; path = "/boot"; }
+    ];
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/BD77-EA55";
-    fsType = "vfat";
-  };
+  fileSystems."/" =
+    { device = "SystemPool/root";
+      fsType = "zfs"; options = ["zfsutil"];
+    };
 
-  fileSystems."/nix" = {
-    device = "SystemPool/nix";
-    fsType = "zfs"; options = [ "zfsutil" ];
-  };
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/BD77-EA55";
+      fsType = "vfat";
+    };
 
-  fileSystems."/home/francis" = {
-    device = "SlowStoragePool/francis/home";
-    fsType = "zfs"; options = [ "zfsutil" ];
-  };
+  fileSystems."/nix/var" =
+    { device = "SystemPool/nix/var";
+      fsType = "zfs"; options = ["zfsutil"];
+    };
 
-  fileSystems."/home/francis/.games" ={
-    depends = [ "/home/francis" ];
-    device = "StoragePool/francis/games";
-    fsType = "zfs"; options = [ "zfsutil" ];
-  };
+  fileSystems."/nix/store" =
+    { device = "StoragePool/nix/store";
+      fsType = "zfs"; options = ["zfsutil"];
+    };
 
-  fileSystems."/home/francis/Documents" = {
-    depends = [ "/home/francis" ];
-    device = "StoragePool/francis/docs";
-    fsType = "zfs"; options = [ "zfsutil" ];
-  };
+  # fileSystems."/home/francis" =
+  #   { device = "SlowStoragePool/francis/home";
+  #     fsType = "zfs"; options = ["zfsutil"];
+  #   };
 
-  swapDevices = [
-    { device = "/dev/disk/by-uuid/e543ec3e-4552-4315-a970-e98ebed98750"; }
-  ];
+  # fileSystems."/home/francis/Documents" =
+  #   { device = "StoragePool/francis/docs";
+  #     fsType = "zfs"; options = ["zfsutil"];
+  #     depends = [ "/home/francis" ];
+  #   };
 
+  # fileSystems."/home/francis/.games" =
+  #   { device = "StoragePool/francis/games";
+  #     fsType = "zfs"; options = ["zfsutil"];
+  #     depends = [ "/home/francis" ];
+  #   };
+
+  swapDevices =
+    [ {
+      device = "/dev/disk/by-partuuid/cb63165b-385b-f940-a4ae-0c32903e97e8";
+      randomEncryption = true;
+    }
+    ];
+
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp10s0f3u2u1u2.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp4s0.useDHCP = lib.mkDefault true;
+
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
