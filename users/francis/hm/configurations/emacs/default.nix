@@ -30,11 +30,11 @@ in {
         override = epkgs: epkgs // {
           majutsu = epkgs.trivialBuild {
             pname = "majutsu";
-            version = "0.5.0";
+            version = "0.6.0";
             src = pkgs.fetchFromGitHub {
               owner = "0WD0";
               repo = "majutsu";
-              rev = "v0.5.0";
+              rev = "v0.6.0";
               hash = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
               then "sha256-tssXhZ16ucTgzC5zTJL7daJ/wPnv2qZejA/QLz93fxQ="
               else "sha256-iWJKWhX2wH2EmdOlXH+Bz4oR08n5bpNX1bQjXKNBRMM=";

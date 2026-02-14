@@ -7,11 +7,6 @@
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
-    nixos-generators = {
-      url = "github:nix-community/nixos-generators";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     flake-utils.url = "github:numtide/flake-utils";
     flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
 
@@ -42,7 +37,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     ghostty = {
-      url = "github:ghostty-org/ghostty";
+      url = "github:ghostty-org/ghostty/v1.2.3";
     };
     emacs-overlay = {
       url = "github:nix-community/emacs-overlay";
@@ -76,7 +71,6 @@
     nixpkgs,
     nixpkgs-unstable,
     nixos-hardware,
-    nixos-generators,
     darwin,
     flox,
     mac-app-util,
@@ -96,8 +90,8 @@
     lib = nixpkgs.lib;
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
-        system = prev.system;
         inherit nixpkgs;
+        system = prev.pkgs.stdenv.hostPlatform.system;
         config.allowUnfree = true;
         overlays = [
           (import ./overlays/weechat.nix)
@@ -106,7 +100,7 @@
         ];
       };
       fbegyn = {
-        system = prev.system;
+        inherit nixpkgs;
         website = nixpkgs.callPackage ./fbegyn/website.nix {};
         f1multiviewer = nixpkgs.callPackage ./fbegyn/f1multiviewer.nix {};
         brother-hll2375dw-driver = nixpkgs.callPackage ./brother/drivers/hll2375dw-cups.nix {};
@@ -122,11 +116,11 @@
 
     mkMachine = extraModules:
       nixpkgs.lib.nixosSystem rec {
-        system = "x86_64-linux";
         modules = [
           ({config, pkgs, ...}: {
             nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
             nixpkgs.config.allowUnfree = true;
+            nixpkgs.hostPlatform = "x86_64-linux";
             nixpkgs.overlays = [
               (import ./overlays/weechat.nix)
               overlay
@@ -135,8 +129,8 @@
               ghostty.overlays.default
             ];
             environment.systemPackages = [
-              flox.packages.${pkgs.system}.default
-              agenix.packages.${pkgs.system}.default
+              flox.packages.${pkgs.stdenv.hostPlatform.system}.default
+              agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
           })
           # lix-module.nixosModules.default
@@ -149,59 +143,59 @@
         ] ++ extraModules;
       };
 
-    mkProxmoxLXC = extraModules:
-      nixos-generators.nixosGenerate rec {
-        system = "x86_64-linux";
-        format = "proxmox-lxc";
-        modules = [
-          ({config, pkgs, modulesPath, ...}: {
-            imports = [
-              (modulesPath+"/profiles/qemu-guest.nix")
-              (modulesPath+"/virtualisation/proxmox-lxc.nix")
-            ];
-            nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-            nixpkgs.config.allowUnfree = lib.mkDefault true;
-            nixpkgs.overlays = [
-              overlay
-            ];
-            proxmoxLXC = {
-              enable = lib.mkDefault true;
-              privileged = lib.mkDefault true;
-              manageNetwork = lib.mkDefault false;
-              manageHostName = lib.mkDefault true;
-            };
-            boot.isContainer = lib.mkDefault true;
-            boot.growPartition = lib.mkDefault true;
-            i18n.defaultLocale = "en_US.UTF-8";
-            time.timeZone = lib.mkDefault "Europe/Brussels";
-            systemd.services.zfs-mount.enable = false;
-            systemd.services.zfs-share.enable = false;
-            systemd.services.zfs-zed.enable = false;
-          })
-          # lix-module.nixosModules.default
-          agenix.nixosModules.age
-          home-manager.nixosModules.home-manager ({config, ...}: {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          })
-          ./common
-        ] ++ extraModules;
-      };
+      # mkProxmoxLXC = extraModules:
+      #   nixos-generators.nixosGenerate rec {
+      #     format = "proxmox-lxc";
+      #     modules = [
+      #       ({config, pkgs, modulesPath, ...}: {
+      #         imports = [
+      #           (modulesPath+"/profiles/qemu-guest.nix")
+      #           (modulesPath+"/virtualisation/proxmox-lxc.nix")
+      #         ];
+      #         nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+      #         nixpkgs.config.allowUnfree = lib.mkDefault true;
+      #         nixpkgs.hostPlatform = "x86_64-linux";
+      #         nixpkgs.overlays = [
+      #           overlay
+      #         ];
+      #         proxmoxLXC = {
+      #           enable = lib.mkDefault true;
+      #           privileged = lib.mkDefault true;
+      #           manageNetwork = lib.mkDefault false;
+      #           manageHostName = lib.mkDefault true;
+      #         };
+      #         boot.isContainer = lib.mkDefault true;
+      #         boot.growPartition = lib.mkDefault true;
+      #         i18n.defaultLocale = "en_US.UTF-8";
+      #         time.timeZone = lib.mkDefault "Europe/Brussels";
+      #         systemd.services.zfs-mount.enable = false;
+      #         systemd.services.zfs-share.enable = false;
+      #         systemd.services.zfs-zed.enable = false;
+      #       })
+      #       # lix-module.nixosModules.default
+      #       agenix.nixosModules.age
+      #       home-manager.nixosModules.home-manager ({config, ...}: {
+      #         home-manager.useGlobalPkgs = true;
+      #         home-manager.useUserPackages = true;
+      #       })
+      #       ./common
+      #     ] ++ extraModules;
+      #   };
 
     mkMac = extraModules:
       darwin.lib.darwinSystem rec {
-        system = "aarch64-darwin";
         modules = [
           ({config, pkgs, ...}: {
             nixpkgs.config.allowUnfree = true;
+            nixpkgs.hostPlatform = "aarch64-darwin";
             nixpkgs.overlays = [
               overlay
               lix-overlay
               emacs-overlay.overlay
             ];
             environment.systemPackages = [
-              flox.packages.${pkgs.system}.default
-              agenix.packages.${pkgs.system}.default
+              flox.packages.${pkgs.stdenv.hostPlatform.system}.default
+              agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
           })
           agenix.darwinModules.age
@@ -246,7 +240,7 @@
         mac-app-util.darwinModules.default
 	      ({pkgs, config, inputs, ...}: {
             environment.systemPackages = [
-              flox.packages.${pkgs.system}.default
+              flox.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
 	        home-manager.users.francis.imports = [
 	          mac-app-util.homeManagerModules.default
@@ -359,13 +353,13 @@
         ./hosts/nix-builder-01/configuration.nix
       ];
     };
-    packages.x86_64-linux = {
-      lxc-template = mkProxmoxLXC [
-        ./hosts/proxmox-ct-template/configuration.nix
-      ];
-      ingress-01 = mkProxmoxLXC [
-        ./hosts/homelab/ingress-01/configuration.nix
-      ];
-    };
+      # packages.x86_64-linux = {
+      #   lxc-template = mkProxmoxLXC [
+      #     ./hosts/proxmox-ct-template/configuration.nix
+      #   ];
+      #   ingress-01 = mkProxmoxLXC [
+      #     ./hosts/homelab/ingress-01/configuration.nix
+      #   ];
+      # };
   };
 }
