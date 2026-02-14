@@ -10,6 +10,6 @@ font-family = Terminess Nerd Font Mono NFM
 font-family-bold = Terminess Nerd Font Mono Bold
 font-family-italic = Terminess Nerd Font Mono Italic
 font-family-bold-italic = Terminess Nerd Font Mono Bold Italic
-font-size = 16
+font-size = 15.5
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 quick-terminal-position = bottom
