@@ -75,6 +75,7 @@ in
       comment-nvim
       nvim-autopairs
       undotree
+      hardtime-nvim
 
       # Terminal
       toggleterm-nvim
