@@ -1,0 +1,100 @@
+[user]
+name = "Francis Begyn"
+email = "francis@begyn.be"
+
+[ui]
+default-command = ["status"]
+show-cryptographic-signatures = true
+editor = "nvim"
+diff-editor = "/opt/homebrew/bin/meld"
+merge-editor = ["/opt/homebrew/bin/meld",
+        "$left", "$base", "$right", "-o", "$output"]
+diff-formatter = ":git"
+conflict-marker-style = "git"
+
+[merge-tooks.ediff]
+program = 'sh'
+merge-args = ['-c',
+  'emacsclient -c --eval "(ediff-merge-files-with-ancestor \"$0\" \"$1\" \"$2\" nil \"$3\")"',
+  '$left', '$right', '$base', '$output']
+
+[git]
+write-change-id-header = false
+
+[signing]
+behaviour = "own"
+backend = "gpg"
+
+[remotes.origin]
+auto-track-bookmarks = "main|fbegyn/*"
+
+[[--scope]]
+--when.commands = ["diff", "show"]
+[--scope.ui]
+diff-formatter = ":git"
+
+[template-aliases]
+"format_timestamp(timestamp)" = "timestamp"
+
+[templates]
+git_push_bookmark = '"fbegyn/push-" ++ change_id.short()'
+commit_trailers = '''
+format_signed_off_by_trailer(self)
+'''
+draft_commit_description = '''
+  concat(
+    coalesce(description, default_commit_description, "\n"),
+    surround(
+      "\nJJ: This commit contains the following changes:\n", "",
+      indent("JJ:     ", diff.stat(72)),
+    ),
+    "\nJJ: ignore-rest\n",
+    diff.git(),
+  )
+'''
+
+[revsets]
+log = '@ | ancestors(trunk()..(visible_heads() & mine()), 2) | trunk()'
+[revset-aliases]
+"immutable_heads()" = "present(trunk()) | tags()"
+'closest_pushable(to)' = 'heads(::to & mutable() & ~description(exact:"") & (~empty() | merges()))'
+
+[aliases]
+init = ["git", "init", "--colocate"]
+cma = ["commit", "-m"]
+tug = ["util", "exec", "--", "sh", "-c", """
+if [ "x$1" = "x" ]; then
+  jj bookmark move --from "closest_bookmark(@)" --to "closest_pushable(@)"
+else
+  jj bookmark move --to "closest_pushable(@)" "$@"
+fi
+""", ""]
+pr = ["util", "exec", "--", "bash", "-c", """
+gh pr create --head $(jj log -r 'closest_bookmark(@)' -T 'bookmarks' --no-graph | cut -d ' ' -f 1)
+"""]
+ps = ["util", "exec", "--", "bash", "-c", """
+set -e
+
+# Check if current commit has both description and changes
+has_description=$(jj log -r @ --no-graph --color never -T 'description' | grep -q . && echo "yes" || echo "no")
+# Use 'empty' template keyword to check if commit has changes
+has_changes=$(jj log -r @ --no-graph --color never -T 'empty' | grep -q "false" && echo "yes" || echo "no")
+
+if [ "$has_description" = "yes" ] && [ "$has_changes" = "yes" ]; then
+    echo "Current commit has description and changes, creating new commit..."
+    jj new
+fi
+
+# Get the bookmark from the parent commit directly
+bookmark=$(jj log -r 'ancestors(@) & bookmarks()' -n 1 --no-graph --color never -T 'bookmarks' | sed 's/\\*$//' | tr -d ' ')
+
+if [ -z "$bookmark" ]; then
+    echo "No bookmark found on parent commit"
+    exit 1
+fi
+
+echo "Moving bookmark '$bookmark' to parent commit and pushing..."
+jj bookmark set "$bookmark" -r @-
+jj git fetch
+jj git push --bookmark "$bookmark" --allow-new
+"""]

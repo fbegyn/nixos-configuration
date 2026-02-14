@@ -36,7 +36,7 @@ in {
               repo = "majutsu";
               rev = "v0.6.0";
               hash = if pkgs.stdenv.hostPlatform.system == "aarch64-darwin"
-              then "sha256-tssXhZ16ucTgzC5zTJL7daJ/wPnv2qZejA/QLz93fxQ="
+              then "sha256-pdumBo9AwfpIZPolcFPGCIzTlNdH1mkagl6CcMcHBK0="
               else "sha256-pdumBo9AwfpIZPolcFPGCIzTlNdH1mkagl6CcMcHBK0=";
             };
             packageRequires = with epkgs; [ transient with-editor magit ];
