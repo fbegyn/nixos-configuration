@@ -62,3 +62,11 @@ autocmd("VimResized", {
     vim.cmd("tabdo wincmd =")
   end,
 })
+
+-- Show diagnostics on cursor hold
+autocmd("CursorHold", {
+  group = augroup("DiagnosticFloat", { clear = true }),
+  callback = function()
+    vim.diagnostic.open_float(nil, { focusable = false })
+  end,
+})
