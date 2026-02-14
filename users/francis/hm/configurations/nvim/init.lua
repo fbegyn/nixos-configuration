@@ -4,6 +4,7 @@ require("keymaps")
 require("autocmds")
 
 -- Plugins (configured after loading via Nix)
+require("hardtime").setup()
 require("plugins.ui")
 require("plugins.telescope")
 require("plugins.cmp")
