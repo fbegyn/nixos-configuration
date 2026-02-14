@@ -41,7 +41,7 @@
       };
       gitCompletion = pkgs.fetchurl {
         url = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash";
-        hash = "sha256-OUXPfDdrZDWr3gBJPsxLmC4D/jCAYPwxx9jgTdpJ7dg=";
+        hash = "sha256-ipZFtgByavKtW4W/S1yecVpL8c3mE4VIMA1zs8OIe48=";
       };
     in ''
       TEMPPID=$(echo $PPID)
