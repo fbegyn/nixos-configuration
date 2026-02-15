@@ -64,6 +64,9 @@
     elisa
   ];
 
+  virtualisation.podman.enable = true;
+  virtualisation.docker.enable = true;
+
   services.prometheus.exporters.node.enable = true;
   services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
 
