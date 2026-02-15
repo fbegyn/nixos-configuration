@@ -374,6 +374,103 @@
     (kbd "<leader>gR") #'diff-hl-revert-hunk
     (kbd "<leader>gr") #'revert-buffer-quick))
 
+(use-package vc-jj
+  :after evil
+  :config
+  (evil-define-key 'normal 'global
+    (kbd "<leader>js") #'vc-dir
+    (kbd "<leader>jl") #'vc-print-log
+    (kbd "<leader>jd") #'vc-diff
+    (kbd "<leader>ja") #'vc-annotate))
+
+(use-package majutsu
+  :ensure nil
+  :after evil
+  :commands (majutsu majutsu-status majutsu-log)
+  :config
+  (evil-define-key 'normal 'global
+    (kbd "<leader>jj") #'majutsu
+    (kbd "<leader>jL") #'majutsu-log))
+
+;; ──────────────────────────────────────────────────────────────
+;;  TRAMP
+;; ──────────────────────────────────────────────────────────────
+
+(require 'tramp)
+(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^\\[[0-9;]*[a-zA-Z] *\\)*")
+(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+(add-to-list 'tramp-remote-path "/home/francis/.nix-profile/bin")
+(add-to-list 'tramp-remote-path "/etc/profiles/per-user/francis/bin")
+(add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
+(eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
+
+(add-to-list 'tramp-connection-properties
+             (list ".*" "locale" "LC_ALL=C"))
+
+(tramp-set-completion-function
+ "ssh" (append (tramp-get-completion-function "ssh")
+               (mapcar (lambda (file) `(tramp-parse-sconfig ,file))
+                       (directory-files
+                        "~/.ssh/conf.d/"
+                        'full directory-files-no-dot-files-regexp))))
+
+(setq remote-file-name-inhibit-locks t
+      tramp-use-scp-direct-remote-copying t
+      remote-file-name-inhibit-auto-save-visited t)
+
+(setq tramp-copy-size-limit (* 1024 1024)
+      tramp-verbose 2)
+
+(connection-local-set-profile-variables
+ 'remote-direct-async-process
+ '((tramp-direct-async-process . t)))
+
+(connection-local-set-profiles
+ '(:application tramp :protocol "scp")
+ 'remote-direct-async-process)
+
+(setq magit-tramp-pipe-stty-settings 'pty)
+
+(with-eval-after-load 'tramp
+  (with-eval-after-load 'compile
+    (remove-hook 'compilation-mode-hook #'tramp-compile-disable-ssh-controlmaster-options)))
+
+(defun my/tramp-open-remote-file ()
+  "Open a file on a remote host via SSH."
+  (interactive)
+  (let ((host (read-string "SSH host: ")))
+    (find-file (concat "/ssh:" host ":~/"))))
+
+(defun my/tramp-open-remote-dir ()
+  "Open a directory on a remote host via SSH in dired."
+  (interactive)
+  (let ((host (read-string "SSH host: ")))
+    (dired (concat "/ssh:" host ":~/"))))
+
+(defun my/tramp-open-remote-sudo-dir ()
+  "Open a directory on a remote host as sudo via SSH in dired."
+  (interactive)
+  (let ((host (read-string "SSH host: ")))
+    (dired (concat "/ssh:" host "|sudo:" host ":/"))))
+
+(defun my/tramp-open-recent ()
+  "Open a recent TRAMP connection."
+  (interactive)
+  (let* ((recent-files (seq-filter
+                        (lambda (f) (file-remote-p f))
+                        recentf-list))
+         (selected (completing-read "Recent remote: " recent-files nil t)))
+    (find-file selected)))
+
+(with-eval-after-load 'evil
+  (evil-define-key 'normal 'global
+    (kbd "<leader>rf") #'my/tramp-open-remote-file
+    (kbd "<leader>rd") #'my/tramp-open-remote-dir
+    (kbd "<leader>rs") #'my/tramp-open-remote-sudo-dir
+    (kbd "<leader>rr") #'my/tramp-open-recent
+    (kbd "<leader>rc") #'tramp-cleanup-all-connections
+    (kbd "<leader>rC") #'tramp-cleanup-connection))
+
 ;; ──────────────────────────────────────────────────────────────
 ;;  File tree: Treemacs
 ;; ──────────────────────────────────────────────────────────────
