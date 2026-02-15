@@ -3,6 +3,6 @@
 {
   programs.go = {
     enable = true;
-    package = pkgs.unstable.go_1_25;
+    package = pkgs.unstable.go_1_26;
   };
 }
