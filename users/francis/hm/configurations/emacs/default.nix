@@ -6,15 +6,7 @@ in {
   options.emacs = {
     fullConfig = lib.mkOption {
       readOnly = true;
-      default = builtins.readFile ./base-init.el + (
-        lib.concatStringsSep "\n" cfg.extraConfig
-        ) + ''
-          (provide 'init)
-          ;;; init.el ends here
-        '';
-    };
-    extraConfig = lib.mkOption {
-      default = [];
+      default = builtins.readFile ./base-init.el;
     };
     emacsPackage = lib.mkOption {
       default = pkgs.unstable.emacs30-gtk3;
@@ -73,13 +65,13 @@ in {
         '';
         executable = true;
       };
-      ".emacs.d/early-init.el".source = ./early-init.el;
-      ".emacs.d/init.el".text = cfg.fullConfig;
+      ".emacs.d/early-init.el".source = config.lib.file.mkOutOfStoreSymlink ./early-init.el;
+      ".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink ./base-init.el;
     };
 
     xdg.configFile = {
-      "emacs/early-init.el".source = ./early-init.el;
-      "emacs/init.el".text = cfg.fullConfig;
+      "emacs/early-init.el".source = config.lib.file.mkOutOfStoreSymlink ./early-init.el;
+      "emacs/init.el".source = config.lib.file.mkOutOfStoreSymlink ./base-init.el;
     };
 
     programs.emacs = {

@@ -19,7 +19,7 @@
 
 ;; emacs settings
 (use-package emacs
-  :ensure nil
+  :ensure t
   :demand t
   :custom
   ;; vertico
@@ -39,8 +39,6 @@
   (text-mode-ispell-word-completion nil)
 
   :init
-  ;; set scratch message
-  (setq initial-scratch-message "coi")
   ;; switch to y/n prompts
   (defalias 'yes-or-no-p 'y-or-n-p)
   ;; Stop emacs from littering the file system with backup files
@@ -97,41 +95,24 @@
   (setq history-length 100)
   (savehist-mode)
 
-  ;; Should use:
-  ;; (mapc #'treesit-install-language-grammar (mapcar #'car treesit-language-source-alist))
-  ;; at least once per installation or while changing this list
-  ;; (setq treesit-language-source-alist
-  ;;  '((heex "https://github.com/phoenixframework/tree-sitter-heex")
-  ;;    (elixir "https://github.com/elixir-lang/tree-sitter-elixir")
-  ;;    (bash "https://github.com/tree-sitter/tree-sitter-bash")
-  ;;    (cmake "https://github.com/uyha/tree-sitter-cmake")
-  ;;    (css "https://github.com/tree-sitter/tree-sitter-css")
-  ;;    (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-  ;;    (go "https://github.com/tree-sitter/tree-sitter-go")
-  ;;    (gomod "https://github.com/camdencheek/tree-sitter-go-mod")
-  ;;    (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-  ;;    (html "https://github.com/tree-sitter/tree-sitter-html")
-  ;;    (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
-  ;;    (json "https://github.com/tree-sitter/tree-sitter-json")
-  ;;    (make "https://github.com/alemuller/tree-sitter-make")
-  ;;    (markdown "https://github.com/ikatyang/tree-sitter-markdown")
-  ;;    (python "https://github.com/tree-sitter/tree-sitter-python")
-  ;;    (toml "https://github.com/tree-sitter/tree-sitter-toml")
-  ;;    (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
-  ;;    (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-  ;;    (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-
   ;; Inhibit startup screens
   (setq inhibit-startup-screen t
-        inhibit-splash-screen t)
+        inhibit-splash-screen t
+        initial-scratch-message "coi")
 
   ;; Disable some menu elements
   (menu-bar-mode 0)
   (electric-pair-mode)
   (winner-mode 1)
 
-  (setq recentf-max-saved-items 100)
   (recentf-mode 1)
+  (setq recentf-max-saved-items 100)
+
+  (setq display-line-numbers-type 'relative)
+  (global-display-line-numbers-mode 1)
+  (dolist (hook '(vterm-mode-hook treemacs-mode-hook org-agenda-mode-hook))
+    (add-hook hook (lambda () (display-line-numbers-mode -1))))
+
   (global-set-key "\C-x\ \C-r" 'recentf-open-files)
   (when window-system
     (dolist (mode '(tool-bar-mode
@@ -146,6 +127,7 @@
   (setq require-final-newline t)
   (setq sentence-end-double-space nil)
   (setq-default fill-column 101)
+  (global-display-fill-column-indicator-mode 1)
   (column-number-mode)
   (setq-default show-trailing-whitespace t)
   (setq-default indicate-empty-lines t)
@@ -225,14 +207,6 @@ ARG filename to open"
       (set-selective-display
        (if selective-display nil (or col 1))))))
 
-;;; ===============================================
-;;; packages
-;;; ===============================================
-(use-package gcmh
-	:demand
-	:config
-	(gcmh-mode 1))
-
 ;; For :general in (use-package).
 (use-package general
   :demand t ;; no lazy loading
@@ -272,6 +246,9 @@ ARG filename to open"
     "q"  '(:ignore t :which-key "quit")
     "qq" '(save-buffers-kill-emacs :which-key "quit")))
 
+;;; ===============================================
+;;; packages
+;;; ===============================================
 (use-package exec-path-from-shell
   :demand t
   :ensure t
@@ -282,6 +259,46 @@ ARG filename to open"
     (exec-path-from-shell-initialize))
   (when (daemonp)
     (exec-path-from-shell-initialize)))
+
+;; ──────────────────────────────────────────────────────────────
+;;  Evil
+;; ──────────────────────────────────────────────────────────────
+(use-package evil
+  :demand t
+  :diminish (evil-collection-unimpaired-mode)
+  :init
+  (setq evil-want-keybinding nil
+        evil-want-integration t)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  (evil-collection-init))
+
+(use-package evil-surround
+  :after evil
+  :config
+  (global-evil-surround-mode 1))
+
+(use-package evil-commentary
+  :after evil
+  :config
+  (evil-commentary-mode 1))
+
+;; ──────────────────────────────────────────────────────────────
+;;  Theme & UI
+;; ──────────────────────────────────────────────────────────────
+(use-package gruvbox-theme
+  :config
+  (load-theme 'gruvbox-dark-hard t))
+
+(use-package doom-modeline
+  :config
+  (doom-modeline-mode 1)
+  (setq doom-modeline-height 25
+        doom-modeline-buffer-encoding t))
 
 (use-package which-key
   :demand t
@@ -296,41 +313,18 @@ ARG filename to open"
   (which-key-mode)
   (which-key-setup-side-window-right-bottom))
 
-(use-package projectile
-  :demand t
-  :after (general)
-  :init
-  (projectile-mode +1)
+(use-package highlight-indent-guides
+  :hook (prog-mode . highlight-indent-guides-mode)
   :config
-  (progn
-    (setq projectile-enable-caching t
-          projectile-require-project-root nil)
-    (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
-  :general
-  (fb/leader-keys
-    :states 'normal
-    "pf" '(projectile-find-file :which-key "Find in project")
-    "pg" '(projectile-ripgrep :which-key "Grep in project")
-    ;; Buffers
-    "bb" '(projectile-switch-to-buffer :which-key "switch buffer")
-    ;; Projects
-    "p"  '(:ignore t :which-key "project")
-    "p<escape>" '(keyboard-escape-quit :which-key t)
-    "pp" '(projectile-switch-project :which-key "switch project")
-    "pa" '(projectile-switch-project :which-key "add project")
-    "pr" '(projectile-switch-project :which-key "remove project")
-    ;; run vterm
-    "pt" '(projectile-run-vterm :which-key "terminal")))
+  (setq highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top))
+;;  (setq highlight-indent-guides-method 'character
+;;        highlight-indent-guides-character ?\│
+;;        highlight-indent-guides-responsive 'top))
 
-(use-package rg
-  :general
-  (fb/leader-keys
-    "sr"  '(rg :which-key "rg")
-    "sm"  '(rg-menu :which-key "rg-menu")))
-
-;; completion
-;; frontend setup
-;; vertico
+;; ──────────────────────────────────────────────────────────────
+;;  Minibuffer: Vertico + Orderless + Marginalia + Consult
+;; ──────────────────────────────────────────────────────────────
 (use-package vertico
   :demand t
   ;; :custom
@@ -354,6 +348,22 @@ ARG filename to open"
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion)))))
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
 
 ;; consult backend completion
 (use-package consult
@@ -471,21 +481,216 @@ ARG filename to open"
   ;; (setq consult-project-function nil)
 )
 
-;; Enable rich annotations using the Marginalia package
-(use-package marginalia
-  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
-  ;; available in the *Completions* buffer, add it to the
-  ;; `completion-list-mode-map'.
-  :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+;; ──────────────────────────────────────────────────────────────
+;;  Completion: Corfu + Cape + Dabbrev
+;; ──────────────────────────────────────────────────────────────
+(use-package corfu
+  ;; Optional customizations
+  :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 2)
+  ;; (corfu-separator ?\s)          ;; Orderless field separator
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
-  ;; The :init section is always executed.
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
+
+  :bind (:map corfu-map
+         ("TAB" . corfu-next)
+         ([tab] . corfu-next)
+         ("S-TAB" . corfu-previous)
+         ([backtab] . corfu-previous)
+         ("RET" . corfu-insert))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
   :init
+  (global-corfu-mode))
 
-  ;; Marginalia must be activated in the :init section of use-package such that
-  ;; the mode gets enabled right away. Note that this forces loading the
-  ;; package.
-  (marginalia-mode))
+;; Add extensions
+(use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
+  :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
+  (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  (add-hook 'completion-at-point-functions #'cape-file)
+  (add-hook 'completion-at-point-functions #'cape-elisp-block)
+  ;; (add-hook 'completion-at-point-functions #'cape-history)
+  ;; ...
+)
+
+(use-package dabbrev
+  :ensure nil
+  ;; Swap M-/ and C-M-/
+  :bind (("M-/" . dabbrev-completion)
+         ("C-M-/" . dabbrev-expand))
+  :config
+  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
+
+(use-package yasnippet
+  :demand t
+  :config
+  (yas-global-mode 1)
+  :bind (
+  ("<tab>" . nil)
+  ("TAB" . nil)
+  ("M-TAB" . yas-expand)))
+
+;; ──────────────────────────────────────────────────────────────
+;;  LSP: Eglot
+;; ──────────────────────────────────────────────────────────────
+(defun fb/eglot-ensure-maybe ()
+  "Start eglot after idle delay, skipping remote files."
+  (unless (file-remote-p buffer-file-name)
+    (run-with-idle-timer 1 nil (lambda ()
+      (when (buffer-live-p (current-buffer))
+        (with-current-buffer (current-buffer)
+          (eglot-ensure)))))))
+
+(defvar fb/nil-auto-eval nil
+  "Whether nil_ls autoEvalInputs is enabled.")
+
+(defun fb/eglot-workspace-config (_server)
+  "Return workspace configuration for eglot servers."
+  (list :gopls (list :staticcheck t :analyses (list :fillstruct t))
+        :nil (list :nix (list :flake (list :autoEvalInputs
+                                           (if fb/nil-auto-eval t :json-false))))))
+
+(use-package eglot
+  :ensure nil
+  :hook ((python-mode . fb/eglot-ensure-maybe)
+         (deno-ts-mode . fb/eglot-ensure-maybe)
+         (deno-tsx-mode . fb/eglot-ensure-maybe)
+         (elixir-mode . fb/eglot-ensure-maybe)
+         (elixir-ts-mode . fb/eglot-ensure-maybe)
+         (nix-mode . fb/eglot-ensure-maybe)
+         (go-mode . fb/eglot-ensure-maybe)
+         (go-ts-mode . fb/eglot-ensure-maybe)
+         (rust-mode . fb/eglot-ensure-maybe)
+         (sh-mode . fb/eglot-ensure-maybe))
+  :general
+  (fb/leader-keys
+    "c a" '(eglot-code-actions :which-key "eglot code actions"))
+  :custom
+  (eglot-autoshutdown t)
+  (eglot-events-buffer-size 50000)
+  (eglot-send-changes-idle-time 3)
+  (flymake-no-changes-timeout 5)
+  (eldoc-echo-area-use-multiline-p nil)
+  :config
+  (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
+  (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
+  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  ;; (add-to-list 'eglot-server-programs '(yaml-mode . ("ansible-language-server" "--stdio")))
+  ;; (add-to-list 'eglot-server-programs '(yaml-ts-mode . ("ansible-language-server" "--stdio")))
+  (setq-default eglot-workspace-configuration #'fb/eglot-workspace-config))
+
+;; Optional: install eglot-format-buffer as a save hook.
+;; The depth of -10 places this before eglot's willSave notification,
+;; so that that notification reports the actual contents that will be saved.
+(defun fb/eglot-format-on-save ()
+  "Format buffer via eglot before saving."
+  (when (eglot-managed-p)
+    (eglot-format-buffer)))
+
+(defun fb/eglot-organize-imports ()
+  "Organize imports via eglot code actions."
+  (when (eglot-managed-p)
+    (ignore-errors
+      (eglot-code-action-organize-imports (point-min) (point-max)))))
+
+(defun eglot-format-buffer-before-save ()
+  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
+(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'rust-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'elixir-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'elixir-ts-mode-hook #'eglot-format-buffer-before-save)
+(add-hook 'python-mode-hook #'eglot-format-buffer-before-save)
+
+;; Toggle nil autoEvalInputs
+(defun fb/toggle-nil-auto-eval ()
+  "Toggle nil autoEvalInputs and notify the LSP server."
+  (interactive)
+  (setq fb/nil-auto-eval (not fb/nil-auto-eval))
+  (when-let* ((server (eglot-current-server)))
+    (eglot-signal-didChangeConfiguration server))
+  (message "nil autoEvalInputs: %s" fb/nil-auto-eval))
+
+;; ──────────────────────────────────────────────────────────────
+;;  Tree-sitter
+;; ──────────────────────────────────────────────────────────────
+
+(use-package treesit-auto
+  :config
+  (setq treesit-auto-install 'prompt)
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
+;; ──────────────────────────────────────────────────────────────
+;;  emacs garbage collection hack
+;'  https://github.com/emacsmirror/gcmh
+;; ──────────────────────────────────────────────────────────────
+(use-package gcmh
+	:demand
+	:config
+	(gcmh-mode 1))
+
+(use-package rg
+  :general
+  (fb/leader-keys
+    "sr"  '(rg :which-key "rg")
+    "sm"  '(rg-menu :which-key "rg-menu")))
+
+(use-package projectile
+  :demand t
+  :after (general)
+  :init
+  (projectile-mode +1)
+  :config
+  (progn
+    (setq projectile-enable-caching t
+          projectile-require-project-root nil)
+    (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
+  :general
+  (fb/leader-keys
+    :states 'normal
+    "pf" '(projectile-find-file :which-key "Find in project")
+    "pg" '(projectile-ripgrep :which-key "Grep in project")
+    ;; Buffers
+    "bb" '(projectile-switch-to-buffer :which-key "switch buffer")
+    ;; Projects
+    "p"  '(:ignore t :which-key "project")
+    "p<escape>" '(keyboard-escape-quit :which-key t)
+    "pp" '(projectile-switch-project :which-key "switch project")
+    "pa" '(projectile-switch-project :which-key "add project")
+    "pr" '(projectile-switch-project :which-key "remove project")
+    ;; run vterm
+    "pt" '(projectile-run-vterm :which-key "terminal")))
 
 (use-package embark
   :ensure t
@@ -525,67 +730,6 @@ ARG filename to open"
   :ensure t ; only need to install it, embark loads it after consult if found
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
-
-(use-package corfu
-  ;; Optional customizations
-  :custom
-  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
-  (corfu-auto-delay 0.1)
-  (corfu-auto-prefix 2)
-  ;; (corfu-separator ?\s)          ;; Orderless field separator
-  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
-  (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
-  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
-  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
-  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
-  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
-
-  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
-
-  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
-  ;; be used globally (M-/).  See also the customization variable
-  ;; `global-corfu-modes' to exclude certain modes.
-  :init
-  (global-corfu-mode))
-
-;; Add extensions
-(use-package cape
-  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
-  ;; Press C-c p ? to for help.
-  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
-  ;; Alternatively bind Cape commands individually.
-  ;; :bind (("C-c p d" . cape-dabbrev)
-  ;;        ("C-c p h" . cape-history)
-  ;;        ("C-c p f" . cape-file)
-  ;;        ...)
-  :init
-  ;; Add to the global default value of `completion-at-point-functions' which is
-  ;; used by `completion-at-point'.  The order of the functions matters, the
-  ;; first function returning a result wins.  Note that the list of buffer-local
-  ;; completion functions takes precedence over the global list.
-  (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-file)
-  (add-hook 'completion-at-point-functions #'cape-elisp-block)
-  ;; (add-hook 'completion-at-point-functions #'cape-history)
-  ;; ...
-)
-
-;; Use Dabbrev with Corfu!
-(use-package dabbrev
-  :ensure nil
-  ;; Swap M-/ and C-M-/
-  :bind (("M-/" . dabbrev-completion)
-         ("C-M-/" . dabbrev-expand))
-  :config
-  (add-to-list 'dabbrev-ignored-buffer-regexps "\\` ")
-  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
-  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
-  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
-  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
 (use-package vundo)
 
@@ -652,11 +796,6 @@ ARG filename to open"
   (fb/leader-keys
     "'" '(vterm-toggle :which-key "terminal")))
 
-;; look and feel
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1))
-
 ;; (defvar fbegyn:dark-theme 'gruvbox-dark-hard
 ;;   "Default dark theme.")
 ;;
@@ -697,14 +836,6 @@ ARG filename to open"
 ;;                 (string-equal var "color-scheme"))
 ;;        (fbegyn:theme-from-dbus value))))
 
-(use-package gruvbox-theme
-  :config (load-theme 'gruvbox-dark-hard t))
-(use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
-  :init
-  (setq highlight-indent-guides-method 'bitmap)
-  (setq highlight-indent-guides-responsive 'top))
-
 (use-package nerd-icons)
 (use-package all-the-icons)
 
@@ -721,29 +852,6 @@ ARG filename to open"
   :after (treemacs magit))
 (use-package treemacs-all-the-icons
   :after treemacs)
-
-(use-package evil
-  :demand t
-  :diminish (evil-collection-unimpaired-mode)
-  :init
-  (setq evil-want-keybinding nil
-        evil-want-integration t)
-  :config
-  (evil-mode 1))
-(use-package evil-collection
-  :demand t
-  :ensure t
-  :after (evil)
-  :config
-  (evil-collection-init))
-(use-package evil-surround
-  :ensure t
-  :config
-  (global-evil-surround-mode 1))
-(use-package evil-nerd-commenter
-  :general
-  (general-nvmap
-    "gc" 'evilnc-comment-operator))
 
 (use-package flycheck
   :diminish (flycheck-mode)
@@ -976,66 +1084,6 @@ ARG filename to open"
   :config
   (setq ledger-reconcile-default-commodity "€"))
 
-(defun fb/eglot-ensure-maybe ()
-  "Start eglot after idle delay, skipping remote files."
-  (unless (file-remote-p buffer-file-name)
-    (run-with-idle-timer 1 nil (lambda ()
-      (when (buffer-live-p (current-buffer))
-        (with-current-buffer (current-buffer)
-          (eglot-ensure)))))))
-
-(use-package eglot
-  :ensure nil
-  :hook ((python-mode . fb/eglot-ensure-maybe)
-         (deno-ts-mode . fb/eglot-ensure-maybe)
-         (deno-tsx-mode . fb/eglot-ensure-maybe)
-         (elixir-mode . fb/eglot-ensure-maybe)
-         (elixir-ts-mode . fb/eglot-ensure-maybe)
-         (nix-mode . fb/eglot-ensure-maybe)
-         (go-mode . fb/eglot-ensure-maybe)
-         (go-ts-mode . fb/eglot-ensure-maybe)
-         (rust-mode . fb/eglot-ensure-maybe)
-         (sh-mode . fb/eglot-ensure-maybe))
-  :general
-  (fb/leader-keys
-    "c a" '(eglot-code-actions :which-key "eglot code actions"))
-  :custom
-  (eglot-autoshutdown t)
-  (eglot-events-buffer-size 50000)
-  (eglot-send-changes-idle-time 3)
-  (flymake-no-changes-timeout 5)
-  (eldoc-echo-area-use-multiline-p nil)
-  :config
-  (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
-  (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
-  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
-  (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
-  ;; (add-to-list 'eglot-server-programs '(yaml-mode . ("ansible-language-server" "--stdio")))
-  ;; (add-to-list 'eglot-server-programs '(yaml-ts-mode . ("ansible-language-server" "--stdio")))
-  (setq-default eglot-workspace-configuration
-    '((:gopls .
-        ((staticcheck . t)
-         (matcher . "CaseSensitive"))))))
-         ;; (analyzer.fillstruct . t))))))
-
-;; Optional: install eglot-format-buffer as a save hook.
-;; The depth of -10 places this before eglot's willSave notification,
-;; so that that notification reports the actual contents that will be saved.
-(defun eglot-format-buffer-before-save ()
-  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
-(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'rust-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'elixir-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'elixir-ts-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'python-mode-hook #'eglot-format-buffer-before-save)
-
-(use-package treesit-auto
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
   :mode ("README\\.md\\'" . gfm-mode)
@@ -1114,15 +1162,6 @@ ARG filename to open"
 (use-package js2-mode
   :mode "\\.js\\'")
 
-(use-package yasnippet
-  :demand t
-  :config
-  (yas-global-mode 1)
-  :bind (
-  ("<tab>" . nil)
-  ("TAB" . nil)
-  ("M-TAB" . yas-expand)))
-
 (use-package pyvenv
   :ensure t
   :config
@@ -1138,3 +1177,6 @@ ARG filename to open"
 
 (provide 'base-init)
 ;;; base-init.el ends here
+
+(provide 'init)
+;;; init.el ends here
