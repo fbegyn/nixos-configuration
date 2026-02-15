@@ -38,7 +38,10 @@ in {
     };
   };
 
-  config = {
+  config = let
+    symLink = config.lib.file.mkOutOfStoreSymlink;
+    emacsSymLink = param: symLink "${config.home.homeDirectory}/nixos-configuration/users/francis/hm/configurations/emacs/${param}";
+  in {
     home.packages = with pkgs.unstable; [
       ispell
       solargraph
@@ -65,13 +68,13 @@ in {
         '';
         executable = true;
       };
-      ".emacs.d/early-init.el".source = config.lib.file.mkOutOfStoreSymlink ./early-init.el;
-      ".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink ./base-init.el;
+      ".emacs.d/early-init.el".source = emacsSymLink "early-init.el";
+      ".emacs.d/init.el".source = emacsSymLink "base-init.el";
     };
 
     xdg.configFile = {
-      "emacs/early-init.el".source = config.lib.file.mkOutOfStoreSymlink ./early-init.el;
-      "emacs/init.el".source = config.lib.file.mkOutOfStoreSymlink ./base-init.el;
+      "emacs/early-init.el".source = emacsSymLink "early-init.el";
+      "emacs/init.el".source = emacsSymLink "base-init.el";
     };
 
     programs.emacs = {

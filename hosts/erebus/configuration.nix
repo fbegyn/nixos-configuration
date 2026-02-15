@@ -58,6 +58,9 @@ in {
   };
   programs.fish = {
     enable = true;
+    shellAliases = {
+      emacs = "${config.home-manager.users.francis.emacs.package}/Applications/Emacs.app/Contents/MacOS/Emacs";
+    };
     interactiveShellInit = ''
      set SSH_AUTH_SOCK ${sshAuthSock}
    '';

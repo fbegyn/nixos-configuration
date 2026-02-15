@@ -109,6 +109,7 @@
   (setq recentf-max-saved-items 100)
 
   (setq display-line-numbers-type 'relative)
+  (setq display-line-numbers-width-start t)
   (global-display-line-numbers-mode 1)
   (dolist (hook '(vterm-mode-hook treemacs-mode-hook org-agenda-mode-hook))
     (add-hook hook (lambda () (display-line-numbers-mode -1))))
