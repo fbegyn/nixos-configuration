@@ -336,6 +336,18 @@
 (use-package nix-mode
   :mode "\\.nix\\'")
 
+(use-package go-mode
+  :mode "\\.go\\'")
+
+(use-package rust-mode
+  :mode "\\.rs\\'")
+
+(use-package elixir-mode
+  :mode ("\\.ex\\'" "\\.exs\\'" "\\.heex\\'"))
+
+(use-package typescript-mode
+  :mode "\\.ts\\'")
+
 ;; ──────────────────────────────────────────────────────────────
 ;;  VCS: Magit + diff-hl
 ;; ──────────────────────────────────────────────────────────────
