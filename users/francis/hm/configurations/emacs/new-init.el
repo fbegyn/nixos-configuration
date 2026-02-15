@@ -171,7 +171,9 @@
 
 (use-package marginalia
   :config
-  (marginalia-mode 1))
+  (marginalia-mode 1)
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle)))
 
 (use-package consult
   :after evil
@@ -187,22 +189,38 @@
     (kbd "<leader>sh")       #'describe-symbol
     (kbd "<leader>pf")       #'project-find-file
     (kbd "<leader>pg")       #'consult-ripgrep
-    (kbd "<leader>pp")       #'project-switch-project))
+    (kbd "<leader>pp")       #'project-switch-project)
+  ;; The :init configuration is always executed (Not lazy)
+  :init
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window))
 
 ;; ──────────────────────────────────────────────────────────────
 ;;  Completion: Corfu + Cape + Dabbrev
 ;; ──────────────────────────────────────────────────────────────
 
 (use-package corfu
+  :custom
+  (corfu-auto t)
+  (corfu-auto-delay 0.2)
+  (corfu-auto-prefix 2)
+  (corfu-cycle t)
+  (corfu-preselect 'prompt)
+  (corfu-count 10)
+  (corfu-quit-no-match 'separator)
+  (corfu-popupinfo-mode 1)
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  :hook ((prog-mode . corfu-mode)
+         (shell-mode . corfu-mode)
+         (eshell-mode . corfu-mode))
   :config
   (global-corfu-mode 1)
-  (setq corfu-auto t
-        corfu-auto-delay 0.2
-        corfu-auto-prefix 2
-        corfu-cycle t
-        corfu-preselect 'prompt
-        corfu-count 10
-        corfu-quit-no-match 'separator)
   :bind (:map corfu-map
          ("TAB" . corfu-next)
          ([tab] . corfu-next)
@@ -211,13 +229,35 @@
          ("RET" . corfu-insert)))
 
 (use-package cape
+  ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
+  ;; Press C-c p ? to for help.
+  :bind ("C-c p" . cape-prefix-map) ;; Alternative key: M-<tab>, M-p, M-+
+  ;; Alternatively bind Cape commands individually.
+  ;; :bind (("C-c p d" . cape-dabbrev)
+  ;;        ("C-c p h" . cape-history)
+  ;;        ("C-c p f" . cape-file)
+  ;;        ...)
   :init
+  ;; Add to the global default value of `completion-at-point-functions' which is
+  ;; used by `completion-at-point'.  The order of the functions matters, the
+  ;; first function returning a result wins.  Note that the list of buffer-local
+  ;; completion functions takes precedence over the global list.
   (add-hook 'completion-at-point-functions #'cape-dabbrev)
-  (add-hook 'completion-at-point-functions #'cape-file))
+  (add-hook 'completion-at-point-functions #'cape-file)
+  ;; (add-hook 'completion-at-point-functions #'cape-history)
+  ;; ...
+  (add-hook 'completion-at-point-functions #'cape-elisp-block))
+  ;; :init
+  ;; (add-hook 'completion-at-point-functions #'cape-dabbrev)
+  ;; (add-hook 'completion-at-point-functions #'cape-file))
 
 (use-package dabbrev
   :config
-  (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'")))
+  (setq dabbrev-ignored-buffer-regexps '("\\.\\(?:pdf\\|jpe?g\\|png\\)\\'"))
+  ;; Since 29.1, use `dabbrev-ignored-buffer-regexps' on older.
+  (add-to-list 'dabbrev-ignored-buffer-modes 'doc-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'pdf-view-mode)
+  (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
 (use-package yasnippet
   :config
@@ -277,6 +317,10 @@
                lua-mode-hook
                js-ts-mode-hook typescript-ts-mode-hook tsx-ts-mode-hook))
   (add-hook hook #'eglot-ensure))
+
+(use-package eldoc-box
+  :after eglot
+  :hook (eglot-managed-mode . eldoc-box-hover-at-point-mode))
 
 ;; Format on save helpers
 
