@@ -6,7 +6,7 @@ in {
   options.emacs = {
     fullConfig = lib.mkOption {
       readOnly = true;
-      default = builtins.readFile ./new-init.el + (
+      default = builtins.readFile ./base-init.el + (
         lib.concatStringsSep "\n" cfg.extraConfig
         ) + ''
           (provide 'init)
