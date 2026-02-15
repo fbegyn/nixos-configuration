@@ -40,6 +40,7 @@
     programs.ghostty = {
       enable = true;
     };
+    programs.go.env.GOPATH = "/home/francis/.go";
     home.packages = with pkgs.unstable; [
       home-manager
     ];
