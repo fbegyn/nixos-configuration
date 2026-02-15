@@ -320,15 +320,14 @@
     (kbd "<leader>cn") #'my/toggle-nil-auto-eval))
 
 ;; ──────────────────────────────────────────────────────────────
-;;  Tree-sitter mode remapping
+;;  Tree-sitter
 ;; ──────────────────────────────────────────────────────────────
 
-(setq major-mode-remap-alist
-      '((python-mode     . python-ts-mode)
-        (javascript-mode . js-ts-mode)
-        (json-mode       . json-ts-mode)
-        (yaml-mode       . yaml-ts-mode)
-        (css-mode        . css-ts-mode)))
+(use-package treesit-auto
+  :config
+  (setq treesit-auto-install 'prompt)
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
 
 ;; ──────────────────────────────────────────────────────────────
 ;;  Language modes
