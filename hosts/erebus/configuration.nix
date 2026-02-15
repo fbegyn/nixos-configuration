@@ -68,7 +68,7 @@ in {
   homebrew = {
     enable = true;
     onActivation = {
-      autoUpdate = false;
+      autoUpdate = true;
       cleanup = "uninstall";
       upgrade = true;
     };
