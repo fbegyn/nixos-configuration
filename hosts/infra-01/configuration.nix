@@ -1,5 +1,5 @@
 # Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running ‘nixos-help’).
+# your system.  Help is available in the configuration.nix(5) man page and in the NixOS manual (accessible by running 'nixos-help').
 
 { config, pkgs, modulesPath, ... }:
 
@@ -7,11 +7,10 @@ let
   proxFunc = import ../../lib/proxmox.nix;
 in {
   imports = [
-    # Include the results of the hardware scan.
-    (modulesPath+"/profiles/qemu-guest.nix")
-    (modulesPath+"/virtualisation/proxmox-lxc.nix")
     ./hardware-configuration.nix
     ./acme.nix
+
+    ../../lib/proxmox-lxc.nix
 
     ../../common
     ../../common/gpg.nix
@@ -22,19 +21,9 @@ in {
     ../../users/francis
 
     # services
-    ../../services/tailscale.nix
     ../../services/postgres
+    ../../services/blocky
   ];
-
-  # no EFI partition on containers
-  proxmoxLXC.enable = true;
-  boot.isContainer = true;
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
 
   networking = {
     hostName = "infra-01"; # After the Greek titan of dawn
@@ -57,35 +46,11 @@ in {
   services.resolved.extraConfig = ''
     DNSStubListener=no
   '';
-  systemd.network= {
-    enable = true;
-    wait-online = {
-      enable = true;
-      ignoredInterfaces = [
-        "tailscale*"
-        "tailscale0"
-        "eth*"
-        "wlp*"
-        "wlp3s0"
-      ];
-    };
-    # netdevs = proxFunc.mkContainerNetdevs;
-    networks = proxFunc.mkContainerNetworks "101";
-  };
-
-  systemd.services.zfs-mount.enable = false;
-  systemd.services.zfs-share.enable = false;
-  systemd.services.zfs-zed.enable = false;
+  systemd.network.networks = proxFunc.mkContainerNetworks "101";
 
   age.secrets = {
     "secrets/passwords/mqtt/hass".file = ../../secrets/passwords/mqtt/hass.age;
     "secrets/passwords/mqtt/shelly".file = ../../secrets/passwords/mqtt/shelly.age;
-  };
-
-  # List services that you want to enable:
-  # Enable the OpenSSH daemon.
-  services.openssh = {
-    enable = true;
   };
 
   # VPN settings
@@ -110,54 +75,12 @@ in {
     enableReload = true;
   };
 
-  services.blocky = {
-    enable = true;
-    settings = {
-      ports.dns = 53;
-      ports.tls = 853;
-      ports.http = 14000;
-      log.format = "json";
-      upstreams.groups = {
-        default = [
-          "https://one.one.one.one/dns-query"
-          "1.1.1.1"
-          "8.8.8.8"
-          "10.5.10.5"
-        ];
-      };
-      bootstrapDns = [
-        { upstream = "https://one.one.one.one/dns-query"; ips = [ "1.1.1.1" "8.8.8.8" ]; }
-      ];
-      blocking = {
-        blackLists = {
-          ads = [
-            "https://s3.amazonaws.com/lists.disconnect.me/simple_ad.txt"
-            "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"
-          ];
-        };
-        clientGroupsBlock = {
-          default = [
-            "ads"
-          ];
-        };
-      };
-      caching = {
-        minTime = "4h";
-        maxTime = "48h";
-        maxItemsCount = 5000;
-        prefetching = true;
-        prefetchMaxItemsCount = 300;
-      };
-      prometheus.enable = true;
-      queryLog = {
-        type = "csv";
-        target = "/var/tmp";
-        logRetentionDays = 5;
-        fields = [ "question" "duration" "responseReason" "responseAnswer"];
-        flushInterval = "30s";
-      };
-    };
-  };
+  services.blocky.settings.upstreams.groups.default = [
+    "https://one.one.one.one/dns-query"
+    "1.1.1.1"
+    "8.8.8.8"
+    "10.5.10.5"
+  ];
 
   services.mosquitto = {
     enable = true;
@@ -168,51 +91,6 @@ in {
         users.hass.passwordFile = config.age.secrets."secrets/passwords/mqtt/hass".path;
       }
     ];
-  };
-
-  # tailfire for tailnet service discovery
-  systemd.services."tailfire" = {
-    enable = false;
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" ];
-    serviceConfig = {
-      ExecStart = ''
-        /usr/local/bin/tailfire serve \
-          --port 19090 \
-          --config.file /etc/tailfire/config.yaml
-      '';
-      ExecReload = "kill -SIGHUP $MAINPID";
-      User = "prometheus";
-      Restart = "always";
-      ReadOnlyPaths = [ "/etc/tailfire" ];
-      RuntimeDirectory = "prometheus";
-      RuntimeDirectoryMode = "0700";
-      WorkingDirectory = "/var/lib/tailfire";
-      DeviceAllow = [ "/dev/null rw" ];
-      DevicePolicy = "strict";
-      LockPersonality = true;
-      MemoryDenyWriteExecute = true;
-      NoNewPrivileges = true;
-      PrivateDevices = true;
-      PrivateTmp = true;
-      PrivateUsers = true;
-      ProtectClock = true;
-      ProtectControlGroups = true;
-      ProtectHome = true;
-      ProtectHostname = true;
-      ProtectKernelLogs = true;
-      ProtectKernelModules = true;
-      ProtectKernelTunables = true;
-      ProtectProc = "invisible";
-      ProtectSystem = "full";
-      RemoveIPC = true;
-      RestrictAddressFamilies = [ "AF_INET" "AF_INET6" "AF_UNIX" ];
-      RestrictNamespaces = true;
-      RestrictRealtime = true;
-      RestrictSUIDSGID = true;
-      SystemCallArchitectures = "native";
-      SystemCallFilter = [ "@system-service" "~@privileged" ];
-    };
   };
 
   # gitea server
@@ -270,17 +148,8 @@ in {
 
   # monitoring applications
   ## exporters
-  services.prometheus.exporters.node.enable = true;
-  services.prometheus.exporters.node.enabledCollectors = [ "systemd" ];
   services.prometheus.exporters.nginx.enable = true;
   services.prometheus.exporters.nginxlog.enable = true;
 
-  home-manager.users.francis = {
-    imports = [
-      ../../users/francis/hm/go.nix
-      ../../users/francis/hm/configurations/fish.nix
-      ../../users/francis/hm/configurations/bash.nix
-    ];
-  };
   system.stateVersion = "25.11"; # Did you read the comment?
 }
