@@ -142,45 +142,6 @@
         ] ++ extraModules;
       };
 
-      # mkProxmoxLXC = extraModules:
-      #   nixos-generators.nixosGenerate rec {
-      #     format = "proxmox-lxc";
-      #     modules = [
-      #       ({config, pkgs, modulesPath, ...}: {
-      #         imports = [
-      #           (modulesPath+"/profiles/qemu-guest.nix")
-      #           (modulesPath+"/virtualisation/proxmox-lxc.nix")
-      #         ];
-      #         nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-      #         nixpkgs.config.allowUnfree = lib.mkDefault true;
-      #         nixpkgs.hostPlatform = "x86_64-linux";
-      #         nixpkgs.overlays = [
-      #           overlay
-      #         ];
-      #         proxmoxLXC = {
-      #           enable = lib.mkDefault true;
-      #           privileged = lib.mkDefault true;
-      #           manageNetwork = lib.mkDefault false;
-      #           manageHostName = lib.mkDefault true;
-      #         };
-      #         boot.isContainer = lib.mkDefault true;
-      #         boot.growPartition = lib.mkDefault true;
-      #         i18n.defaultLocale = "en_US.UTF-8";
-      #         time.timeZone = lib.mkDefault "Europe/Brussels";
-      #         systemd.services.zfs-mount.enable = false;
-      #         systemd.services.zfs-share.enable = false;
-      #         systemd.services.zfs-zed.enable = false;
-      #       })
-      #       # lix-module.nixosModules.default
-      #       agenix.nixosModules.age
-      #       home-manager.nixosModules.home-manager ({config, ...}: {
-      #         home-manager.useGlobalPkgs = true;
-      #         home-manager.useUserPackages = true;
-      #       })
-      #       ./common
-      #     ] ++ extraModules;
-      #   };
-
     mkMac = extraModules:
       darwin.lib.darwinSystem rec {
         modules = [
@@ -257,14 +218,6 @@
     nixosConfigurations = let
       cloud = import ./lib/cloud.nix {nixpkgs = nixpkgs;};
     in {
-      horme = mkMachine [
-        ./hosts/horme/configuration.nix
-        nixos-hardware.nixosModules.common-pc-laptop
-        nixos-hardware.nixosModules.common-pc-ssd
-        nixos-hardware.nixosModules.common-cpu-intel
-        nixos-hardware.nixosModules.lenovo-thinkpad
-        nixos-hardware.nixosModules.lenovo-thinkpad-x1
-      ];
       bia = mkMachine [
         ./hosts/bia/configuration.nix
         nixos-hardware.nixosModules.common-cpu-amd
@@ -352,13 +305,5 @@
         ./hosts/nix-builder-01/configuration.nix
       ];
     };
-      # packages.x86_64-linux = {
-      #   lxc-template = mkProxmoxLXC [
-      #     ./hosts/proxmox-ct-template/configuration.nix
-      #   ];
-      #   ingress-01 = mkProxmoxLXC [
-      #     ./hosts/homelab/ingress-01/configuration.nix
-      #   ];
-      # };
   };
 }
