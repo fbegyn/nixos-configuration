@@ -12,7 +12,6 @@ in {
     ./hardware-configuration.nix
     ./acme.nix
     ../../users
-    ../../services/tailscale.nix
   ];
 
   boot.initrd.supportedFilesystems = ["zfs"]; # boot from zfs

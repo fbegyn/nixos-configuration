@@ -11,7 +11,6 @@
     ./acme.nix
     ../../common
     ../../users
-    ../../services/tailscale.nix
   ];
 
   networking.interfaces.ens10.useDHCP = true;

@@ -20,7 +20,6 @@ in {
     ../../users/francis
 
     # services
-    ../../services/tailscale.nix
   ];
 
   # no EFI partition on containers

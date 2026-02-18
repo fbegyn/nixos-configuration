@@ -39,7 +39,6 @@
     ../../users/francis/inuits.nix
     ../../users/francis/niri
 
-    ../../services/tailscale.nix
   ];
 
   # Use the systemd-boot EFI boot loader.
