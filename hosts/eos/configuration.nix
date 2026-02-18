@@ -22,7 +22,6 @@ in {
     # services
     # ../../services/coredns
     ../../services/prometheus
-    ../../services/tailscale.nix
     ../../services/postgres
   ];
 

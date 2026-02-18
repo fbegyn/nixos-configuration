@@ -30,7 +30,6 @@
     ../../users/francis
     ../../users/francis/gui.nix
     ../../users/francis/niri
-    ../../services/tailscale.nix
   ];
   home-manager.users.francis= {
     imports = [

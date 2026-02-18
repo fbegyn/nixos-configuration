@@ -20,7 +20,6 @@
     ../../users/francis
 
     # services
-    ../../services/tailscale.nix
     ../../services/postgres
   ];
 
