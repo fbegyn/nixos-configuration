@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.stateVersion = "25.11";
@@ -61,7 +61,6 @@
 
   home.packages = with pkgs.unstable; [
     ripgrep
-    # projecteur - TODO:not mac compatible
     fd
     envconsul
     cue
@@ -70,23 +69,11 @@
     difftastic
     mergiraf
     pkgs.weechat
-    age
     vdirsyncer
     khard
     inetutils
-    pciutils
-    usbutils
-    # nodejs
     gcc
     (aspellWithDicts (dicts: with dicts; [en en-science nl]))
-    pkgs.thunderbird
-    # Browser
-    pkgs.firefox
-    # entertainement
-    # playerctl TODO: not mac compatible
-    pulsemixer
-    # Utilities
-    # lm_sensors TODO: not mac compatible
     gnumake
     tig
     sshuttle
@@ -97,7 +84,6 @@
     pkgs.litecli
     sqlite
     nix-index
-    # tools rewritten in rust
     jujutsu
     curl
     wget
@@ -114,6 +100,13 @@
     pkgs.nerd-fonts.fira-code
     pkgs.nerd-fonts.terminess-ttf
     pkgs.terminus_font_ttf
-  ];
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    pciutils
+    usbutils
+    pkgs.thunderbird
+    pkgs.firefox
+    pulsemixer
+  ] ++ lib.optionals pkgs.stdenv.isDarwin [
 
+  ];
 }
