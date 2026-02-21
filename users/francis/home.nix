@@ -79,6 +79,7 @@
     sshuttle
     unzip
     pandoc
+    typst
     pkgs.pgcli
     pkgs.mycli
     pkgs.litecli
@@ -92,6 +93,8 @@
     aerc
     rclone
     rsync
+    pkgs.firefox
+    google-cloud-sdk
     yq
     jq
     tree-sitter
@@ -104,7 +107,6 @@
     pciutils
     usbutils
     pkgs.thunderbird
-    pkgs.firefox
     pulsemixer
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
 
