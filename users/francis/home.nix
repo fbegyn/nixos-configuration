@@ -111,4 +111,10 @@
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
 
   ];
+
+  services.syncthing = {
+    enable = true;
+    overrideFolders = false;
+    overrideDevices = false;
+  };
 }
