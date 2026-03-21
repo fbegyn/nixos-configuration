@@ -35,6 +35,7 @@
     imports = [
       ../../users/francis/hm/configurations/udiskie.nix
       ../../users/francis/hm/configurations/redshift.nix
+      ../../users/francis/home.nix
     ];
     programs.ghostty = {
       enable = true;
