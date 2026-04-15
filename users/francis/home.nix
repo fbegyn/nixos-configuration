@@ -106,7 +106,7 @@
   ] ++ lib.optionals pkgs.stdenv.isLinux [
     pciutils
     usbutils
-    pkgs.thunderbird
+    pkgs.unstable.thunderbird
     pulsemixer
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
 
