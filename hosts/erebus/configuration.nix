@@ -29,13 +29,14 @@ in {
   users.users.francis = {
     uid = 501;
     home = "/Users/francis";
-    shell = pkgs.bashInteractive;
+    # shell = pkgs.bashInteractive;
   };
   users.knownUsers = [ "francis" ];
   environment = {
     shells = with pkgs; [
       bashInteractive
       fish
+      "/opt/homebrew/bin/fish"
     ];
     systemPath = [
       "/Users/francis/.local/bin"
@@ -51,7 +52,7 @@ in {
   services.tailscale.enable = true;
   programs.bash = {
     enable = true;
-    completion.enable = true;
+    completion.enable = false;
     interactiveShellInit = ''
      SSH_AUTH_SOCK=${sshAuthSock}
    '';
@@ -83,7 +84,6 @@ in {
       "google-chrome"
       "visual-studio-code"
       "orbstack"
-      "freecad"
       "libreoffice"
       "tunnelblick"
       "secretive"
@@ -102,6 +102,7 @@ in {
       "lukehinds/nono"
     ];
     brews = [
+      "fish"
       "mr"
       "lukehinds/nono/nono"
       "podman"
@@ -136,6 +137,12 @@ in {
   imports = [
     ../../users/francis/variables.nix
   ];
+
+  # Or for nix-darwin specifically, you may need:
+  environment.variables = {
+    LANG = "en_US.UTF-8";
+    LC_ALL = "en_US.UTF-8";
+  };
 
   # home-manager settings (darwin)
   home-manager.users.francis = {

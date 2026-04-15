@@ -5,6 +5,7 @@
     ./colors.nix
     ./configurations/git.nix
     ./configurations/bash.nix
+    ./configurations/zsh.nix
     ./configurations/fish.nix
     ./configurations/fzf.nix
   ];

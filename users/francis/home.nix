@@ -15,6 +15,7 @@
     ./hm/python.nix
     ./hm/configurations/git.nix
     ./hm/configurations/bash.nix
+    ./hm/configurations/zsh.nix
     ./hm/configurations/fish.nix
     ./hm/configurations/fzf.nix
     ./hm/configurations/hledger.nix
