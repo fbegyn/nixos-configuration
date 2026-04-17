@@ -46,7 +46,7 @@
     in ''
       TEMPPID=$(echo $PPID)
       TEMPPROC=$(${pkgs.procps}/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
-      if [[ "''${TEMPPROC##*/}" != "fish" && -z ''${BASH_EXECUTION_STRING} ]] then
+      if [[ "''${TEMPPROC##*/}" != "fish" && -z ''${BASH_EXECUTION_STRING} ]]; then
           shopt -q login_shell && LOGIN_OPTION='--login' || LOGIN_OPTION=""
           exec ${pkgs.fish}/bin/fish $LOGIN_OPTION
       else
