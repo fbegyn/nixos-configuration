@@ -37,6 +37,7 @@ in {
       bashInteractive
       fish
       "/opt/homebrew/bin/fish"
+      "/opt/homebrew/bin/bash"
     ];
     systemPath = [
       "/Users/francis/.local/bin"
@@ -103,6 +104,7 @@ in {
     ];
     brews = [
       "fish"
+      "bash"
       "mr"
       "lukehinds/nono/nono"
       "podman"
