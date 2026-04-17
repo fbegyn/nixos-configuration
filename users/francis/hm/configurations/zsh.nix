@@ -34,13 +34,11 @@
       MOZ_ENABLE_WAYLAND = 1;
       _JAVA_AWT_WM_NONREPARENTING = 1;
     };
-    initExtra = ''
+    initContent = ''
       TEMPPID=$(echo $PPID)
       TEMPPROC=$(${pkgs.procps}/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
-      if [[ "''${TEMPPROC##*/}" != "fish" && -z ''${BASH_EXECUTION_STRING} ]] then
+      if [[ "''${TEMPPROC##*/}" != "fish" ]]; then
           exec /opt/homebrew/bin/fish $LOGIN_OPTION
-      else
-          PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[38;5;126m\]\h\[\e[0m\] \[\e[38;5;40m\]\w\[\e[38;5;147m\]$(__git_ps1 " (%s)")\[\e[0m\]> '
       fi
     '';
   };
