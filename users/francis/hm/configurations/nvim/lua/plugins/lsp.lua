@@ -108,6 +108,7 @@ vim.lsp.config("nil_ls", {
       nix = {
         flake = {
           autoEvalInputs = nil_auto_eval,
+          autoArchive = false,
         },
       },
     },
