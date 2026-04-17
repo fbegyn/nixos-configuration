@@ -13,3 +13,4 @@ font-family-bold-italic = Terminess Nerd Font Mono Bold Italic
 font-size = 15.5
 keybind = global:cmd+grave_accent=toggle_quick_terminal
 quick-terminal-position = bottom
+command = /bin/sh -l -c "exec /run/current-system/sw/bin/fish"

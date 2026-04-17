@@ -11,7 +11,7 @@
   programs.autojump.enable = true;
   programs.bash = {
     enable = true;
-    enableCompletion = true;
+    enableCompletion = false;
     shellAliases = {
       "vim" = "nvim";
       "gst" = "git status";
