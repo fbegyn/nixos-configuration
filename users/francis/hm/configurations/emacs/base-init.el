@@ -578,8 +578,9 @@ ARG filename to open"
 (defun fb/eglot-workspace-config (_server)
   "Return workspace configuration for eglot servers."
   (list :gopls (list :staticcheck t :analyses (list :fillstruct t))
-        :nil (list :nix (list :flake (list :autoEvalInputs
-                                           (if fb/nil-auto-eval t :json-false))))))
+        :nil (list :nix (list :flake ( list
+                                       :autoEvalInputs (if fb/nil-auto-eval t :json-false)
+                                       :autoArchive :json-false )))))
 
 (use-package eglot
   :ensure nil
