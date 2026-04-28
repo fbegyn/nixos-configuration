@@ -1,7 +1,6 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 let
-  niriwaybarsh = import ./waybar.sh.nix { inherit pkgs; };
   waybar-spotify = import ./waybar-spotify.nix { inherit pkgs; };
   waybar-storage = import ./waybar-storage.nix { inherit pkgs; };
 in {
@@ -34,9 +33,6 @@ in {
     niri
     xwayland-satellite
     catppuccin-cursors.mochaMauve
-    pkgs.waybar # status bar
-    waybar-spotify
-    waybar-storage
     swaylock # lockscreen
     swayidle
     swaybg
@@ -139,7 +135,15 @@ in {
   programs.dconf.enable = true;
   fonts.enableDefaultPackages = true;
 
+  networking.networkmanager.enable = true;
+  hardware.bluetooth.enable = true;
+  services.power-profiles-daemon.enable = true;
+  services.upower.enable = true;
+
   home-manager.users.francis = {
+    imports = [
+      inputs.noctalia.homeModules.default
+    ];
     programs.fish = {
       loginShellInit = ''
         if test -z $DISPLAY; and test $XDG_VTNR -eq 1
@@ -149,7 +153,6 @@ in {
     };
     home.packages = [
       pkgs.niri
-      niriwaybarsh
     ];
     services.gnome-keyring.enable = true;
 
@@ -158,10 +161,16 @@ in {
       package = pkgs.unstable.flameshot.override { enableWlrSupport = true; };
     };
 
-    programs.waybar = {
+    programs.noctalia-shell = {
       enable = true;
-      systemd = {
-        enable = true;
+      settings = {
+        bar = {
+          density = "compact";
+          position = "top";
+        };
+        location = {
+          name = "Ghent, Belgium";
+        };
       };
     };
 
