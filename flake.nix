@@ -18,6 +18,11 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     flox = {
       url = "github:flox/flox/v1.4.4";
     };
@@ -84,6 +89,7 @@
     emacs-overlay,
     vscode-server,
     website,
+    noctalia,
     nixos-mailserver
   }: let
     lib = nixpkgs.lib;
@@ -115,6 +121,7 @@
 
     mkMachine = extraModules:
       nixpkgs.lib.nixosSystem rec {
+        specialArgs = { inherit inputs; };
         modules = [
           ({config, pkgs, ...}: {
             nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -222,6 +229,7 @@
         ./hosts/bia/configuration.nix
         nixos-hardware.nixosModules.common-cpu-amd
         vscode-server.nixosModules.default
+        noctalia.nixosModules.default
       ];
       ania = mkMachine [
         ./hosts/ania/configuration.nix
