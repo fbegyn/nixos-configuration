@@ -10,7 +10,7 @@
   programs = {
     wireshark = {
       enable = true;
-      package = pkgs.unstable.wireshark;
+      package = pkgs.wireshark;
     };
   };
 
