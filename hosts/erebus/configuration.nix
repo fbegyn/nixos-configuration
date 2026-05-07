@@ -100,13 +100,12 @@ in {
       "nikitabobko/tap"
       "felixkratz/formulae"
       "dagger/tap"
-      "lukehinds/nono"
     ];
     brews = [
       "fish"
       "bash"
       "mr"
-      "lukehinds/nono/nono"
+      "nono"
       "podman"
       "ffmpeg"
       "yt-dlp"
