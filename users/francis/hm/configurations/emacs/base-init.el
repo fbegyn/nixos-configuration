@@ -1107,15 +1107,61 @@ ARG filename to open"
 (use-package org
   :init
   (setq org-default-notes-file "~/org/inbox.org")
-  (setq org-capture-templates
-      '(
-		("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("s" "Standup" entry (file+olp+datetree "~/org/standup.org")
-         "* %?\nEntered on %U\n  %i\n  %a")))
   :config
+  ;; Colour code priorities
+  (setq org-priority-faces
+    '((?A :foreground "#ff6c6b" :weight bold)
+    (?B :foreground "#98be65")
+    (?C :foreground "#51afef")))
+
+  ;; Define energy levels
+  (setq org-global-properties
+    '(("ENERGY_ALL" . "Low Medium High")))
+
+  ;; Colour code task status
+  (setq org-todo-keyword-faces
+    '(("TODO" :foreground "#51afef" :weight bold)
+    ("DONE" :foreground "#98be65" :weight bold)
+    ("WAIT" :foreground "#da8548")))
+
+  (setq org-agenda-custom-commands
+    '(("x" "Overview"
+        ((tags-todo "PRIORITY=\"A\"+ENERGY=\"Low\""
+            ((org-agenda-overriding-header "Quick Wins (High Impact, Low Energy)")))
+        (tags-todo "PRIORITY=\"A\"+ENERGY=\"High\""
+            ((org-agenda-overriding-header "Deep Work (Focus Required)")))
+        (tags-todo "PRIORITY=\"A\"+ENERGY=\"Medium\""
+            ((org-agenda-overriding-header "High Priority (Medium Energy)")))))))
+
   (fb/leader-keys
     "c c"  '(org-capture :which-key "org-capture")))
+
+(setq org-capture-templates
+    '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
+        "* TODO [#%^{Priority|A|B|C}] %^{Task Name} %^g\nDEADLINE: %^t\n:PROPERTIES:\n:ENERGY: %^{Energy?|Low|Medium|High}\n:END:\n")
+
+    ("i" "Idea/Note" entry (file+headline "~/org/inbox.org" "Notes")
+        "* %?\n%U\n")
+
+    ("p" "Project Task" entry (file+headline "~/org/projects.org" "Projects")
+        "* TODO [#%^{Priority|A|B|C}] %^{Task Name} [/]\nDEADLINE: %^t\n:PROPERTIES:\n:ENERGY: %^{Energy?|Low|Medium|High}\n:END:\n")
+
+    ;; 5-person daily stand-up capture template
+    ;; Put this inside your org-capture-templates list
+    ("s" "Stand-up" entry (file+headline "~/org/standups.org" "Standups")
+     "* %<%Y-%m-%d %A>
+:PROPERTIES:
+:Date: %T
+:END:
+** %?
+
+** Action points
+
+** Notes
+"
+     :empty-lines 1 :kill-buffer t)
+    ))
+
 (use-package org-download)
 (use-package org-roam)
 (use-package org-roam-ui)
