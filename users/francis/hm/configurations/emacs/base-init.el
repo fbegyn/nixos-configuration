@@ -105,8 +105,9 @@
   (electric-pair-mode)
   (winner-mode 1)
 
+  (setq recentf-max-saved-items 100
+        recentf-auto-cleanup 'never)
   (recentf-mode 1)
-  (setq recentf-max-saved-items 100)
 
   (setq display-line-numbers-type 'relative)
   (setq display-line-numbers-width-start t)
@@ -553,13 +554,11 @@ ARG filename to open"
   (add-to-list 'dabbrev-ignored-buffer-modes 'tags-table-mode))
 
 (use-package yasnippet
-  :demand t
-  :config
-  (yas-global-mode 1)
-  :bind (
-  ("<tab>" . nil)
-  ("TAB" . nil)
-  ("M-TAB" . yas-expand)))
+  :hook ((prog-mode . yas-minor-mode)
+         (text-mode . yas-minor-mode))
+  :bind (("<tab>" . nil)
+         ("TAB" . nil)
+         ("M-TAB" . yas-expand)))
 
 ;; ──────────────────────────────────────────────────────────────
 ;;  LSP: Eglot
@@ -855,9 +854,17 @@ ARG filename to open"
 (use-package treemacs-all-the-icons
   :after treemacs)
 
+(defun fb/flycheck-enable-maybe ()
+  "Start flycheck after idle delay, skipping remote files."
+  (unless (and buffer-file-name (file-remote-p buffer-file-name))
+    (run-with-idle-timer 1 nil (lambda ()
+      (when (buffer-live-p (current-buffer))
+        (with-current-buffer (current-buffer)
+          (flycheck-mode 1)))))))
+
 (use-package flycheck
   :diminish (flycheck-mode)
-  :hook (prog-mode . flycheck-mode)
+  :hook (prog-mode . fb/flycheck-enable-maybe)
   :custom
   (flycheck-display-errors-function 'ignore)
   (flycheck-highlighting-mode nil)
@@ -976,7 +983,9 @@ ARG filename to open"
 
 
 (use-package better-defaults
-  :config (ido-mode nil))
+  :config
+  (ido-mode nil)
+  (save-place-mode -1))
 
 (use-package groovy-mode)
 (use-package jenkinsfile-mode)
