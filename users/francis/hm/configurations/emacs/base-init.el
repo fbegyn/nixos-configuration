@@ -160,7 +160,7 @@
   (add-hook 'conf-mode-hook #'display-line-numbers-mode)
 
   ;; Set the font
-  (set-frame-font "Terminess Nerd Font Mono 19" nil t)
+  (set-frame-font "Menlo 14" nil t)
 
   ;; tweak some parameters
   (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
