@@ -47,6 +47,8 @@
     vimAlias = true;
     vimdiffAlias = true;
     defaultEditor = false;
+    withRuby = true;
+    withPython3 = true;
   };
 
   home.sessionPath = [
