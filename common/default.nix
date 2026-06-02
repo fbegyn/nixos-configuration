@@ -71,6 +71,8 @@
     vimAlias = true;
     viAlias = true;
     defaultEditor = true;
+    withRuby = true;
+    withPython3 = true;
   };
 
   home-manager.users.francis.home.stateVersion = lib.mkDefault "24.11";

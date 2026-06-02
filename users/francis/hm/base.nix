@@ -14,6 +14,8 @@
   programs.neovim = {
     enable = true;
     defaultEditor = false;
+    withRuby = true;
+    withPython3 = true;
   };
 
   home.sessionPath = [

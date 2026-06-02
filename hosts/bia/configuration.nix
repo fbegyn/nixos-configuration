@@ -102,7 +102,6 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
-  programs.adb.enable = true;
 
   # List services that you want to enable:
 
@@ -112,7 +111,7 @@
   services.vscode-server = {
     enable = true;
     enableFHS = true;
-    nodejsPackage = pkgs.unstable.nodejs_20;
+    nodejsPackage = pkgs.unstable.nodejs_24;
   };
 
   # Open ports in the firewall.

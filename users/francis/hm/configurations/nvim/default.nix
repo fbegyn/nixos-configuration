@@ -31,6 +31,8 @@ in
   programs.neovim = {
     vimAlias = true;
     vimdiffAlias = true;
+    withRuby = true;
+    withPython3 = true;
 
     # extraLuaConfig = builtins.readFile ./init.lua;
 
@@ -64,7 +66,7 @@ in
       treesitterWithGrammars
 
       # Git
-      fugitive
+      vim-fugitive
       gitsigns-nvim
 
       # File tree
