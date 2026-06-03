@@ -667,16 +667,6 @@ ARG filename to open"
   (message "nil autoEvalInputs: %s" fb/nil-auto-eval))
 
 ;; ──────────────────────────────────────────────────────────────
-;;  Tree-sitter
-;; ──────────────────────────────────────────────────────────────
-
-(use-package treesit-auto
-  :config
-  (setq treesit-auto-install 'prompt)
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
-
-;; ──────────────────────────────────────────────────────────────
 ;;  emacs garbage collection hack
 ;'  https://github.com/emacsmirror/gcmh
 ;; ──────────────────────────────────────────────────────────────
