@@ -43,6 +43,8 @@
     programs.go.env.GOPATH = "/home/francis/.go";
     home.packages = with pkgs.unstable; [
       home-manager
+      nono
+      claude-code
     ];
   };
   # Use the systemd-boot EFI boot loader.
