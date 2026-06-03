@@ -41,7 +41,8 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 ;; Set the font early to avoid a first-frame resize flash.
-(push '(font . "DejaVu Sans Mono 14") default-frame-alist)
+(push (cons 'font (if (eq system-type 'darwin) "Menlo 14" "DejaVu Sans Mono 14"))
+      default-frame-alist)
 
 (provide 'early-init)
 ;;; early-init.el ends here

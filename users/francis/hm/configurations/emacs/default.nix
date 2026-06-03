@@ -54,6 +54,8 @@ in {
       deno                   # deno-ts-mode LSP (deno lsp)
       bash-language-server   # sh-mode LSP
       dasel                  # pet: parse pyproject.toml / venv config
+    ] ++ lib.optionals pkgs.stdenv.isDarwin [
+      pkgs.unstable.coreutils-prefixed  # provides `gls` for emacs dired on macOS
     ];
 
     home.file = {
