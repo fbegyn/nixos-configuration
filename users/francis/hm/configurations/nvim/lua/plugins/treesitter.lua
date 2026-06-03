@@ -1,5 +1,5 @@
 -- Treesitter: highlight + indent (grammars installed via Nix)
-require("nvim-treesitter.configs").setup({
+require("nvim-treesitter").setup({
   -- Grammars are managed by Nix, not installed by treesitter
   auto_install = false,
   highlight = {
