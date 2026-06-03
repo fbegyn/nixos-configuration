@@ -49,7 +49,11 @@ in {
       pyright
       # ansible-language-server
       ruff
-      # nil
+      nil                    # nix-mode LSP
+      elixir-ls              # elixir(-ts)-mode LSP
+      deno                   # deno-ts-mode LSP (deno lsp)
+      bash-language-server   # sh-mode LSP
+      dasel                  # pet: parse pyproject.toml / venv config
     ];
 
     home.file = {

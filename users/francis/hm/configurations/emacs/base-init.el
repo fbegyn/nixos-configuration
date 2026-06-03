@@ -142,6 +142,7 @@
   (add-to-list 'exec-path "/home/francis/.nix-profile/bin")
   (add-to-list 'exec-path "/etc/profiles/per-user/francis/bin")
   (add-to-list 'exec-path "/run/current-system/sw/bin")
+  (add-to-list 'exec-path (expand-file-name "~/.go/bin"))   ;; gopls, goimports
 
   (auto-compression-mode 1)
   ;; Add prompt indicator to `completing-read-multiple'.
@@ -581,11 +582,16 @@ ARG filename to open"
   (list :gopls (list :staticcheck t :analyses (list :fillstruct t))
         :nil (list :nix (list :flake ( list
                                        :autoEvalInputs (if fb/nil-auto-eval t :json-false)
-                                       :autoArchive :json-false )))))
+                                       :autoArchive :json-false )))
+        :python (list :pythonPath
+                      (or (and (fboundp 'pet-executable-find)
+                               (pet-executable-find "python"))
+                          "python"))))
 
 (use-package eglot
   :ensure nil
   :hook ((python-mode . fb/eglot-ensure-maybe)
+         (python-ts-mode . fb/eglot-ensure-maybe)
          (deno-ts-mode . fb/eglot-ensure-maybe)
          (deno-tsx-mode . fb/eglot-ensure-maybe)
          (elixir-mode . fb/eglot-ensure-maybe)
@@ -615,8 +621,13 @@ ARG filename to open"
   :config
   (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
-  (add-to-list 'eglot-server-programs '(elixir-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
-  (add-to-list 'eglot-server-programs '(elixir-ts-mode "/Users/francis/.local/bin/elixir-ls/language_server.sh"))
+  (let ((elixir-cmd (if (fb/is-macos?)
+                        "/Users/francis/.local/bin/elixir-ls/language_server.sh"
+                      "elixir-ls")))
+    (add-to-list 'eglot-server-programs `(elixir-mode ,elixir-cmd))
+    (add-to-list 'eglot-server-programs `(elixir-ts-mode ,elixir-cmd)))
+  (add-to-list 'eglot-server-programs '((deno-ts-mode deno-tsx-mode) . ("deno" "lsp")))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   ;; (add-to-list 'eglot-server-programs '(yaml-mode . ("ansible-language-server" "--stdio")))
   ;; (add-to-list 'eglot-server-programs '(yaml-ts-mode . ("ansible-language-server" "--stdio")))
   (setq-default eglot-workspace-configuration #'fb/eglot-workspace-config))
@@ -641,7 +652,7 @@ ARG filename to open"
 (add-hook 'rust-mode-hook #'eglot-format-buffer-before-save)
 (add-hook 'elixir-mode-hook #'eglot-format-buffer-before-save)
 (add-hook 'elixir-ts-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'python-mode-hook #'eglot-format-buffer-before-save)
+;; Python formatting is handled by apheleia (ruff); pyright has no formatter.
 
 ;; Toggle nil autoEvalInputs
 (defun fb/toggle-nil-auto-eval ()
@@ -1248,6 +1259,34 @@ ARG filename to open"
   (setq pyvenv-post-deactivate-hooks
         (list (lambda ()
                 (setq python-shell-interpreter "python")))))
+
+;; Auto-detect the active virtualenv per buffer (uv .venv, poetry, direnv, …)
+;; and point python-shell/eglot/ruff/apheleia at that venv's executables.
+;; Requires the `dasel` binary (added to home.packages).
+(use-package pet
+  :ensure t
+  :config
+  ;; depth -10 so the venv is resolved before other python-base-mode hooks run
+  (add-hook 'python-base-mode-hook 'pet-mode -10))
+
+;; ruff lint diagnostics. Eglot owns flymake in managed buffers, so register
+;; ruff's backend after eglot takes over to show pyright + ruff together.
+(use-package flymake-ruff
+  :ensure t
+  :config
+  (add-hook 'eglot-managed-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'python-base-mode)
+                (flymake-ruff-load)))))
+
+;; Async format-on-save for Python via ruff (import sort + format). pet makes
+;; the project-local ruff the one apheleia runs.
+(use-package apheleia
+  :ensure t
+  :config
+  (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
+  (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
+  :hook ((python-base-mode . apheleia-mode)))
 
 (provide 'base-init)
 ;;; base-init.el ends here
