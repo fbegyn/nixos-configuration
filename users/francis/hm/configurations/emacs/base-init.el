@@ -56,7 +56,10 @@
           mac-control-modifier 'control) ; control as control
     ;; Set path for darwin
     (setenv "PATH" (concat (getenv "PATH") ":/Users/francis/.nix-profile/bin:/usr/bin:/etc/profiles/per-user/francis/bin:/run/current-system/sw/bin"))
-    (setq exec-path (append '("/Users/francis/bin" "/profile/bin" "/Users/francis/.npm-packages/bin" "/Users/francis/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin" "/Users/francis/.go/bin" "/Users/francis/.local/bin" "/Users/francis/.cargo/bin" "/etc/profiles/per-user/francis/bin" "/run/current-system/sw/bin") exec-path)))
+    (setq exec-path (append '("/Users/francis/bin" "/profile/bin" "/Users/francis/.npm-packages/bin" "/Users/francis/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin" "/Users/francis/.go/bin" "/Users/francis/.local/bin" "/Users/francis/.cargo/bin" "/etc/profiles/per-user/francis/bin" "/run/current-system/sw/bin") exec-path))
+    ;; Use GNU ls (gls, from coreutils-prefixed) so dired's --dired switch
+    ;; and the GNU-only flags in `dired-listing-switches` work on macOS.
+    (setq insert-directory-program "gls"))
   ;; emacs-mac
   (when (fboundp 'mac-auto-operator-composition-mode)
     (mac-auto-operator-composition-mode) ; enables font ligatures
@@ -162,7 +165,7 @@
   (add-hook 'conf-mode-hook #'display-line-numbers-mode)
 
   ;; Set the font
-  (set-frame-font "DejaVu Sans Mono 14" nil t)
+  (set-frame-font (if (eq system-type 'darwin) "Menlo 14" "DejaVu Sans Mono 14") nil t)
 
   ;; tweak some parameters
   (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
