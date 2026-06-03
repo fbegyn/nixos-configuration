@@ -111,9 +111,8 @@
 
   (setq display-line-numbers-type 'relative)
   (setq display-line-numbers-width-start t)
-  (global-display-line-numbers-mode 1)
-  (dolist (hook '(vterm-mode-hook treemacs-mode-hook org-agenda-mode-hook))
-    (add-hook hook (lambda () (display-line-numbers-mode -1))))
+  ;; Line numbers are enabled per-mode below (prog/text/conf), not globally,
+  ;; so they never render in dired/special buffers.
 
   (global-set-key "\C-x\ \C-r" 'recentf-open-files)
   (when window-system
@@ -129,9 +128,11 @@
   (setq require-final-newline t)
   (setq sentence-end-double-space nil)
   (setq-default fill-column 101)
-  (global-display-fill-column-indicator-mode 1)
   (column-number-mode)
-  (setq-default show-trailing-whitespace t)
+  ;; Scope the fill-column indicator and trailing-whitespace highlighting to
+  ;; code buffers instead of everywhere (lighter, no noise in special buffers).
+  (add-hook 'prog-mode-hook #'display-fill-column-indicator-mode)
+  (add-hook 'prog-mode-hook (lambda () (setq-local show-trailing-whitespace t)))
   (setq-default indicate-empty-lines t)
   (setq-default indicate-buffer-boundaries 'left)
   (setq show-paren-delay 0)
@@ -166,7 +167,7 @@
   (set-frame-parameter (selected-frame) 'alpha '(100 . 90))
   (add-to-list 'default-frame-alist '(alpha . (100 . 90)))
   (setq frame-inhibit-implied-resize t)
-  (setq pixel-scroll-precision-mode t)
+  (pixel-scroll-precision-mode 1)
   (setq frame-resize-pixelwise t)
   (setq read-process-output-max (* 1024 1024)))
 ;;; end of general emacs configuration
@@ -229,14 +230,17 @@ ARG filename to open"
 
     "f"  '(:ignore t :which-key "file")
     "ff" '(find-file :which-key "find")
+    "fr" '(consult-recent-file :which-key "recent")
+    "fd" '(dired-jump :which-key "dired here")
     "fs" '(save-buffer :which-key "save")
 
     "s"   '(:ignore t :which-key "search")
     "ss"  '(consult-line :which-key "search line")
+    "sr"  '(consult-ripgrep :which-key "ripgrep")
+    "si"  '(consult-imenu :which-key "imenu")
 
     "t"  '(:ignore t :which-key "toggle")
     "tf" '(toggle-frame-fullscreen :which-key "fullscreen")
-    "tt" '(treemacs :which-key "treemacs")
     "wv" '(split-window-horizontally :which-key "split vertical")
     "ws" '(split-window-vertically :which-key "split horizontal")
     "wk" '(evil-window-up :which-key "up")
@@ -501,10 +505,8 @@ ARG filename to open"
   ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
   ;; (corfu-scroll-margin 5)        ;; Use scroll margin
 
-  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
-  :hook ((prog-mode . corfu-mode)
-         (shell-mode . corfu-mode)
-         (eshell-mode . corfu-mode))
+  ;; Corfu is enabled globally below via `global-corfu-mode'; no per-mode hooks
+  ;; needed. See `global-corfu-modes' to exclude specific modes.
 
   :bind (:map corfu-map
          ("TAB" . corfu-next)
@@ -595,10 +597,18 @@ ARG filename to open"
          (sh-mode . fb/eglot-ensure-maybe))
   :general
   (fb/leader-keys
-    "c a" '(eglot-code-actions :which-key "eglot code actions"))
+    "c"  '(:ignore t :which-key "code")
+    "c a" '(eglot-code-actions :which-key "eglot code actions")
+    "c d" '(consult-flymake :which-key "diagnostics")
+    "c n" '(flymake-goto-next-error :which-key "next error")
+    "c p" '(flymake-goto-prev-error :which-key "prev error"))
   :custom
   (eglot-autoshutdown t)
-  (eglot-events-buffer-size 50000)
+  ;; Disable JSON-RPC event logging for performance on chatty servers
+  ;; (gopls/rust-analyzer). Set to a positive integer to debug.
+  (eglot-events-buffer-size 0)
+  (eglot-sync-connect 0)
+  (eglot-extend-to-xref t)
   (eglot-send-changes-idle-time 3)
   (flymake-no-changes-timeout 5)
   (eldoc-echo-area-use-multiline-p nil)
@@ -667,31 +677,38 @@ ARG filename to open"
     "sr"  '(rg :which-key "rg")
     "sm"  '(rg-menu :which-key "rg-menu")))
 
-(use-package projectile
-  :demand t
+;; Open a vterm rooted at the current project (replaces projectile-run-vterm).
+(defun fb/project-vterm ()
+  "Open a vterm in the current project's root directory."
+  (interactive)
+  (let* ((default-directory (project-root (project-current t))))
+    (vterm)))
+
+(use-package project
+  :ensure nil
   :after (general)
-  :init
-  (projectile-mode +1)
   :config
-  (progn
-    (setq projectile-enable-caching t
-          projectile-require-project-root nil)
-    (add-to-list 'projectile-globally-ignored-files ".DS_Store"))
+  ;; Commands offered by `project-switch-project' (SPC p p).
+  (setq project-switch-commands
+        '((project-find-file "Find file")
+          (consult-ripgrep "Ripgrep")
+          (project-dired "Dired")
+          (fb/project-vterm "Vterm")))
   :general
   (fb/leader-keys
     :states 'normal
-    "pf" '(projectile-find-file :which-key "Find in project")
-    "pg" '(projectile-ripgrep :which-key "Grep in project")
     ;; Buffers
-    "bb" '(projectile-switch-to-buffer :which-key "switch buffer")
+    "bb" '(consult-project-buffer :which-key "switch buffer")
     ;; Projects
     "p"  '(:ignore t :which-key "project")
     "p<escape>" '(keyboard-escape-quit :which-key t)
-    "pp" '(projectile-switch-project :which-key "switch project")
-    "pa" '(projectile-switch-project :which-key "add project")
-    "pr" '(projectile-switch-project :which-key "remove project")
-    ;; run vterm
-    "pt" '(projectile-run-vterm :which-key "terminal")))
+    "pp" '(project-switch-project :which-key "switch project")
+    "pf" '(project-find-file :which-key "find file")
+    "pg" '(consult-ripgrep :which-key "ripgrep")
+    "pb" '(consult-project-buffer :which-key "switch buffer")
+    "pd" '(project-dired :which-key "dired")
+    "pk" '(project-kill-buffers :which-key "kill buffers")
+    "pt" '(fb/project-vterm :which-key "terminal")))
 
 (use-package embark
   :ensure t
@@ -840,37 +857,8 @@ ARG filename to open"
 (use-package nerd-icons)
 (use-package all-the-icons)
 
-(use-package treemacs
-  :config
-  (define-key treemacs-mode-map [drag-mouse-1] nil))
-(use-package treemacs-evil
-  :after (treemacs evil)
-  :config
-  (evil-define-key 'treemacs treemacs-mode-map [drag-mouse-1] nil))
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-(use-package treemacs-magit
-  :after (treemacs magit))
-(use-package treemacs-all-the-icons
-  :after treemacs)
-
-(defun fb/flycheck-enable-maybe ()
-  "Start flycheck after idle delay, skipping remote files."
-  (unless (and buffer-file-name (file-remote-p buffer-file-name))
-    (run-with-idle-timer 1 nil (lambda ()
-      (when (buffer-live-p (current-buffer))
-        (with-current-buffer (current-buffer)
-          (flycheck-mode 1)))))))
-
-(use-package flycheck
-  :diminish (flycheck-mode)
-  :hook (prog-mode . fb/flycheck-enable-maybe)
-  :custom
-  (flycheck-display-errors-function 'ignore)
-  (flycheck-highlighting-mode nil)
-  (flycheck-navigation-minimum-level 'error)
-  (flycheck-check-syntax-automatically '(save mode-enabled))
-  (flycheck-emacs-lisp-load-path 'inherit))
+;; Diagnostics are handled by flymake (eglot drives it natively); see the
+;; flymake leader bindings in the eglot block.
 
 (use-package restart-emacs
   :general

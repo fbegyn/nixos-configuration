@@ -24,6 +24,14 @@
 
 ;; Nix manages our packages
 (setq package-enable-at-startup nil)
+(setq package-quickstart nil)
+
+;; Native compilation: compile lazily in the background and don't nag.
+(setq native-comp-async-report-warnings-errors 'silent)
+(setq native-comp-jit-compilation t)
+
+;; Avoid GC stalls when rendering icon/ligature fonts.
+(setq inhibit-compacting-font-caches t)
 
 ;; Avoid expensive frame resizing. Inspired by Doom Emacs.
 (setq frame-inhibit-implied-resize t)
@@ -32,6 +40,8 @@
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
+;; Set the font early to avoid a first-frame resize flash.
+(push '(font . "DejaVu Sans Mono 14") default-frame-alist)
 
 (provide 'early-init)
 ;;; early-init.el ends here
