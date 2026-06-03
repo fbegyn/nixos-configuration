@@ -35,10 +35,12 @@
       _JAVA_AWT_WM_NONREPARENTING = 1;
     };
     initContent = ''
-      TEMPPID=$(echo $PPID)
-      TEMPPROC=$(${pkgs.procps}/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
-      if [[ "''${TEMPPROC##*/}" != "fish" ]]; then
-          exec /opt/homebrew/bin/fish $LOGIN_OPTION
+      if [[ -o interactive ]]; then
+        TEMPPID=$(echo $PPID)
+        TEMPPROC=$(${pkgs.procps}/bin/ps -o 'comm' -p $TEMPPID | tail -n +2)
+        if [[ "''${TEMPPROC##*/}" != "fish" ]]; then
+            exec /opt/homebrew/bin/fish $LOGIN_OPTION
+        fi
       fi
     '';
   };
