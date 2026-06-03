@@ -459,8 +459,8 @@ ARG filename to open"
    consult-theme :preview-key '(:debounce 0.2 any)
    consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
-   consult--source-bookmark consult--source-file-register
-   consult--source-recent-file consult--source-project-recent-file
+   consult-source-bookmark consult-source-file-register
+   consult-source-recent-file consult-source-project-recent-file
    ;; :preview-key "M-."
    :preview-key '(:debounce 0.4 any))
 
@@ -1021,6 +1021,35 @@ ARG filename to open"
         (with-current-buffer buffer
         (goto-char pos)
         (mhj/dwim-toggle-or-open))))))
+
+;; Fast file-tree sidebar backed by dired (reuses dired + dired-subtree).
+(use-package dired-sidebar
+  :after (dired general)
+  :commands (dired-sidebar-toggle-sidebar)
+  :init
+  (defun fb/dired-sidebar-toggle ()
+    "Toggle dired-sidebar rooted at the current project (fallback: cwd)."
+    (interactive)
+    (let ((default-directory
+           (or (when-let* ((proj (project-current))) (project-root proj))
+               default-directory)))
+      (dired-sidebar-toggle-sidebar)))
+  :custom
+  (dired-sidebar-theme 'ascii)                  ;; no icons; alt: 'none
+  (dired-sidebar-width 30)                       ;; narrow
+  (dired-sidebar-window-fixed t)                 ;; fixed width (no resize/balance)
+  (dired-sidebar-should-follow-file t)           ;; auto-follow the open file
+  (dired-sidebar-follow-file-idle-delay 0.5)
+  (dired-sidebar-pop-to-sidebar-on-toggle-open t)
+  (dired-sidebar-no-delete-other-windows t)      ;; survive C-x 1 / window deletes
+  :bind (:map dired-sidebar-mode-map
+         ("<return>"       . dired-sidebar-find-file)
+         ("<enter>"        . dired-sidebar-find-file)
+         ("<tab>"          . dired-sidebar-subtree-toggle)
+         ("<down-mouse-1>" . dired-sidebar-mouse-subtree-cycle-or-find-file))
+  :general
+  (fb/leader-keys
+    "tt" '(fb/dired-sidebar-toggle :which-key "file tree")))
 
 (use-package dhall-mode
   :mode "\\.dhall\\'")
