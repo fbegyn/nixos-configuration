@@ -45,6 +45,7 @@ in
       nvim-web-devicons
 
       # Telescope
+      plenary-nvim
       telescope-nvim
       telescope-fzf-native-nvim
 

@@ -67,6 +67,7 @@
     fd
     envconsul
     cue
+    nono
     vault-bin
     age
     difftastic
