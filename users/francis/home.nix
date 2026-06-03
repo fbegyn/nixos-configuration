@@ -68,6 +68,7 @@
     envconsul
     cue
     nono
+    claude-code
     vault-bin
     age
     difftastic
