@@ -27,11 +27,6 @@
       url = "github:flox/flox/v1.4.4";
     };
 
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.95.2-2.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -75,7 +70,6 @@
     flake-utils,
     home-manager,
     home-manager-unstable,
-    lix-module,
     agenix,
     devshell,
     ghostty,
@@ -129,7 +123,6 @@
               agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
           })
-          # lix-module.nixosModules.default
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -156,7 +149,6 @@
             ];
           })
           agenix.darwinModules.age
-          # lix-module.nixosModules.default
           home-manager.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
