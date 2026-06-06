@@ -28,7 +28,7 @@
     };
 
     lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.93.3-2.tar.gz";
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.95.2-2.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -48,13 +48,6 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
-    nixos-mailserver = {
-      url = "gitlab:simple-nixos-mailserver/nixos-mailserver/nixos-26.05";
-      inputs = {
-        nixpkgs.follows = "nixpkgs";
-      };
-    };
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
     website = {
       url = "github:fbegyn/website";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -87,12 +80,9 @@
     devshell,
     ghostty,
     emacs-overlay,
-    vscode-server,
     website,
     noctalia,
-    nixos-mailserver
   }: let
-    lib = nixpkgs.lib;
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
         inherit nixpkgs;
@@ -120,7 +110,7 @@
     };
 
     mkMachine = extraModules:
-      nixpkgs.lib.nixosSystem rec {
+      nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
         modules = [
           ({config, pkgs, ...}: {
@@ -150,7 +140,7 @@
       };
 
     mkMac = extraModules:
-      darwin.lib.darwinSystem rec {
+      darwin.lib.darwinSystem {
         modules = [
           ({config, pkgs, ...}: {
             nixpkgs.config.allowUnfree = true;
@@ -175,7 +165,7 @@
       };
 
       mkHome = homeSystem: username: homeDir: extraModules:
-        home-manager.lib.homeManagerConfiguration rec {
+        home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."${homeSystem}";
           extraSpecialArgs = { inherit nixpkgs; };
           modules = [
@@ -222,13 +212,10 @@
       "vib-mac" = mkHome "aarch64-darwin" "francis.begyn" "/Users/francis.begyn" [];
     };
 
-    nixosConfigurations = let
-      cloud = import ./lib/cloud.nix {nixpkgs = nixpkgs;};
-    in {
+    nixosConfigurations = {
       bia = mkMachine [
         ./hosts/bia/configuration.nix
         nixos-hardware.nixosModules.common-cpu-amd
-        vscode-server.nixosModules.default
         noctalia.nixosModules.default
       ];
       ania = mkMachine [
@@ -241,73 +228,12 @@
         ./hosts/eos/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
-        vscode-server.nixosModules.default
-      ];
-      hosting-01 = cloud.mkCloudGrub "hosting-01" {
-        extraModules = [
-          ./hosts/hosting-01/configuration.nix
-          website.nixosModules.x86_64-linux.website
-          agenix.nixosModules.age
-          home-manager.nixosModules.home-manager ({config, ...}: {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          })
-          ({config, ...}: {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = [
-              overlay
-            ];
-          })
-        ];
-      };
-      hosting-02 = cloud.mkCloudGrub "hosting-02" {
-        extraModules = [
-          disko.nixosModules.disko
-          agenix.nixosModules.age
-          ./lib/hosting.nix
-          ./hosts/hosting-02/disko.nix
-          website.nixosModules.x86_64-linux.website
-        ];
-      };
-      router-01 = mkMachine [
-        ./hosts/router-01/configuration.nix
       ];
       zima432 = mkMachine [
         ./hosts/zima432/configuration.nix
       ];
-      mail-01 = cloud.mkCloudGrub "mail-01" {
-        extraModules = [
-          ./hosts/mail-01/configuration.nix
-          nixos-mailserver.nixosModules.mailserver
-          agenix.nixosModules.age
-          home-manager.nixosModules.home-manager ({config, ...}: {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-          })
-          ({config, ...}: {
-            nixpkgs.config.allowUnfree = true;
-            nixpkgs.overlays = [
-              overlay
-            ];
-          })
-        ];
-      };
-      lan-app-01 = mkMachine [
-        ./hosts/lan-party/app-01/configuration.nix
-        nixos-hardware.nixosModules.common-pc-ssd
-        nixos-hardware.nixosModules.common-cpu-intel
-      ];
       selene = mkMachine [
         ./hosts/selene/configuration.nix
-      ];
-      infra-01 = mkMachine [
-        ./hosts/infra-01/configuration.nix
-      ];
-      proxy-01 = mkMachine [
-        ./hosts/proxy-01/configuration.nix
-      ];
-      app-01 = mkMachine [
-        ./hosts/app-01/configuration.nix
       ];
       nix-builder-01 = mkMachine [
         ./hosts/nix-builder-01/configuration.nix
