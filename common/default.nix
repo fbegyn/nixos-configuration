@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   boot.tmp.cleanOnBoot = true;
@@ -21,7 +21,7 @@
   };
 
   nix = {
-    package = pkgs.unstable.lixPackageSets.latest.lix;
+    package = pkgs.unstable.lixPackageSets.stable.lix;
     optimise.automatic = true;
     settings = {
       substituters = [
