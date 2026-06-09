@@ -9,7 +9,9 @@ in {
       default = builtins.readFile ./base-init.el;
     };
     emacsPackage = lib.mkOption {
-      default = pkgs.unstable.emacs30-gtk3;
+      default = if pkgs.stdenv.isDarwin
+                then pkgs.unstable.emacs-macport
+                else pkgs.unstable.emacs30-gtk3;
     };
     package = lib.mkOption {
       default = pkgs.emacsWithPackagesFromUsePackage {
@@ -83,6 +85,11 @@ in {
     };
 
     programs.emacs = {
+      enable = true;
+      package = cfg.package;
+    };
+
+    services.emacs = {
       enable = true;
       package = cfg.package;
     };
