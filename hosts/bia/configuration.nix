@@ -52,6 +52,8 @@
   # boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
   boot.binfmt.emulatedSystems = [ "aarch64-linux" "wasm32-wasi" ];
+  # Recommended default from nixpkgs 26.11 on (reduces risk of data loss on import).
+  boot.zfs.forceImportRoot = false;
 
   services.displayManager.sddm.enable = true;
   services.displayManager.sddm.wayland.enable = true;
