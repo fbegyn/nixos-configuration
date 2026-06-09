@@ -975,12 +975,42 @@ ARG filename to open"
 ;; (eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
 (add-to-list 'tramp-connection-properties
     (list ".*" "locale" "LC_ALL=C"))
+(defun fb/ssh-conf-files ()
+  "Return the ssh client config files to parse for host names.
+The first element is ~/.ssh/config; the rest are ~/.ssh/conf.d/*."
+  (append (list (expand-file-name "~/.ssh/config"))
+          (when (file-directory-p (expand-file-name "~/.ssh/conf.d/"))
+            (directory-files (expand-file-name "~/.ssh/conf.d/")
+                             'full directory-files-no-dot-files-regexp))))
+
+(defun fb/ssh-host-candidates ()
+  "Collect SSH host names from ssh config files and known_hosts.
+Sources: ~/.ssh/config, ~/.ssh/conf.d/*, and ~/.ssh/known_hosts.
+Reuses TRAMP's parsers so candidates match `/ssh:' TAB completion.
+Wildcard patterns and hashed known_hosts entries are skipped."
+  (let ((hosts '()))
+    (dolist (f (fb/ssh-conf-files))
+      (when (file-readable-p f)
+        (pcase-dolist (`(,_user ,host) (tramp-parse-sconfig f))
+          (when host (push host hosts)))))
+    (let ((known (expand-file-name "~/.ssh/known_hosts")))
+      (when (file-readable-p known)
+        (pcase-dolist (`(,_user ,host) (tramp-parse-shosts known))
+          (when host (push host hosts)))))
+    (seq-sort
+     #'string<
+     (seq-uniq
+      (seq-remove (lambda (h) (or (string-empty-p h)
+                                  (string-match-p "[*?]" h)))
+                  hosts)))))
+
+;; Augment TRAMP's default ssh host parsers (which already cover ~/.ssh/config
+;; and ~/.ssh/known_hosts) with the ~/.ssh/conf.d/* drop-in files. `cdr' drops
+;; ~/.ssh/config since it is already in the defaults.
 (tramp-set-completion-function
  "ssh" (append (tramp-get-completion-function "ssh")
                (mapcar (lambda (file) `(tramp-parse-sconfig ,file))
-                       (directory-files
-                        "~/.ssh/conf.d/"
-                        'full directory-files-no-dot-files-regexp))))
+                       (cdr (fb/ssh-conf-files)))))
 ;; making TRAMP go brrrr
 (setq remote-file-name-inhibit-locks t
       tramp-use-scp-direct-remote-copying t
@@ -1005,21 +1035,21 @@ ARG filename to open"
 
 ;;; TRAMP leader key bindings
 (defun fb/tramp-open-remote-file ()
-  "Open a file on a remote host via SSH."
+  "Open a file on a remote SSH host, completing host then path."
   (interactive)
-  (let ((host (read-string "SSH host: ")))
-    (find-file (concat "/ssh:" host ":~/"))))
+  (let ((host (completing-read "SSH host: " (fb/ssh-host-candidates))))
+    (find-file (read-file-name "Find file: " (concat "/ssh:" host ":~/")))))
 
 (defun fb/tramp-open-remote-dir ()
-  "Open a directory on a remote host via SSH in dired."
+  "Open a directory on a remote SSH host in dired, completing the host."
   (interactive)
-  (let ((host (read-string "SSH host: ")))
+  (let ((host (completing-read "SSH host: " (fb/ssh-host-candidates))))
     (dired (concat "/ssh:" host ":~/"))))
 
 (defun fb/tramp-open-remote-sudo-dir ()
-  "Open a directory on a remote host as sudo via SSH in dired."
+  "Open a remote SSH host's root as sudo in dired, completing the host."
   (interactive)
-  (let ((host (read-string "SSH host: ")))
+  (let ((host (completing-read "SSH host: " (fb/ssh-host-candidates))))
     (dired (concat "/ssh:" host "|sudo:" host ":/"))))
 
 (defun fb/tramp-open-recent ()
