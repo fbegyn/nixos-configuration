@@ -7,6 +7,7 @@
     ./python.nix
     ./configurations/mpv
     ./configurations/emacs
+    ./configurations/vscode
     ./configurations/direnv.nix
     ./configurations/zathura.nix
     ./configurations/udiskie.nix
@@ -30,19 +31,5 @@
     projecteur
     vdirsyncer
     khard
-    (vscode-with-extensions.override {
-      vscodeExtensions = with pkgs.unstable.vscode-extensions; [
-        bbenoist.nix
-        vscodevim.vim
-        elixir-lsp.vscode-elixir-ls
-        ms-vscode-remote.remote-ssh
-        ms-azuretools.vscode-docker
-        ms-vsliveshare.vsliveshare
-        golang.go
-        coolbear.systemd-unit-file
-        redhat.vscode-yaml
-        github.copilot
-      ];
-    })
   ];
 }
