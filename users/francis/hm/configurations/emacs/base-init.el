@@ -424,6 +424,31 @@ ARG filename to open"
   ;; (vertico-cycle t)
   :init
   (vertico-mode)
+  :config
+  ;; vertico-buffer / vertico-multiform ship inside the vertico package.
+  (require 'vertico-buffer)
+  (vertico-multiform-mode 1)            ;; explicit ON (Embark re-asserts it too)
+  ;; Roomy, always-visible candidate list in a full-width bottom window. This
+  ;; keeps search candidates visible even when the dired-sidebar is open, where
+  ;; the cramped minibuffer cannot grow. `display-buffer-at-bottom' is chosen
+  ;; over vertico's default `display-buffer-use-least-recent-window', which would
+  ;; commandeer the main window and cover the consult preview.
+  (setq vertico-buffer-display-action
+        '(display-buffer-at-bottom (window-height . 0.4)))
+  ;; Route search-style commands through vertico-buffer.
+  (setq vertico-multiform-commands
+        '((consult-ripgrep      buffer)
+          (consult-grep         buffer)
+          (consult-git-grep     buffer)
+          (consult-find         buffer)
+          (consult-fd           buffer)
+          (consult-line         buffer)
+          (consult-line-multi   buffer)
+          (consult-imenu        buffer)
+          (consult-imenu-multi  buffer)
+          (consult-project-buffer buffer)
+          (project-find-file    buffer)
+          (project-find-regexp  buffer)))
 )
 
 ;; Optionally use the `orderless' completion style.
@@ -815,7 +840,7 @@ ARG filename to open"
 
   :config
 
-  (vertico-multiform-mode)
+  (vertico-multiform-mode 1)
   (add-to-list 'vertico-multiform-categories '(embark-keybinding grid))
 
   ;; Hide the mode line of the Embark live/completions buffers
@@ -1147,7 +1172,7 @@ Wildcard patterns and hashed known_hosts entries are skipped."
   :custom
   (dired-sidebar-theme 'ascii)                  ;; no icons; alt: 'none
   (dired-sidebar-width 30)                       ;; narrow
-  (dired-sidebar-window-fixed t)                 ;; fixed width (no resize/balance)
+  (dired-sidebar-window-fixed 'width)            ;; fixed width only; height may flex
   (dired-sidebar-should-follow-file t)           ;; auto-follow the open file
   (dired-sidebar-follow-file-idle-delay 0.5)
   (dired-sidebar-pop-to-sidebar-on-toggle-open t)
