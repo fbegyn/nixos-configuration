@@ -11,10 +11,10 @@
         stdenv.cc.cc.lib
         libvorbis
         libpng
-        xorg.libXcursor
-        xorg.libXi
-        xorg.libXinerama
-        xorg.libXScrnSaver
+        libxcursor
+        libxi
+        libxinerama
+        libxscrnsaver
       ];
     };
     gamescopeSession.enable = true;
