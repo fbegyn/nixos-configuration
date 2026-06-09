@@ -125,15 +125,6 @@ in {
   };
   # launchd config
   # launchd.user.envVariables.PATH = config.environment.systemPath;
-  # darwin - emacs
-  services.emacs = {
-    enable = true;
-    package = config.home-manager.users.francis.emacs.package;
-    additionalPath = [
-      "/Users/francis/.go/bin"
-      "/Users/francis/.local/bin"
-    ];
-  };
 
   imports = [
     ../../users/francis/variables.nix
@@ -156,36 +147,6 @@ in {
     home.packages = with pkgs.unstable; [
       home-manager
     ];
-
-    # emacs.emacsPackage = pkgs.unstable.emacs-macport;
-    emacs.emacsPackage = pkgs.emacs30;
-    # emacs.emacsPackage = pkgs.unstable.emacs30;
-    # emacs.emacsPackage = pkgs.emacs29.overrideAttrs (old: {
-    #   patches = (old.patches or []) ++ [
-    #     # Fix OS window role (needed for window managers like yabai)
-    #     (pkgs.fetchpatch {
-    #       url = "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-28/fix-window-role.patch";
-    #       sha256 = "sha256-+z/KfsBm1lvZTZNiMbxzXQGRTjkCFO4QPlEK35upjsE";
-    #     })
-    #     # Enable rounded window with no decoration
-    #     (pkgs.fetchpatch {
-    #       url =
-    #         "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-29/round-undecorated-frame.patch";
-    #       sha256 = "sha256-uYIxNTyfbprx5mCqMNFVrBcLeo+8e21qmBE3lpcnd+4";
-    #     })
-    #     # Make Emacs aware of OS-level light/dark mode
-    #     (pkgs.fetchpatch {
-    #       url =
-    #         "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-28/system-appearance.patch";
-    #       sha256 = "sha256-3QLq91AQ6E921/W9nfDjdOUWR8YVsqBAT/W9c1woqAw";
-    #     })
-    #     (pkgs.fetchpatch {
-    #       url =
-    #         "https://raw.githubusercontent.com/d12frosted/homebrew-emacs-plus/master/patches/emacs-28/no-frame-refocus-cocoa.patch";
-    #       sha256 = "sha256-QLGplGoRpM4qgrIAJIbVJJsa4xj34axwT3LiWt++j/c";
-    #     })
-    #   ];
-    # });
   };
 
 
