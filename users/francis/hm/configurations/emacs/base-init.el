@@ -415,18 +415,32 @@ ARG filename to open"
 ;; ──────────────────────────────────────────────────────────────
 (use-package vertico
   :demand t
-  ;; :custom
+  :custom
+  (vertico-count 20)
+  (vertico-resize t)
   ;; Different scroll margin
   ;; (vertico-scroll-margin 0)
-  ;; Show more candidates
-  ;; (vertico-count 20)
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (vertico-resize t)
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
   ;; (vertico-cycle t)
   :init
   (vertico-mode)
 )
+
+;; Float the Vertico minibuffer in a centred child frame, à la nvim-telescope.
+(use-package vertico-posframe
+  :after vertico
+  :demand t
+  :custom
+  (vertico-posframe-poshandler #'posframe-poshandler-frame-center)
+  (vertico-posframe-width 120)
+  (vertico-posframe-min-width 80)
+  (vertico-posframe-height 20)
+  (vertico-posframe-border-width 2)
+  (vertico-posframe-parameters
+   '((left-fringe . 8)
+     (right-fringe . 8)))
+  :config
+  (vertico-posframe-mode 1))
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :custom
