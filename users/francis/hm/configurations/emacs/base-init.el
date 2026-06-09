@@ -308,11 +308,85 @@ ARG filename to open"
   :config
   (load-theme 'gruvbox-dark-hard t))
 
+(use-package nerd-icons
+  :demand t)
+
 (use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom
+  (doom-modeline-height 28)
+  (doom-modeline-bar-width 4)
+  (doom-modeline-icon t)
+  (doom-modeline-major-mode-icon t)
+  (doom-modeline-major-mode-color-icon t)
+  (doom-modeline-buffer-state-icon t)
+  (doom-modeline-buffer-modification-icon t)
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-buffer-file-name-style 'truncate-with-project)
+  (doom-modeline-lsp t)
+  (doom-modeline-vcs-max-length 25)
+  (doom-modeline-minor-modes nil)
+  (doom-modeline-modal-icon t)
+  (doom-modeline-env-version t))
+
+(use-package tab-line
+  :ensure nil
+  :init
+  (defun fb/tab-line-buffers ()
+    "Return file-visiting buffers shown as tabs."
+    (seq-filter
+     (lambda (b)
+       (and (buffer-file-name b)
+            (not (string-prefix-p " " (buffer-name b)))))
+     (buffer-list)))
+
+  (defun fb/tab-line-name-format (tab tabs)
+    "Render TAB with a nerd-icons file-type icon + buffer name."
+    (let* ((buffer (if (bufferp tab) tab (cdr (assq 'buffer tab))))
+           (name   (buffer-name buffer))
+           (icon   (with-current-buffer buffer
+                     (nerd-icons-icon-for-buffer)))
+           (face   (if (eq buffer (window-buffer))
+                       'tab-line-tab-current
+                     'tab-line-tab-inactive)))
+      (propertize (format " %s %s "
+                          (if (stringp icon) icon "")
+                          name)
+                  'face face
+                  'mouse-face 'tab-line-highlight)))
+
+  :custom
+  (tab-line-new-button-show nil)
+  (tab-line-close-button-show t)
+  (tab-line-separator "")
+  (tab-line-tabs-function #'fb/tab-line-buffers)
+  (tab-line-tab-name-format-function #'fb/tab-line-name-format)
+  (tab-line-exclude-modes '(dired-mode
+                            dired-sidebar-mode
+                            magit-status-mode
+                            magit-log-mode
+                            magit-diff-mode
+                            magit-revision-mode
+                            vterm-mode
+                            eshell-mode
+                            help-mode
+                            Info-mode
+                            messages-buffer-mode))
   :config
-  (doom-modeline-mode 1)
-  (setq doom-modeline-height 25
-        doom-modeline-buffer-encoding t))
+  (global-tab-line-mode 1)
+  ;; Gruvbox harmony: blend strip with theme; current tab gets a yellow accent.
+  (let ((bg     "#1d2021")
+        (bg-alt "#282828")
+        (fg     "#ebdbb2")
+        (fg-dim "#a89984")
+        (accent "#fabd2f"))
+    (set-face-attribute 'tab-line              nil :background bg :foreground fg-dim
+                        :height 0.95 :box nil :overline bg)
+    (set-face-attribute 'tab-line-tab          nil :inherit 'tab-line :box nil)
+    (set-face-attribute 'tab-line-tab-inactive nil :background bg :foreground fg-dim :box nil)
+    (set-face-attribute 'tab-line-tab-current  nil :background bg-alt :foreground fg
+                        :box nil :overline accent :weight 'bold)
+    (set-face-attribute 'tab-line-highlight    nil :background bg-alt :foreground fg)))
 
 (use-package which-key
   :demand t
@@ -862,7 +936,6 @@ ARG filename to open"
 ;;                 (string-equal var "color-scheme"))
 ;;        (fbegyn:theme-from-dbus value))))
 
-(use-package nerd-icons)
 (use-package all-the-icons)
 
 ;; Diagnostics are handled by flymake (eglot drives it natively); see the
