@@ -97,7 +97,6 @@ in {
     taps = [
     ];
     brews = [
-      "paneru"
       "fish"
       "bash"
       "mr"
@@ -116,7 +115,6 @@ in {
       "wget"
       "icann-rdap"
       "git-crypt"
-      "borders"
     ];
   };
   # launchd config
