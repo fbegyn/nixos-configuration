@@ -91,17 +91,13 @@ in {
       "josm"
       "discord"
       "finch"
-      "nikitabobko/tap/aerospace"
-      "dagger/tap/container-use"
       "claude-code"
       "meld"
     ];
     taps = [
-      "nikitabobko/tap"
-      "felixkratz/formulae"
-      "dagger/tap"
     ];
     brews = [
+      "paneru"
       "fish"
       "bash"
       "mr"
