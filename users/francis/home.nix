@@ -93,7 +93,7 @@
     wget
     envsubst
     keepassxc
-    aerc
+    pkgs.aerc
     rclone
     rsync
     pkgs.firefox
