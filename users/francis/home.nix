@@ -63,6 +63,7 @@
   };
 
   home.packages = with pkgs.unstable; [
+    pkgs.llm-agents.pi
     ripgrep
     fd
     envconsul
