@@ -93,6 +93,7 @@ in {
       "finch"
       "claude-code"
       "meld"
+      "lm-studio"
     ];
     taps = [
     ];
@@ -100,6 +101,7 @@ in {
       "lima"
       "colima"
       "incus"
+      "llama.cpp"
       "fish"
       "bash"
       "mr"
@@ -143,6 +145,7 @@ in {
 
     home.packages = with pkgs.unstable; [
       home-manager
+      pkgs.nodejs_26
     ];
   };
 
