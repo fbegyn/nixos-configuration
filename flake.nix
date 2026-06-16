@@ -42,6 +42,10 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    llm-agents = {
+      url = "github:numtide/llm-agents.nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     website = {
       url = "github:fbegyn/website";
@@ -72,6 +76,7 @@
     home-manager-unstable,
     agenix,
     devshell,
+    llm-agents,
     ghostty,
     emacs-overlay,
     website,
@@ -142,6 +147,7 @@
               overlay
               lix-overlay
               emacs-overlay.overlay
+              llm-agents.overlays.default
             ];
             environment.systemPackages = [
               flox.packages.${pkgs.stdenv.hostPlatform.system}.default
