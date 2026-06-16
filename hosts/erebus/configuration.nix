@@ -97,6 +97,9 @@ in {
     taps = [
     ];
     brews = [
+      "lima"
+      "colima"
+      "incus"
       "fish"
       "bash"
       "mr"
