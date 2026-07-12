@@ -94,6 +94,7 @@ in {
       "claude-code"
       "meld"
       "lm-studio"
+      "keepassxc"
     ];
     taps = [
     ];
@@ -145,7 +146,7 @@ in {
 
     home.packages = with pkgs.unstable; [
       home-manager
-      pkgs.nodejs_26
+      # pkgs.nodejs_26
     ];
   };
 

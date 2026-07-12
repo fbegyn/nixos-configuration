@@ -93,11 +93,10 @@
     curl
     wget
     envsubst
-    keepassxc
     pkgs.aerc
     rclone
     rsync
-    pkgs.firefox
+    pkgs.firefox-bin
     google-cloud-sdk
     yq
     jq
@@ -112,6 +111,10 @@
     usbutils
     pkgs.unstable.thunderbird
     pulsemixer
+    # keepassxc built from Nix on Linux; on macOS it pulls in Qt5/qtmacextras
+    # which fails to link (ld64 crashes on Darwin 27) -- installed via the
+    # Homebrew "keepassxc" cask on erebus instead.
+    keepassxc
   ] ++ lib.optionals pkgs.stdenv.isDarwin [
 
   ];
