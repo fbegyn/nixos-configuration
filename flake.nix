@@ -192,14 +192,18 @@
     darwinConfigurations = {
       erebus = mkMac [
         ./hosts/erebus/configuration.nix
-        mac-app-util.darwinModules.default
+        # mac-app-util disabled on erebus: its cl-nix-lite/SBCL dependency
+        # fails to build on macOS 27 / Darwin 27 (SBCL cannot mmap its
+        # fixed-address heap at 0x300100000 on the new kernel). Re-enable
+        # once nixpkgs ships a Darwin-27-compatible SBCL.
+        # mac-app-util.darwinModules.default
         ({pkgs, config, inputs, ...}: {
           environment.systemPackages = [
             flox.packages.${pkgs.stdenv.hostPlatform.system}.default
           ];
-          home-manager.users.francis.imports = [
-            mac-app-util.homeManagerModules.default
-          ];
+          # home-manager.users.francis.imports = [
+          #   mac-app-util.homeManagerModules.default
+          # ];
         })
       ];
     };
