@@ -21,6 +21,7 @@
     ./hm/configurations/hledger.nix
     ./hm/configurations/emacs
     ./hm/configurations/nvim
+    ./hm/configurations/vscode
     # ./hm/configurations/mpv TODO: not needed in base home-manager
     ./hm/configurations/direnv.nix
     # ./hm/configurations/zathura.nix TODO: I don't think I need this everywhere
