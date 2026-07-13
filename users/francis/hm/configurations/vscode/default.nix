@@ -2,13 +2,14 @@
 # VSCode config mirroring the emacs (evil) and nvim setups in sibling configs.
 # Leader = Space, Gruvbox dark hard, same b/c/f/g/p/q/s/t/w prefix map.
 #
-# Extensions are NOT declared in Nix — install via the Marketplace on first run.
-# Recommended set:
+# Extensions are NOT declared in Nix (several — VSpaceCode, gruvbox, copilot —
+# are not in nixpkgs); install via the Marketplace on first run.
+# Required set (leader menu + modal editing):
 #   asvetliakov.vscode-neovim          (vim layer, drives modal bindings)
+#   VSpaceCode.vspacecode              (spacemacs-style leader menu — SPC popup)
+#   VSpaceCode.whichkey                (which-key hints; backs vspacecode)
 #   jdinhlife.gruvbox                  (theme; settings expect "Gruvbox Dark Hard")
 #   vscode-icons-team.vscode-icons     (icon theme)
-#   VSpaceCode.vspacecode              (spacemacs-style leader menu, optional)
-#   VSpaceCode.whichkey                (which-key hints, optional)
 #   golang.go
 #   rust-lang.rust-analyzer
 #   jnoortheen.nix-ide                 (uses nil)
