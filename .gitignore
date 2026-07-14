@@ -1,5 +1,6 @@
 .gcroots
 result
 hosts/portable.lan
+.vscode/
 
 *flycheck*
