@@ -118,8 +118,8 @@
   "deno.lint" = true;
 
   # vscode-neovim — extension auto-detects nvim on PATH; uncomment if detection fails.
-  # "vscode-neovim.neovimExecutablePaths.darwin" = "/etc/profiles/per-user/francis/bin/nvim";
-  # "vscode-neovim.neovimExecutablePaths.linux" = "/etc/profiles/per-user/francis/bin/nvim";
+  "vscode-neovim.neovimExecutablePaths.darwin" = "/etc/profiles/per-user/francis/bin/nvim";
+  "vscode-neovim.neovimExecutablePaths.linux" = "/etc/profiles/per-user/francis/bin/nvim";
 
   # Terminal
   "terminal.integrated.fontFamily" = "Menlo, 'DejaVu Sans Mono', 'Terminess Nerd Font Mono', monospace";
