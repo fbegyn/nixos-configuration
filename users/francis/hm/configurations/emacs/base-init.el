@@ -367,7 +367,7 @@ ARG filename to open"
                             magit-log-mode
                             magit-diff-mode
                             magit-revision-mode
-                            ghostel-mode
+                            vterm-mode
                             eshell-mode
                             help-mode
                             Info-mode
@@ -783,6 +783,13 @@ ARG filename to open"
     "sr"  '(rg :which-key "rg")
     "sm"  '(rg-menu :which-key "rg-menu")))
 
+;; Open a vterm rooted at the current project (replaces projectile-run-vterm).
+(defun fb/project-vterm ()
+  "Open a vterm in the current project's root directory."
+  (interactive)
+  (let* ((default-directory (project-root (project-current t))))
+    (vterm)))
+
 (use-package project
   :ensure nil
   :after (general)
@@ -792,7 +799,7 @@ ARG filename to open"
         '((project-find-file "Find file")
           (consult-ripgrep "Ripgrep")
           (project-dired "Dired")
-          (ghostel-project "Ghostel")))
+          (fb/project-vterm "Vterm")))
   :general
   (fb/leader-keys
     :states 'normal
@@ -807,7 +814,7 @@ ARG filename to open"
     "pb" '(consult-project-buffer :which-key "switch buffer")
     "pd" '(project-dired :which-key "dired")
     "pk" '(project-kill-buffers :which-key "kill buffers")
-    "pt" '(ghostel-project :which-key "terminal")))
+    "pt" '(fb/project-vterm :which-key "terminal")))
 
 (use-package embark
   :ensure t
@@ -902,32 +909,16 @@ ARG filename to open"
     "j j" '(majutsu :which-key "majutsu")
     "j L" '(majutsu-log :which-key "log (majutsu)")))
 
-(use-package ghostel
-  :commands (ghostel ghostel-project)
+(use-package vterm
+  :commands (vterm vterm-other-window)
+  :config
+  (add-hook
+	'term-mode-hook
+	(lambda() (setq show-trailing-whitespace nil))))
+(use-package vterm-toggle
   :general
   (fb/leader-keys
-    "'" '(fb/ghostel-toggle :which-key "terminal"))
-  :init
-  (defun fb/ghostel-toggle ()
-    "Toggle a Ghostel terminal window.
-Show an existing terminal, bury its window if already visible, or create a
-new terminal when none exists.  Finds the buffer by `ghostel-mode' so it keeps
-working after Ghostel renames the buffer from its title."
-    (interactive)
-    (let* ((buf (seq-find (lambda (b)
-                            (eq (buffer-local-value 'major-mode b) 'ghostel-mode))
-                          (buffer-list)))
-           (win (and buf (get-buffer-window buf))))
-      (cond (win (quit-window nil win))
-            (buf (pop-to-buffer buf))
-            (t  (ghostel)))))
-  :config
-  (add-hook 'ghostel-mode-hook
-            (lambda () (setq show-trailing-whitespace nil))))
-
-(use-package evil-ghostel
-  :after (evil ghostel)
-  :hook (ghostel-mode . evil-ghostel-mode))
+    "'" '(vterm-toggle :which-key "terminal")))
 
 ;; (defvar fbegyn:dark-theme 'gruvbox-dark-hard
 ;;   "Default dark theme.")
