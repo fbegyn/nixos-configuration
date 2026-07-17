@@ -147,7 +147,7 @@
               overlay
               lix-overlay
               emacs-overlay.overlay
-              llm-agents.overlays.default
+              llm-agents.overlays.shared-nixpkgs
             ];
             environment.systemPackages = [
               flox.packages.${pkgs.stdenv.hostPlatform.system}.default
@@ -174,6 +174,7 @@
                 lix-overlay
                 emacs-overlay.overlay
                 ghostty.overlays.default
+                llm-agents.overlays.shared-nixpkgs
               ];
               home.username = "${username}";
               home.homeDirectory = "${homeDir}";
