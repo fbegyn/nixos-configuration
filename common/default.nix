@@ -30,6 +30,7 @@
         "https://cache.nixos-cuda.org"
         "https://cache.lix.systems/"
         "https://cache.flox.dev/"
+        "https://cache.numtide.com"
       ];
       trusted-public-keys = [
         "fbegyn-personal.cachix.org-1:0BEArpeI+ISsPainphPLHBozpP+zExYO6+43lLORDnI="
@@ -37,6 +38,7 @@
         "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
         "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
         "flox-cache-public-1:7F4OyH7ZCnFhcze3fJdfyXYLQw/aV7GEed86nQ7IsOs="
+        "niks3.numtide.com-1:DTx8wZduET09hRmMtKdQDxNNthLQETkc/yaX7M4qK0g="
       ];
       trusted-users = [ "francis" ];
     };
