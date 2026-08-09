@@ -3,6 +3,25 @@
 let
   waybar-spotify = import ./waybar-spotify.nix { inherit pkgs; };
   waybar-storage = import ./waybar-storage.nix { inherit pkgs; };
+
+  # quickshell tags each instance with a "display connection" derived from an
+  # exact match on QT_QPA_PLATFORM ("wayland" / "x11", anything else -> "unk"),
+  # and `noctalia-shell ipc call ...` skips instances whose tag differs from
+  # the client's own. Our global QT_QPA_PLATFORM is "wayland;xcb" (see
+  # environment.variables below) so Qt apps without qtwayland can still fall
+  # back to xcb -- that matches neither literal, so quickshell tags itself
+  # "unk" and warns "most functionality will be broken". Force plain "wayland"
+  # for this binary only; wrapping it covers both the shell process and every
+  # IPC client invoked from a niri keybind.
+  noctalia-shell = pkgs.symlinkJoin {
+    name = "noctalia-shell-wayland";
+    paths = [ inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default ];
+    nativeBuildInputs = [ pkgs.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/noctalia-shell --set QT_QPA_PLATFORM wayland
+    '';
+    meta.mainProgram = "noctalia-shell";
+  };
 in {
   imports = [
     ../../../common/pipewire.nix
@@ -63,8 +82,8 @@ in {
     unstable.polkit_gnome
 
     # theming
-    unstable.gtk-engine-murrine
-    unstable.gtk_engines
+    # unstable.gtk-engine-murrine
+    # unstable.gtk_engines
     unstable.gsettings-desktop-schemas
     unstable.lxappearance
     unstable.glib
@@ -163,6 +182,7 @@ in {
 
     programs.noctalia-shell = {
       enable = true;
+      package = noctalia-shell;
       settings = {
         bar = {
           density = "compact";
