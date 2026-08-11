@@ -122,6 +122,7 @@
               lix-overlay
               emacs-overlay.overlay
               ghostty.overlays.default
+              llm-agents.overlays.shared-nixpkgs
             ];
             environment.systemPackages = [
               flox.packages.${pkgs.stdenv.hostPlatform.system}.default
