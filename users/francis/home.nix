@@ -64,6 +64,7 @@
   };
 
   home.packages = with pkgs.unstable; [
+    nodejs_24
     pkgs.llm-agents.pi
     ripgrep
     fd
