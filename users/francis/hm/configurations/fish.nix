@@ -26,6 +26,12 @@
       set -Uxa GDK_DPI_SCALE 1
       set -Uxa MOZ_ENABLE_WAYLAND 1
       set -Uxa _JAVA_AWT_WM_NONREPARENTING 1
+
+      if test "$tide_config_rev" != "2"
+        set -U tide_left_prompt_items pwd vcs newline character
+        set -U tide_config_rev 2
+      end
+
       # If a dumb terminal connects, just show simple prompt
       if test "$TERM" = "dumb"
         function fish_prompt
@@ -37,7 +43,17 @@
       end
     '';
     plugins = with pkgs.unstable.fishPlugins; [
-      { name = "fzf.fish"; src = fzf-fish.src; }
+      { name = "tide"; src = tide.src; }
+      { name = "fzf-fish"; src = fzf-fish.src; }
+      { name = "autopair"; src = autopair.src; }
+      { name = "tide-item-jj";
+        src = pkgs.fetchFromGitHub {
+          owner = "lucasadelino";
+          repo = "tide-item-jj";
+          rev = "e1150b7332b85149b468cb10c2844f082f33975b";
+          hash = "sha256-vLSrHPoytZ/kXQh0Bp/4AWe8YLlyufRjepfXUAuWCB8=";
+        };
+      }
     ];
   };
 }
