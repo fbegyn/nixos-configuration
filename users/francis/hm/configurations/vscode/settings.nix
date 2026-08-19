@@ -29,8 +29,11 @@
   "editor.detectIndentation" = true;
   "editor.wordWrap" = "off";
   "editor.suggestSelection" = "first";
-  # corfu parity: RET inserts the selected candidate; Tab also accepts.
-  "editor.acceptSuggestionOnEnter" = "smart";
+  # An auto-triggered popup preselects nothing, so RET inserts a newline and TAB
+  # indents. Select a candidate (arrows, or an explicit C-SPC invoke) and RET or
+  # TAB inserts it.
+  "editor.suggest.selectionMode" = "never";
+  "editor.acceptSuggestionOnEnter" = "on";
   # corfu auto-completion feel: auto-delay 0.1s.
   "editor.quickSuggestionsDelay" = 100;
   # emacs disables the LSP documentHighlightProvider — no symbol-under-cursor glow.
