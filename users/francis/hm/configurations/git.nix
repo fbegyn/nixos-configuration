@@ -8,10 +8,10 @@
     package = pkgs.gitFull;
     enable = true;
     settings = {
-      aliases = {
+      alias = {
         identity = "! git config user.name \"$(git config user.$1.name)\"; git config user.email \"$(git config user.$1.email)\"; git config user.signingkey \"$(git config user.$1.signingkey)\"; :";
         wip = "for-each-ref --sort='authordate:iso8601' --format=' %(color:green)%(authordate:relative)%09%(color:white)%(refname:short)' refs/heads";
-        sync = "git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5";
+        sync = "!git pull --rebase; git submodule --quiet sync; git submodule update --init --recursive --jobs 5";
       };
       # clearly better
       branch.sort = "-committerdate";
@@ -31,7 +31,7 @@
       };
       fetch = {
         prune = true;
-        pruneTage = true;
+        pruneTags = true;
         all = true;
         fsckobjects = true;
       };
@@ -42,15 +42,19 @@
         enabled = true;
         autoupdate = true;
       };
-      root.excludesfile = "~/.gitignore";
       rebase = {
         autoSquash = true;
         autoStash = true;
-        updaterefs = true;
-        instructionFormat = "<%an/%ad> %s - b:%d";
+        updateRefs = true;
+        # NOTE: no %d/%D here. Expanding decorations while the todo script is
+        # generated loads git's decoration cache unfiltered, which makes
+        # --update-refs emit an `update-ref HEAD` line (rejected: not a fully
+        # qualified refname) plus lines for tags/remote-tracking/jj refs.
+        instructionFormat = "<%an/%ad> %s";
       };
       # basic
       core.editor = "nvim";
+      core.excludesFile = "~/.gitignore";
       merge.conflictstyle = "zdiff3";
       pull.rebase = true;
       receive.fsckObjects = true;
