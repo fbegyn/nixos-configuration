@@ -11,7 +11,7 @@ in {
     emacsPackage = lib.mkOption {
       default = if pkgs.stdenv.isDarwin
                 then pkgs.unstable.emacs-macport
-                else pkgs.unstable.emacs30-gtk3;
+                else pkgs.unstable.emacs31-gtk3;
     };
     package = lib.mkOption {
       default = pkgs.emacsWithPackagesFromUsePackage {

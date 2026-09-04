@@ -136,7 +136,7 @@
 
   age.identityPaths = [ "/home/francis/.ssh/inuits-se" ];
 
-  home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs30-pgtk;
+  home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs31-pgtk;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
