@@ -183,15 +183,7 @@ in {
     programs.noctalia-shell = {
       enable = true;
       package = noctalia-shell;
-      settings = {
-        bar = {
-          density = "compact";
-          position = "top";
-        };
-        location = {
-          name = "Ghent, Belgium";
-        };
-      };
+      settings = {};
     };
 
     xdg.configFile = {
