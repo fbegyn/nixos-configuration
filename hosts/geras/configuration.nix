@@ -11,12 +11,8 @@
     ./zfs.nix
     ./disko.nix
 
-    # laptop hardware
-    # <nixos-hardware/common/pc/laptop>
-    # <nixos-hardware/common/pc/ssd>
-    # <nixos-hardware/common/cpu/intel>
-
     # common settings
+    ../../common
     ../../common/laptop.nix
     ../../common/moonlander.nix
     ../../common/network-tools.nix
@@ -24,8 +20,8 @@
     ../../common/gpg.nix
     ../../common/bluetooth.nix
     ../../common/fonts.nix
+    ../../common/steam.nix
     ../../common/printer.nix
-    ../../common/wireguard.nix
     ../../common/eid.nix
     ../../common/webcam.nix
     ../../common/video-accel.nix
@@ -52,7 +48,7 @@
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
   # replicates the default behaviour.
-  networking.hostName = "geros"; # Define your hostname.
+  networking.hostName = "geras"; # Define your hostname.
   networking.useDHCP = false;
   networking.networkmanager.enable = true;
   networking.networkmanager.wifi.backend = "wpa_supplicant";
@@ -76,6 +72,18 @@
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
+  };
+
+  home-manager.users.francis= {
+    imports = [
+      ../../users/francis/hm/configurations/udiskie.nix
+      ../../users/francis/hm/configurations/redshift.nix
+      ../../users/francis/home.nix
+    ];
+    programs.ghostty = {
+      enable = true;
+    };
+    programs.go.env.GOPATH = "/home/francis/.go";
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -119,6 +127,17 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINK7mMVKOmELe+FVvn1oWNRwKiANgTwcnzte3vWK3nMV"
     ];
   };
+
+  # Ensure directories exist before Home Manager activates
+  systemd.tmpfiles.rules = [
+    # ZFS /nix/var is empty on first boot; create the full path
+    "d /nix/var/nix/profiles               0755 root   root   - -"
+    "d /nix/var/nix/profiles/per-user      0755 root   root   - -"
+    "d /nix/var/nix/profiles/per-user/francis 0755 francis users - -"
+
+    # XDG profile directory for nix profile / home-manager
+    "d /home/francis/.local/state/nix/profiles 0755 francis users - -"
+  ];
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

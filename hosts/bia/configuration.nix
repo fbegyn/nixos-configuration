@@ -7,7 +7,6 @@
 {
   imports = [
     # Include the results of the hardware scan.
-    # <nixos-hardware/common/cpu/amd>
     ./hardware-configuration.nix
     ../../common
     ../../common/nvidia.nix
