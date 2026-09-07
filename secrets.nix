@@ -1,7 +1,8 @@
 let
   francis_mac = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOa6QQLv+FCgoMej4BUuQRzpGsmTiwIJnspamE0wrsM2";
   francis_bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINK7mMVKOmELe+FVvn1oWNRwKiANgTwcnzte3vWK3nMV";
-  users = [ francis_mac francis_bia ];
+  francis_geras = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHAJsnYFZu2CNWIJG03QmOq1ihj1Iy/wXugLh7l4/BS7";
+  users = [ francis_mac francis_bia francis_geras ];
 
   bia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIErnN3QEyNE0JMsNLKKfRHck+Z3gJ43uYoQKHbM6jyas";
   selene = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIB9nISfOAr6o/O9xLlmxeQHA0Q+Az7T+S+AQnNOTy1Jl";
