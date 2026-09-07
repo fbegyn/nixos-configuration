@@ -5,7 +5,7 @@
     ./fwupd.nix
   ];
   services.logind = {
-    lidSwitch = "suspend";
+    settings.Login.HandleLidSwitch = "suspend";
   };
   environment.systemPackages = with pkgs; [
     acpi

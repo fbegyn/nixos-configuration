@@ -58,7 +58,14 @@
     };
     mac-app-util.url = "github:hraban/mac-app-util";
 
-    disko.url = "github:nix-community/disko";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{
@@ -81,6 +88,7 @@
     emacs-overlay,
     website,
     noctalia,
+    nixos-anywhere,
   }: let
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
@@ -129,6 +137,7 @@
               agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
             ];
           })
+          disko.nixosModules.disko
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -228,6 +237,12 @@
         nixos-hardware.nixosModules.common-pc-ssd
         nixos-hardware.nixosModules.common-cpu-intel
       ];
+      geras = mkMachine [
+        ./hosts/geras/configuration.nix
+        nixos-hardware.nixosModules.common-pc-laptop
+        nixos-hardware.nixosModules.common-pc-ssd
+        nixos-hardware.nixosModules.common-cpu-intel
+      ];
       eos = mkMachine [
         ./hosts/eos/configuration.nix
         nixos-hardware.nixosModules.common-pc-ssd
@@ -242,6 +257,11 @@
       nix-builder-01 = mkMachine [
         ./hosts/nix-builder-01/configuration.nix
       ];
+    };
+    packages.x86_64-linux = {
+      geras-format = (nixpkgs.legacyPackages.x86_64-linux.writeShellScriptBin "format" ''
+        ${self.nixosConfigurations.geras.config.system.build.diskoScript}
+      '');
     };
   };
 }
