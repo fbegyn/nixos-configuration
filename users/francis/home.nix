@@ -42,6 +42,7 @@
     "nvim/lua".source = symLinkHM "configurations/nvim/lua";
     "ghostty/config".source = symLinkHM "configurations/ghostty/config";
     "noctalia/settings.json".source = symLinkHM "configurations/noctalia/settings.json";
+    "noctalia/config.toml".source = symLinkHM "configurations/noctalia/config.toml";
   };
 
   programs.neovim = {

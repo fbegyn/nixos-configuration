@@ -159,6 +159,18 @@ in {
   services.power-profiles-daemon.enable = true;
   services.upower.enable = true;
 
+  environment.etc."systemd/system-sleep/noctalia-restart.sh" = {
+    mode = "0755";
+    text = ''
+      #!/bin/sh
+      case "$1" in
+        post)
+          su - francis -c "XDG_RUNTIME_DIR=/run/user/$(id -u francis) systemctl --user restart noctalia.service"
+          ;;
+      esac
+    '';
+  };
+
   home-manager.users.francis = {
     imports = [
       inputs.noctalia.homeModules.default
@@ -184,6 +196,7 @@ in {
       enable = true;
       package = noctalia-shell;
       settings = {};
+      systemd.enable = true;
     };
 
     xdg.configFile = {
