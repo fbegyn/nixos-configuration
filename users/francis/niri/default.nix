@@ -50,6 +50,7 @@ in {
   environment.systemPackages = with pkgs; [
     xdg-utils
     niri
+    nautilus
     xwayland-satellite
     catppuccin-cursors.mochaMauve
     swaylock # lockscreen
