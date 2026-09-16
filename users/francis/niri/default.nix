@@ -32,6 +32,12 @@ in {
     package = pkgs.niri;
   };
 
+  services.dbus = {
+    enable = true;
+    packages = [ pkgs.nautilus ];
+  };
+  services.gvfs.enable = true;
+
   xdg = {
     menus.enable = true;
     mime.enable = true;
@@ -39,11 +45,15 @@ in {
     portal = {
       enable = true;
       extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
+        # xdg-desktop-portal-wlr
         xdg-desktop-portal-gtk
         xdg-desktop-portal-gnome
       ];
       configPackages = [ pkgs.niri ];
+      config.niri = {
+        default = [ "gnome" "gtk" ];
+        "org.freedesktop.impl.portal.FileChooser" = [ "gnome" ];
+      };
     };
   };
 
@@ -110,7 +120,6 @@ in {
     XDG_SESSION_TYPE = "wayland";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "0";
-    # QT_QPA_PLATFORM = "wayland";
     QT_SCALE_FACTOR = "1";
     GDK_SCALE = "1";
     GDK_DPI_SCALE = "1";
@@ -119,10 +128,10 @@ in {
 
     GDK_BACKEND = "wayland,x11";
     QT_QPA_PLATFORM = "wayland;xcb";
-    #SDL_VIDEODRIVER = "x11";
     CLUTTER_BACKEND = "wayland";
     WLR_NO_HARDWARE_CURSORS = "1";
   };
+  systemd.user.services.xdg-desktop-portal-gnome.serviceConfig.UnsetEnvironment = [ "GDK_BACKEND" ];
 
   # polkit for the sway environment
   environment.pathsToLink = [ "/libexec" ];
@@ -220,15 +229,6 @@ in {
         chooser_type=dmenu
         max_fps=30
       '';
-    };
-    xdg.portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-        xdg-desktop-portal-gnome
-      ];
-      configPackages = [ pkgs.niri ];
     };
   };
 }
