@@ -22,6 +22,7 @@
       gamescope
       libkrb5
       keyutils
+      pulseaudio
     ];
   };
   programs.gamescope = {
