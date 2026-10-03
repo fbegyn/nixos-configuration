@@ -81,7 +81,7 @@
     khard
     inetutils
     gcc
-    (aspellWithDicts (dicts: with dicts; [en en-science nl]))
+    (aspellWithDicts (dicts: with dicts; [en nl]))
     gnumake
     tig
     sshuttle
