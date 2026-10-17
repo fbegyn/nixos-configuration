@@ -21,7 +21,7 @@
   };
 
   nix = {
-    package = pkgs.unstable.lixPackageSets.stable.lix;
+    package = pkgs.lixPackageSets.stable.lix;
     optimise.automatic = true;
     settings = {
       substituters = [
