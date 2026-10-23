@@ -12,8 +12,12 @@
 (require 'use-package)
 (package-initialize)
 
+;; Defer every package by default; packages that must be active at startup
+;; say so with `:demand t' (or load on idle with `:defer N').
+(setq use-package-always-defer t)
+
 ;; For :diminish in (use-package).
-(use-package diminish :ensure t)
+(use-package diminish :ensure t :demand t)
 ;; For :bind in (use-package).
 (require 'bind-key)
 
@@ -282,7 +286,10 @@ ARG filename to open"
 ;;; ===============================================
 ;;; packages
 ;;; ===============================================
+;; On Linux the home-manager emacs service starts the daemon through a login
+;; shell, so PATH and friends are already inherited; only macOS needs this.
 (use-package exec-path-from-shell
+  :if (fb/is-macos?)
   :demand t
   :ensure t
   :config
@@ -292,10 +299,7 @@ ARG filename to open"
         exec-path-from-shell-arguments '("-l"))
   (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
     (add-to-list 'exec-path-from-shell-variables var))
-  (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize))
-  (when (daemonp)
-    (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
 
 ;; ──────────────────────────────────────────────────────────────
 ;;  Evil
@@ -328,6 +332,7 @@ ARG filename to open"
 ;;  Theme & UI
 ;; ──────────────────────────────────────────────────────────────
 (use-package gruvbox-theme
+  :demand t
   :config
   (load-theme 'gruvbox-dark-hard t))
 
@@ -354,6 +359,7 @@ ARG filename to open"
 
 (use-package tab-line
   :ensure nil
+  :demand t
   :init
   (defun fb/tab-line-buffers ()
     "Return file-visiting buffers shown as tabs."
@@ -476,6 +482,7 @@ ARG filename to open"
 
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
+  :demand t
   :custom
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
@@ -878,7 +885,8 @@ ARG filename to open"
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure t ; only need to install it, embark loads it after consult if found
+  :ensure t
+  :after (embark consult)
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
@@ -897,8 +905,13 @@ ARG filename to open"
     "g b" '(magit-branch-checkout :which-key "checkout branch"))
   (general-nmap
     "<escape>" #'transient-quit-one)
+  :init
+  ;; Needed so `git commit' via emacsclient gets git-commit-mode; load it when
+  ;; idle instead of at startup.
+  (run-with-idle-timer 2 nil (lambda ()
+                               (require 'git-commit)
+                               (global-git-commit-mode 1)))
   :config
-  (global-git-commit-mode 1)
   ;; (magit-auto-revert-mode nil)
   (magit-save-repository-buffers 'dontask))
 (defun fb/diff-hl-unless-remote ()
@@ -1013,7 +1026,8 @@ ARG filename to open"
       (find-file "~/.emacs.d/init.el")))
 
 
-(use-package deno-ts-mode)
+(use-package deno-ts-mode
+  :demand t)
 
 ;; TRAMP settings
 ;; TRAMP is loaded lazily; everything touching its variables lives in
@@ -1211,6 +1225,7 @@ Wildcard patterns and hashed known_hosts entries are skipped."
   :mode "\\.dhall\\'")
 
 (use-package direnv
+  :defer 1
   :config
   (direnv-mode))
 
@@ -1304,10 +1319,11 @@ Wildcard patterns and hashed known_hosts entries are skipped."
         (tags-todo "PRIORITY=\"A\"+ENERGY=\"High\""
             ((org-agenda-overriding-header "Deep Work (Focus Required)")))
         (tags-todo "PRIORITY=\"A\"+ENERGY=\"Medium\""
-            ((org-agenda-overriding-header "High Priority (Medium Energy)")))))))
+            ((org-agenda-overriding-header "High Priority (Medium Energy)"))))))))
 
-  (fb/leader-keys
-    "c c"  '(org-capture :which-key "org-capture")))
+;; Bound outside `use-package org' so it exists before org is loaded.
+(fb/leader-keys
+  "c c"  '(org-capture :which-key "org-capture"))
 
 (setq org-capture-templates
     '(("t" "Todo" entry (file+headline "~/org/inbox.org" "Tasks")
@@ -1394,6 +1410,7 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 
 (use-package pyvenv
   :ensure t
+  :defer 1
   :config
   (pyvenv-mode t)
 
@@ -1410,7 +1427,7 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 ;; Requires the `dasel` binary (added to home.packages).
 (use-package pet
   :ensure t
-  :config
+  :init
   ;; depth -10 so the venv is resolved before other python-base-mode hooks run
   (add-hook 'python-base-mode-hook 'pet-mode -10))
 
@@ -1418,7 +1435,7 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 ;; ruff's backend after eglot takes over to show pyright + ruff together.
 (use-package flymake-ruff
   :ensure t
-  :config
+  :init
   (add-hook 'eglot-managed-mode-hook
             (lambda ()
               (when (derived-mode-p 'python-base-mode)

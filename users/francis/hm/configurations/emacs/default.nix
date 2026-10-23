@@ -47,6 +47,8 @@ in {
     home.packages = with pkgs.unstable; [
       ispell
       solargraph
+      gopls                  # go-mode LSP (a ~/.go/bin build goes stale after nix GC)
+      gotools                # goimports
       rust-analyzer
       pyright
       # ansible-language-server
