@@ -173,7 +173,30 @@
   (setq frame-inhibit-implied-resize t)
   (pixel-scroll-precision-mode 1)
   (setq frame-resize-pixelwise t)
-  (setq read-process-output-max (* 1024 1024)))
+  (setq read-process-output-max (* 4 1024 1024))
+  ;; Redisplay / rendering work we don't need.
+  (setq redisplay-skip-fontification-on-input t)
+  (setq-default bidi-display-reordering 'left-to-right
+                bidi-paragraph-direction 'left-to-right
+                cursor-in-non-selected-windows nil
+                pgtk-wait-for-event-timeout 0)
+  (setq bidi-inhibit-bpa t
+        highlight-nonselected-windows nil)
+  ;; Don't resolve hostnames when running `find-file-at-point'.
+  (setq ffap-machine-p-known 'reject)
+
+  ;; Sane defaults previously provided by `better-defaults'.
+  (setq-default indent-tabs-mode nil)
+  (setq uniquify-buffer-name-style 'forward
+        save-interprogram-paste-before-kill t
+        mouse-yank-at-point t
+        apropos-do-all t
+        ediff-window-setup-function 'ediff-setup-windows-plain)
+  (global-set-key (kbd "M-z") 'zap-up-to-char)
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "C-r") 'isearch-backward-regexp)
+  (global-set-key (kbd "C-M-s") 'isearch-forward)
+  (global-set-key (kbd "C-M-r") 'isearch-backward))
 ;;; end of general emacs configuration
 
 ;;; FUNCTIONS
@@ -717,14 +740,18 @@ ARG filename to open"
   (eglot-autoshutdown t)
   ;; Disable JSON-RPC event logging for performance on chatty servers
   ;; (gopls/rust-analyzer). Set to a positive integer to debug.
-  (eglot-events-buffer-size 0)
+  (eglot-events-buffer-config '(:size 0 :format short))
   (eglot-sync-connect 0)
+  (eglot-connect-timeout 60)
+  (eglot-report-progress nil)
+  (eglot-code-action-indications nil)
   (eglot-extend-to-xref t)
   (eglot-send-changes-idle-time 3)
   (flymake-no-changes-timeout 5)
   (eldoc-echo-area-use-multiline-p nil)
   :config
   (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
+  (setq jsonrpc-event-hook nil)
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
   (let ((elixir-cmd (if (fb/is-macos?)
                         "/Users/francis/.local/bin/elixir-ls/language_server.sh"
@@ -989,17 +1016,17 @@ ARG filename to open"
 (use-package deno-ts-mode)
 
 ;; TRAMP settings
-(require 'tramp)
+;; TRAMP is loaded lazily; everything touching its variables lives in
+;; `with-eval-after-load' blocks.
 ;; (setq tramp-default-method "scp")
-(setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
-(add-to-list 'tramp-remote-path 'tramp-own-remote-path)
-(add-to-list 'tramp-remote-path "/home/francis/.nix-profile/bin")
-(add-to-list 'tramp-remote-path "/etc/profiles/per-user/francis/bin")
-(add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
-(eval-after-load 'tramp-sh '(add-to-list 'tramp-remote-path "/run/current-system/sw/bin"))
-;; (eval-after-load 'tramp '(setenv "SHELL" "/bin/sh"))
-(add-to-list 'tramp-connection-properties
-    (list ".*" "locale" "LC_ALL=C"))
+(with-eval-after-load 'tramp
+  (setq tramp-shell-prompt-pattern "\\(?:^\\|\r\\)[^]#$%>\n]*#?[]#$%>].* *\\(^[\\[[0-9;]*[a-zA-Z] *\\)*")
+  (add-to-list 'tramp-remote-path 'tramp-own-remote-path)
+  (add-to-list 'tramp-remote-path "/home/francis/.nix-profile/bin")
+  (add-to-list 'tramp-remote-path "/etc/profiles/per-user/francis/bin")
+  (add-to-list 'tramp-remote-path "/run/current-system/sw/bin")
+  (add-to-list 'tramp-connection-properties
+               (list ".*" "locale" "LC_ALL=C")))
 (defun fb/ssh-conf-files ()
   "Return the ssh client config files to parse for host names.
 The first element is ~/.ssh/config; the rest are ~/.ssh/conf.d/*."
@@ -1032,25 +1059,24 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 ;; Augment TRAMP's default ssh host parsers (which already cover ~/.ssh/config
 ;; and ~/.ssh/known_hosts) with the ~/.ssh/conf.d/* drop-in files. `cdr' drops
 ;; ~/.ssh/config since it is already in the defaults.
-(tramp-set-completion-function
- "ssh" (append (tramp-get-completion-function "ssh")
-               (mapcar (lambda (file) `(tramp-parse-sconfig ,file))
-                       (cdr (fb/ssh-conf-files)))))
+(with-eval-after-load 'tramp
+  (tramp-set-completion-function
+   "ssh" (append (tramp-get-completion-function "ssh")
+                 (mapcar (lambda (file) `(tramp-parse-sconfig ,file))
+                         (cdr (fb/ssh-conf-files)))))
+  (connection-local-set-profile-variables
+   'remote-direct-async-process
+   '((tramp-direct-async-process . t)))
+  (connection-local-set-profiles
+   '(:application tramp :protocol "scp")
+   'remote-direct-async-process))
+
 ;; making TRAMP go brrrr
 (setq remote-file-name-inhibit-locks t
       tramp-use-scp-direct-remote-copying t
-      remote-file-name-inhibit-auto-save-visited t)
-
-(setq tramp-copy-size-limit (* 1024 1024) ;; 1MB
+      remote-file-name-inhibit-auto-save-visited t
+      tramp-copy-size-limit (* 1024 1024) ;; 1MB
       tramp-verbose 2)
-
-(connection-local-set-profile-variables
- 'remote-direct-async-process
- '((tramp-direct-async-process . t)))
-
-(connection-local-set-profiles
- '(:application tramp :protocol "scp")
- 'remote-direct-async-process)
 
 (setq magit-tramp-pipe-stty-settings 'pty)
 
@@ -1105,20 +1131,15 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 (setq magit-refresh-status-buffer nil)
 
 
-(use-package better-defaults
-  :config
-  (ido-mode nil)
-  (save-place-mode -1))
-
 (use-package groovy-mode)
 (use-package jenkinsfile-mode)
 
 ;; ----====-----
 ;; emacs config rework TODO ALL BELOW
 
-(require 'dired)
 (use-package dired
   :ensure nil
+  :defer t
   :config
   ;; dired things
   (progn
