@@ -16,7 +16,7 @@ let
   noctalia-shell = pkgs.symlinkJoin {
     name = "noctalia-shell-wayland";
     paths = [ inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default ];
-    nativeBuildInputs = [ pkgs.makeWrapper ];
+    nativeBuildInputs = [ pkgs.unstable.makeWrapper ];
     postBuild = ''
       wrapProgram $out/bin/noctalia-shell --set QT_QPA_PLATFORM wayland
     '';
@@ -206,7 +206,6 @@ in {
       enable = true;
       package = noctalia-shell;
       settings = {};
-      systemd.enable = true;
     };
 
     xdg.configFile = {
