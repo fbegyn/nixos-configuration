@@ -3,25 +3,6 @@
 let
   waybar-spotify = import ./waybar-spotify.nix { inherit pkgs; };
   waybar-storage = import ./waybar-storage.nix { inherit pkgs; };
-
-  # quickshell tags each instance with a "display connection" derived from an
-  # exact match on QT_QPA_PLATFORM ("wayland" / "x11", anything else -> "unk"),
-  # and `noctalia-shell ipc call ...` skips instances whose tag differs from
-  # the client's own. Our global QT_QPA_PLATFORM is "wayland;xcb" (see
-  # environment.variables below) so Qt apps without qtwayland can still fall
-  # back to xcb -- that matches neither literal, so quickshell tags itself
-  # "unk" and warns "most functionality will be broken". Force plain "wayland"
-  # for this binary only; wrapping it covers both the shell process and every
-  # IPC client invoked from a niri keybind.
-  noctalia-shell = pkgs.symlinkJoin {
-    name = "noctalia-shell-wayland";
-    paths = [ inputs.noctalia.packages.${pkgs.stdenv.hostPlatform.system}.default ];
-    nativeBuildInputs = [ pkgs.unstable.makeWrapper ];
-    postBuild = ''
-      wrapProgram $out/bin/noctalia-shell --set QT_QPA_PLATFORM wayland
-    '';
-    meta.mainProgram = "noctalia-shell";
-  };
 in {
   imports = [
     ../../../common/pipewire.nix
@@ -169,18 +150,6 @@ in {
   services.power-profiles-daemon.enable = true;
   services.upower.enable = true;
 
-  environment.etc."systemd/system-sleep/noctalia-restart.sh" = {
-    mode = "0755";
-    text = ''
-      #!/bin/sh
-      case "$1" in
-        post)
-          su - francis -c "XDG_RUNTIME_DIR=/run/user/$(id -u francis) systemctl --user restart noctalia.service"
-          ;;
-      esac
-    '';
-  };
-
   home-manager.users.francis = {
     imports = [
       inputs.noctalia.homeModules.default
@@ -202,10 +171,10 @@ in {
       package = pkgs.unstable.flameshot.override { enableWlrSupport = true; };
     };
 
-    programs.noctalia-shell = {
+    programs.noctalia = {
       enable = true;
-      package = noctalia-shell;
       settings = {};
+      systemd.enable = true;
     };
 
     xdg.configFile = {
