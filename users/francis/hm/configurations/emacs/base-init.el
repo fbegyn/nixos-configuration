@@ -58,9 +58,7 @@
     (setq mac-command-modifier 'super
           mac-option-modifier 'meta
           mac-control-modifier 'control) ; control as control
-    ;; Set path for darwin
-    (setenv "PATH" (concat (getenv "PATH") ":/Users/francis/.nix-profile/bin:/usr/bin:/etc/profiles/per-user/francis/bin:/run/current-system/sw/bin"))
-    (setq exec-path (append '("/Users/francis/bin" "/profile/bin" "/Users/francis/.npm-packages/bin" "/Users/francis/.nix-profile/bin" "/nix/var/nix/profiles/default/bin" "/usr/local/bin" "/usr/bin" "/Users/francis/.go/bin" "/Users/francis/.local/bin" "/Users/francis/.cargo/bin" "/etc/profiles/per-user/francis/bin" "/run/current-system/sw/bin") exec-path))
+    ;; PATH is imported from the login shell by `exec-path-from-shell' below.
     ;; Use GNU ls (gls, from coreutils-prefixed) so dired's --dired switch
     ;; and the GNU-only flags in `dired-listing-switches` work on macOS.
     (setq insert-directory-program "gls"))
@@ -146,10 +144,10 @@
   (show-paren-mode)
 
   ;; nixos path adding
-  (add-to-list 'exec-path "/home/francis/.nix-profile/bin")
-  (add-to-list 'exec-path "/etc/profiles/per-user/francis/bin")
-  (add-to-list 'exec-path "/run/current-system/sw/bin")
-  (add-to-list 'exec-path (expand-file-name "~/.go/bin"))   ;; gopls, goimports
+  (unless (fb/is-macos?)
+    (add-to-list 'exec-path (expand-file-name "~/.nix-profile/bin"))
+    (add-to-list 'exec-path (concat "/etc/profiles/per-user/" user-login-name "/bin"))
+    (add-to-list 'exec-path "/run/current-system/sw/bin"))
 
   (auto-compression-mode 1)
   ;; Add prompt indicator to `completing-read-multiple'.
@@ -297,7 +295,7 @@ ARG filename to open"
   ;; (which exec's fish and trips `setopt zle` in non-interactive context).
   (setq exec-path-from-shell-shell-name "bash"
         exec-path-from-shell-arguments '("-l"))
-  (dolist (var '("SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
+  (dolist (var '("PATH" "GOPATH" "SSH_AUTH_SOCK" "SSH_AGENT_PID" "GPG_AGENT_INFO" "LANG" "LC_CTYPE" "NIX_SSL_CERT_FILE" "NIX_PATH"))
     (add-to-list 'exec-path-from-shell-variables var))
   (exec-path-from-shell-initialize))
 
@@ -309,7 +307,9 @@ ARG filename to open"
   :diminish (evil-collection-unimpaired-mode)
   :init
   (setq evil-want-keybinding nil
-        evil-want-integration t)
+        evil-want-integration t
+        evil-want-C-u-scroll t
+        evil-undo-system 'undo-redo)
   :config
   (evil-mode 1))
 
@@ -327,6 +327,79 @@ ARG filename to open"
   :after evil
   :config
   (evil-commentary-mode 1))
+
+;; ──────────────────────────────────────────────────────────────
+;;  Tree-sitter
+;; ──────────────────────────────────────────────────────────────
+;; Grammars come from nix (treesit-grammars in default.nix). Every remap is
+;; guarded on the grammar loading, so a missing or ABI-incompatible grammar
+;; falls back to the classic mode instead of erroring.
+(defun fb/ts-remap (remaps)
+  "Add each (LANG FROM TO) in REMAPS to `major-mode-remap-alist' if LANG loads."
+  (pcase-dolist (`(,lang ,from ,to) remaps)
+    (when (treesit-language-available-p lang)
+      (add-to-list 'major-mode-remap-alist (cons from to)))))
+
+(defun fb/ts-auto-mode (entries)
+  "Add each (LANG REGEXP MODE) in ENTRIES to `auto-mode-alist' if LANG loads."
+  (pcase-dolist (`(,lang ,regexp ,mode) entries)
+    (when (treesit-language-available-p lang)
+      (add-to-list 'auto-mode-alist (cons regexp mode)))))
+
+(fb/ts-remap
+ '((python python-mode    python-ts-mode)
+   (bash   sh-mode        bash-ts-mode)
+   (json   js-json-mode   json-ts-mode)
+   (json   json-mode      json-ts-mode)
+   (toml   conf-toml-mode toml-ts-mode)))
+
+(fb/ts-auto-mode
+ '((go         "\\.go\\'"                                        go-ts-mode)
+   (gomod      "/go\\.mod\\'"                                    go-mod-ts-mode)
+   (dockerfile "\\(?:Docker\\|Container\\)file\\(?:\\..*\\)?\\'" dockerfile-ts-mode)
+   (yaml       "\\.ya?ml\\'"                                     yaml-ts-mode)
+   (elixir     "\\.exs?\\'"                                      elixir-ts-mode)
+   (heex       "\\.[hl]?eex\\'"                                  heex-ts-mode)))
+
+(use-package go-ts-mode
+  :ensure nil
+  :custom
+  (go-ts-mode-indent-offset 4)
+  :hook (go-ts-mode . subword-mode))
+
+(use-package elixir-ts-mode :ensure nil)
+(use-package heex-ts-mode :ensure nil)
+
+;; Ansible: yaml-ts-mode plus ansible-language-server, selected per file.
+(define-derived-mode fb/ansible-mode yaml-ts-mode "Ansible"
+  "YAML mode for Ansible playbooks, roles and inventories.")
+
+(defun fb/ansible-file-p ()
+  "Return non-nil if the current buffer looks like an Ansible file."
+  (when-let* ((file buffer-file-name))
+    (or (string-match-p "/\\(?:roles\\|playbooks\\|tasks\\|handlers\\|group_vars\\|host_vars\\)/" file)
+        (locate-dominating-file file "ansible.cfg"))))
+
+(defun fb/maybe-ansible-mode ()
+  "Switch to `fb/ansible-mode' when visiting an Ansible file."
+  (when (and (not (derived-mode-p 'fb/ansible-mode))
+             (not (file-remote-p default-directory))
+             (fb/ansible-file-p))
+    (fb/ansible-mode)))
+(add-hook 'yaml-ts-mode-hook #'fb/maybe-ansible-mode)
+
+;; Vim text objects / motions on tree-sitter nodes: af/if, ac/ic, ]f/[f.
+(use-package evil-textobj-tree-sitter
+  :after evil
+  :config
+  (define-key evil-outer-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.outer"))
+  (define-key evil-inner-text-objects-map "f" (evil-textobj-tree-sitter-get-textobj "function.inner"))
+  (define-key evil-outer-text-objects-map "c" (evil-textobj-tree-sitter-get-textobj "class.outer"))
+  (define-key evil-inner-text-objects-map "c" (evil-textobj-tree-sitter-get-textobj "class.inner"))
+  (define-key evil-normal-state-map (kbd "]f")
+              (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer")))
+  (define-key evil-normal-state-map (kbd "[f")
+              (lambda () (interactive) (evil-textobj-tree-sitter-goto-textobj "function.outer" t))))
 
 ;; ──────────────────────────────────────────────────────────────
 ;;  Theme & UI
@@ -355,7 +428,8 @@ ARG filename to open"
   (doom-modeline-vcs-max-length 25)
   (doom-modeline-minor-modes nil)
   (doom-modeline-modal-icon t)
-  (doom-modeline-env-version t))
+  ;; nil: t spawns `python --version' / `go version' per buffer.
+  (doom-modeline-env-version nil))
 
 (use-package tab-line
   :ensure nil
@@ -431,7 +505,8 @@ ARG filename to open"
   (which-key-setup-side-window-right-bottom))
 
 (use-package highlight-indent-guides
-  :hook (prog-mode . highlight-indent-guides-mode)
+  ;; Only where indentation is semantic; guides cost redisplay time.
+  :hook ((yaml-ts-mode python-ts-mode) . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top))
@@ -702,12 +777,10 @@ ARG filename to open"
 ;;  LSP: Eglot
 ;; ──────────────────────────────────────────────────────────────
 (defun fb/eglot-ensure-maybe ()
-  "Start eglot after idle delay, skipping remote files."
-  (unless (file-remote-p buffer-file-name)
-    (run-with-idle-timer 1 nil (lambda ()
-      (when (buffer-live-p (current-buffer))
-        (with-current-buffer (current-buffer)
-          (eglot-ensure)))))))
+  "Start eglot, skipping remote files.
+Connecting is already asynchronous (`eglot-sync-connect' is 0)."
+  (unless (file-remote-p default-directory)
+    (eglot-ensure)))
 
 (defvar fb/nil-auto-eval nil
   "Whether nil_ls autoEvalInputs is enabled.")
@@ -725,17 +798,15 @@ ARG filename to open"
 
 (use-package eglot
   :ensure nil
-  :hook ((python-mode . fb/eglot-ensure-maybe)
-         (python-ts-mode . fb/eglot-ensure-maybe)
-         (deno-ts-mode . fb/eglot-ensure-maybe)
-         (deno-tsx-mode . fb/eglot-ensure-maybe)
-         (elixir-mode . fb/eglot-ensure-maybe)
-         (elixir-ts-mode . fb/eglot-ensure-maybe)
-         (nix-mode . fb/eglot-ensure-maybe)
-         (go-mode . fb/eglot-ensure-maybe)
-         (go-ts-mode . fb/eglot-ensure-maybe)
-         (rust-mode . fb/eglot-ensure-maybe)
-         (sh-mode . fb/eglot-ensure-maybe))
+  :hook (((go-ts-mode go-mod-ts-mode
+           python-ts-mode python-mode
+           bash-ts-mode sh-mode
+           dockerfile-ts-mode
+           terraform-mode
+           yaml-ts-mode
+           elixir-ts-mode heex-ts-mode
+           nix-mode rust-mode
+           deno-ts-mode deno-tsx-mode) . fb/eglot-ensure-maybe))
   :general
   (fb/leader-keys
     "c"  '(:ignore t :which-key "code")
@@ -753,31 +824,26 @@ ARG filename to open"
   (eglot-report-progress nil)
   (eglot-code-action-indications nil)
   (eglot-extend-to-xref t)
-  (eglot-send-changes-idle-time 3)
-  (flymake-no-changes-timeout 5)
+  ;; Low enough that diagnostics track typing; completion requests flush
+  ;; pending changes anyway.
+  (eglot-send-changes-idle-time 0.5)
+  (flymake-no-changes-timeout 1)
   (eldoc-echo-area-use-multiline-p nil)
   :config
-  (setq eglot-ignored-server-capabilities '( :documentHighlightProvider))
+  (setq eglot-ignored-server-capabilities '( :documentHighlightProvider :inlayHintProvider))
   (setq jsonrpc-event-hook nil)
   (add-to-list 'eglot-server-programs '(nix-mode . ("nil")))
-  (let ((elixir-cmd (if (fb/is-macos?)
-                        "/Users/francis/.local/bin/elixir-ls/language_server.sh"
-                      "elixir-ls")))
-    (add-to-list 'eglot-server-programs `(elixir-mode ,elixir-cmd))
-    (add-to-list 'eglot-server-programs `(elixir-ts-mode ,elixir-cmd)))
+  (add-to-list 'eglot-server-programs '((elixir-ts-mode heex-ts-mode) . ("elixir-ls")))
   (add-to-list 'eglot-server-programs '((deno-ts-mode deno-tsx-mode) . ("deno" "lsp")))
   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
-  ;; (add-to-list 'eglot-server-programs '(yaml-mode . ("ansible-language-server" "--stdio")))
-  ;; (add-to-list 'eglot-server-programs '(yaml-ts-mode . ("ansible-language-server" "--stdio")))
+  ;; Must be added after (= in front of) eglot's built-in yaml-ts-mode entry.
+  (add-to-list 'eglot-server-programs '(fb/ansible-mode . ("ansible-language-server" "--stdio")))
   (setq-default eglot-workspace-configuration #'fb/eglot-workspace-config))
 
-;; Optional: install eglot-format-buffer as a save hook.
-;; The depth of -10 places this before eglot's willSave notification,
-;; so that that notification reports the actual contents that will be saved.
-(defun fb/eglot-format-on-save ()
-  "Format buffer via eglot before saving."
-  (when (eglot-managed-p)
-    (eglot-format-buffer)))
+(defvar fb/eglot-format-modes
+  '(go-ts-mode go-mod-ts-mode elixir-ts-mode heex-ts-mode terraform-mode bash-ts-mode rust-mode)
+  "Major modes formatted through eglot on save.
+Python formatting is handled by apheleia (ruff); pyright has no formatter.")
 
 (defun fb/eglot-organize-imports ()
   "Organize imports via eglot code actions."
@@ -785,13 +851,22 @@ ARG filename to open"
     (ignore-errors
       (eglot-code-action-organize-imports (point-min) (point-max)))))
 
-(defun eglot-format-buffer-before-save ()
-  (add-hook 'before-save-hook #'eglot-format-buffer -10 t))
-(add-hook 'go-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'rust-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'elixir-mode-hook #'eglot-format-buffer-before-save)
-(add-hook 'elixir-ts-mode-hook #'eglot-format-buffer-before-save)
-;; Python formatting is handled by apheleia (ruff); pyright has no formatter.
+(defun fb/eglot-format-before-save ()
+  "Organize imports (Go) and format the buffer via eglot."
+  (when (eglot-managed-p)
+    (when (derived-mode-p 'go-ts-mode)
+      (fb/eglot-organize-imports))
+    (eglot-format-buffer)))
+
+;; The depth of -10 places this before eglot's willSave notification,
+;; so that that notification reports the actual contents that will be saved.
+(defun fb/eglot-format-on-save-setup ()
+  "Install format-on-save in eglot buffers listed in `fb/eglot-format-modes'."
+  (when (apply #'derived-mode-p fb/eglot-format-modes)
+    (if (eglot-managed-p)
+        (add-hook 'before-save-hook #'fb/eglot-format-before-save -10 t)
+      (remove-hook 'before-save-hook #'fb/eglot-format-before-save t))))
+(add-hook 'eglot-managed-mode-hook #'fb/eglot-format-on-save-setup)
 
 ;; Toggle nil autoEvalInputs
 (defun fb/toggle-nil-auto-eval ()
@@ -1000,8 +1075,6 @@ ARG filename to open"
 ;;                 (string-equal var "color-scheme"))
 ;;        (fbegyn:theme-from-dbus value))))
 
-(use-package all-the-icons)
-
 ;; Diagnostics are handled by flymake (eglot drives it natively); see the
 ;; flymake leader bindings in the eglot block.
 
@@ -1026,8 +1099,8 @@ ARG filename to open"
       (find-file "~/.emacs.d/init.el")))
 
 
-(use-package deno-ts-mode
-  :demand t)
+;; Registers itself for .ts/.tsx in deno projects via its autoloads.
+(use-package deno-ts-mode)
 
 ;; TRAMP settings
 ;; TRAMP is loaded lazily; everything touching its variables lives in
@@ -1224,19 +1297,6 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 (use-package dhall-mode
   :mode "\\.dhall\\'")
 
-(use-package direnv
-  :defer 1
-  :config
-  (direnv-mode))
-
-(use-package dockerfile-mode)
-
-(use-package elixir-ts-mode
-  :mode "\\.ex\\'"
-  :mode "\\.exs\\'"
-  :mode "\\.heex\\'"
-  :mode "\\.eex\\'")
-
 (require 'project)
 (defun project-find-go-module (dir)
   "Set the project root. DIR directory to search for project"
@@ -1248,35 +1308,6 @@ Wildcard patterns and hashed known_hosts entries are skipped."
   (cdr project))
 
 (add-hook 'project-find-functions #'project-find-go-module)
-
-(use-package go-mode
-  :hook
-  (go-mode . (lambda ()
-    (add-hook 'before-save-hook
-    (lambda ()
-        (call-interactively 'eglot-code-action-organize-imports))
-    nil t)
-    (subword-mode 1)
-    (define-key evil-motion-state-local-map (kbd "gsff") #'go-goto-function)
-    (define-key evil-motion-state-local-map (kbd "gsfa") #'go-goto-arguments)
-    (define-key evil-motion-state-local-map (kbd "gsfn") #'go-goto-function-name)
-    (define-key evil-motion-state-local-map (kbd "gsfr") #'go-goto-method-receiver)
-    (define-key evil-motion-state-local-map (kbd "gsfv") #'go-goto-return-values)
-    (define-key evil-motion-state-local-map (kbd "gsd")  #'go-goto-docstring)
-    (define-key evil-motion-state-local-map (kbd "gsi")  #'go-goto-imports)
-  ))
-  :config
-  (evil-add-command-properties #'go-goto-arguments :jump t :repeat 'motion :type 'exclusive)
-  (evil-add-command-properties #'go-goto-docstring :jump t :repeat 'motion :type 'exclusive)
-  (evil-add-command-properties #'go-goto-function-name :jump t :repeat 'motion :type 'exclusive)
-  (evil-add-command-properties #'go-goto-method-receiver :jump t :repeat 'motion :type 'exclusive)
-  (evil-add-command-properties #'go-goto-return-values :jump t :repeat 'motion :type 'exclusive)
-  (evil-add-command-properties #'go-goto-imports :jump t :repeat 'motion :type 'exclusive)
-  (evil-add-command-properties #'go-goto-function :jump t :repeat 'motion :type 'exclusive)
-  :custom
-  (godoc-at-point-function 'godoc-gogetdoc)
-  (gofmt-command "goimports")
-  (gofmt-show-errors 'buffer))
 
 (use-package ledger-mode
   :mode "\\.journal\\'"
@@ -1356,7 +1387,6 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 (use-package org-roam-ui)
 (use-package org-mime)
 (use-package org-pomodoro)
-(use-package org-projectile)
 
 (use-package protobuf-mode)
 
@@ -1366,17 +1396,9 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 
 (use-package systemd)
 
-(use-package toml-mode
-  :defer t
-  :mode "\\.toml\\'")
-
 (use-package puppet-mode
   :defer t
   :mode "\\.puppet\\'")
-
-(use-package json-mode
-  :defer t
-  :mode "\\.json\\'")
 
 ;; (use-package nov
 ;;   :defer t
@@ -1386,41 +1408,15 @@ Wildcard patterns and hashed known_hosts entries are skipped."
   :defer t
   :mode "\\.tf\\'")
 
-(use-package virtualenvwrapper)
-
 (use-package web-mode
   :mode "\\.html\\'"
   :mode "\\.tmpl\\'")
 
-(use-package yaml-mode
-  :mode "\\.yml\\'"
-  :mode "\\.yaml\\'")
-
 (use-package jinja2-mode
   :mode "\\.j2\\'")
 
-(use-package flymake-ansible-lint
-  :ensure t
-  :commands flymake-ansible-lint-setup
-  :hook (((yaml-ts-mode yaml-mode) . flymake-ansible-lint-setup)
-         ((yaml-ts-mode yaml-mode) . flymake-mode)))
-
 (use-package js2-mode
   :mode "\\.js\\'")
-
-(use-package pyvenv
-  :ensure t
-  :defer 1
-  :config
-  (pyvenv-mode t)
-
-  ;; Set correct Python interpreter
-  (setq pyvenv-post-activate-hooks
-        (list (lambda ()
-                (setq python-shell-interpreter (concat pyvenv-virtual-env "bin/python")))))
-  (setq pyvenv-post-deactivate-hooks
-        (list (lambda ()
-                (setq python-shell-interpreter "python")))))
 
 ;; Auto-detect the active virtualenv per buffer (uv .venv, poetry, direnv, …)
 ;; and point python-shell/eglot/ruff/apheleia at that venv's executables.
@@ -1449,6 +1445,13 @@ Wildcard patterns and hashed known_hosts entries are skipped."
   (setf (alist-get 'python-mode apheleia-mode-alist) '(ruff-isort ruff))
   (setf (alist-get 'python-ts-mode apheleia-mode-alist) '(ruff-isort ruff))
   :hook ((python-base-mode . apheleia-mode)))
+
+;; Buffer-local direnv environments, so eglot finds per-project (nix devshell)
+;; tools. envrc's docs ask for this to be enabled last.
+(use-package envrc
+  :demand t
+  :config
+  (envrc-global-mode))
 
 (provide 'base-init)
 ;;; base-init.el ends here
