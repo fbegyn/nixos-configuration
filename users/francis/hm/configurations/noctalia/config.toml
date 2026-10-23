@@ -1,2 +1,156 @@
 [shell]
 launch_apps_as_systemd_services = true
+avatar_path = "/home/francis/.face"
+clipboard_enabled = false
+
+[shell.animation]
+enabled = false
+
+[accessibility]
+ui_scale = 0.95
+
+[theme]
+mode = "dark"
+source = "builtin"
+builtin = "Gruvbox"
+sync_color_scheme = true
+
+[location]
+address = "Ghent, Belgium"
+
+[weather]
+unit = "metric"
+
+[audio]
+enable_volume_sounds = false
+enable_notification_sounds = false
+
+[bar.default]
+position = "top"
+thickness = 28
+margin_ends = 0
+background_opacity = 0.93
+capsule = true
+capsule_opacity = 1.0
+widget_spacing = 6
+start = ["launcher", "cpu", "temp", "ram", "active_window", "media", "caffeine"]
+center = ["workspaces", "clock"]
+end = ["tray", "network", "volume", "notifications", "battery", "brightness", "control-center"]
+
+[widget.workspaces]
+label_source = "id"
+max_label_chars = 2
+pill_scale = 0.6
+focused_color = "primary"
+occupied_color = "secondary"
+empty_color = "secondary"
+labels_only_when_occupied = true
+
+[widget.clock]
+format = "{:%H:%M %a, %b %d}"
+tooltip_format = "{:%H:%M %a, %b %d}"
+
+[widget.active_window]
+max_length = 145.0
+title_scroll = "on_hover"
+
+[widget.media]
+max_length = 145.0
+title_scroll = "on_hover"
+
+[widget.tray]
+drawer = true
+
+[widget.battery]
+display_mode = "graphic"
+show_label = false
+
+[widget.volume.actions]
+middle = "exec pwvucontrol || pavucontrol"
+
+[[control_center.shortcuts]]
+type = "wifi"
+
+[[control_center.shortcuts]]
+type = "bluetooth"
+
+[[control_center.shortcuts]]
+type = "wallpaper"
+
+[[control_center.shortcuts]]
+type = "notification"
+
+[[control_center.shortcuts]]
+type = "power_profile"
+
+[[control_center.shortcuts]]
+type = "caffeine"
+
+[[control_center.shortcuts]]
+type = "nightlight"
+
+[dock]
+enabled = true
+position = "bottom"
+auto_hide = true
+background_opacity = 1.0
+
+[desktop_widgets]
+enabled = false
+
+[notification]
+position = "top_right"
+background_opacity = 1.0
+layer = "overlay"
+
+[osd]
+position = "top_right"
+background_opacity = 1.0
+hide_delay_ms = 2000
+
+[osd.kinds]
+bluetooth = false
+brightness = true
+caffeine = false
+custom = false
+dnd = false
+keyboard_backlight = false
+keyboard_layout = false
+lock_keys = false
+media = false
+nightlight = false
+power_profile = false
+privacy = false
+volume = true
+volume_input = true
+volume_output = true
+wifi = false
+
+[idle]
+pre_action_fade_seconds = 5.0
+
+[idle.behavior.lock]
+action = "lock"
+enabled = true
+timeout = 300.0
+
+[idle.behavior.screen-off]
+action = "screen_off"
+enabled = true
+timeout = 120.0
+
+[idle.behavior.lock-and-suspend]
+action = "lock_and_suspend"
+enabled = true
+timeout = 1800.0
+
+[wallpaper]
+enabled = true
+directory = "/home/francis/Pictures/Wallpapers"
+fill_mode = "crop"
+transition = ["fade", "disc", "stripes", "wipe", "pixel", "honeycomb"]
+transition_duration = 1500.0
+transition_on_startup = true
+
+[wallpaper.automation]
+enabled = false
