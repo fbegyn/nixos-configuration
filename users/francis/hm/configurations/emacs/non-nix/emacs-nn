@@ -1,0 +1,12 @@
+#!/bin/sh
+# Launch any installed Emacs (homebrew, distro, ...) with the standalone config.
+# Usage: emacs-nn [emacs args]      EMACS=/path/to/emacs to override.
+dir=$(cd "$(dirname "$0")" && pwd -P)
+if [ -z "$EMACS" ]; then
+  for c in emacs /opt/homebrew/bin/emacs /usr/local/bin/emacs \
+           /Applications/Emacs.app/Contents/MacOS/Emacs; do
+    if command -v "$c" >/dev/null 2>&1; then EMACS=$c; break; fi
+  done
+fi
+[ -n "$EMACS" ] || { echo "emacs not found" >&2; exit 1; }
+exec "$EMACS" --init-directory="$dir" "$@"
