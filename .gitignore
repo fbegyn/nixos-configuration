@@ -4,3 +4,4 @@ hosts/portable.lan
 .vscode/
 
 *flycheck*
+.DS_Store
