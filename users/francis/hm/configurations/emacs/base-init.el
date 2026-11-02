@@ -732,6 +732,20 @@ ARG filename to open"
   :init
   (global-corfu-mode))
 
+;; Documentation popup next to the selected candidate (ships with corfu)
+(use-package corfu-popupinfo
+  :ensure nil
+  :after corfu
+  :hook (corfu-mode . corfu-popupinfo-mode)
+  :custom
+  (corfu-popupinfo-delay '(0.5 . 0.2))
+  (corfu-popupinfo-max-width 80)
+  (corfu-popupinfo-max-height 20)
+  :bind (:map corfu-map
+         ("M-d" . corfu-popupinfo-toggle)
+         ("M-p" . corfu-popupinfo-scroll-down)
+         ("M-n" . corfu-popupinfo-scroll-up)))
+
 ;; Add extensions
 (use-package cape
   ;; Bind prefix keymap providing all Cape commands under a mnemonic key.
