@@ -80,6 +80,10 @@
       ../../users/francis/hm/configurations/redshift.nix
       ../../users/francis/home.nix
     ];
+    home.packages = with pkgs.unstable; [
+      nono
+      claude-code
+    ];
     programs.ghostty = {
       enable = true;
     };
@@ -105,6 +109,12 @@
   services.openssh = {
     enable = true;
     openFirewall = true;
+  };
+
+  # tailscale machine specific
+  services.tailscale = {
+    enable = true;
+    useRoutingFeatures = "client";
   };
 
   # emacs

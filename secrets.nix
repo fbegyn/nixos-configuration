@@ -28,6 +28,8 @@ in
   "secrets/passwords/mqtt/shelly.age".publicKeys = users ++ systems;
 
   "secrets/services/alertmanager-env.age".publicKeys = users ++ systems;
+  "secrets/services/oauth2-proxy-cookie.age".publicKeys = users ++ systems;
+  "secrets/services/transmission-credentials.age".publicKeys = users ++ systems;
   "secrets/services/hass-dcf.age".publicKeys = users ++ systems;
   "secrets/services/hass-dco.age".publicKeys = users ++ systems;
   "secrets/services/weechat-relay.age".publicKeys = users ++ systems;
