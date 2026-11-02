@@ -57,9 +57,7 @@
       ];
     };
   };
-  services.resolved.extraConfig = ''
-    DNSStubListener=no
-  '';
+  services.resolved.settings.Resolve.DNSStubListener = "no";
   systemd.network= {
     wait-online.ignoredInterfaces = [ "veth*" ];
     netdevs = {

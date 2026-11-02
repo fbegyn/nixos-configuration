@@ -43,7 +43,6 @@ with lib; {
     extraFlags = [
       "--storage.tsdb.retention.time ${cfg.retention.time}"
       "--storage.tsdb.retention.size ${cfg.retention.size}"
-      "--web.enable-admin-api"
       "--web.enable-lifecycle"
     ];
     alertmanager = {

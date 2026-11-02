@@ -4,7 +4,7 @@
 { config, pkgs, modulesPath, ... }:
 
 let
-    hosts = import ../../secrets/hosts.nix;
+    hosts = import ../../secrets/hosts.nix { inherit config; };
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -47,9 +47,7 @@ in {
       ];
     };
   };
-  services.resolved.extraConfig = ''
-    DNSStubListener=no
-  '';
+  services.resolved.settings.Resolve.DNSStubListener = "no";
   systemd.network= {
     enable = true;
     wait-online = {

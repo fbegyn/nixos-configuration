@@ -4,7 +4,7 @@
 { config, pkgs, ... }:
 
 let
-    hosts = import ../../secrets/hosts.nix;
+    hosts = import ../../secrets/hosts.nix { inherit config; };
 in {
   imports = [
     # Include the results of the hardware scan.
@@ -26,8 +26,12 @@ in {
   ];
 
   age.secrets = {
-    "secrets/services/hass-dcf".file = ../secrets/services/hass-dcf.age;
-    "secrets/services/hass-dco".file = ../secrets/services/hass-dco.age;
+    "secrets/services/hass-dcf".file = ../../secrets/services/hass-dcf.age;
+    "secrets/services/hass-dco".file = ../../secrets/services/hass-dco.age;
+    "secrets/services/transmission-credentials".file = ../../secrets/services/transmission-credentials.age;
+    "secrets/passwords/mqtt/hass".file = ../../secrets/passwords/mqtt/hass.age;
+    "secrets/passwords/mqtt/shelly".file = ../../secrets/passwords/mqtt/shelly.age;
+    "secrets/services/oauth2-proxy-cookie".file = ../../secrets/services/oauth2-proxy-cookie.age;
   };
 
   services.blocky = {
@@ -91,12 +95,12 @@ in {
   systemd.services.zfs-mount.enable = false;
 
   # disable the laptop lid switch
-  services.logind.lidSwitch = "ignore";
-  services.logind.lidSwitchDocked = "ignore";
-  services.logind.lidSwitchExternalPower = "ignore";
-  services.resolved.extraConfig = ''
-    DNSStubListener=no
-  '';
+  services.logind.settings.Login = {
+    HandleLidSwitch = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    HandleLidSwitchExternalPower = "ignore";
+  };
+  services.resolved.settings.Resolve.DNSStubListener = "no";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -307,7 +311,7 @@ in {
     clientID = "${hosts.eos.oauth2_proxy.clientID}";
     keyFile = "${hosts.eos.oauth2_proxy.keyFile}";
     cookie = {
-      secret = "${hosts.eos.oauth2_proxy.cookie.secret}";
+      secretFile = config.age.secrets."secrets/services/oauth2-proxy-cookie".path;
       expire = "12h0m0s";
     };
   };
@@ -364,8 +368,8 @@ in {
     listeners = [
       {
         address = "10.5.90.10";
-        users.shelly.password = "${hosts.eos.hass.mqtt.shelly.password}";
-        users.hass.password = "${hosts.eos.hass.mqtt.hass.password}";
+        users.shelly.passwordFile = config.age.secrets."secrets/passwords/mqtt/shelly".path;
+        users.hass.passwordFile = config.age.secrets."secrets/passwords/mqtt/hass".path;
       }
     ];
   };
@@ -439,6 +443,8 @@ in {
         http_addr = "";
         protocol = "http";
       };
+      # Grafana's historical default key; pinned so the existing DB stays decryptable (26.05 dropped the default)
+      security.secret_key = "SW2YcwTIb9zpOOhoPsMm";
     };
     dataDir = "/var/lib/grafana";
     package = pkgs.unstable.grafana;
@@ -639,43 +645,7 @@ in {
   };
 
   ## logging
-  services.promtail = {
-    enable = true;
-    configuration = {
-      server = {
-        http_listen_port = 9080;
-        grpc_listen_port = 0;
-      };
-      client.url = "http://localhost:3100/loki/api/v1/push";
-      scrape_configs = [{
-        job_name = "var-logs";
-        static_configs = [
-          {
-            targets = [ "localhost" ];
-            labels = {
-              job = "varlogs";
-              host = "eos";
-              __path__ = "/var/log/*.log";
-            };
-          }
-        ];
-      }
-      {
-        job_name = "journald";
-        journal = {
-          max_age = "12h";
-          labels = {
-            job = "journald";
-            host = "eos";
-          };
-        };
-        relabel_configs = [{
-          source_labels = [ "__journal__systemd_unit" ];
-          target_label = "unit";
-        }];
-      }];
-    };
-  };
+  # log shipping disabled: promtail was removed upstream, migrate to services.alloy
   services.loki = {
     enable = true;
     configuration = {
@@ -716,15 +686,15 @@ in {
       }
       ];
       storage_config = {
-        boltdb.directory = "/tmp/loki/index";
-        filesystem.directory = "/tmp/loki/chunks";
+        boltdb.directory = "/var/lib/loki/index";
+        filesystem.directory = "/var/lib/loki/chunks";
         tsdb_shipper = {
-          active_index_directory = "/tmp/loki/tsdb/index";
-          cache_location = "/tmp/loki/tsdb/cache";
+          active_index_directory = "/var/lib/loki/tsdb/index";
+          cache_location = "/var/lib/loki/tsdb/cache";
 	};
       };
       compactor = {
-        working_directory = "/tmp/loki/tsdb/retention";
+        working_directory = "/var/lib/loki/tsdb/retention";
         compaction_interval = "10m";
         retention_enabled = true;
         retention_delete_delay = "2h";
@@ -761,7 +731,7 @@ in {
   ## Nextcloud
   services.nextcloud = {
     enable = false;
-    package = pkgs.unstable.nextcloud25;
+    package = pkgs.nextcloud31;
     hostName = "docs.begyn.be";
     settings = {
       overwriteprotocol = "https";
@@ -882,6 +852,9 @@ in {
   # arr-suite
   services.transmission = {
     enable = true;
+    package = pkgs.transmission_4;
+    # JSON file containing {"rpc-password": "..."}
+    credentialsFile = config.age.secrets."secrets/services/transmission-credentials".path;
     home = "/var/lib/transmission";
     performanceNetParameters = true;
     openRPCPort = true;
@@ -892,7 +865,6 @@ in {
       bind-address-ipv6 = "::";
       rpc-bind-address = "0.0.0.0";
       rpc-whitelist = "127.0.0.1,::1,10.5.20.*,10.5.1.*,10.5.30.*,10.88.*.*";
-      rpc-password = "{243ebd27fb1c15ed4f697f12f351d245103ec33azhmve5t0";
       rpc-username = "fbegyn";
       umask = 2;
     };

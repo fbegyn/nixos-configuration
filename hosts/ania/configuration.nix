@@ -72,7 +72,6 @@
   services.nfs.server.enable = true;
 
   networking.hostName = "ania"; # Define your hostname.
-  networking.wireless.enable = false;  # Enables wireless support via wpa_supplicant.
   networking.useNetworkd = false; # Less suited for dynamic environments, should
   networking.firewall.allowedTCPPorts = [ 8000 ];
   # be used for static setups:

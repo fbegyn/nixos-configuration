@@ -6,16 +6,9 @@
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:nixos/nixos-hardware";
 
-    flake-utils.url = "github:numtide/flake-utils";
-    flake-utils-plus.url = "github:gytis-ivaskevicius/flake-utils-plus";
-
     home-manager = {
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager-unstable = {
-      url = "github:nix-community/home-manager/master";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     noctalia = {
@@ -30,10 +23,6 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    devshell = {
-      url = "github:numtide/devshell";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     ghostty = {
       url = "github:ghostty-org/ghostty/v1.3.1";
@@ -57,14 +46,13 @@
       url = "github:LnL7/nix-darwin/nix-darwin-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    mac-app-util.url = "github:hraban/mac-app-util";
+    mac-app-util = {
+      url = "github:hraban/mac-app-util";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    nixos-anywhere = {
-      url = "github:nix-community/nixos-anywhere";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -78,22 +66,16 @@
     darwin,
     flox,
     mac-app-util,
-    flake-utils-plus,
-    flake-utils,
     home-manager,
-    home-manager-unstable,
     agenix,
-    devshell,
     llm-agents,
     ghostty,
     emacs-overlay,
     website,
     noctalia,
-    nixos-anywhere,
   }: let
     overlay = final: prev: {
       unstable = import nixpkgs-unstable {
-        inherit nixpkgs;
         system = prev.pkgs.stdenv.hostPlatform.system;
         config.allowUnfree = true;
         overlays = [
@@ -103,10 +85,9 @@
         ];
       };
       fbegyn = {
-        inherit nixpkgs;
-        website = nixpkgs.callPackage ./fbegyn/website.nix {};
-        f1multiviewer = nixpkgs.callPackage ./fbegyn/f1multiviewer.nix {};
-        brother-hll2375dw-driver = nixpkgs.callPackage ./brother/drivers/hll2375dw-cups.nix {};
+        website = final.callPackage ./pkgs/fbegyn/website.nix {};
+        f1multiviewer = final.callPackage ./pkgs/fbegyn/f1multiviewer.nix {};
+        brother-hll2375dw-driver = final.callPackage ./pkgs/brother/drivers/hll2375dw-cups.nix {};
       };
     };
     lix-overlay = final: prev: {
@@ -173,33 +154,53 @@
         ] ++ extraModules;
       };
 
-      mkHome = homeSystem: username: homeDir: extraModules:
-        home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."${homeSystem}";
-          extraSpecialArgs = { inherit nixpkgs; };
-          modules = [
-            ({config, ...}: {
-              nixpkgs.config.allowUnfree = true;
-              nixpkgs.overlays = [
-                overlay
-                lix-overlay
-                emacs-overlay.overlay
-                ghostty.overlays.default
-                llm-agents.overlays.shared-nixpkgs
-              ];
-              home.username = "${username}";
-              home.homeDirectory = "${homeDir}";
-              programs.go.env.GOPATH = "${homeDir}/.go";
-            })
-            ./users/francis/home.nix
+    mkHome = homeSystem: username: homeDir: extraModules:
+      home-manager.lib.homeManagerConfiguration {
+        pkgs = import nixpkgs {
+          system = homeSystem;
+          config.allowUnfree = true;
+          overlays = [
+            overlay
+            lix-overlay
+            emacs-overlay.overlay
+            ghostty.overlays.default
+            llm-agents.overlays.shared-nixpkgs
           ];
         };
+        extraSpecialArgs = { inherit nixpkgs; };
+        modules = [
+          {
+            home.username = username;
+            home.homeDirectory = homeDir;
+            programs.go.env.GOPATH = "${homeDir}/.go";
+          }
+          ./users/francis/home.nix
+        ] ++ extraModules;
+      };
+
+    forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
   in {
-    devShells.x86_64-linux.default = nixpkgs.legacyPackages."x86_64-linux".mkShell {
-      buildInputs = [
-        agenix.packages.x86_64-linux.agenix
-      ];
-    };
+    overlays.default = overlay;
+
+    devShells = forAllSystems (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+    in {
+      default = pkgs.mkShell {
+        buildInputs = [
+          agenix.packages.${system}.agenix
+          pkgs.nixfmt-rfc-style
+          pkgs.statix
+          pkgs.deadnix
+        ];
+      };
+    });
+
+    formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.nixfmt-rfc-style);
+
+    # build every Linux host so evaluation regressions are caught by `nix flake check`
+    checks.x86_64-linux = nixpkgs.lib.mapAttrs'
+      (name: cfg: nixpkgs.lib.nameValuePair "nixos-${name}" cfg.config.system.build.toplevel)
+      self.nixosConfigurations;
 
     darwinConfigurations = {
       erebus = mkMac [
