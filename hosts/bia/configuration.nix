@@ -6,35 +6,20 @@
 
 {
   imports = [
+    ../../profiles/workstation.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../common
     ../../common/nvidia.nix
-    ../../common/bluetooth.nix
-    ../../common/moonlander.nix
-    ../../common/ios.nix
-    ../../common/gpg.nix
     ../../common/steam.nix
-    ../../common/fonts.nix
-    ../../common/printer.nix
     ../../common/scanner.nix
-    ../../common/eid.nix
     # ../../common/rtlsdr.nix
-    ../../common/webcam.nix
-    ../../common/network-tools.nix
-    ../../common/video-accel.nix
 
-    ../../users
-    ../../users/hm.nix
-    ../../users/francis
-    ../../users/francis/gui.nix
-    ../../users/francis/niri
   ];
   home-manager.users.francis= {
     imports = [
       ../../users/francis/hm/configurations/udiskie.nix
       ../../users/francis/hm/configurations/redshift.nix
-      ../../users/francis/home.nix
     ];
     programs.ghostty = {
       enable = true;
@@ -97,8 +82,6 @@
   #   keyMap = "us";
   # };
 
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -122,11 +105,6 @@
   # networking.firewall.enable = false;
   programs.steam.remotePlay.openFirewall = true;
 
-  # tailscale machine specific
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "client";
-  };
 
   # configure the systems wake on lan settings
   systemd.services.wol-setup = {
@@ -141,11 +119,6 @@
     wantedBy = [ "multi-user.target" ];
   };
 
-  # emacs
-  services.emacs = {
-    enable = true;
-    package = config.home-manager.users.francis.emacs.package;
-  };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

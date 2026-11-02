@@ -6,6 +6,7 @@
 
 {
   imports = [
+    ../../profiles/workstation.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./zfs.nix
@@ -17,27 +18,12 @@
 
     # common settings
     ../../common/laptop.nix
-    ../../common/moonlander.nix
-    ../../common/network-tools.nix
     ../../common/networkmanager.nix
-    ../../common/gpg.nix
-    ../../common/bluetooth.nix
-    ../../common/fonts.nix
-    ../../common/printer.nix
     ../../common/wireguard.nix
-    ../../common/eid.nix
-    ../../common/webcam.nix
-    ../../common/video-accel.nix
-    ../../common/ios.nix
     ../../common/virt.nix
 
-    ../../users
-    ../../users/hm.nix
-    ../../users/francis
     ../../users/francis/yubikey.nix
-    ../../users/francis/gui.nix
     ../../users/francis/inuits.nix
-    ../../users/francis/niri
 
   ];
 
@@ -64,11 +50,6 @@
     enable = true;
   };
 
-  nix.settings.auto-optimise-store = true;
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    MaxFileSec=7day
-  '';
   services.nfs.server.enable = true;
 
   networking.hostName = "ania"; # Define your hostname.
@@ -78,8 +59,6 @@
   # Servers/Routers
   # Always-On VPN Tunnels
 
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
 
   # Select internationalisation properties.
   i18n = {
@@ -103,11 +82,6 @@
   # programs.mtr.enable = true;
   services.hardware.bolt.enable = true;
 
-  # emacs
-  services.emacs = {
-    enable = true;
-    package = config.home-manager.users.francis.emacs.package;
-  };
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
@@ -127,15 +101,10 @@
   ];
 
   programs.gnupg.package = pkgs.unstable.gnupg;
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "client";
-  };
   services.irqbalance.enable = true;
 
   age.identityPaths = [ "/home/francis/.ssh/inuits-se" ];
 
-  home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs31-pgtk;
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave
