@@ -827,7 +827,10 @@ Connecting is already asynchronous (`eglot-sync-connect' is 0)."
     "c a" '(eglot-code-actions :which-key "eglot code actions")
     "c d" '(consult-flymake :which-key "diagnostics")
     "c n" '(flymake-goto-next-error :which-key "next error")
-    "c p" '(flymake-goto-prev-error :which-key "prev error"))
+    "c p" '(flymake-goto-prev-error :which-key "prev error")
+    "c k" '(eldoc-doc-buffer :which-key "show full docs at point"))
+  (:states 'normal :keymaps 'eglot-mode-map
+   "K" #'eldoc-doc-buffer)
   :custom
   (eglot-autoshutdown t)
   ;; Disable JSON-RPC event logging for performance on chatty servers
