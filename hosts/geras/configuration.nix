@@ -6,6 +6,7 @@
 
 {
   imports = [
+    ../../profiles/workstation.nix
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./zfs.nix
@@ -14,26 +15,11 @@
     # common settings
     ../../common
     ../../common/laptop.nix
-    ../../common/moonlander.nix
-    ../../common/network-tools.nix
     ../../common/networkmanager.nix
-    ../../common/gpg.nix
-    ../../common/bluetooth.nix
-    ../../common/fonts.nix
     ../../common/steam.nix
-    ../../common/printer.nix
-    ../../common/eid.nix
-    ../../common/webcam.nix
-    ../../common/video-accel.nix
-    ../../common/ios.nix
     ../../common/virt.nix
 
-    ../../users
-    ../../users/hm.nix
-    ../../users/francis
     ../../users/francis/yubikey.nix
-    ../../users/francis/gui.nix
-    ../../users/francis/niri
 
   ];
 
@@ -54,8 +40,6 @@
   networking.networkmanager.wifi.backend = "wpa_supplicant";
   networking.useNetworkd = false; # Less suited for dynamic environments
 
-  # Set your time zone.
-  time.timeZone = "Europe/Brussels";
 
   # Select internationalisation properties.
   i18n = {
@@ -78,7 +62,6 @@
     imports = [
       ../../users/francis/hm/configurations/udiskie.nix
       ../../users/francis/hm/configurations/redshift.nix
-      ../../users/francis/home.nix
     ];
     home.packages = with pkgs.unstable; [
       nono
@@ -100,29 +83,13 @@
     autoScrub.enable = true;
   };
 
-  nix.settings.auto-optimise-store = true;
-  services.journald.extraConfig = ''
-    SystemMaxUse=100M
-    MaxFileSec=7day
-  '';
 
   services.openssh = {
     enable = true;
     openFirewall = true;
   };
 
-  # tailscale machine specific
-  services.tailscale = {
-    enable = true;
-    useRoutingFeatures = "client";
-  };
 
-  # emacs
-  home-manager.users.francis.emacs.emacsPackage = pkgs.unstable.emacs31-pgtk;
-  services.emacs = {
-    enable = true;
-    package = config.home-manager.users.francis.emacs.package;
-  };
 
   environment.systemPackages = with pkgs; [
     steam-run
