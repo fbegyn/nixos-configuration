@@ -11,13 +11,8 @@ in {
     (modulesPath+"/profiles/qemu-guest.nix")
     (modulesPath+"/virtualisation/proxmox-lxc.nix")
 
-    ../../common
-    ../../common/gpg.nix
-    ../../common/network-tools.nix
+    ../../profiles/server.nix
     ../../common/bluetooth.nix
-
-    ../../users
-    ../../users/francis
 
     # services
   ];

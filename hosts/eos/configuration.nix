@@ -11,13 +11,8 @@ in {
     ./hardware-configuration.nix
     ./acme.nix
 
-    ../../common
-    ../../common/gpg.nix
-    ../../common/network-tools.nix
+    ../../profiles/server.nix
     ../../common/bluetooth.nix
-
-    ../../users
-    ../../users/francis
 
     # services
     # ../../services/coredns
