@@ -22,7 +22,6 @@
   ];
 
   time.timeZone = "Europe/Brussels";
-  nix.settings.auto-optimise-store = true;
 
   services.tailscale = {
     enable = true;

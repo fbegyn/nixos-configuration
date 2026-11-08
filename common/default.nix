@@ -47,6 +47,7 @@
     gc = {
       dates = "daily";
       automatic = true;
+      options = "--delete-older-than 14d";
     };
     distributedBuilds = true;
   };
