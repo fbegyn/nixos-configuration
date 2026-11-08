@@ -16,10 +16,6 @@
     value = "unlimited";
   }];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
   nix = {
     package = pkgs.lixPackageSets.stable.lix;
     optimise.automatic = true;
