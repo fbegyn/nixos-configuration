@@ -23,6 +23,15 @@
 
   time.timeZone = "Europe/Brussels";
 
+  security.polkit.enable = true;
+  programs.nix-ld.enable = true;
+  security.pam.loginLimits = [{
+    domain = "*";
+    type = "soft";
+    item = "nofile";
+    value = "unlimited";
+  }];
+
   services.tailscale = {
     enable = true;
     useRoutingFeatures = "client";

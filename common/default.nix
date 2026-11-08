@@ -7,15 +7,6 @@
     environment.TMPDIR = "/var/tmp";
   };
 
-  security.polkit.enable = true;
-  programs.nix-ld.enable = true;
-  security.pam.loginLimits = [{
-    domain = "*";
-    type = "soft";
-    item = "nofile";
-    value = "unlimited";
-  }];
-
   nix = {
     package = pkgs.lixPackageSets.stable.lix;
     optimise.automatic = true;
