@@ -98,6 +98,20 @@
       colmena;
     };
 
+    baseOverlays = [
+      overlay
+      lix-overlay
+      emacs-overlay.overlay
+      llm-agents.overlays.shared-nixpkgs
+    ];
+
+    basePackages = {pkgs, ...}: {
+      environment.systemPackages = [
+        flox.packages.${pkgs.stdenv.hostPlatform.system}.default
+        agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
+      ];
+    };
+
     mkMachine = extraModules:
       nixpkgs.lib.nixosSystem {
         specialArgs = { inherit inputs; };
@@ -106,19 +120,11 @@
             nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
             nixpkgs.config.allowUnfree = true;
             nixpkgs.hostPlatform = "x86_64-linux";
-            nixpkgs.overlays = [
-              (import ./overlays/weechat.nix)
-              overlay
-              lix-overlay
-              emacs-overlay.overlay
-              ghostty.overlays.default
-              llm-agents.overlays.shared-nixpkgs
-            ];
-            environment.systemPackages = [
-              flox.packages.${pkgs.stdenv.hostPlatform.system}.default
-              agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
-            ];
+            nixpkgs.overlays = [ (import ./overlays/weechat.nix) ]
+              ++ baseOverlays
+              ++ [ ghostty.overlays.default ];
           })
+          basePackages
           disko.nixosModules.disko
           agenix.nixosModules.age
           home-manager.nixosModules.home-manager ({config, ...}: {
@@ -135,17 +141,9 @@
           ({config, pkgs, ...}: {
             nixpkgs.config.allowUnfree = true;
             nixpkgs.hostPlatform = "aarch64-darwin";
-            nixpkgs.overlays = [
-              overlay
-              lix-overlay
-              emacs-overlay.overlay
-              llm-agents.overlays.shared-nixpkgs
-            ];
-            environment.systemPackages = [
-              flox.packages.${pkgs.stdenv.hostPlatform.system}.default
-              agenix.packages.${pkgs.stdenv.hostPlatform.system}.default
-            ];
+            nixpkgs.overlays = baseOverlays;
           })
+          basePackages
           agenix.darwinModules.age
           home-manager.darwinModules.home-manager ({config, ...}: {
             home-manager.useGlobalPkgs = true;
@@ -159,13 +157,7 @@
         pkgs = import nixpkgs {
           system = homeSystem;
           config.allowUnfree = true;
-          overlays = [
-            overlay
-            lix-overlay
-            emacs-overlay.overlay
-            ghostty.overlays.default
-            llm-agents.overlays.shared-nixpkgs
-          ];
+          overlays = baseOverlays ++ [ ghostty.overlays.default ];
         };
         extraSpecialArgs = { inherit nixpkgs; };
         modules = [
@@ -210,14 +202,8 @@
         # fixed-address heap at 0x300100000 on the new kernel). Re-enable
         # once nixpkgs ships a Darwin-27-compatible SBCL.
         # mac-app-util.darwinModules.default
-        ({pkgs, config, inputs, ...}: {
-          environment.systemPackages = [
-            flox.packages.${pkgs.stdenv.hostPlatform.system}.default
-          ];
-          # home-manager.users.francis.imports = [
-          #   mac-app-util.homeManagerModules.default
-          # ];
-        })
+        # and add to home-manager.users.francis.imports:
+        #   mac-app-util.homeManagerModules.default
       ];
     };
 
