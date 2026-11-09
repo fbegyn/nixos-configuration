@@ -212,8 +212,7 @@
       "francis-mac" = mkHome "aarch64-darwin" "francis" "/Users/francis" [];
       "vib-mac" = mkHome "aarch64-darwin" "francis.begyn" "/Users/francis.begyn" [
         {
-          targets.darwin.linkApps.enable = false;
-          targets.darwin.copyApps.enable = false;
+          targets.darwin.copyApps.enableChecks = false;
         }
       ];
     };
