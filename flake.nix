@@ -210,7 +210,12 @@
     homeConfigurations = {
       "francis-linux" = mkHome "x86_64-linux" "francis" "/home/francis" [];
       "francis-mac" = mkHome "aarch64-darwin" "francis" "/Users/francis" [];
-      "vib-mac" = mkHome "aarch64-darwin" "francis.begyn" "/Users/francis.begyn" [];
+      "vib-mac" = mkHome "aarch64-darwin" "francis.begyn" "/Users/francis.begyn" [
+        {
+          targets.darwin.linkApps.enable = false;
+          targets.darwin.copyApps.enable = false;
+        }
+      ];
     };
 
     nixosConfigurations = {
