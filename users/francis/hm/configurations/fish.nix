@@ -27,9 +27,9 @@
       set -Uxa MOZ_ENABLE_WAYLAND 1
       set -Uxa _JAVA_AWT_WM_NONREPARENTING 1
 
-      if test "$tide_config_rev" != "2"
+      if test "$tide_config_rev" != "3"
         set -U tide_left_prompt_items pwd vcs newline character
-        set -U tide_config_rev 2
+        set -U tide_config_rev 3
       end
 
       # If a dumb terminal connects, just show simple prompt
