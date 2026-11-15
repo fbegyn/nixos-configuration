@@ -1403,7 +1403,7 @@ Wildcard patterns and hashed known_hosts entries are skipped."
 (use-package org-roam)
 (use-package org-roam-ui)
 (use-package org-mime)
-(use-package org-pomodoro)
+;; (use-package org-pomodoro)
 
 (use-package protobuf-mode)
 
