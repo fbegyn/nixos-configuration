@@ -1,0 +1,280 @@
+{
+  "[elixir]": {
+    "editor.formatOnSave": true
+  },
+  "[go]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": "explicit"
+    },
+    "editor.formatOnSave": true
+  },
+  "[lua]": {
+    "editor.tabSize": 2
+  },
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "other": "off",
+      "strings": "off"
+    },
+    "editor.wordWrap": "on"
+  },
+  "[nix]": {
+    "editor.formatOnSave": false,
+    "editor.tabSize": 2
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.formatOnSave": true
+  },
+  "[rust]": {
+    "editor.defaultFormatter": "rust-lang.rust-analyzer",
+    "editor.formatOnSave": true
+  },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "breadcrumbs.enabled": true,
+  "deno.enable": false,
+  "deno.lint": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.acceptSuggestionOnEnter": "on",
+  "editor.bracketPairColorization.enabled": true,
+  "editor.cursorBlinking": "solid",
+  "editor.cursorSurroundingLines": 8,
+  "editor.detectIndentation": true,
+  "editor.fontFamily": "Menlo, 'DejaVu Sans Mono', 'Terminess Nerd Font Mono', monospace",
+  "editor.fontLigatures": true,
+  "editor.fontSize": 14,
+  "editor.formatOnPaste": false,
+  "editor.formatOnSave": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.indentation": true,
+  "editor.insertSpaces": true,
+  "editor.lineHeight": 1.4,
+  "editor.lineNumbers": "relative",
+  "editor.minimap.enabled": false,
+  "editor.occurrencesHighlight": "off",
+  "editor.quickSuggestionsDelay": 100,
+  "editor.renderWhitespace": "trailing",
+  "editor.rulers": [
+    101
+  ],
+  "editor.scrollBeyondLastLine": false,
+  "editor.smoothScrolling": true,
+  "editor.suggest.selectionMode": "never",
+  "editor.suggestSelection": "first",
+  "editor.tabSize": 2,
+  "editor.wordWrap": "off",
+  "explorer.compactFolders": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "files.autoSave": "off",
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.openRepositoryInParentFolders": "always",
+  "go.toolsManagement.autoUpdate": false,
+  "go.useLanguageServer": true,
+  "gopls": {
+    "analyses": {
+      "fillstruct": true
+    },
+    "ui.completion.usePlaceholders": true,
+    "ui.diagnostic.staticcheck": true,
+    "ui.semanticTokens": true
+  },
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "nix.serverSettings": {
+    "nil": {
+      "nix": {
+        "flake": {
+          "autoArchive": false,
+          "autoEvalInputs": false
+        }
+      }
+    }
+  },
+  "python.languageServer": "Pylance",
+  "redhat.telemetry.enabled": false,
+  "ruff.organizeImports": true,
+  "rust-analyzer.check.command": "clippy",
+  "search.smartCase": true,
+  "search.useGlobalIgnoreFiles": true,
+  "search.useIgnoreFiles": true,
+  "telemetry.telemetryLevel": "off",
+  "terminal.integrated.cursorBlinking": false,
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.fontFamily": "Menlo, 'DejaVu Sans Mono', 'Terminess Nerd Font Mono', monospace",
+  "terminal.integrated.fontSize": 14,
+  "terminal.integrated.smoothScrolling": true,
+  "update.mode": "none",
+  "vscode-neovim.neovimExecutablePaths.darwin": "/Users/francis.begyn/.nix-profile/bin/nvim",
+  "vscode-neovim.neovimExecutablePaths.linux": "/Users/francis.begyn/.nix-profile/bin/nvim",
+  "vspacecode.bindingOverrides": [
+    {
+      "command": "workbench.action.terminal.toggleTerminal",
+      "keys": "'",
+      "name": "Terminal",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.toggleFullScreen",
+      "keys": "t f",
+      "name": "Fullscreen",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.toggleSidebarVisibility",
+      "keys": "t t",
+      "name": "File tree",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.gotoSymbol",
+      "keys": "s i",
+      "name": "Symbols (imenu)",
+      "type": "command"
+    },
+    {
+      "command": "actions.find",
+      "keys": "s s",
+      "name": "Search line",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.findInFiles",
+      "keys": "s r",
+      "name": "Ripgrep",
+      "type": "command"
+    },
+    {
+      "command": "revealInExplorer",
+      "keys": "f d",
+      "name": "Reveal in tree",
+      "type": "command"
+    },
+    {
+      "bindings": [
+        {
+          "command": "editor.action.quickFix",
+          "key": "a",
+          "name": "Code actions",
+          "type": "command"
+        },
+        {
+          "command": "workbench.actions.view.problems",
+          "key": "d",
+          "name": "Diagnostics",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.marker.next",
+          "key": "n",
+          "name": "Next error",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.marker.prev",
+          "key": "p",
+          "name": "Prev error",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.rename",
+          "key": "r",
+          "name": "Rename",
+          "type": "command"
+        },
+        {
+          "command": "editor.action.formatDocument",
+          "key": "f",
+          "name": "Format",
+          "type": "command"
+        }
+      ],
+      "keys": "c",
+      "name": "+code",
+      "type": "bindings"
+    },
+    {
+      "command": "workbench.action.closeAllEditors",
+      "keys": "p k",
+      "name": "Kill buffers",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.showAllEditors",
+      "keys": "p b",
+      "name": "Switch buffer",
+      "type": "command"
+    },
+    {
+      "command": "workbench.action.terminal.toggleTerminal",
+      "keys": "p t",
+      "name": "Terminal",
+      "type": "command"
+    },
+    {
+      "bindings": [
+        {
+          "command": "workbench.view.scm",
+          "key": "g",
+          "name": "Status",
+          "type": "command"
+        },
+        {
+          "command": "git-graph.view",
+          "key": "l",
+          "name": "Log",
+          "type": "command"
+        },
+        {
+          "command": "gitlens.toggleFileBlame",
+          "key": "b",
+          "name": "Blame",
+          "type": "command"
+        }
+      ],
+      "keys": "g",
+      "name": "+git",
+      "type": "bindings"
+    },
+    {
+      "bindings": [
+        {
+          "command": "opensshremotes.openEmptyWindow",
+          "key": "f",
+          "name": "Connect host",
+          "type": "command"
+        }
+      ],
+      "keys": "r",
+      "name": "+remote",
+      "type": "bindings"
+    }
+  ],
+  "whichkey.delay": 250,
+  "whichkey.sortOrder": "alphabetically",
+  "window.titleBarStyle": "custom",
+  "workbench.colorTheme": "Gruvbox Dark Hard",
+  "workbench.editor.enablePreview": false,
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.startupEditor": "none",
+  "zenMode.hideLineNumbers": false,
+  "containers.containerClient": "com.microsoft.visualstudio.containers.podman",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "containers.orchestratorClient": "com.microsoft.visualstudio.orchestrators.podmancompose",
+  "dev.containers.dockerPath": "podman",
+  "dev.containers.mountWaylandSocket": false
+}

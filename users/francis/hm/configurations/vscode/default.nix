@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 # VSCode config mirroring the emacs (evil) and nvim setups in sibling configs.
 # Leader = Space, Gruvbox dark hard, same b/c/f/g/p/q/s/t/w prefix map.
 #
@@ -26,6 +26,16 @@
 #   mhutchie.git-graph                 (git log view)
 #   ms-vscode-remote.remote-ssh        (TRAMP analog)
 #   github.copilot                     (optional)
+#
+# settings.json is a tracked JSON file symlinked into place (editable from VSCode).
+let
+  repoDir = "${config.home.homeDirectory}/nixos-configuration";
+  settingsPath =
+    if pkgs.stdenv.isDarwin then
+      "Library/Application Support/Code/User/settings.json"
+    else
+      ".config/Code/User/settings.json";
+in
 {
   programs.vscode = {
     enable = true;
@@ -33,10 +43,13 @@
     mutableExtensionsDir = true;
 
     profiles.default = {
-      enableUpdateCheck = false;
       enableExtensionUpdateCheck = true;
-      userSettings = import ./settings.nix;
       keybindings = import ./keybindings.nix;
     };
   };
+
+  # settings.json is a plain tracked file, symlinked out-of-store so edits made
+  # from within VSCode land directly in this repo.
+  home.file."${settingsPath}".source =
+    config.lib.file.mkOutOfStoreSymlink "${repoDir}/users/francis/hm/configurations/vscode/settings.json";
 }
