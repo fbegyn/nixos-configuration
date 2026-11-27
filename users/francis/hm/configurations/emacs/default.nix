@@ -64,7 +64,7 @@ in {
       ruff
       nil                    # nix-mode LSP
       elixir-ls              # elixir(-ts)-mode LSP
-      deno                   # deno-ts-mode LSP (deno lsp)
+      # deno                   # deno-ts-mode LSP (deno lsp)
       bash-language-server   # bash-ts-mode LSP
       shellcheck             # bash-language-server diagnostics
       shfmt                  # bash-language-server formatting

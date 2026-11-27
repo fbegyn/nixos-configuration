@@ -97,7 +97,7 @@ in
       nil
       elixir-ls
       pyright
-      deno
+      # deno
       lua-language-server
       # ansible-language-server
       ansible-lint
